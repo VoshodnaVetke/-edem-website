@@ -1237,7 +1237,7 @@
 <section class="specs"><div aria-hidden="true" class="terminal-section-index"><span>DESIGN SYSTEM / PROTOCOLS</span><span class="big-index">02.</span></div>
 <div aria-label="ТИПОГРАФИКА — интерактивная панель" class="swatch cyber-panel terminal-panel" data-cyber="type" data-frame="system" data-fx="surface scan telemetry" data-swatch="stroke" tabindex="0"><svg aria-hidden="true" class="applied-frame" preserveaspectratio="none" viewbox="0 0 440 290"><path class="fill" d="M7 7H433V239L393 283H7Z"></path><path class="border" d="M7 7H433V239L393 283H7Z"></path><path class="detail" d="M7 7H100M433 188V239L393 283H322"></path><path class="detail2" d="M18 18H83M18 269H124"></path></svg><div aria-hidden="true" class="cyber-fx"><span class="cyber-tint"></span><span class="fx-fade fx-fade--shine"><span class="cyber-shine"></span></span><span class="fx-fade fx-fade--scan"><span class="cyber-scan"></span></span><span class="fx-fade fx-fade--corners"><span class="cyber-corners"></span></span><span aria-hidden="true" class="terminal-glass"></span><span aria-hidden="true" class="terminal-interference"></span></div><div aria-hidden="true" class="terminal-header"><span class="terminal-id">EDEN / MODULE_04</span><span class="terminal-signal">●  STANDBY</span></div>
 <strong>ТИПОГРАФИКА</strong>
-<span>Tektur — заголовки, кнопки, короткие акценты.<br/>Anonymous Pro — основной текст, мета-информация, архивные подписи.</span>
+<span>Tektur — заголовки, кнопки, короткие акценты.<br/>Onest — основной текст и описания.<br/>Anonymous Pro — технические подписи и телеметрия.</span>
 <div aria-hidden="true" class="edem-panel-channel"><span>LINK // 04</span><span class="edem-panel-channel__bar"></span></div><div aria-hidden="true" class="terminal-footer"><span>ARCHIVE.TYPE</span><span class="terminal-footer-state">AWAITING INPUT</span></div></div>
 <div aria-label="ПАЛИТРА — интерактивная панель" class="swatch cyber-panel terminal-panel" data-cyber="palette" data-frame="double" data-fx="shine surface corners" data-swatch="stroke" tabindex="0"><svg aria-hidden="true" class="applied-frame" preserveaspectratio="none" viewbox="0 0 440 290"><path class="fill" d="M7 17H395L433 55V284H39L7 245Z"></path><path class="border" d="M7 17H395L433 55V284H39L7 245Z"></path><path class="detail" d="M7 17H139M395 17L433 55M433 242V284H358"></path><path class="detail2" d="M18 56V193L37 217M56 272H115"></path><path class="inner" d="M20 29H374M421 67V234"></path></svg><div aria-hidden="true" class="cyber-fx"><span class="cyber-tint"></span><span class="fx-fade fx-fade--shine"><span class="cyber-shine"></span></span><span class="fx-fade fx-fade--scan"><span class="cyber-scan"></span></span><span class="fx-fade fx-fade--corners"><span class="cyber-corners"></span></span><span aria-hidden="true" class="terminal-glass"></span><span aria-hidden="true" class="terminal-interference"></span></div><div aria-hidden="true" class="terminal-header"><span class="terminal-id">EDEN / MODULE_05</span><span class="terminal-signal">●  STANDBY</span></div>
 <strong>ПАЛИТРА</strong>
@@ -1293,11 +1293,11 @@
 <script>
     // Detect a network/font-loading failure instead of silently substituting a system monospace font.
     document.fonts.ready.then(() => {
-      if (!document.fonts.check('16px "Anonymous Pro"')) {
+      if (!document.fonts.check('16px "Anonymous Pro"') || !document.fonts.check('16px "Onest"')) {
         const note=document.createElement('p');
         note.setAttribute('role','status');
         note.style.cssText='color:#FFCA91;font:14px/1.5 monospace;margin:0 0 16px';
-        note.textContent='Anonymous Pro не загрузился. Проверьте подключение к интернету или откройте страницу через локальный сервер: сейчас браузер показывает резервный шрифт.';
+        note.textContent='Onest или Anonymous Pro не загрузились. Проверьте подключение к интернету: браузер может показывать резервный шрифт.';
         document.querySelector('.topbar').after(note);
       }
     });
