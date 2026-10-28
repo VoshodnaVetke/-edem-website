@@ -1,0 +1,56 @@
+/* ЭДЕМ | COLOR TOKENS v1.0 · источник: утверждённая палитра v50–v55.
+   Semantic aliases preserve existing colors; they do not approve new shades.
+   #1B2230 and #0B0D12 are additional values found in the v55 HTML specimen.
+   Historic --bg/#090C13 and --text/#F6F8FF are not page/token defaults.
+*/
+:root {
+  --edem-palette-bg-page: #05070C;
+  --edem-palette-bg-edge: #030509;
+  --edem-palette-bg-top: #0A101A;
+  --edem-palette-ui-legacy: #090C13;
+  --edem-palette-surface: #141923;
+  --edem-palette-surface-raised: #1B2230;
+  --edem-palette-white: #FFFFFF;
+  --edem-palette-cyan: #25F4FF;
+  --edem-palette-violet: #BC5CFF;
+  --edem-palette-text-primary: #EAF0FA;
+  --edem-palette-text-secondary: #C2CFDF;
+  --edem-palette-text-meta: #AEBBCC;
+  --edem-palette-telemetry: #91A1B6;
+  --edem-palette-success: #7CE7C1;
+  --edem-palette-error: #FF8295;
+  --edem-palette-disabled: #657080;
+  --edem-palette-on-bright: #0B0D12;
+
+  --edem-color-background: var(--edem-palette-bg-page);
+  --edem-color-background-edge: var(--edem-palette-bg-edge);
+  --edem-color-background-top: var(--edem-palette-bg-top);
+  --edem-color-surface: var(--edem-palette-surface);
+  --edem-color-surface-raised: var(--edem-palette-surface-raised);
+
+  --edem-color-text-primary: var(--edem-palette-text-primary);
+  --edem-color-text-secondary: var(--edem-palette-text-secondary);
+  --edem-color-text-metadata: var(--edem-palette-text-meta);
+  --edem-color-text-telemetry: var(--edem-palette-telemetry);
+  --edem-color-text-heading: var(--edem-palette-white);
+
+  --edem-color-accent-primary: var(--edem-palette-cyan);
+  --edem-color-accent-secondary: var(--edem-palette-violet);
+  --edem-color-on-accent: var(--edem-palette-on-bright);
+
+  --edem-color-outline-sketch: var(--edem-palette-white);
+  --edem-color-focus-ring: var(--edem-palette-cyan);
+  --edem-color-state-success: var(--edem-palette-success);
+  --edem-color-state-error: var(--edem-palette-error);
+  --edem-color-state-disabled: var(--edem-palette-disabled);
+
+  --edem-background-gradient: radial-gradient(
+    ellipse at 50% 0%,
+    var(--edem-color-background-top) 0%,
+    var(--edem-color-background) 46%,
+    var(--edem-color-background-edge) 100%
+  );
+  /* ~5% holographic ambience, for decorative overlays only. */
+  --edem-color-ambient-cyan: rgb(37 244 255 / 5%);
+  --edem-color-ambient-violet: rgb(188 92 255 / 5%);
+}

@@ -16,3 +16,8 @@
 - [Navigation C v1.2](../docs/NAVIGATION_C_V1_2_PRELIMINARY.md) ([прототип](prototypes/navigation/navigation-c-v1-2.html)) — **PRELIMINARY**, не окончательно утверждена.
 
 Новые токены и прототипы размещены отдельно и не изменяют исторический HTML v55.
+
+## Цвета
+- [Color Tokens v1.0](../docs/COLOR_TOKENS_V1.md) — палитра v55, назначение и контраст.
+- [CSS](tokens/colors.css) · [адаптивный визуальный образец](prototypes/colors/color-tokens-v1.html).
+- Цвета не изменены; новые семантические имена дополняют утверждённые значения.

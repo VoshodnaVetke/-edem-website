@@ -36,3 +36,8 @@ UX-сценарии → прототипы → визуальная концеп
 - Утверждена архитектура [Layout Grid v1.0](docs/LAYOUT_GRID_V1_APPROVED.md): 4/8/12 + auto-fit + Container Queries. Числовые пределы размеров карточек пока черновые.
 - [Navigation C v1.2](docs/NAVIGATION_C_V1_2_PRELIMINARY.md) предварительно согласована, но не окончательна; [HTML](design-system/prototypes/navigation/navigation-c-v1-2.html). Не считай демонстрационный поиск реальным.
 - Сводная спецификация: [docs/DESIGN_SYSTEM_CURRENT.md](docs/DESIGN_SYSTEM_CURRENT.md). Исходные HTML v50–v55 не изменять ради новых надстроек.
+
+## Color Tokens v1.0 (28.10.2026)
+- Перед разработкой цветовых состояний читать [docs/COLOR_TOKENS_V1.md](docs/COLOR_TOKENS_V1.md); применять [design-system/tokens/colors.css](design-system/tokens/colors.css).
+- Не вводить новые цвета, warning/info, светлую тему или непрозрачности всех карточек одним токеном без согласования.
+- Фон `#05070C`, текст `#EAF0FA`; исторические значения начальных CSS-блоков не считать действующими нормативными цветами.
