@@ -32,3 +32,11 @@
 
 ## Текущий этап
 Дизайн-система v55 актуальна. Далее — UX-сценарии и проектирование реальных страниц на её основе. Реализация сайта ещё не началась.
+
+## Новые утверждённые решения (28.10.2026)
+- [Typography v1.0 «Баланс B» — утверждено](docs/TYPOGRAPHY_V1_APPROVED.md): адаптивная шкала Tektur / Onest / Anonymous Pro, [CSS-токены](design-system/tokens/typography.css).
+- [Layout Grid v1.0 — утверждена архитектура](docs/LAYOUT_GRID_V1_APPROVED.md): 4/8/12, CSS Grid auto-fit, Container Queries, [CSS-токены](design-system/tokens/layout.css). Конкретные ограничения размеров карточек ещё требуют проверки.
+- [Navigation C v1.2 — предварительно согласовано](docs/NAVIGATION_C_V1_2_PRELIMINARY.md): бургер, поиск и кабинет сверху; Афиша / Мир / Энциклопедия снизу на мобильных. [Интерактивный HTML](design-system/prototypes/navigation/navigation-c-v1-2.html).
+- [Сводная спецификация](docs/DESIGN_SYSTEM_CURRENT.md) объединяет графическую v55, утверждённые Typography и Layout и предварительную навигацию.
+
+HTML v55 остаётся неизменяемым графическим эталоном; новая типографика/сетка не подключены к нему автоматически. React-библиотека и продакшн-сайт пока не созданы.

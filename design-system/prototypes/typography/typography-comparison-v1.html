@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Эдем | Лаборатория типографики v1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&family=Onest:wght@400;450;500;600&family=Tektur:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {color-scheme:dark;--bg:#05070c;--panel:#141923;--text:#eaf0fa;--muted:#c2cfdf;--cyan:#25f4ff;--violet:#bc5cff}
+    *,*::before,*::after {box-sizing:border-box}
+    body {margin:0;background:radial-gradient(ellipse at 50% -10%,#0a101a,#05070c 54%,#030509);color:var(--text);font:450 16px/1.6 Onest,Arial,sans-serif}
+    button,select {font:inherit}
+    button:focus-visible,select:focus-visible {outline:3px solid var(--cyan);outline-offset:3px}
+    .shell {max-width:1480px;margin:0 auto;padding:28px clamp(16px,3vw,42px) 80px}
+    .kicker,.small-code {font:700 12px/1.5 'Anonymous Pro',monospace;letter-spacing:.05em;color:var(--cyan)}
+    .main-title{font:700 clamp(23px,3.2vw,38px)/1.1 Tektur,sans-serif;margin:10px 0 12px}
+    .intro {max-width:75ch;color:var(--muted);margin:0 0 22px}
+    .toolbar {display:flex;flex-wrap:wrap;gap:18px;align-items:end;padding:18px;background:#111721;border:1px solid #455165;margin:16px 0 12px}
+    .tool-group {display:grid;gap:7px;min-width:180px}
+    .tool-group>label,.tool-label {font:700 11px/1.3 'Anonymous Pro',monospace;color:#c2cfdf;letter-spacing:.07em}
+    select {background:#05070c;border:1px solid #7c8a9c;color:white;padding:10px 12px;min-height:44px;border-radius:0}
+    .modes {display:flex;gap:7px;flex-wrap:wrap}
+    .modes button {border:1px solid #7c8a9c;background:transparent;color:white;padding:10px 12px;min-height:44px;cursor:pointer}
+    .modes button[aria-pressed=true] {color:#071018;background:var(--cyan);border-color:var(--cyan);font-weight:700}
+    .metrics {display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px}
+    .metric {font:400 12px/1.5 'Anonymous Pro',monospace;border:1px solid #435164;padding:6px 9px;color:#c2cfdf}
+    .metric b {color:white}
+    .stage {width:100%;overflow:auto;background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 24px);padding:16px 0 34px;border-block:1px solid #2c3847}
+    .frame {margin:0 auto;width:var(--frame-width,390px);max-width:none;container:specimen / inline-size}
+    .page {background:#05070c;border:1px solid #344153;min-height:590px;padding:clamp(16px,3.5cqi,38px);box-shadow:0 14px 70px #0006}
+    .sample {--h1:56px;--h2:36px;--h3:22px;--body:17px;--body-lh:1.6;--long:18px;--long-lh:1.65;--lead:18px;--lead-lh:1.65;--meta:12px;}
+    .sample[data-mode="compact"] {--h1:52px;--h2:34px;--h3:21px;--body:16px;--body-lh:1.55;--long:17px;--long-lh:1.6;--lead:17px;--lead-lh:1.6;--meta:12px}
+    .sample[data-mode="comfortable"] {--h1:60px;--h2:40px;--h3:23px;--body:18px;--body-lh:1.65;--long:19px;--long-lh:1.65;--lead:19px;--lead-lh:1.65;--meta:13px}
+    @container specimen (max-width:1023px) {
+      .sample {--h1:40px;--h2:30px;--h3:21px;--body:17px;--body-lh:1.6;--long:17px;--long-lh:1.65;--lead:17px;--lead-lh:1.65;--meta:12px}
+      .sample[data-mode="compact"] {--h1:38px;--h2:28px;--h3:20px;--body:16px;--body-lh:1.55;--long:17px;--long-lh:1.6;--lead:17px;--lead-lh:1.6;--meta:12px}
+      .sample[data-mode="comfortable"] {--h1:44px;--h2:32px;--h3:22px;--body:17px;--body-lh:1.65;--long:18px;--long-lh:1.65;--lead:18px;--lead-lh:1.65;--meta:13px}
+    }
+    @container specimen (max-width:650px) {
+      .sample {--h1:30px;--h2:25px;--h3:20px;--body:16px;--body-lh:1.6;--long:17px;--long-lh:1.65;--lead:17px;--lead-lh:1.65;--meta:12px}
+      .sample[data-mode="compact"] {--h1:28px;--h2:23px;--h3:19px;--body:16px;--body-lh:1.55;--long:16px;--long-lh:1.6;--lead:16px;--lead-lh:1.6;--meta:12px}
+      .sample[data-mode="comfortable"] {--h1:32px;--h2:27px;--h3:21px;--body:17px;--body-lh:1.65;--long:17px;--long-lh:1.65;--lead:18px;--lead-lh:1.65;--meta:13px}
+    }
+    .sample__code,.sample__telemetry {font:700 var(--meta)/1.5 'Anonymous Pro',monospace;color:#aebbcf;letter-spacing:.025em}
+    .sample__code {color:var(--cyan)}
+    .sample__hero {font:700 var(--h1)/1.06 Tektur,sans-serif;letter-spacing:-.025em;overflow-wrap:normal;hyphens:auto;margin:15px 0 18px;color:white}
+    .sample__lead {font:450 var(--lead)/var(--lead-lh) Onest,sans-serif;color:var(--text);margin:0;max-width:60ch}
+    .sample__separator {height:1px;background:linear-gradient(90deg,#ffffff80,var(--cyan),transparent);margin:28px 0}
+    .sample__h2 {font:700 var(--h2)/1.2 Tektur,sans-serif;color:white;margin:0 0 14px;letter-spacing:0}
+    .sample__columns {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:16px 0 25px}
+    .sample__card {background:#141923;padding:22px 21px;border-left:1px solid #ffffffc9;min-width:0}
+    .sample__card h3 {font:700 var(--h3)/1.28 Tektur,sans-serif;color:white;margin:12px 0 9px}
+    .sample__card p {font:450 var(--body)/var(--body-lh) Onest,sans-serif;color:var(--text);margin:0}
+    .sample__card__status {font:700 var(--meta)/1.45 'Anonymous Pro',monospace;letter-spacing:.025em;color:var(--cyan)}
+    .sample__body {font:450 var(--long)/var(--long-lh) Onest,sans-serif;max-width:66ch;color:var(--text)}
+    .sample__body p {margin:0 0 1em}
+    .sample__body p:last-child {margin-bottom:0}
+    .sample__button {font:700 14px/1.2 Tektur,sans-serif;min-height:44px;background:var(--cyan);color:#071018;border:0;padding:12px 19px;margin-top:25px}
+    .sample__telemetry {margin-top:26px;opacity:.85}
+    @container specimen (max-width:650px) {.sample__columns {grid-template-columns:1fr}.sample__card {padding:18px 17px}.sample__hero {margin-top:12px}.sample__separator {margin:24px 0}}
+    .note {max-width:100ch;color:#c2cfdf;font-size:14px;line-height:1.6;margin-top:21px}
+    .note strong {color:#fff}
+    .warn{color:#ffb3bd;display:none;font-size:13px;margin-top:4px}
+    @media(prefers-reduced-motion:reduce){.frame{transition:none}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <div class="kicker">EDEN / DESIGN SYSTEM / TYPOGRAPHY LAB_01</div>
+  <h1 class="main-title">СРАВНЕНИЕ МАСШТАБОВ</h1>
+  <p class="intro">Это отдельный тестовый образец, не новая версия утверждённого сайта. Все три варианта используют те же шрифтовые семейства и цвета v55. Меняйте ширину и плотность набора; сравнивайте переносы, высоту блоков и различимость системных подписей.</p>
+  <div class="toolbar">
+    <div class="tool-group"><label for="device">Ширина области (CSS px)</label>
+      <select id="device"><option value="320">320 · узкий телефон</option><option value="360">360 · телефон</option><option value="390" selected>390 · телефон</option><option value="430">430 · широкий телефон</option><option value="768">768 · планшет</option><option value="1024">1024 · планшет / ноутбук</option><option value="1280">1280 · десктоп</option></select>
+    </div>
+    <div class="tool-group"><span class="tool-label">Вариант размера</span><div class="modes" role="group" aria-label="Вариант размера"><button type="button" data-preset="compact" aria-pressed="false">A · плотный</button><button type="button" data-preset="balanced" aria-pressed="true">B · баланс</button><button type="button" data-preset="comfortable" aria-pressed="false">C · свободный</button></div></div>
+  </div>
+  <div class="metrics" aria-live="polite"><span class="metric">H1 <b id="v-h1">30px</b></span><span class="metric">H2 <b id="v-h2">25px</b></span><span class="metric">H3 <b id="v-h3">20px</b></span><span class="metric">Текст <b id="v-body">16px</b></span><span class="metric">Длинный текст <b id="v-long">17px</b></span><span class="metric">Lead <b id="v-lead">17px</b></span></div>
+  <div id="font-warn" class="warn" role="status">Внешние веб-шрифты не загрузились. Для точного сравнения требуется подключение к Google Fonts.</div>
+  <div class="stage"><div class="frame" id="frame" style="--frame-width:390px">
+    <div class="page sample" id="sample" data-mode="balanced">
+      <div class="sample__code">ЭДЕМ / ВИЗУАЛЬНАЯ СИСТЕМА</div>
+      <h2 class="sample__hero">Истории<br>не кончаются</h2>
+      <p class="sample__lead">Авторская вселенная кабинетных и текстовых ролевых игр. Здесь проверяется размер текста, читаемость и ритм строк на разных экранах.</p>
+      <div class="sample__separator"></div>
+      <h2 class="sample__h2">РАЗДЕЛЫ СИСТЕМЫ</h2>
+      <div class="sample__columns">
+        <article class="sample__card"><span class="sample__card__status">EDEN / MODULE_01</span><h3>АФИША</h3><p>Ближайшие игры, запись и статусы участия. Короткое описание должно легко читаться на смартфоне.</p></article>
+        <article class="sample__card"><span class="sample__card__status">EDEN / MODULE_02</span><h3>ЭНЦИКЛОПЕДИЯ</h3><p>Информация о локациях, организациях и событиях. Размер текста не должен теряться на фоне графики.</p></article>
+      </div>
+      <h2 class="sample__h2">ОБРАЗЕЦ ЧТЕНИЯ</h2>
+      <div class="sample__body"><p>Для длинных материалов «Эдема» особенно важна стабильная ширина строки и достаточный межстрочный интервал. Основной текст должен оставаться спокойным рядом с выразительными заголовками.</p><p>При переходе с десктопа на смартфон логично уменьшать декоративную типографику сильнее, чем текст, который читатель изучает несколько минут подряд.</p></div>
+      <button type="button" class="sample__button" disabled aria-label="Демонстрационная кнопка">СМОТРЕТЬ ИГРЫ</button>
+      <div class="sample__telemetry">EDEN / READING MODE / SYSTEM ACTIVE</div>
+    </div>
+  </div></div>
+  <p class="note"><strong>Рекомендованный вариант для проверки: B · баланс.</strong> На мобильном он использует 16 px для описаний, 17 px для длинного текста, 30 px для H1 и 25 px для H2. Размеры в прототипе указаны в CSS px, шрифты подгружаются из Google Fonts. При окончательной реализации будут записаны через относительные единицы и токены.</p>
+</div>
+<script>
+  (()=>{
+    const frame=document.getElementById('frame');
+    const sample=document.getElementById('sample');
+    const device=document.getElementById('device');
+    const buttons=[...document.querySelectorAll('[data-preset]')];
+    const fields={'--h1':'v-h1','--h2':'v-h2','--h3':'v-h3','--body':'v-body','--long':'v-long','--lead':'v-lead'};
+    function refresh(){
+      frame.style.setProperty('--frame-width',device.value+'px');
+      requestAnimationFrame(()=>{
+        const sampleStyles=getComputedStyle(sample);
+        for(const [prop,id] of Object.entries(fields)) document.getElementById(id).textContent=sampleStyles.getPropertyValue(prop).trim();
+      });
+    }
+    device.addEventListener('change',refresh);
+    buttons.forEach(button=>button.addEventListener('click',()=>{
+      sample.dataset.mode=button.dataset.preset;
+      buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+      refresh();
+    }));
+    document.fonts.ready.then(()=>{
+      if (!document.fonts.check('450 16px Onest') || !document.fonts.check('700 24px Tektur') || !document.fonts.check('700 12px "Anonymous Pro"')) document.getElementById('font-warn').style.display='block';
+    });
+    refresh();
+  })();
+</script>
+</body>
+</html>

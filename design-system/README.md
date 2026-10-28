@@ -9,3 +9,10 @@
 **Внимание:** HTML — демонстрация компонентов, не готовая главная страница. Для точных шрифтов и части анимаций требуется интернет. Не публиковать закрытые материалы и не придумывать факты о мире.
 
 [Историческая версия v50](v50/edem-interface-cyberpunk-v50-rough-states.html) сохранена отдельно.
+
+## Утверждённые дополнения к v55
+- [Typography v1.0 «Баланс B»](../docs/TYPOGRAPHY_V1_APPROVED.md) ([CSS](tokens/typography.css), [лаборатория](prototypes/typography/typography-comparison-v1.html)) — **APPROVED**.
+- [Layout Grid v1.0](../docs/LAYOUT_GRID_V1_APPROVED.md) ([CSS](tokens/layout.css), [пример](prototypes/layout/layout-grid-v1-example.html)) — **APPROVED** для 4/8/12 + auto-fit + Container Queries; числовые пределы карточек ещё черновые.
+- [Navigation C v1.2](../docs/NAVIGATION_C_V1_2_PRELIMINARY.md) ([прототип](prototypes/navigation/navigation-c-v1-2.html)) — **PRELIMINARY**, не окончательно утверждена.
+
+Новые токены и прототипы размещены отдельно и не изменяют исторический HTML v55.

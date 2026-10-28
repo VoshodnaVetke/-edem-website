@@ -1,0 +1,109 @@
+/* EDEM / Layout Grid v1.0 — APPROVED STRUCTURE · 2026-10-28
+   4 / 8 / 12 at <=650, 651–1023, >=1024 CSS px.
+   Grid and container logic are approved; numeric gaps/paddings are initial implementation defaults.
+   Import after reset; components can override their own spacing tokens.
+   Does not modify the approved v55 HTML by itself. */
+:root {
+  --edem-layout-max: 73.75rem;                 /* 1180px incl. inner padding */
+  --edem-layout-columns: 12;
+  --edem-layout-padding: 2rem;                 /* 32px */
+  --edem-layout-gutter: 1.5rem;                /* 24px */
+  --edem-card-gap: 1.25rem;                    /* 20px */
+  --edem-gallery-track-min: 20rem;            /* preference, not hard min-width */
+  --edem-card-compact-max: 25rem;              /* 400px · size draft */
+  --edem-card-terminal-max: 28.75rem;         /* 460px · size draft */
+  --edem-card-loader-max: 23.75rem;           /* 380px · size draft */
+  --edem-card-action-max: 26.25rem;           /* 420px · size draft */
+  --edem-card-complex-max: 32.5rem;           /* 520px · size draft */
+}
+@media (max-width: 63.9375rem) {               /* <= 1023 CSS px */
+  :root {
+    --edem-layout-columns: 8;
+    --edem-layout-padding: 1.5rem;            /* 24px */
+    --edem-layout-gutter: 1rem;               /* 16px */
+    --edem-card-gap: 1rem;                    /* 16px */
+  }
+}
+@media (max-width: 40.625rem) {               /* <= 650 CSS px */
+  :root {
+    --edem-layout-columns: 4;
+    --edem-layout-padding: 1rem;              /* 16px */
+    --edem-layout-gutter: .75rem;             /* 12px */
+    --edem-card-gap: .875rem;                 /* 14px */
+  }
+}
+
+/* Page architecture: width includes padding, preventing accidental >1180px. */
+.edem-layout {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--edem-layout-max);
+  margin-inline: auto;
+  padding-inline: var(--edem-layout-padding);
+}
+.edem-layout, .edem-layout * { box-sizing: border-box; }
+.edem-layout-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--edem-layout-columns), minmax(0, 1fr));
+  column-gap: var(--edem-layout-gutter);
+  row-gap: var(--edem-card-gap);
+  align-items: start;
+}
+.edem-layout-grid > * { min-inline-size: 0; }
+.edem-span--full { grid-column: 1 / -1; }
+.edem-span--intro { grid-column: span 7; }
+.edem-span--aside { grid-column: span 5; }
+.edem-span--half { grid-column: span 6; }
+.edem-span--third { grid-column: span 4; }
+@media (max-width: 63.9375rem) {
+  .edem-span--intro, .edem-span--aside { grid-column: 1 / -1; }
+  .edem-span--half, .edem-span--third { grid-column: span 4; }
+}
+@media (max-width: 40.625rem) {
+  .edem-span--intro, .edem-span--aside, .edem-span--half, .edem-span--third {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Intrinsic gallery: auto-fit decides 1/2/3 columns by available *container* width.
+   A preferred track width is not a fixed card minimum on a 320px phone. */
+.edem-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--edem-gallery-track-min)), 1fr));
+  gap: var(--edem-card-gap);
+  align-items: start;
+  justify-items: start;
+}
+.edem-gallery > * { min-inline-size: 0; }
+.edem-gallery--terminal { --edem-gallery-track-min: 21rem; }  /* 336px preferred */
+.edem-gallery--compact { --edem-gallery-track-min: 20rem; }  /* 320px preferred */
+.edem-gallery--action { --edem-gallery-track-min: 18rem; }   /* 288px preferred */
+.edem-gallery--complex { --edem-gallery-track-min: 22rem; } /* 352px preferred */
+
+/* Sizing is by contents, not by the tallest sibling. max-height is deliberately absent. */
+.edem-card {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  inline-size: 100%;
+  max-inline-size: var(--edem-card-max, var(--edem-card-compact-max));
+  block-size: auto;
+  align-self: start;
+  container-name: edem-card;
+  container-type: inline-size;
+}
+.edem-card--compact { --edem-card-max: var(--edem-card-compact-max); }
+.edem-card--terminal { --edem-card-max: var(--edem-card-terminal-max); }
+.edem-card--loader { --edem-card-max: var(--edem-card-loader-max); }
+.edem-card--action { --edem-card-max: var(--edem-card-action-max); }
+.edem-card--complex { --edem-card-max: var(--edem-card-complex-max); }
+
+/* Component-internal container rules: react to the card, not the device viewport.
+   Geometry-specific safe insets for asym/double/system require separate validation. */
+.edem-card__inner { min-inline-size: 0; padding: 1.5rem; }
+.edem-card__meta { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.edem-card__copy { min-inline-size: 0; overflow-wrap: anywhere; }
+@container edem-card (max-width: 20rem) {
+  .edem-card__inner { padding: 1rem; }
+  .edem-card__meta { gap: .5rem; }
+  .edem-card__optional { display: none; } /* decoration only; never hide essential data */
+}

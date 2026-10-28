@@ -1,0 +1,116 @@
+/* ЭДЕМ · TYPOGRAPHY v1.0 · Вариант B «Баланс» · УТВЕРЖДЕНО 2026-10-28
+   Подключайте веб-шрифты отдельно. CSS не переопределяет существующий body или
+   заголовки глобально: семантические классы предназначены для компонентов. */
+:root {
+  --font-display: 'Tektur', sans-serif;
+  --font-body: 'Onest', sans-serif;
+  --font-mono: 'Anonymous Pro', monospace;
+
+  --edem-font-weight-display: 700;
+  --edem-font-weight-body: 450;
+  --edem-font-weight-system: 400;
+  --edem-font-weight-system-strong: 700;
+
+  /* Desktop >=1024 CSS px */
+  --edem-type-h1-size: 3.5rem;     /* 56 px */
+  --edem-type-h2-size: 2.25rem;    /* 36 px */
+  --edem-type-h3-size: 1.375rem;   /* 22 px */
+  --edem-type-lead-size: 1.125rem; /* 18 px */
+  --edem-type-body-size: 1.0625rem;/* 17 px */
+  --edem-type-reading-size: 1.125rem; /* 18 px */
+  --edem-type-button-size: .875rem;   /* 14 px */
+  --edem-type-system-size: .8125rem;  /* 13 px, meaningful status */
+  --edem-type-telemetry-size: .75rem; /* 12 px, decoration only */
+
+  --edem-type-h1-leading: 1.06;
+  --edem-type-h2-leading: 1.20;
+  --edem-type-h3-leading: 1.28;
+  --edem-type-lead-leading: 1.65;
+  --edem-type-body-leading: 1.60;
+  --edem-type-reading-leading: 1.65;
+  --edem-type-button-leading: 1.20;
+  --edem-type-system-leading: 1.50;
+  --edem-type-reading-max-width: 66ch;
+  --edem-type-lead-max-width: 60ch;
+}
+
+/* Tablet 651–1023 CSS px */
+@media (min-width: 40.6875rem) and (max-width: 63.9375rem) {
+  :root {
+    --edem-type-h1-size: 2.5rem;     /* 40 px */
+    --edem-type-h2-size: 1.875rem;   /* 30 px */
+    --edem-type-h3-size: 1.3125rem; /* 21 px */
+    --edem-type-lead-size: 1.0625rem;
+    --edem-type-body-size: 1.0625rem;
+    --edem-type-reading-size: 1.0625rem;
+  }
+}
+/* Phone <=650 CSS px */
+@media (max-width: 40.625rem) {
+  :root {
+    --edem-type-h1-size: 1.875rem;    /* 30 px */
+    --edem-type-h2-size: 1.5625rem;   /* 25 px */
+    --edem-type-h3-size: 1.25rem;     /* 20 px */
+    --edem-type-lead-size: 1.0625rem; /* 17 px */
+    --edem-type-body-size: 1rem;      /* 16 px */
+    --edem-type-reading-size: 1.0625rem; /* 17 px */
+  }
+}
+
+.edem-type-h1,
+.edem-type-h2,
+.edem-type-h3 {
+  font-family: var(--font-display);
+  font-weight: var(--edem-font-weight-display);
+  color: #fff;
+}
+.edem-type-h1 {
+  font-size: var(--edem-type-h1-size);
+  line-height: var(--edem-type-h1-leading);
+  letter-spacing: -.025em;
+}
+.edem-type-h2 {
+  font-size: var(--edem-type-h2-size);
+  line-height: var(--edem-type-h2-leading);
+  letter-spacing: 0;
+}
+.edem-type-h3 {
+  font-size: var(--edem-type-h3-size);
+  line-height: var(--edem-type-h3-leading);
+  letter-spacing: 0;
+}
+.edem-type-lead,
+.edem-type-body,
+.edem-type-reading {
+  font-family: var(--font-body);
+  font-weight: var(--edem-font-weight-body);
+  letter-spacing: 0;
+  color: var(--edem-copy, #eaf0fa);
+}
+.edem-type-lead {
+  font-size: var(--edem-type-lead-size);
+  line-height: var(--edem-type-lead-leading);
+  max-width: var(--edem-type-lead-max-width);
+}
+.edem-type-body {
+  font-size: var(--edem-type-body-size);
+  line-height: var(--edem-type-body-leading);
+}
+.edem-type-reading {
+  font-size: var(--edem-type-reading-size);
+  line-height: var(--edem-type-reading-leading);
+  max-width: var(--edem-type-reading-max-width);
+}
+.edem-type-reading p { margin: 0 0 1em; }
+.edem-type-reading p:last-child { margin-bottom: 0; }
+.edem-type-button {
+  font: var(--edem-font-weight-display) var(--edem-type-button-size)/var(--edem-type-button-leading) var(--font-display);
+}
+.edem-type-system,
+.edem-type-telemetry {
+  font-family: var(--font-mono);
+  line-height: var(--edem-type-system-leading);
+  letter-spacing: .025em;
+}
+.edem-type-system { font-size: var(--edem-type-system-size); }
+.edem-type-telemetry { font-size: var(--edem-type-telemetry-size); }
