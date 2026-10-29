@@ -21,3 +21,7 @@
 - [Color Tokens v1.0](../docs/COLOR_TOKENS_V1.md) — палитра v55, назначение и контраст.
 - [CSS](tokens/colors.css) · [адаптивный визуальный образец](prototypes/colors/color-tokens-v1.html).
 - Цвета не изменены; новые семантические имена дополняют утверждённые значения.
+
+## Кнопки
+- [Buttons v1.1](../docs/BUTTONS_V1_1_APPROVED.md) — утверждённые обычное, выбранное и hover-состояния.
+- [Component Atlas v9](prototypes/components/atlas-v9-filter-selected-cyan.html): живой HTML. Выбранный фильтр циановый с белым контуром; наведение — фиолетовый с циановым.

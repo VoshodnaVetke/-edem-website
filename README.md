@@ -44,3 +44,7 @@ HTML v55 остаётся неизменяемым графическим эта
 ## Цветовая система
 - [Color Tokens v1.0](docs/COLOR_TOKENS_V1.md) — систематизация уже утверждённой палитры v50–v55.
 - [CSS-токены](design-system/tokens/colors.css) и [визуальный образец](design-system/prototypes/colors/color-tokens-v1.html). Имена семантических токенов не изменяют утверждённые значения.
+
+## Стандарт кнопок
+- [Buttons v1.1](docs/BUTTONS_V1_1_APPROVED.md) (29.10.2026): выбранные фильтры — циан с белой рукописной обводкой; фиолетовый + циановый контур только для hover/focus-visible.
+- [HTML-библиотека компонентов v9](design-system/prototypes/components/atlas-v9-filter-selected-cyan.html).
