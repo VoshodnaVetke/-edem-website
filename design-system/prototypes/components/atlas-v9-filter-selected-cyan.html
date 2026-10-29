@@ -1419,7 +1419,40 @@ html{scroll-behavior:smooth}body{background:#05070C;color:var(--atlas-text);font
 @media(max-width:960px){.atlas-button-gallery{grid-template-columns:1fr}}
 @media(max-width:490px){.atlas-buttons-comparison{grid-template-columns:1fr}.atlas-btn-sample{min-height:0}.atlas-btn-sizes{display:grid}.atlas-preview--buttons{padding:15px 12px}}
 @media(prefers-reduced-motion:reduce){.atlas-app button,.atlas-app .btn{transition:none!important}}
-</style></head><body>
+</style>
+<style id="edem-link-card-outline-only-v9-2">
+/* Component exception: link cards retain the original dark v55 surface.
+   Only the sketch outline changes from white to cyan on hover/focus.
+   This exception does not change universal Buttons v1.1 behavior. */
+.atlas-app #element-16 #states-card-action,
+.atlas-app #element-16 #states-card-action:is(:hover,:focus-visible,:active) {
+  background: rgba(17,24,36,.9) !important;
+  color: #EAF0FA !important;
+  filter: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+/* v50 CSS otherwise forces newer SVG children to position:relative, causing
+   the outline to stretch the flex layout to thousands of pixels. */
+.atlas-app #component-states #states-card-action > svg.edem-button-border {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 7 !important;
+  overflow: visible;
+}
+@media (hover:hover) and (pointer:fine) {
+  .atlas-app #element-16 #states-card-action:hover > svg.edem-button-border {
+    filter: drop-shadow(0 0 4px rgb(37 244 255 / 48%));
+  }
+}
+.atlas-app #element-16 #states-card-action:focus-visible > svg.edem-button-border {
+  filter: drop-shadow(0 0 4px rgb(37 244 255 / 48%));
+}
+</style>
+</head><body>
 <div aria-hidden="true" class="tree-bg"><div id="tree-fallback"><svg fill="none" height="1555" viewbox="0 0 2110 1555" width="2110" xmlns="http://www.w3.org/2000/svg">
 <g opacity="0.7">
 <path d="M526.888 1003.05V763.351L414.884 651.425H231.904V657.487H412.367L520.812 765.857V931.474L373.896 784.66L373.007 783.771H329.43L262.782 717.168H231.904V723.23H260.275L320.857 783.771H277.604V772.798H249.568V800.815H277.604V789.843H370.499L520.418 939.658L520.812 939.264V1003.05H430.323L313.486 886.291H113.379C110.578 880.653 104.785 876.773 98.0617 876.773C88.6185 876.773 80.9547 884.432 80.9547 893.869C80.9547 903.305 88.6185 910.964 98.0617 910.964C104.785 910.964 110.578 907.084 113.379 901.446H307.218L314.922 909.145L243.329 980.688H218.973L176.428 938.172H52.7465V944.234H173.911L210.389 980.688H137.513V969.716H109.476V997.733H137.513V986.76H245.847L319.209 913.439L374.392 968.584L215.606 1127.26L160.555 1072.25L168.32 1064.49L148.493 1044.67L128.666 1064.49L148.493 1084.3L156.258 1076.54L211.309 1131.55L124.844 1217.96H17.7136C16.4599 1214.41 13.0931 1211.88 9.11967 1211.88C4.08464 1211.88 0 1215.96 0 1220.99C0 1226.02 4.08464 1230.1 9.11967 1230.1C13.0931 1230.1 16.4599 1227.56 17.7136 1224.02H127.362L378.689 972.868L424.065 1018.21H626.264L627.902 1020.08L517.415 1130.49L459.33 1072.45H347.599V1078.51H456.812L513.118 1134.78L499.357 1148.53H375.625V1137.55H347.589V1165.57H375.625V1154.6H501.865L631.896 1024.66L683.015 1082.85L579.968 1185.83H492.199V1174.86H464.163V1202.87H492.199V1191.9H535.927L504.676 1223.13H488.347V1212.16H460.311V1240.18H488.347V1229.2H507.193L544.511 1191.91H582.496L687.049 1087.43L692.023 1093.09V1248.6H586.348L506.071 1328.82L395.148 1217.98H331.705L293.983 1180.28H269.657V1169.31H241.621V1197.33H269.657V1186.35H291.465L323.121 1217.99H251.317V1224.05H392.631L423.529 1254.93L356.051 1322.36H207.821L207.659 1322.2L207.498 1322.36H137.513V1311.39H109.476V1339.4H137.513V1328.43H201.431L148.523 1381.29H47.5193V1387.35H151.041L210.005 1328.43H358.549L427.805 1259.22L501.764 1333.13L427.967 1406.87H273.064C269.94 1398.01 261.488 1391.66 251.549 1391.66C238.951 1391.66 228.74 1401.86 228.74 1414.45C228.74 1427.04 238.951 1437.25 251.549 1437.25C261.488 1437.25 269.93 1430.89 273.064 1422.03H368.669L304.933 1485.72H235.655L200.309 1450.4H183.051V1439.43H155.014V1467.44H183.051V1456.47H197.802L227.082 1485.73H190.947V1491.79H307.45L377.253 1422.04H434.256L592.627 1263.78H692.013V1386.34H707.179V1087.4L633.129 1003.1H526.898L526.888 1003.05Z" fill="white"></path>
