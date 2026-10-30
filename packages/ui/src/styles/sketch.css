@@ -1,0 +1,26 @@
+/* Shared stroke and underpaint treatment. Components only select state colors. */
+.edem-sketch-stroke {
+  fill: none;
+  stroke: currentColor;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.edem-sketch-stroke--accent {
+  color: var(--edem-color-accent-primary);
+  stroke-dasharray: 0.24 0.76;
+}
+.edem-sketch-surface {
+  fill: var(--edem-surface-fill, var(--edem-color-surface));
+  stroke: none;
+}
+.edem-sketch-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+  color: var(--edem-sketch-ink, var(--edem-color-outline-sketch));
+}

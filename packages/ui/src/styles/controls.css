@@ -10,7 +10,8 @@
   padding: 11px 16px;
   border: 0;
   border-radius: 0;
-  background: var(--edem-color-surface);
+  background: transparent;
+  --edem-surface-fill: var(--edem-color-surface);
   color: var(--edem-color-text-primary);
   font: 700 var(--edem-type-button-size) / 1.2 var(--font-display);
   text-decoration: none;
@@ -19,6 +20,7 @@
 }
 .edem-button > span {
   position: relative;
+  z-index: 1;
 }
 .edem-button--sm {
   min-height: 44px;
@@ -33,11 +35,11 @@
   padding: 0;
 }
 .edem-button--text {
-  background: transparent;
+  --edem-surface-fill: transparent;
 }
 .edem-button[aria-pressed="true"],
 .edem-button[aria-selected="true"] {
-  background: var(--edem-color-accent-primary);
+  --edem-surface-fill: var(--edem-color-accent-primary);
   color: var(--edem-color-background);
 }
 .edem-button[data-state="success"] {
@@ -51,22 +53,17 @@
   cursor: not-allowed;
 }
 .edem-button:focus-visible:not(:disabled) {
-  outline: 2px solid var(--edem-color-focus-ring);
-  outline-offset: 5px;
-  background: var(--edem-color-accent-secondary);
+  outline: none;
+  --edem-sketch-ink: var(--edem-color-focus-ring);
+  --edem-surface-fill: var(--edem-color-accent-secondary);
   color: var(--edem-color-background);
-}
-.edem-button:focus-visible:not(:disabled) .edem-control-border {
-  color: var(--edem-color-accent-primary);
 }
 @media (hover: hover) and (pointer: fine) {
   .edem-button:hover:not(:disabled) {
-    background: var(--edem-color-accent-secondary);
+    --edem-sketch-ink: var(--edem-color-accent-primary);
+    --edem-surface-fill: var(--edem-color-accent-secondary);
     color: var(--edem-color-background);
     filter: drop-shadow(0 0 8px rgb(37 244 255 / 18%));
-  }
-  .edem-button:hover:not(:disabled) .edem-control-border {
-    color: var(--edem-color-accent-primary);
   }
 }
 .edem-button:active:not(:disabled) {
@@ -96,13 +93,12 @@
   display: block;
   border-radius: 0;
   padding: 0.75rem;
-  background: var(--edem-color-surface);
+  background: transparent;
   color: var(--edem-color-text-primary);
   font: inherit;
 }
 .edem-field input:focus-visible {
-  outline: 2px solid var(--edem-color-focus-ring);
-  outline-offset: 4px;
+  outline: none;
 }
 .edem-field input:disabled {
   opacity: 0.45;
@@ -123,7 +119,6 @@
 @media (prefers-reduced-motion: no-preference) {
   .edem-button {
     transition:
-      background-color 0.22s,
       color 0.22s,
       filter 0.22s,
       transform 0.18s;
@@ -135,10 +130,19 @@
 
 .edem-field__control {
   position: relative;
+  isolation: isolate;
+  --edem-surface-fill: var(--edem-color-surface);
 }
-.edem-field[data-invalid="true"] .edem-control-border {
-  color: var(--edem-color-state-error);
+.edem-field__control input {
+  position: relative;
+  z-index: 1;
 }
-.edem-field[data-success="true"] .edem-control-border {
-  color: var(--edem-color-state-success);
+.edem-field__control:focus-within {
+  --edem-sketch-ink: var(--edem-color-focus-ring);
+}
+.edem-field[data-invalid="true"] {
+  --edem-sketch-ink: var(--edem-color-state-error);
+}
+.edem-field[data-success="true"] {
+  --edem-sketch-ink: var(--edem-color-state-success);
 }

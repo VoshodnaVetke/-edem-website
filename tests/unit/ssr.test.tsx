@@ -1,4 +1,6 @@
 // @vitest-environment node
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { renderToString } from "react-dom/server";
 import { describe, it, expect } from "vitest";
 import {
@@ -44,4 +46,16 @@ describe("SSR seed normalization", () => {
       renderToString(<Frame seed={seed} />),
     );
   });
+});
+
+it("keeps the approved uploaded SVG byte for byte", () => {
+  expect(
+    createHash("sha256")
+      .update(
+        readFileSync(
+          new URL("../../packages/ui/src/assets/tree.svg", import.meta.url),
+        ),
+      )
+      .digest("hex"),
+  ).toBe("00681474409f303fa0366a177ea09fdef599ef735ad9b0ced150d1cd5bdcd3a0");
 });

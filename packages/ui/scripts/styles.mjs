@@ -29,10 +29,3 @@ for (const name of [
   );
   await copyFile(source, `dist/licenses/${name.split("/").at(-1)}.txt`);
 }
-
-import { readFile } from "node:fs/promises";
-const css = await readFile("dist/styles.css", "utf8");
-if (/!important\b/.test(css))
-  throw new Error(
-    "UI styles must not use !important. Resolve the cascade instead.",
-  );

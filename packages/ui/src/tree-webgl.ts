@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { treeSvg } from "./tree-svg";
+import treeImage from "./assets/tree.svg";
 /** Loaded only for renderer="webgl"; owns and disposes every GPU/DOM resource. */
 export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
   const renderer = new THREE.WebGLRenderer({
@@ -12,9 +12,7 @@ export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
   camera.position.z = 10;
   const geometry = new THREE.PlaneGeometry(1, 1);
-  const url = URL.createObjectURL(
-    new Blob([treeSvg], { type: "image/svg+xml" }),
-  );
+  const url = treeImage;
   let texture: THREE.Texture;
   try {
     texture = await new THREE.TextureLoader().loadAsync(url);
@@ -22,10 +20,10 @@ export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
     geometry.dispose();
     renderer.dispose();
     throw error;
-  } finally {
-    URL.revokeObjectURL(url);
   }
   texture.colorSpace = THREE.SRGBColorSpace;
+  const image = texture.image as HTMLImageElement;
+  const treeAspect = image.naturalHeight / image.naturalWidth;
   const definitions = [
     {
       z: -0.9,
@@ -95,7 +93,7 @@ export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
     planes.forEach((m, i) =>
       m.scale.set(
         bw * definitions[i].scale,
-        ((bw * 1555) / 2110) * definitions[i].scale,
+        bw * treeAspect * definitions[i].scale,
         1,
       ),
     );

@@ -4,6 +4,7 @@ export default defineConfig({
   format: ["esm"],
   dts: true,
   splitting: true,
+  loader: { ".svg": "dataurl" },
   clean: true,
   sourcemap: true,
   external: ["react", "react-dom", "react/jsx-runtime"],

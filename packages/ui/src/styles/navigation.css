@@ -51,10 +51,19 @@
   max-width: min(40rem, calc(100vw - 2rem));
   width: 100%;
   max-height: calc(100dvh - 2rem);
-  overflow: auto;
-  border: 1px solid var(--edem-color-outline-sketch);
+  overflow: visible;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  isolation: isolate;
+  --edem-surface-fill: var(--edem-color-surface);
+}
+.edem-dialog__body {
+  position: relative;
+  z-index: 1;
   padding: 1.5rem;
-  background: var(--edem-color-surface);
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
 }
 .edem-dialog::backdrop {
   background: rgb(0 0 0 / 75%);
@@ -102,7 +111,7 @@
     padding: 0.5rem;
     border-bottom: 1px solid rgb(255 255 255 / 20%);
   }
-  .edem-dialog {
+  .edem-dialog__body {
     padding: 1rem;
   }
 }

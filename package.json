@@ -11,8 +11,9 @@
     "test": "vitest run",
     "dev": "npm run dev -w @edem/catalog",
     "test:browser": "playwright test",
-    "format:check": "prettier --check packages apps tests *.json *.ts .github/workflows",
-    "check": "npm run typecheck && npm test && npm run build && npm run test:browser"
+    "format:check": "prettier --check packages apps tests scripts *.json *.ts .github/workflows",
+    "check": "npm run typecheck && npm test && npm run build && npm run test:browser",
+    "check:css": "node scripts/check-css.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
@@ -24,6 +25,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "jsdom": "^27.0.1",
+    "postcss": "^8.5.32",
     "prettier": "3.6.2",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"

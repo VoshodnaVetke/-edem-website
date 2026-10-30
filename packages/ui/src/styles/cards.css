@@ -1,4 +1,5 @@
 .edem-card {
+  --edem-surface-fill: rgb(13 19 31 / 85%);
   --edem-card-max: 100%;
   position: relative;
   isolation: isolate;
@@ -33,12 +34,6 @@
   height: 100%;
   overflow: visible;
   pointer-events: none;
-}
-.edem-frame path {
-  vector-effect: non-scaling-stroke;
-}
-.edem-frame__fill {
-  fill: rgb(13 19 31 / 85%);
 }
 .edem-frame__border {
   color: var(--edem-color-outline-sketch);

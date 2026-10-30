@@ -24,7 +24,6 @@
 }
 
 .edem-layout {
-  box-sizing: border-box;
   width: 100%;
   max-width: var(--edem-layout-max);
   margin-inline: auto;

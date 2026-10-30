@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from "react";
-import { SketchPath } from "./Sketch";
+import { SketchPath, SketchPlate } from "./Sketch";
 import { cx } from "./utils";
 export function Layout({
   className,
@@ -29,20 +29,14 @@ export function Rail({
 }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div {...props} className={cx("edem-rail", className)}>
+      <SketchPlate shape="rail" stroke={false} className="edem-rail__surface" />
       <svg
         className="edem-rail__sketch"
         viewBox="0 0 10 100"
         preserveAspectRatio="none"
         aria-hidden="true"
       >
-        <SketchPath
-          d="M5 3V96"
-          seed={610}
-          strokeWidth={1.8}
-          roughness={1.25}
-          bowing={1.05}
-        />
-        <SketchPath d="M5 3V25" seed={701} strokeWidth={2.15} roughness={1.1} />
+        <SketchPath d="M5 3V96" seed={610} accent />
       </svg>
       {children}
     </div>

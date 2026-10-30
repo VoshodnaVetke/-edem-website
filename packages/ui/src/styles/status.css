@@ -61,53 +61,168 @@
   transform-origin: 40px 40px;
 }
 .edem-progress {
-  display: grid;
-  gap: 0.8rem;
   min-width: 0;
   color: var(--edem-color-text-primary);
 }
+.edem-progress__stage {
+  position: relative;
+  isolation: isolate;
+  min-height: 150px;
+  padding: 18px 22px;
+  --edem-surface-fill: #0a101a;
+}
+.edem-progress__content {
+  position: relative;
+  z-index: 1;
+}
+.edem-progress__scan {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--edem-color-accent-primary),
+    var(--edem-color-accent-secondary),
+    transparent
+  );
+}
 .edem-progress__label {
+  --edem-glitch-color: inherit;
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
-  font: 400 var(--edem-type-system-size) / 1.5 var(--font-mono);
+  color: var(--edem-color-accent-primary);
+  font: 700 var(--edem-type-system-size) / 1.5 var(--font-display);
+  letter-spacing: 0.08em;
 }
-.edem-progress__track {
-  height: 52px;
+.edem-progress__label > span:last-child {
+  font-family: var(--font-mono);
+}
+.edem-progress__signal {
   position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid rgb(255 255 255 / 30%);
+  height: 58px;
+  margin-top: 12px;
 }
 .edem-progress__segments {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  clip-path: inset(0 calc(100% - var(--edem-progress)) 0 0);
+  z-index: 2;
 }
 .edem-progress__segments i {
-  background: rgb(255 255 255 / 6%);
-  border-top: 1px solid rgb(255 255 255 / 18%);
+  display: block;
+  min-width: 5px;
+  height: 3px;
+  background: var(--edem-color-accent-primary);
+  opacity: 0.75;
+  box-shadow: 0 0 12px rgb(37 244 255 / 47%);
+}
+.edem-progress__segments i:nth-child(even) {
+  background: var(--edem-color-accent-secondary);
+  box-shadow: 0 0 12px rgb(188 92 255 / 40%);
+}
+.edem-progress__line {
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 3px;
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
 }
 .edem-progress__fill {
-  position: absolute;
-  inset: 0 auto 0 0;
   width: var(--edem-progress);
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgb(37 244 255 / 18%),
+    rgb(37 244 255 / 75%),
+    rgb(188 92 255 / 82%)
+  );
+  box-shadow: 0 0 10px rgb(37 244 255 / 28%);
+}
+.edem-progress__head {
+  position: absolute;
+  left: var(--edem-progress);
+  top: -7px;
+  width: 3px;
+  height: 17px;
+  transform: translateX(-50%);
+  background: var(--edem-color-outline-sketch);
+  box-shadow:
+    0 0 8px 2px var(--edem-color-accent-primary),
+    0 0 20px 5px rgb(188 92 255 / 60%);
+  opacity: 0;
+}
+.edem-progress__stage[data-active="true"] .edem-progress__head {
+  opacity: 1;
+}
+.edem-progress__hud {
+  height: 22px;
+  position: relative;
+  margin-top: 8px;
   background: repeating-linear-gradient(
     90deg,
-    rgb(37 244 255 / 24%) 0 calc(8.333% - 4px),
-    transparent calc(8.333% - 4px) 8.333%
+    rgb(84 98 112 / 56%) 0 6px,
+    transparent 6px 10px
   );
-  border-bottom: 3px solid var(--edem-color-accent-primary);
 }
-.edem-progress__fill::after {
-  content: "";
+.edem-progress__hud-active {
   position: absolute;
-  inset: 0 0 0 auto;
-  width: 2px;
-  background: var(--edem-color-accent-primary);
-  box-shadow: 0 0 12px var(--edem-color-accent-primary);
+  inset: 0 auto 0 0;
+  width: var(--edem-packet-progress, var(--edem-progress));
+  background: repeating-linear-gradient(
+    90deg,
+    var(--edem-color-accent-primary) 0 6px,
+    transparent 6px 10px
+  );
+  box-shadow: 0 0 10px rgb(37 244 255 / 27%);
+}
+.edem-progress__hud-label {
+  position: absolute;
+  right: 0;
+  top: 6px;
+  padding-left: 8px;
+  font: 400 9px/1.2 var(--font-mono);
+  color: var(--edem-color-text-metadata);
+  letter-spacing: 0.07em;
+}
+.edem-progress__hud-label > span {
+  position: relative;
+  z-index: 1;
+}
+.edem-progress__readout {
+  font: 400 var(--edem-type-system-size) / 1.5 var(--font-mono);
+  color: var(--edem-color-text-metadata);
+  overflow-wrap: anywhere;
+}
+.edem-progress__packets {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 11px;
+  font: 400 10px/1.5 var(--font-mono);
+  color: var(--edem-color-text-telemetry);
+  letter-spacing: 0.11em;
+}
+.edem-progress__packet-line {
+  height: 5px;
+  flex: 1;
+  background: repeating-linear-gradient(
+    90deg,
+    rgb(37 244 255 / 40%) 0 13px,
+    transparent 13px 18px,
+    rgb(188 92 255 / 20%) 18px 21px,
+    transparent 21px 26px
+  );
+  mask-image: linear-gradient(90deg, #000, transparent 98%);
 }
 .edem-status {
   font: 400 var(--edem-type-system-size) / 1.5 var(--font-mono);
@@ -141,8 +256,20 @@
   .edem-loader[data-active="true"] .edem-loader__stroke {
     animation: edem-spin 1.6s linear infinite;
   }
-  .edem-progress__track[data-indeterminate="true"] .edem-progress__fill {
-    animation: edem-progress 2.8s ease-in-out infinite;
+  .edem-progress__stage[data-active="true"] .edem-progress__scan {
+    animation: edem-transfer-scan 1.6s ease-out 1;
+  }
+  .edem-progress__stage[data-active="true"] .edem-progress__segments i {
+    animation: edem-packet-pulse 2.7s steps(4, end) var(--edem-packet-delay)
+      infinite;
+  }
+  .edem-progress__stage[data-active="true"] .edem-progress__head {
+    animation: edem-head-pulse 0.95s ease-in-out infinite alternate;
+  }
+  .edem-progress__stage[data-indeterminate="true"] .edem-progress__head {
+    animation:
+      edem-packet-sweep 4.2s ease-in-out infinite,
+      edem-head-pulse 0.95s ease-in-out infinite alternate;
   }
 }
 @keyframes edem-spin {
@@ -160,11 +287,57 @@
     opacity: 0;
   }
 }
-@keyframes edem-progress {
+@keyframes edem-packet-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: translate(0);
+  }
+  22% {
+    opacity: 0.25;
+    transform: translate(9px, 2px);
+  }
+  40% {
+    opacity: 0.95;
+    transform: translate(-11px, -1px);
+  }
+  66% {
+    opacity: 0.08;
+    transform: translate(4px, 3px);
+  }
+}
+@keyframes edem-head-pulse {
   from {
-    transform: translateX(-100%);
+    filter: brightness(0.8);
+    opacity: 0.5;
   }
   to {
-    transform: translateX(434%);
+    filter: brightness(1.5);
+    opacity: 1;
+  }
+}
+@keyframes edem-packet-sweep {
+  from {
+    left: 0;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes edem-transfer-scan {
+  0% {
+    opacity: 0;
+    top: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    top: 100%;
   }
 }
