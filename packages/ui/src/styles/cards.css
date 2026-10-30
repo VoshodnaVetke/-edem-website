@@ -1,0 +1,272 @@
+.edem-card {
+  --edem-card-max: 100%;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  align-self: start;
+  container: edem-card / inline-size;
+}
+.edem-card-content {
+  position: relative;
+  min-height: 160px;
+}
+.edem-card-content__inner {
+  position: relative;
+  z-index: 2;
+  padding: 34px 30px 44px;
+  overflow-wrap: anywhere;
+}
+.edem-card[data-frame="double"] .edem-card-content__inner {
+  padding-top: 46px;
+  padding-bottom: 48px;
+}
+.edem-card[data-frame="asym"] .edem-card-content__inner {
+  padding-top: 40px;
+  padding-right: 42px;
+}
+.edem-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.edem-frame path {
+  vector-effect: non-scaling-stroke;
+}
+.edem-frame__fill {
+  fill: rgb(13 19 31 / 85%);
+}
+.edem-frame__border {
+  color: var(--edem-color-outline-sketch);
+}
+.edem-frame__inner {
+  color: var(--edem-color-outline-sketch);
+  opacity: 0.4;
+}
+.edem-frame__detail {
+  color: var(--edem-color-accent-primary);
+  opacity: 0;
+}
+.edem-frame__detail2 {
+  color: var(--edem-color-accent-secondary);
+  opacity: 0;
+}
+.edem-card:not(.edem-link-card):is(:focus-visible, :has(:focus-visible))
+  .edem-frame__detail,
+.edem-card:not(.edem-link-card):is(:focus-visible, :has(:focus-visible))
+  .edem-frame__detail2 {
+  opacity: 1;
+}
+.edem-link-card {
+  display: block;
+  text-decoration: none;
+  color: var(--edem-color-text-primary);
+}
+.edem-link-card:focus-visible {
+  outline: none;
+}
+.edem-link-card:focus-visible .edem-frame__border {
+  color: var(--edem-color-accent-primary);
+  filter: drop-shadow(0 0 3px rgb(37 244 255 / 92%))
+    drop-shadow(0 0 7px rgb(37 244 255 / 45%));
+}
+.edem-terminal__header,
+.edem-terminal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font: 400 var(--edem-type-system-size) / 1.5 var(--font-mono);
+  color: var(--edem-color-text-metadata);
+}
+.edem-terminal__header {
+  margin-block-end: 1rem;
+}
+.edem-terminal__footer {
+  margin-block-start: 1rem;
+}
+.edem-terminal__body {
+  position: relative;
+}
+.edem-terminal__channel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-start: 1rem;
+  min-width: 0;
+}
+.edem-card-effects {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.edem-card-effects > span {
+  position: absolute;
+  pointer-events: none;
+}
+.edem-card-effects__glass {
+  inset: 0;
+  opacity: 0.05;
+  background:
+    radial-gradient(
+      ellipse at 20% 20%,
+      var(--edem-color-accent-primary),
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse at 80% 80%,
+      var(--edem-color-accent-secondary),
+      transparent 65%
+    );
+}
+.edem-card-effects__shine {
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    circle 34px at var(--edem-cursor-x, 50%) var(--edem-cursor-y, 50%),
+    rgb(37 244 255 / 10%),
+    transparent
+  );
+}
+.edem-card-effects__scan {
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(
+    transparent 45%,
+    rgb(37 244 255 / 18%) 50%,
+    transparent 55%
+  );
+  transform: translateY(-100%);
+}
+.edem-card-effects__idle {
+  left: 12%;
+  width: 29%;
+  height: 3px;
+  top: 84%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--edem-color-accent-primary),
+    var(--edem-color-accent-secondary),
+    transparent
+  );
+  opacity: 0;
+}
+.edem-card[data-accent="violet"] .edem-card-effects__glass {
+  transform: rotate(180deg);
+}
+@media (hover: hover) and (pointer: fine) {
+  .edem-card:not(.edem-link-card):hover .edem-frame__detail,
+  .edem-card:not(.edem-link-card):hover .edem-frame__detail2 {
+    opacity: 1;
+  }
+  .edem-card:hover .edem-card-effects__shine {
+    opacity: 1;
+  }
+  .edem-link-card:hover {
+    transform: translateY(-4px);
+  }
+  .edem-link-card:hover .edem-frame__border {
+    color: var(--edem-color-accent-primary);
+    filter: drop-shadow(0 0 3px rgb(37 244 255 / 92%))
+      drop-shadow(0 0 7px rgb(37 244 255 / 45%));
+  }
+}
+@media (hover: none) {
+  .edem-link-card:active .edem-frame__border {
+    color: var(--edem-color-accent-primary);
+    filter: drop-shadow(0 0 3px rgb(37 244 255 / 72%));
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .edem-frame__detail,
+  .edem-frame__detail2,
+  .edem-card-effects__shine {
+    transition: opacity 1.8s ease;
+  }
+  .edem-link-card {
+    transition: transform 0.24s cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+  .edem-card-content[data-revealed="true"] .edem-frame__border path {
+    animation: edem-trace 4.3s linear backwards;
+  }
+  .edem-card-content[data-active="true"] .edem-card-effects__idle {
+    animation: edem-idle 17s steps(1, end) infinite;
+  }
+  .edem-card:hover .edem-card-effects__idle,
+  .edem-card:is(:focus-visible, :has(:focus-visible)) .edem-card-effects__idle {
+    animation-play-state: paused;
+    visibility: hidden;
+  }
+  .edem-card:is(:focus-visible, :has(:focus-visible)) .edem-card-effects__scan {
+    animation: edem-scan 5.8s linear;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .edem-card:hover .edem-card-effects__scan {
+      animation: edem-scan 5.8s linear;
+    }
+  }
+  @media (hover: none), (pointer: coarse) {
+    .edem-card-content[data-revealed="true"] .edem-frame__border path {
+      animation-duration: 1.35s;
+    }
+    .edem-card-effects__idle {
+      display: none;
+    }
+  }
+}
+@container edem-card (max-width:20rem) {
+  .edem-card-content__inner {
+    padding: 30px 24px 40px;
+  }
+  .edem-card[data-frame="double"] .edem-card-content__inner {
+    padding: 42px 30px 46px;
+  }
+  .edem-card[data-frame="asym"] .edem-card-content__inner {
+    padding: 38px 30px 42px;
+  }
+}
+@keyframes edem-trace {
+  from {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes edem-scan {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  10%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+@keyframes edem-idle {
+  0%,
+  94%,
+  97%,
+  100% {
+    opacity: 0;
+  }
+  95%,
+  96% {
+    opacity: 0.7;
+  }
+}

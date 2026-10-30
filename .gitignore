@@ -16,3 +16,6 @@ Thumbs.db
 work/
 .venv/
 __pycache__/
+playwright-report/
+test-results/
+*.tgz

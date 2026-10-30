@@ -1,2 +1,0 @@
-# Byte-for-byte reference fixtures retain the whitespace of the uploaded originals.
-design-system/reference/*.html -whitespace

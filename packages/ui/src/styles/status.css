@@ -1,0 +1,170 @@
+.edem-loader {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  color: var(--edem-color-text-primary);
+}
+.edem-loader svg {
+  display: block;
+  width: min(112px, 100%);
+  height: auto;
+}
+.edem-loader--circle svg {
+  width: 80px;
+}
+.edem-loader__label {
+  font: 400 var(--edem-type-system-size) / 1.5 var(--font-mono);
+  overflow-wrap: anywhere;
+}
+.edem-loader .orbit-track {
+  fill: none;
+  stroke: var(--edem-color-outline-sketch);
+  stroke-opacity: 0.23;
+  stroke-width: 2;
+}
+.edem-loader .orbit-ring {
+  fill: none;
+  stroke: var(--edem-color-accent-primary);
+  stroke-width: 4;
+  stroke-dasharray: 92 146;
+}
+.edem-loader .orbit-secondary {
+  fill: none;
+  stroke: var(--edem-color-accent-secondary);
+  stroke-width: 2;
+  stroke-dasharray: 36 140;
+}
+.edem-loader .orbit-core {
+  fill: var(--edem-color-accent-primary);
+}
+.edem-loader .pulse-wave {
+  opacity: 0.5;
+}
+.edem-loader .orbit-ring,
+.edem-loader .orbit-secondary,
+.edem-loader .segment-rotor,
+.edem-loader .pulse-wave {
+  transform-origin: 56px 56px;
+}
+.edem-loader__track {
+  fill: none;
+  stroke: var(--edem-color-outline-sketch);
+  stroke-opacity: 0.2;
+  stroke-width: 2;
+}
+.edem-loader__stroke {
+  fill: none;
+  stroke: var(--edem-color-accent-primary);
+  stroke-width: 3;
+  stroke-dasharray: 66 104;
+  transform-origin: 40px 40px;
+}
+.edem-progress {
+  display: grid;
+  gap: 0.8rem;
+  min-width: 0;
+  color: var(--edem-color-text-primary);
+}
+.edem-progress__label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font: 400 var(--edem-type-system-size) / 1.5 var(--font-mono);
+}
+.edem-progress__track {
+  height: 52px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgb(255 255 255 / 30%);
+}
+.edem-progress__segments {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 4px;
+}
+.edem-progress__segments i {
+  background: rgb(255 255 255 / 6%);
+  border-top: 1px solid rgb(255 255 255 / 18%);
+}
+.edem-progress__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--edem-progress);
+  background: repeating-linear-gradient(
+    90deg,
+    rgb(37 244 255 / 24%) 0 calc(8.333% - 4px),
+    transparent calc(8.333% - 4px) 8.333%
+  );
+  border-bottom: 3px solid var(--edem-color-accent-primary);
+}
+.edem-progress__fill::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 2px;
+  background: var(--edem-color-accent-primary);
+  box-shadow: 0 0 12px var(--edem-color-accent-primary);
+}
+.edem-status {
+  font: 400 var(--edem-type-system-size) / 1.5 var(--font-mono);
+  margin-bottom: 1rem;
+}
+.edem-card[data-state="success"] .edem-status {
+  color: var(--edem-color-state-success);
+}
+.edem-card[data-state="error"] .edem-status {
+  color: var(--edem-color-state-error);
+}
+.edem-card[data-state="disabled"] {
+  opacity: 0.45;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .edem-loader[data-active="true"] .orbit-ring {
+    animation: edem-spin 2.7s linear infinite;
+  }
+  .edem-loader[data-active="true"] .orbit-secondary {
+    animation: edem-spin 4.2s linear reverse infinite;
+  }
+  .edem-loader[data-active="true"] .segment-rotor {
+    animation: edem-spin 3.9s steps(24, end) infinite;
+  }
+  .edem-loader[data-active="true"] .pulse-wave {
+    animation: edem-wave 2.5s ease-out infinite;
+  }
+  .edem-loader[data-active="true"] .pulse-wave--delay {
+    animation-delay: 1.2s;
+  }
+  .edem-loader[data-active="true"] .edem-loader__stroke {
+    animation: edem-spin 1.6s linear infinite;
+  }
+  .edem-progress__track[data-indeterminate="true"] .edem-progress__fill {
+    animation: edem-progress 2.8s ease-in-out infinite;
+  }
+}
+@keyframes edem-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes edem-wave {
+  from {
+    transform: scale(0.45);
+    opacity: 0.75;
+  }
+  to {
+    transform: scale(1.34);
+    opacity: 0;
+  }
+}
+@keyframes edem-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(434%);
+  }
+}

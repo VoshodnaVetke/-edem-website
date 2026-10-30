@@ -1,0 +1,108 @@
+.edem-navigation {
+  width: 100%;
+  min-width: 0;
+  background: var(--edem-color-background);
+}
+.edem-navigation a {
+  color: var(--edem-color-text-primary);
+  text-decoration: none;
+}
+.edem-navigation a:focus-visible {
+  outline: 2px solid var(--edem-color-focus-ring);
+  outline-offset: 4px;
+}
+.edem-navigation__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  border-block: 1px solid rgb(255 255 255 / 20%);
+}
+.edem-navigation__brand {
+  font: 700 1.5rem/1.2 var(--font-display);
+}
+.edem-navigation__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.edem-navigation__desktop {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.edem-navigation__desktop a,
+.edem-navigation__bottom a,
+.edem-navigation__menu a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+.edem-navigation a[aria-current="page"] {
+  color: var(--edem-color-accent-primary);
+}
+.edem-navigation__bottom {
+  display: none;
+}
+.edem-dialog {
+  max-width: min(40rem, calc(100vw - 2rem));
+  width: 100%;
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  border: 1px solid var(--edem-color-outline-sketch);
+  padding: 1.5rem;
+  background: var(--edem-color-surface);
+}
+.edem-dialog::backdrop {
+  background: rgb(0 0 0 / 75%);
+}
+.edem-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.edem-dialog__head h2 {
+  margin: 0;
+}
+.edem-navigation__menu {
+  display: grid;
+  gap: 0.5rem;
+}
+.edem-navigation__results {
+  list-style: none;
+  padding: 0;
+}
+.edem-navigation__results li {
+  padding-block: 0.75rem;
+  border-bottom: 1px solid rgb(255 255 255 / 20%);
+}
+.edem-navigation__results li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--edem-color-accent-primary);
+}
+.edem-navigation__results p {
+  margin: 0.25rem 0;
+}
+@media (max-width: 40.625rem) {
+  .edem-navigation__desktop {
+    display: none;
+  }
+  .edem-navigation__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: space-around;
+    padding: 0.5rem;
+    border-bottom: 1px solid rgb(255 255 255 / 20%);
+  }
+  .edem-dialog {
+    padding: 1rem;
+  }
+}
