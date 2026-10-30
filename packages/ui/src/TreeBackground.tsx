@@ -67,11 +67,7 @@ export function TreeBackground({
       onPointerMove={move}
     >
       <div className="edem-tree__fallback">
-        {[0, 1, 2].map((i) => (
-          <div key={i} className={`edem-tree__plane edem-tree__plane--${i}`}>
-            <TreeArtwork />
-          </div>
-        ))}
+        <TreeArtwork />
       </div>
       <div className="edem-tree__webgl" ref={mount} />
     </div>

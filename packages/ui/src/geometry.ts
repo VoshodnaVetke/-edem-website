@@ -1,14 +1,18 @@
-// Exact viewBox 440 × 290 geometry from Component Atlas v10.4.
+// Canonical outlines shared by the stroke, underpaint and effect masks.
+const outlines = {
+  system: "M7 7H433V239L393 283H7Z",
+  double: "M7 17H395L433 55V284H39L7 245Z",
+  asym: "M7 39L39 7H294L309 18H432V228L398 282H7Z",
+} as const;
+function outlineLayers(d: string) {
+  return [
+    { kind: "fill", d },
+    { kind: "border", d },
+  ] as const;
+}
 export const frames = {
   system: [
-    {
-      kind: "fill",
-      d: "M7 7H433V239L393 283H7Z",
-    },
-    {
-      kind: "border",
-      d: "M7 7H433V239L393 283H7Z",
-    },
+    ...outlineLayers(outlines.system),
     {
       kind: "detail",
       d: "M7 7H100M433 188V239L393 283H322",
@@ -19,14 +23,7 @@ export const frames = {
     },
   ],
   double: [
-    {
-      kind: "fill",
-      d: "M7 17H395L433 55V284H39L7 245Z",
-    },
-    {
-      kind: "border",
-      d: "M7 17H395L433 55V284H39L7 245Z",
-    },
+    ...outlineLayers(outlines.double),
     {
       kind: "detail",
       d: "M7 17H139M395 17L433 55M433 242V284H358",
@@ -41,14 +38,7 @@ export const frames = {
     },
   ],
   asym: [
-    {
-      kind: "fill",
-      d: "M7 39L39 7H294L309 18H432V228L398 282H7Z",
-    },
-    {
-      kind: "border",
-      d: "M7 39L39 7H294L309 18H432V228L398 282H7Z",
-    },
+    ...outlineLayers(outlines.asym),
     {
       kind: "detail",
       d: "M39 7H151M309 18H397M432 197V228L398 282H328",
@@ -63,9 +53,9 @@ export type FrameVariant = keyof typeof frames;
 
 /** All three approved outlines use straight M/L/H/V segments. Reuse their points
  * for the HTML effect mask so light never leaks into the cut-out corners. */
-function outlinePolygon(path: string) {
+export function outlinePoints(path: string): [number, number][] {
   const tokens = path.match(/[MLHVZ]|-?\d+(?:\.\d+)?/g) || [];
-  const points: string[] = [];
+  const points: [number, number][] = [];
   let x = 0,
     y = 0,
     command = "",
@@ -78,9 +68,14 @@ function outlinePolygon(path: string) {
       y = Number(tokens[index++]);
     } else if (command === "H") x = Number(tokens[index++]);
     else if (command === "V") y = Number(tokens[index++]);
-    points.push(`${(x / 440) * 100}% ${(y / 290) * 100}%`);
+    points.push([x, y]);
   }
-  return `polygon(${points.join(",")})`;
+  return points;
+}
+function outlinePolygon(path: string) {
+  return `polygon(${outlinePoints(path)
+    .map(([x, y]) => `${(x / 440) * 100}% ${(y / 290) * 100}%`)
+    .join(",")})`;
 }
 export const frameClips = Object.fromEntries(
   Object.entries(frames).map(([name, paths]) => [

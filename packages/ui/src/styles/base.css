@@ -42,27 +42,11 @@
 .edem-card p:last-child {
   margin-block-end: 0;
 }
-.edem-control-border {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-  color: var(--edem-color-outline-sketch);
-}
 .edem-rail {
   position: relative;
   padding: 1rem 1.4rem 1.1rem 2rem;
-  background: rgb(0 0 0 / 67%);
-  clip-path: polygon(
-    0 0,
-    calc(100% - 24px) 0,
-    100% 24px,
-    100% calc(100% - 17px),
-    calc(100% - 17px) 100%,
-    0 100%
-  );
+  isolation: isolate;
+  --edem-surface-fill: rgb(0 0 0 / 67%);
 }
 .edem-rail__sketch {
   position: absolute;
@@ -71,11 +55,9 @@
   height: calc(100% - 16px);
   color: var(--edem-color-outline-sketch);
 }
-.edem-rail__sketch g:last-child {
-  color: var(--edem-color-accent-primary);
-}
-.edem-rail__sketch path {
-  vector-effect: non-scaling-stroke;
+.edem-rail > :not(svg) {
+  position: relative;
+  z-index: 1;
 }
 .edem-type-system,
 .edem-type-telemetry {

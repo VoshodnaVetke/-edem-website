@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode, type CSSProperties } from "react";
 import {
   Button,
   ButtonLink,
@@ -120,20 +120,60 @@ function PanelStates() {
   );
 }
 function TransferExample() {
-  const [value, set] = useState(32);
+  const [transfer, setTransfer] = useState({ value: 0, packets: 0 }),
+    [running, setRunning] = useState(false);
+  useEffect(() => {
+    if (!running) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let raf = 0,
+      start: number | undefined;
+    function finish() {
+      cancelAnimationFrame(raf);
+      setTransfer({ value: 100, packets: 100 });
+      setRunning(false);
+    }
+    function motion() {
+      if (reduced.matches) finish();
+    }
+    function frame(time: number) {
+      start ??= time;
+      const t = Math.min(1, (time - start) / 4200);
+      setTransfer({ value: t * t * (3 - 2 * t) * 100, packets: t * 100 });
+      if (t < 1) raf = requestAnimationFrame(frame);
+      else finish();
+    }
+    if (reduced.matches) finish();
+    else raf = requestAnimationFrame(frame);
+    reduced.addEventListener("change", motion);
+    return () => {
+      cancelAnimationFrame(raf);
+      reduced.removeEventListener("change", motion);
+    };
+  }, [running]);
   return (
     <>
-      <Progress label="DATA LOSS / передача" value={value} />
-      <label className="demo-range">
-        Демонстрационный прогресс
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={value}
-          onChange={(e) => set(Number(e.target.value))}
-        />
-      </label>
+      <Progress
+        label="DATA LOSS / передача"
+        value={transfer.value}
+        style={
+          { "--edem-packet-progress": `${transfer.packets}%` } as CSSProperties
+        }
+      />
+      <div className="demo-actions">
+        <Button
+          disabled={running}
+          onClick={() => {
+            setTransfer({ value: 0, packets: 0 });
+            setRunning(true);
+          }}
+        >
+          {running ? "ПЕРЕДАЧА…" : "ПЕРЕДАТЬ СИГНАЛ ↗"}
+        </Button>
+      </div>
+      <Text variant="system">
+        Демонстрация анимации · 4,2 с. В приложении прогресс задаётся реальной
+        операцией.
+      </Text>
     </>
   );
 }

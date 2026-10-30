@@ -3,7 +3,7 @@
   position: relative;
   display: inline-block;
   isolation: isolate;
-  color: var(--edem-color-text-heading);
+  color: var(--edem-glitch-color, var(--edem-color-text-heading));
   font-family: var(--font-display);
 }
 .edem-glitch::before,
@@ -32,34 +32,17 @@
   position: absolute;
   inset: 0;
 }
-.edem-tree__plane {
-  position: absolute;
-  inset: 0;
+.edem-tree__artwork {
+  display: block;
   transform: translate(
     calc(var(--edem-tree-x, 0) * 9px),
     calc(var(--edem-tree-y, 0) * 6px)
   );
-}
-.edem-tree__plane--0 {
-  opacity: 0.1;
-  color: var(--edem-color-accent-secondary);
-}
-.edem-tree__plane--1 {
-  opacity: 0.16;
-  color: var(--edem-color-accent-primary);
-}
-.edem-tree__plane--2 {
-  opacity: 0.28;
-  color: var(--edem-color-outline-sketch);
-}
-.edem-tree__artwork {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-.edem-tree__artwork path {
-  fill: currentColor;
-}
+
 .edem-tree__webgl canvas {
   display: block;
   width: 100%;
@@ -75,11 +58,8 @@
   .edem-glitch::after {
     animation: edem-glitch-violet 7.4s steps(1, end) infinite;
   }
-  .edem-tree__plane--0 {
+  .edem-tree__artwork {
     animation: edem-tree-drift 37s ease-in-out infinite alternate;
-  }
-  .edem-tree__plane--1 {
-    animation: edem-tree-drift 43s ease-in-out -17s infinite alternate-reverse;
   }
 }
 @media (prefers-reduced-motion: reduce) {

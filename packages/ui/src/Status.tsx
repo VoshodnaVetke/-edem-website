@@ -1,5 +1,7 @@
 import type { HTMLAttributes, ReactNode, CSSProperties } from "react";
 import { Card, type CardProps } from "./Card";
+import { SketchPlate } from "./Sketch";
+import { GlitchText } from "./Typography";
 import { cx } from "./utils";
 export type LoaderVariant = "orbital" | "matrix" | "pulse" | "circle";
 export interface LoaderProps
@@ -122,12 +124,13 @@ export function Progress({ value, label, className, ...props }: ProgressProps) {
     value === undefined || !Number.isFinite(value)
       ? undefined
       : Math.min(100, Math.max(0, value));
+  const active = current === undefined || (current > 0 && current < 100);
+  const percent =
+    current === undefined
+      ? "…"
+      : `${String(Math.round(current)).padStart(3, "0")}%`;
   return (
     <div className={cx("edem-progress", className)}>
-      <div className="edem-progress__label">
-        {label}
-        <span>{current === undefined ? "…" : `${Math.round(current)}%`}</span>
-      </div>
       <div
         {...props}
         role="progressbar"
@@ -135,21 +138,62 @@ export function Progress({ value, label, className, ...props }: ProgressProps) {
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={current}
-        className="edem-progress__track"
+        className="edem-progress__stage"
+        data-active={active}
         data-indeterminate={current === undefined}
         style={
           {
-            "--edem-progress": current === undefined ? "30%" : `${current}%`,
+            "--edem-progress": `${current ?? 0}%`,
             ...props.style,
           } as CSSProperties
         }
       >
-        <div className="edem-progress__segments" aria-hidden="true">
-          {Array.from({ length: 12 }, (_, i) => (
-            <i key={i} />
-          ))}
+        <SketchPlate />
+        <div className="edem-progress__content">
+          <span className="edem-progress__scan" aria-hidden="true" />
+          <div className="edem-progress__label">
+            {active ? <GlitchText>{label}</GlitchText> : label}
+            <span aria-hidden="true">{percent}</span>
+          </div>
+          <div className="edem-progress__signal" aria-hidden="true">
+            <div className="edem-progress__segments">
+              {Array.from({ length: 12 }, (_, i) => (
+                <i
+                  key={i}
+                  style={
+                    {
+                      flexGrow: 0.5 + ((i * 7 + 3) % 17) / 9,
+                      "--edem-packet-delay": `${(i * 73) % 650}ms`,
+                    } as CSSProperties
+                  }
+                />
+              ))}
+            </div>
+            <div className="edem-progress__line">
+              <div className="edem-progress__fill" />
+              <i className="edem-progress__head" />
+            </div>
+            <div className="edem-progress__hud">
+              <div className="edem-progress__hud-active" />
+              <span className="edem-progress__hud-label">
+                <SketchPlate stroke={false} />
+                <span>PACKET STREAM / 001—024</span>
+              </span>
+            </div>
+          </div>
+          <div className="edem-progress__readout">
+            {active
+              ? "RECONSTRUCTING / PACKET TRANSFER…"
+              : current === 100
+                ? "TRANSMISSION COMPLETE · SIGNAL RESTORED"
+                : `CHANNEL READY · ${percent}`}
+          </div>
+          <div className="edem-progress__packets" aria-hidden="true">
+            <span>PACKET / TX</span>
+            <span className="edem-progress__packet-line" />
+            <span>EDN.04</span>
+          </div>
         </div>
-        <div className="edem-progress__fill" />
       </div>
     </div>
   );

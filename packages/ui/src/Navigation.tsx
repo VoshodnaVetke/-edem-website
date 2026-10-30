@@ -9,6 +9,7 @@ import {
 } from "react";
 import { Button, ButtonLink } from "./Button";
 import { TextField } from "./TextField";
+import { SketchPlate } from "./Sketch";
 import { cx } from "./utils";
 export interface NavigationItem {
   label: string;
@@ -44,6 +45,50 @@ function useDialog(
       returnFocus.current?.focus();
     }
   }, [open, dialog, returnFocus]);
+}
+function NavigationDialog({
+  dialogRef,
+  id,
+  label,
+  close,
+  afterClose,
+  children,
+}: {
+  dialogRef: RefObject<HTMLDialogElement | null>;
+  id: string;
+  label: string;
+  close: () => void;
+  afterClose: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <dialog
+      ref={dialogRef}
+      id={id}
+      className="edem-dialog"
+      aria-label={label}
+      onCancel={close}
+      onClose={afterClose}
+      onKeyDownCapture={(event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          close();
+        }
+      }}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) close();
+      }}
+    >
+      <SketchPlate />
+      <div className="edem-dialog__body">
+        <div className="edem-dialog__head">
+          <h2 className="edem-type-h3">{label}</h2>
+          <Button onClick={close}>Закрыть</Button>
+        </div>
+        {children}
+      </div>
+    </dialog>
+  );
 }
 /** Navigation C: the visual pattern is preliminary; all routes and search data are supplied by the host. */
 export function Navigation({
@@ -158,53 +203,25 @@ export function Navigation({
           {links(bottomItems)}
         </nav>
       )}
-      <dialog
-        ref={menu}
+      <NavigationDialog
+        dialogRef={menu}
         id={menuId}
-        className="edem-dialog"
-        aria-label="Меню"
-        onCancel={close}
-        onKeyDownCapture={(event) => {
-          if (event.key === "Escape") {
-            event.preventDefault();
-            close();
-          }
-        }}
-        onClose={() => setOpen((v) => (v === "menu" ? null : v))}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) close();
-        }}
+        label="Меню"
+        close={close}
+        afterClose={() => setOpen((v) => (v === "menu" ? null : v))}
       >
-        <div className="edem-dialog__head">
-          <h2 className="edem-type-h3">Меню</h2>
-          <Button onClick={close}>Закрыть</Button>
-        </div>
         <nav className="edem-navigation__menu" aria-label="Все разделы">
           {links(items)}
         </nav>
-      </dialog>
+      </NavigationDialog>
       {onSearch && (
-        <dialog
-          ref={search}
+        <NavigationDialog
+          dialogRef={search}
           id={searchId}
-          className="edem-dialog"
-          aria-label="Поиск"
-          onCancel={close}
-          onKeyDownCapture={(event) => {
-            if (event.key === "Escape") {
-              event.preventDefault();
-              close();
-            }
-          }}
-          onClose={() => setOpen((v) => (v === "search" ? null : v))}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) close();
-          }}
+          label="Поиск"
+          close={close}
+          afterClose={() => setOpen((v) => (v === "search" ? null : v))}
         >
-          <div className="edem-dialog__head">
-            <h2 className="edem-type-h3">Поиск</h2>
-            <Button onClick={close}>Закрыть</Button>
-          </div>
           <TextField
             label="Поисковый запрос"
             value={query}
@@ -231,7 +248,7 @@ export function Navigation({
               </li>
             ))}
           </ul>
-        </dialog>
+        </NavigationDialog>
       )}
     </header>
   );

@@ -62,14 +62,24 @@ test("buttons distinguish persistent selection, hover and keyboard focus", async
   await chip.click();
   await page.mouse.move(0, 0);
   await expect(chip).toHaveAttribute("aria-pressed", "true");
-  await expect(chip).toHaveCSS("background-color", "rgb(37, 244, 255)");
+  await expect(chip.locator(".edem-sketch-surface")).toHaveCSS(
+    "fill",
+    "rgb(37, 244, 255)",
+  );
   await chip.hover();
-  await expect(chip).toHaveCSS("background-color", "rgb(188, 92, 255)");
+  await expect(chip.locator(".edem-sketch-surface")).toHaveCSS(
+    "fill",
+    "rgb(188, 92, 255)",
+  );
   await page.mouse.move(0, 0);
   await chip.focus();
   await page.keyboard.press("Tab");
   await page.keyboard.press("Shift+Tab");
-  await expect(chip).toHaveCSS("outline-style", "solid");
+  await expect(chip.locator(".edem-sketch-stroke").first()).toHaveCSS(
+    "stroke",
+    "rgb(37, 244, 255)",
+  );
+  await expect(chip).toHaveCSS("outline-style", "none");
 });
 test("link-card lift and outline never alter its SVG fill", async ({
   page,
@@ -176,10 +186,9 @@ test("touch does not activate desktop hover or lift", async ({ browser }) => {
     true,
   );
   await page.locator("#chips .edem-chip").tap();
-  await expect(page.locator("#chips .edem-chip")).toHaveCSS(
-    "background-color",
-    "rgb(37, 244, 255)",
-  );
+  await expect(
+    page.locator("#chips .edem-chip .edem-sketch-surface"),
+  ).toHaveCSS("fill", "rgb(37, 244, 255)");
   await context.close();
 });
 test("catalog and open search meet automated WCAG A/AA checks", async ({
@@ -240,4 +249,80 @@ test("idle card effects stop after the card leaves the viewport", async ({
     "animation-name",
     "none",
   );
+});
+test("the field changes its existing hand-drawn stroke without adding a focus frame", async ({
+  page,
+}) => {
+  const field = page.locator("#field .edem-field__control"),
+    input = field.locator("input");
+  const paths = await field
+    .locator(".edem-sketch-stroke")
+    .evaluateAll((paths) => paths.map((p) => p.getAttribute("d")));
+  await input.focus();
+  await expect(input).toHaveCSS("outline-style", "none");
+  await expect(input).toHaveCSS("box-shadow", "none");
+  await expect(field.locator(".edem-sketch-stroke").first()).toHaveCSS(
+    "stroke",
+    "rgb(37, 244, 255)",
+  );
+  expect(
+    await field
+      .locator(".edem-sketch-stroke")
+      .evaluateAll((paths) => paths.map((p) => p.getAttribute("d"))),
+  ).toEqual(paths);
+  await expect(field.locator("svg")).toHaveCount(1);
+});
+test("white and cyan rail strokes overlay the same geometry and the underpaint bleeds", async ({
+  page,
+}) => {
+  const rail = page.locator("#rail .edem-rail");
+  const white = await rail
+    .locator(
+      ".edem-rail__sketch .edem-sketch-stroke:not(.edem-sketch-stroke--accent)",
+    )
+    .evaluateAll((paths) => paths.map((p) => p.getAttribute("d")));
+  expect(
+    await rail
+      .locator(".edem-sketch-stroke--accent")
+      .evaluateAll((paths) => paths.map((p) => p.getAttribute("d"))),
+  ).toEqual(white);
+  expect(
+    await rail
+      .locator(".edem-rail__surface .edem-sketch-surface")
+      .evaluate((e) => (e as unknown as SVGGraphicsElement).getBBox().x),
+  ).toBeLessThan(0);
+  await expect(rail).toHaveCSS("clip-path", "none");
+});
+test("the supplied tree is rendered as a single unchanged SVG asset", async ({
+  page,
+}) => {
+  const artwork = page.locator("#tree .edem-tree__artwork");
+  await expect(artwork).toHaveCount(1);
+  await expect(artwork).toHaveJSProperty("tagName", "IMG");
+  expect(
+    await artwork.evaluate((e) => (e as HTMLImageElement).naturalWidth),
+  ).toBe(2110);
+  expect(
+    await artwork.evaluate((e) => (e as HTMLImageElement).naturalHeight),
+  ).toBe(1555);
+});
+test("DATA LOSS restores packet transmission with a moving head and the lower scale", async ({
+  page,
+}) => {
+  const progress = page.locator("#progress").getByRole("progressbar");
+  await expect(progress).toHaveAttribute("aria-valuenow", "0");
+  await page
+    .locator("#progress")
+    .getByRole("button", { name: "ПЕРЕДАТЬ СИГНАЛ ↗" })
+    .click();
+  await expect(progress).toHaveAttribute("data-active", "true");
+  await expect(progress.locator(".edem-progress__head")).toHaveCSS(
+    "height",
+    "17px",
+  );
+  await expect(progress.locator(".edem-progress__hud")).toBeVisible();
+  await expect(progress).toHaveAttribute("aria-valuenow", "100", {
+    timeout: 7000,
+  });
+  await expect(progress).toHaveAttribute("data-active", "false");
 });

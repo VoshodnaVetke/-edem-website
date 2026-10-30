@@ -1,12 +1,4 @@
-import { treePaths } from "./tree-geometry";
+import treeImage from "./assets/tree.svg";
 export function TreeArtwork() {
-  return (
-    <svg className="edem-tree__artwork" viewBox="0 0 2110 1555" fill="none">
-      <g opacity=".7">
-        {treePaths.map((d, i) => (
-          <path key={i} d={d} fill="currentColor" />
-        ))}
-      </g>
-    </svg>
-  );
+  return <img className="edem-tree__artwork" src={treeImage} alt="" />;
 }
