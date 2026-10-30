@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="dark" name="color-scheme"/><title>ЭДЕМ | Атлас компонентов v9.5</title>
+<html lang="ru"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="dark" name="color-scheme"/><title>ЭДЕМ | Атлас компонентов v9.6</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&amp;family=Onest:wght@400;450;500;600&amp;family=Tektur:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
@@ -1458,15 +1458,6 @@ html{scroll-behavior:smooth}body{background:#05070C;color:var(--atlas-text);font
 }
 </style>
 
-<style id="atlas-v9-4-fast-card-entrance">
-/* All card-stream content renders immediately. Only the frame is traced on scroll. */
-@media(prefers-reduced-motion:no-preference){
- .motion-enabled #group-1 .atlas-stream-card .block,
- .motion-enabled #group-1 .atlas-stream-card .swatch{
-   opacity:1!important;transform:none!important;transition:background .2s ease!important;
- }
-}
-</style>
 </head><body>
 <div aria-hidden="true" class="tree-bg"><div id="tree-fallback"><svg fill="none" height="1555" viewbox="0 0 2110 1555" width="2110" xmlns="http://www.w3.org/2000/svg">
 <g opacity="0.7">
@@ -1858,8 +1849,9 @@ try{
             offset+=duration;
           });
         }
-        const fastCard=!!svg.closest('#group-1 .atlas-stream-card');
-        animate(border,0,fastCard?.48:(mobile?1.35:4.3));
+        // Restore the original v55 frame-drawing duration, including the deliberate
+        // slow desktop line-trace. Earlier triggering replaces artificial speed-up.
+        animate(border,0,mobile?1.35:4.3);
         // Accent segments start after 0.9 sec, overlapping with white stroke.
         // Independent fragments emerge in quick succession, not many seconds later.
         // Colored fragments are hover-only. They stay geometrically complete but
@@ -1869,8 +1861,7 @@ try{
           p.style.strokeDashoffset='0';
         });
         inner.forEach((p,i)=>{
-          const fastCard=!!svg.closest('#group-1 .atlas-stream-card');
-          p.style.transition=`stroke-dashoffset ${fastCard?.24:(mobile?.5:1.15)}s ease-out ${(fastCard?.13+i*.04:(mobile?.3+i*.08:1.25+i*.17)).toFixed(2)}s`;
+          p.style.transition=`stroke-dashoffset ${mobile?.5:1.15}s ease-out ${(mobile?.3+i*.08:1.25+i*.17).toFixed(2)}s`;
           p.style.strokeDashoffset='0';
         });
       }));
@@ -1878,21 +1869,23 @@ try{
     cards.forEach(card=>{
       const svg=card.querySelector('.applied-frame');
       const state=svg?frameStates.get(svg):null;
-      // Isolated card stream: text/background are immediately available.
-      // The original hand-drawn stroke animates just before scroll arrival,
-      // without the legacy desktop 850ms pause or the long 4.3s trace.
+      // Card stream: full v55 fade/slide + original hand-drawn line tracing.
+      // Start before the card reaches the viewport; DO NOT reveal all cards at
+      // startup or replace the animation with an instantaneous render.
+      // The positive bottom margin pre-triggers the sequence while approaching
+      // a card, without waiting for 72% visibility or the old 850ms pause.
       if(card.closest('#group-1 .atlas-stream-card')){
-        showCard(card);
-        if(!svg)return;
-        if(!ioSupported){drawFrame(svg);return}
-        const fastObserver=new IntersectionObserver(entries=>{
-          if(entries.some(e=>e.isIntersecting)){
-            fastObserver.disconnect();
-            drawFrame(svg);
-          }
-        },{threshold:0,rootMargin:'450px 0px 650px 0px'});
-        fastObserver.observe(card);
-        observers.push(fastObserver);
+        if(!ioSupported){showCard(card);if(svg)drawFrame(svg);return}
+        const earlyObserver=new IntersectionObserver(entries=>{
+          if(!entries.some(e=>e.isIntersecting))return;
+          earlyObserver.disconnect();
+          requestAnimationFrame(()=>{
+            showCard(card);
+            if(svg)drawFrame(svg);
+          });
+        },{threshold:0,rootMargin:mobile?'180px 0px 600px 0px':'240px 0px 720px 0px'});
+        earlyObserver.observe(card);
+        observers.push(earlyObserver);
         return;
       }
       if(!ioSupported){showCard(card);if(svg)drawFrame(svg);return}
