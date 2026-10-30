@@ -1,0 +1,50 @@
+:root {
+  --edem-palette-bg-page: #05070c;
+  --edem-palette-bg-edge: #030509;
+  --edem-palette-bg-top: #0a101a;
+  --edem-palette-surface: #141923;
+  --edem-palette-surface-raised: #1b2230;
+  --edem-palette-white: #ffffff;
+  --edem-palette-cyan: #25f4ff;
+  --edem-palette-violet: #bc5cff;
+  --edem-palette-text-primary: #eaf0fa;
+  --edem-palette-text-secondary: #c2cfdf;
+  --edem-palette-text-meta: #aebbcc;
+  --edem-palette-telemetry: #91a1b6;
+  --edem-palette-success: #7ce7c1;
+  --edem-palette-error: #ff8295;
+  --edem-palette-disabled: #657080;
+  --edem-palette-on-bright: #0b0d12;
+
+  --edem-color-background: var(--edem-palette-bg-page);
+  --edem-color-background-edge: var(--edem-palette-bg-edge);
+  --edem-color-background-top: var(--edem-palette-bg-top);
+  --edem-color-surface: var(--edem-palette-surface);
+  --edem-color-surface-raised: var(--edem-palette-surface-raised);
+
+  --edem-color-text-primary: var(--edem-palette-text-primary);
+  --edem-color-text-secondary: var(--edem-palette-text-secondary);
+  --edem-color-text-metadata: var(--edem-palette-text-meta);
+  --edem-color-text-telemetry: var(--edem-palette-telemetry);
+  --edem-color-text-heading: var(--edem-palette-white);
+
+  --edem-color-accent-primary: var(--edem-palette-cyan);
+  --edem-color-accent-secondary: var(--edem-palette-violet);
+  --edem-color-on-accent: var(--edem-palette-on-bright);
+
+  --edem-color-outline-sketch: var(--edem-palette-white);
+  --edem-color-focus-ring: var(--edem-palette-cyan);
+  --edem-color-state-success: var(--edem-palette-success);
+  --edem-color-state-error: var(--edem-palette-error);
+  --edem-color-state-disabled: var(--edem-palette-disabled);
+
+  --edem-background-gradient: radial-gradient(
+    ellipse at 50% 0%,
+    var(--edem-color-background-top) 0%,
+    var(--edem-color-background) 46%,
+    var(--edem-color-background-edge) 100%
+  );
+
+  --edem-color-ambient-cyan: rgb(37 244 255 / 5%);
+  --edem-color-ambient-violet: rgb(188 92 255 / 5%);
+}

@@ -1,0 +1,127 @@
+:root {
+  --font-display: "Tektur Variable", sans-serif;
+  --font-body: "Onest Variable", sans-serif;
+  --font-mono: "Anonymous Pro", monospace;
+
+  --edem-font-weight-display: 700;
+  --edem-font-weight-body: 450;
+  --edem-font-weight-system: 400;
+  --edem-font-weight-system-strong: 700;
+
+  --edem-type-h1-size: 3.5rem;
+  --edem-type-h2-size: 2.25rem;
+  --edem-type-h3-size: 1.375rem;
+  --edem-type-lead-size: 1.125rem;
+  --edem-type-body-size: 1.0625rem;
+  --edem-type-reading-size: 1.125rem;
+  --edem-type-button-size: 0.875rem;
+  --edem-type-system-size: 0.8125rem;
+  --edem-type-telemetry-size: 0.75rem;
+
+  --edem-type-h1-leading: 1.06;
+  --edem-type-h2-leading: 1.2;
+  --edem-type-h3-leading: 1.28;
+  --edem-type-lead-leading: 1.65;
+  --edem-type-body-leading: 1.6;
+  --edem-type-reading-leading: 1.65;
+  --edem-type-button-leading: 1.2;
+  --edem-type-system-leading: 1.5;
+  --edem-type-reading-max-width: 66ch;
+  --edem-type-lead-max-width: 60ch;
+}
+
+@media (min-width: 40.6875rem) and (max-width: 63.9375rem) {
+  :root {
+    --edem-type-h1-size: 2.5rem;
+    --edem-type-h2-size: 1.875rem;
+    --edem-type-h3-size: 1.3125rem;
+    --edem-type-lead-size: 1.0625rem;
+    --edem-type-body-size: 1.0625rem;
+    --edem-type-reading-size: 1.0625rem;
+  }
+}
+
+@media (max-width: 40.625rem) {
+  :root {
+    --edem-type-h1-size: 1.875rem;
+    --edem-type-h2-size: 1.5625rem;
+    --edem-type-h3-size: 1.25rem;
+    --edem-type-lead-size: 1.0625rem;
+    --edem-type-body-size: 1rem;
+    --edem-type-reading-size: 1.0625rem;
+  }
+}
+
+.edem-type-h1,
+.edem-type-h2,
+.edem-type-h3 {
+  font-family: var(--font-display);
+  font-weight: var(--edem-font-weight-display);
+  color: var(--edem-color-text-heading);
+}
+.edem-type-h1 {
+  font-size: var(--edem-type-h1-size);
+  line-height: var(--edem-type-h1-leading);
+  letter-spacing: -0.025em;
+}
+.edem-type-h2 {
+  font-size: var(--edem-type-h2-size);
+  line-height: var(--edem-type-h2-leading);
+  letter-spacing: 0;
+}
+.edem-type-h3 {
+  font-size: var(--edem-type-h3-size);
+  line-height: var(--edem-type-h3-leading);
+  letter-spacing: 0;
+}
+.edem-type-lead,
+.edem-type-body,
+.edem-type-reading {
+  font-family: var(--font-body);
+  font-weight: var(--edem-font-weight-body);
+  letter-spacing: 0;
+  color: var(--edem-color-text-primary);
+}
+.edem-type-lead {
+  font-size: var(--edem-type-lead-size);
+  line-height: var(--edem-type-lead-leading);
+  max-width: var(--edem-type-lead-max-width);
+}
+.edem-type-body {
+  font-size: var(--edem-type-body-size);
+  line-height: var(--edem-type-body-leading);
+}
+.edem-type-reading {
+  font-size: var(--edem-type-reading-size);
+  line-height: var(--edem-type-reading-leading);
+  max-width: var(--edem-type-reading-max-width);
+}
+.edem-type-reading p {
+  margin: 0 0 1em;
+}
+.edem-type-reading p:last-child {
+  margin-bottom: 0;
+}
+.edem-type-button {
+  font: var(--edem-font-weight-display) var(--edem-type-button-size) /
+    var(--edem-type-button-leading) var(--font-display);
+}
+.edem-type-system,
+.edem-type-telemetry {
+  font-family: var(--font-mono);
+  line-height: var(--edem-type-system-leading);
+  letter-spacing: 0.025em;
+}
+.edem-type-system {
+  font-size: var(--edem-type-system-size);
+}
+.edem-type-telemetry {
+  font-size: var(--edem-type-telemetry-size);
+}
+
+.edem-type-h1,
+.edem-type-h2,
+.edem-type-h3 {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}

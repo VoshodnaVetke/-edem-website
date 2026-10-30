@@ -13,3 +13,9 @@ coverage/
 Thumbs.db
 *.pem
 *.key
+work/
+.venv/
+__pycache__/
+playwright-report/
+test-results/
+*.tgz

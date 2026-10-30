@@ -1,0 +1,20 @@
+{
+  "name": "@edem/catalog",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit -p ../../tsconfig.json",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@edem/ui": "*",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.12",
+    "@vitejs/plugin-react": "^5.0.4"
+  }
+}

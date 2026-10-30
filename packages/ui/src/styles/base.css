@@ -1,0 +1,89 @@
+:where(
+  .edem-button,
+  .edem-card,
+  .edem-field,
+  .edem-progress,
+  .edem-loader,
+  .edem-navigation,
+  .edem-dialog,
+  .edem-tree
+),
+:where(
+    .edem-button,
+    .edem-card,
+    .edem-field,
+    .edem-progress,
+    .edem-loader,
+    .edem-navigation,
+    .edem-dialog,
+    .edem-tree
+  )
+  * {
+  box-sizing: border-box;
+}
+.edem-card,
+.edem-field,
+.edem-navigation,
+.edem-dialog {
+  color: var(--edem-color-text-primary);
+  font: var(--edem-font-weight-body) var(--edem-type-body-size) /
+    var(--edem-type-body-leading) var(--font-body);
+}
+.edem-card h3 {
+  font: 700 var(--edem-type-h3-size) / var(--edem-type-h3-leading)
+    var(--font-display);
+  color: var(--edem-color-text-heading);
+  margin: 0 0 0.75rem;
+}
+.edem-card p {
+  margin: 0 0 1rem;
+  overflow-wrap: anywhere;
+}
+.edem-card p:last-child {
+  margin-block-end: 0;
+}
+.edem-control-border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  color: var(--edem-color-outline-sketch);
+}
+.edem-rail {
+  position: relative;
+  padding: 1rem 1.4rem 1.1rem 2rem;
+  background: rgb(0 0 0 / 67%);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 24px) 0,
+    100% 24px,
+    100% calc(100% - 17px),
+    calc(100% - 17px) 100%,
+    0 100%
+  );
+}
+.edem-rail__sketch {
+  position: absolute;
+  inset: 8px auto 8px 3px;
+  width: 10px;
+  height: calc(100% - 16px);
+  color: var(--edem-color-outline-sketch);
+}
+.edem-rail__sketch g:last-child {
+  color: var(--edem-color-accent-primary);
+}
+.edem-rail__sketch path {
+  vector-effect: non-scaling-stroke;
+}
+.edem-type-system,
+.edem-type-telemetry {
+  color: var(--edem-color-text-metadata);
+}
+.edem-type-reading {
+  overflow-wrap: anywhere;
+}
+.edem-layout-grid > * {
+  min-width: 0;
+}
