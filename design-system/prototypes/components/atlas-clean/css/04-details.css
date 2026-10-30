@@ -1,0 +1,502 @@
+/* ЭДЕМ · 04-details · Component Atlas v10.4 */
+
+.edem-system-orb {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  color: #aebbcd;
+  font:
+    10px "Anonymous Pro",
+    monospace;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+.edem-system-orb span {
+  display: block;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.edem-system-orb strong {
+  display: block;
+  line-height: 1.7;
+  font-weight: 400;
+  color: #25f4ff;
+}
+
+.edem-orb-rotor {
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-orb-rotor {
+    animation: edemOrbRotate 20s linear infinite;
+  }
+
+  .edem-orb-rotor--reverse {
+    animation-duration: 27s;
+    animation-direction: reverse;
+  }
+}
+
+@keyframes edemOrbRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.edem-vector-divider {
+  width: 100%;
+  padding: 5px 2px 2px;
+  margin: 36px 0 10px;
+  pointer-events: none;
+  opacity: 0.93;
+}
+
+.edem-vector-divider__label {
+  font:
+    10px "Anonymous Pro",
+    monospace;
+  color: #7e8ea3;
+  letter-spacing: 0.13em;
+  margin: 0 0 1px 3px;
+}
+
+.edem-vector-divider svg {
+  width: 100%;
+  height: 45px;
+  display: block;
+  overflow: visible;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-vector-divider__pulse {
+    animation: edemPulseRun 12s linear infinite;
+  }
+}
+
+@keyframes edemPulseRun {
+  to {
+    stroke-dashoffset: -790;
+  }
+}
+
+.edem-mini-orb {
+  position: absolute;
+  bottom: 29px;
+  right: 30px;
+  z-index: 7;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.terminal-panel:hover .edem-mini-orb,
+.terminal-panel:focus-within .edem-mini-orb {
+  opacity: 1;
+}
+
+.edem-data-progress-hud {
+  height: 22px;
+  position: relative;
+  margin-top: 8px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    #54627090 0px,
+    #54627090 6px,
+    transparent 6px,
+    transparent 10px
+  );
+  mask-image: linear-gradient(#000 0 0);
+  overflow: hidden;
+}
+
+.edem-data-progress-hud__active {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    #25f4ff 0px,
+    #25f4ff 6px,
+    transparent 6px,
+    transparent 10px
+  );
+  box-shadow: 0 0 10px #25f4ff44;
+  will-change: width;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .data-loss-stage.is-transmitting .edem-data-progress-hud__active {
+    animation: edemSegmentLoad 4.2s linear forwards;
+  }
+}
+
+@keyframes edemSegmentLoad {
+  to {
+    width: 100%;
+  }
+}
+
+.edem-data-progress-hud__label {
+  position: absolute;
+  right: 0;
+  top: 6px;
+  background: #0a101a;
+  padding-left: 8px;
+  color: #94a7bb;
+  font:
+    9px "Anonymous Pro",
+    monospace;
+  letter-spacing: 0.07em;
+}
+
+@media (max-width: 760px) {
+  .edem-system-orb {
+    width: 100%;
+    margin: 3px 0 0;
+  }
+
+  .edem-system-orb svg {
+    width: 39px;
+    height: 39px;
+  }
+
+  .edem-vector-divider {
+    margin: 22px 0 4px;
+  }
+
+  .edem-vector-divider svg {
+    height: 30px;
+  }
+
+  .edem-mini-orb {
+    right: 23px;
+    bottom: 20px;
+    transform: scale(0.78);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edem-orb-rotor,
+  .edem-vector-divider__pulse {
+    animation: none;
+  }
+
+  .data-loss-stage.is-transmitting .edem-data-progress-hud__active {
+    animation: none;
+    width: 100%;
+  }
+}
+
+.edem-signal-strip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 49px;
+  padding: 8px 4px;
+  max-width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.edem-signal-strip__id {
+  font:
+    10px "Anonymous Pro",
+    monospace;
+  white-space: nowrap;
+  color: #c5d0df;
+  letter-spacing: 0.055em;
+}
+
+.edem-signal-strip__state {
+  font:
+    10px "Anonymous Pro",
+    monospace;
+  white-space: nowrap;
+  color: #25f4ff;
+  letter-spacing: 0.055em;
+}
+
+.edem-sequence-caption {
+  font:
+    10px "Anonymous Pro",
+    monospace;
+  letter-spacing: 0.105em;
+  white-space: nowrap;
+  color: #95a7b9;
+}
+
+.edem-signal-strip__line {
+  height: 21px;
+  min-width: 20px;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.edem-signal-strip__line::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    #fff8 0 17%,
+    transparent 17% 18%,
+    #25f4ff88 18% 46%,
+    #fff5 46% 65%,
+    #bc5cff99 65% 87%,
+    #fff6 87%
+  );
+}
+
+.edem-signal-strip__line::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: 9px;
+  width: 15%;
+  background: repeating-linear-gradient(
+    90deg,
+    #25f4ff 0 3px,
+    transparent 3px 7px
+  );
+  filter: drop-shadow(0 0 4px #25f4ff70);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-signal-strip__line::after {
+    animation: edemSignalTrace 19s linear infinite;
+  }
+}
+
+.edem-signal-strip__ticks {
+  position: absolute;
+  top: 16px;
+  left: 25%;
+  right: 20%;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ffffff85 0 1px,
+    transparent 1px 12px
+  );
+  opacity: 0.55;
+}
+
+.edem-signal-strip__node {
+  height: 9px;
+  width: 9px;
+  flex: none;
+  border: 1px solid #25f4ff;
+  transform: rotate(45deg);
+  box-shadow: 0 0 12px #25f4ff55;
+  opacity: 0.8;
+}
+
+@keyframes edemSignalTrace {
+  0% {
+    transform: translateX(-110%);
+  }
+
+  100% {
+    transform: translateX(760%);
+  }
+}
+
+.edem-network-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 16px;
+  align-items: center;
+  margin: 20px 0 36px;
+  padding: 15px 20px;
+  background: rgba(3, 6, 11, 0.58);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 17px) 0,
+    100% 17px,
+    100% 100%,
+    12px 100%,
+    0 calc(100% - 12px)
+  );
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.edem-network-board::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 15%,
+    rgba(37, 244, 255, 0.025) 48%,
+    transparent 75%
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-network-board::before {
+    animation: edemNetworkDrift 16s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes edemNetworkDrift {
+  to {
+    transform: translateX(24%);
+  }
+}
+
+.edem-network-board__title {
+  font:
+    12px "Tektur",
+    sans-serif;
+  color: #fff;
+  letter-spacing: 0.07em;
+  margin: 0 0 8px;
+}
+
+.edem-network-board__sub {
+  font:
+    12px/1.45 "Anonymous Pro",
+    monospace;
+  margin: 0;
+  font-family: "Onest", sans-serif;
+  font-weight: 450;
+  -webkit-text-stroke: 0;
+  color: var(--edem-copy);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.65;
+}
+
+.edem-network-board__svg {
+  width: 100%;
+  height: 72px;
+  overflow: visible;
+}
+
+.edem-network-board__route {
+  stroke-dasharray: 7 12;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-network-board__route {
+    animation: edemRoute 18s linear infinite;
+  }
+}
+
+@keyframes edemRoute {
+  to {
+    stroke-dashoffset: -250;
+  }
+}
+
+.edem-panel-channel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 18px;
+  margin: 8px 0 5px;
+  color: #8497ac;
+  font:
+    9px "Anonymous Pro",
+    monospace;
+  pointer-events: none;
+  position: relative;
+  z-index: 4;
+  max-width: calc(100% - 80px);
+  font-size: 11px;
+  letter-spacing: 0.045em;
+}
+
+.edem-panel-channel__bar {
+  height: 2px;
+  flex: 1;
+  max-width: 72px;
+  background: repeating-linear-gradient(
+    90deg,
+    #25f4ff99 0 5px,
+    transparent 5px 9px,
+    #bc5cff65 9px 11px,
+    transparent 11px 14px
+  );
+  opacity: 0.45;
+  transition: opacity 1.5s ease;
+}
+
+.terminal-panel:is(:hover, :focus-visible, :focus-within)
+  .edem-panel-channel__bar {
+  opacity: 1;
+}
+
+.edem-packet-track {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #91a4b9;
+  font:
+    10px "Anonymous Pro",
+    monospace;
+  letter-spacing: 0.11em;
+  margin: 11px 0 0;
+}
+
+.edem-packet-track__dash {
+  height: 5px;
+  flex: 1;
+  background: repeating-linear-gradient(
+    90deg,
+    #25f4ff66 0 13px,
+    transparent 13px 18px,
+    #bc5cff33 18px 21px,
+    transparent 21px 26px
+  );
+  mask-image: linear-gradient(90deg, #000, transparent 98%);
+}
+
+@media (max-width: 750px) {
+  .edem-network-board {
+    grid-template-columns: 1fr;
+    padding: 14px 18px;
+  }
+
+  .edem-network-board__svg {
+    height: 48px;
+    max-width: 220px;
+  }
+
+  .edem-signal-strip {
+    gap: 8px;
+  }
+
+  .edem-signal-strip__id {
+    max-width: 34%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .edem-signal-strip__state {
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edem-signal-strip__line::after,
+  .edem-network-board__route,
+  .edem-network-board::before {
+    animation: none;
+  }
+}

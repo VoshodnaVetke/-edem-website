@@ -1,0 +1,32 @@
+/* ЭДЕМ · 09-reading · Component Atlas v10.4 */
+
+@media (max-width: 650px) {
+  .block p,
+  .side-stack .block[data-frame] p,
+  .swatch
+    > span:not(.edem-panel-channel):not(.terminal-header):not(.terminal-footer),
+  .note,
+  .rule-list,
+  .signal-exhibition__desc,
+  .edem-card-lab__header p,
+  .edem-lab-card p,
+  .states-lab__heading p,
+  .states-unit p,
+  .states-action-card > span:not(.states-action-card__tag),
+  .states-module > span:last-child,
+  .frame-demo p,
+  .compare-header p {
+    font-size: 17px;
+    line-height: 1.65;
+    letter-spacing: 0;
+  }
+
+  .meta,
+  .id-note,
+  .edem-reading-specimen__caption,
+  .states-message,
+  .states-unit form small {
+    font-size: max(13px, 1em);
+    line-height: 1.55;
+  }
+}

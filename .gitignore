@@ -13,3 +13,6 @@ coverage/
 Thumbs.db
 *.pem
 *.key
+work/
+.venv/
+__pycache__/

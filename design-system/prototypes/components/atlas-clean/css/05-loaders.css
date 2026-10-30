@@ -1,0 +1,353 @@
+/* ЭДЕМ · 05-loaders · Component Atlas v10.4 */
+
+.edem-card-lab {
+  position: relative;
+  padding: 45px 0 64px;
+  color: white;
+}
+
+.edem-card-lab__header {
+  max-width: 730px;
+  margin-bottom: 28px;
+}
+
+.edem-lab-overline {
+  font-family: "Anonymous Pro", monospace;
+  letter-spacing: 0.09em;
+  font-size: 11px;
+  color: #25f4ff;
+}
+
+.edem-card-lab__top {
+  font-family: "Anonymous Pro", monospace;
+  letter-spacing: 0.09em;
+}
+
+.edem-lab-card__bottom {
+  font-family: "Anonymous Pro", monospace;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  margin-top: 22px;
+  font-size: 10px;
+  color: #8a99ae;
+  letter-spacing: 0.045em;
+}
+
+.edem-lab-footnote {
+  font-family: "Anonymous Pro", monospace;
+  letter-spacing: 0.09em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 19px;
+  color: #7d8da4;
+  font-size: 11px;
+}
+
+.edem-card-lab h2 {
+  font-family: "Tektur", sans-serif;
+  font-size: clamp(25px, 3vw, 38px);
+  margin: 8px 0 12px;
+  line-height: 1.15;
+  letter-spacing: 0.015em;
+}
+
+.edem-card-lab__header p {
+  font-size: 16px;
+  max-width: 65ch;
+  font-family: "Onest", sans-serif;
+  font-weight: 450;
+  -webkit-text-stroke: 0;
+  color: var(--edem-copy);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.65;
+}
+
+.edem-lab-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.edem-lab-card {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  min-height: 395px;
+  display: flex;
+  flex-direction: column;
+  background: #0c111b;
+  clip-path: polygon(
+    0 19px,
+    19px 0,
+    100% 0,
+    100% calc(100% - 25px),
+    calc(100% - 25px) 100%,
+    0 100%
+  );
+  padding: 22px 23px 25px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: background 1s ease;
+}
+
+.edem-lab-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(37, 244, 255, 0.07),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 85% 88%,
+      rgba(188, 92, 255, 0.06),
+      transparent 57%
+    );
+}
+
+.edem-lab-card--socket {
+  background: #0b111a;
+  border-left: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.edem-lab-card--faceted {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 21px) 0,
+    100% 21px,
+    100% 100%,
+    22px 100%,
+    0 calc(100% - 22px)
+  );
+  border-top: 2px solid rgba(255, 255, 255, 0.65);
+}
+
+.edem-lab-card--rail {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.edem-lab-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 10px;
+  color: #9caabb;
+  letter-spacing: 0.045em;
+}
+
+.edem-lab-status {
+  color: #697a8d;
+  font-weight: bold;
+}
+
+.edem-lab-card__content {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.edem-lab-spinner {
+  width: 112px;
+  height: 112px;
+  margin: 19px auto 4px;
+  display: block;
+  flex-shrink: 0;
+  opacity: 0.46;
+  transition: opacity 0.8s ease;
+}
+
+.edem-lab-spinner svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.edem-lab-card h3 {
+  font:
+    700 18px "Tektur",
+    sans-serif;
+  color: #fff;
+  margin: 8px 0 9px;
+}
+
+.edem-lab-card p {
+  font:
+    14px/1.5 "Anonymous Pro",
+    monospace;
+  margin: 0;
+  font-size: 16px;
+  max-width: 65ch;
+  font-family: "Onest", sans-serif;
+  font-weight: 450;
+  -webkit-text-stroke: 0;
+  color: var(--edem-copy);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.65;
+}
+
+.edem-lab-activate {
+  font:
+    700 10px "Tektur",
+    sans-serif;
+  padding: 10px 11px;
+  cursor: pointer;
+  border: 1px solid #66788b;
+  background: transparent;
+  color: white;
+  transition:
+    background 0.4s ease,
+    color 0.4s ease;
+}
+
+.edem-lab-activate:hover,
+.edem-lab-activate:focus-visible {
+  background: #25f4ff;
+  color: #061017;
+}
+
+.edem-lab-card.is-loading {
+  background: #101927;
+}
+
+.edem-lab-card.is-loading .edem-lab-status,
+.edem-lab-card.is-loading .edem-lab-progress {
+  color: #25f4ff;
+}
+
+.edem-lab-card.is-loading .edem-lab-spinner {
+  opacity: 1;
+}
+
+.edem-lab-card.is-ready .edem-lab-status {
+  color: #25f4ff;
+}
+
+.edem-lab-card.is-ready .edem-lab-spinner {
+  opacity: 0.65;
+}
+
+.orbit-track {
+  fill: none;
+  stroke: #ffffff;
+  stroke-opacity: 0.23;
+  stroke-width: 2;
+}
+
+.orbit-ring {
+  fill: none;
+  stroke: #25f4ff;
+  stroke-width: 4;
+  stroke-dasharray: 92 146;
+}
+
+.orbit-secondary {
+  fill: none;
+  stroke: #bc5cff;
+  stroke-width: 2;
+  stroke-dasharray: 36 140;
+}
+
+.orbit-core {
+  fill: #25f4ff;
+}
+
+.edem-lab-card.is-loading .orbit-ring {
+  transform-origin: 56px 56px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-lab-card.is-loading .orbit-ring {
+    animation: edemSpin 2.7s linear infinite;
+  }
+}
+
+.edem-lab-card.is-loading .orbit-secondary {
+  transform-origin: 56px 56px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-lab-card.is-loading .orbit-secondary {
+    animation: edemSpin 4.2s linear reverse infinite;
+  }
+}
+
+.edem-lab-card.is-loading .segment-rotor {
+  transform-origin: 56px 56px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-lab-card.is-loading .segment-rotor {
+    animation: edemSpin 3.9s steps(24, end) infinite;
+  }
+}
+
+.pulse-wave {
+  opacity: 0.5;
+}
+
+.edem-lab-card.is-loading .pulse-wave {
+  transform-origin: 56px 56px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-lab-card.is-loading .pulse-wave {
+    animation: edemWave 2.5s ease-out infinite;
+  }
+
+  .edem-lab-card.is-loading .pulse-wave--delay {
+    animation-delay: 1.2s;
+  }
+}
+
+@keyframes edemSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes edemWave {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.95;
+  }
+
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+.edem-lab-footnote span:first-child {
+  color: #bc5cff;
+}
+
+@media (max-width: 900px) {
+  .edem-lab-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .edem-lab-card {
+    min-height: 300px;
+  }
+
+  .edem-lab-spinner {
+    margin-top: 8px;
+    margin-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edem-lab-card * {
+    animation: none;
+    transition: none;
+  }
+}

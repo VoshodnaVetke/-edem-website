@@ -1,0 +1,77 @@
+/* ЭДЕМ · 13-link-card · Component Atlas v10.4 */
+
+#element-16 .atlas-preview--frame .side-stack {
+  width: 100%;
+}
+
+.edem-link-card {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  position: relative;
+  isolation: isolate;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    opacity 0.54s ease,
+    transform 0.24s cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.edem-link-card .applied-frame {
+  pointer-events: none;
+}
+
+.edem-link-card .applied-frame .fill {
+  fill: rgba(13, 19, 31, 0.85);
+}
+
+.edem-link-card .applied-frame .border,
+.edem-link-card .applied-frame .rough-kind-border path {
+  stroke: #ffffff;
+  filter: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .motion-enabled .edem-link-card.is-visible:hover,
+  .edem-link-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .edem-link-card:hover .applied-frame .border,
+  .edem-link-card:hover .applied-frame .rough-kind-border path {
+    stroke: #25f4ff;
+    filter: drop-shadow(0 0 3px rgba(37, 244, 255, 0.92))
+      drop-shadow(0 0 7px rgba(37, 244, 255, 0.45));
+  }
+}
+
+.edem-link-card:focus-visible {
+  outline: none;
+}
+
+.edem-link-card:focus-visible .applied-frame .border,
+.edem-link-card:focus-visible .applied-frame .rough-kind-border path {
+  stroke: #25f4ff;
+  filter: drop-shadow(0 0 3px rgba(37, 244, 255, 0.92))
+    drop-shadow(0 0 7px rgba(37, 244, 255, 0.45));
+}
+
+@media (hover: none) {
+  .edem-link-card:active .applied-frame .border,
+  .edem-link-card:active .applied-frame .rough-kind-border path {
+    stroke: #25f4ff;
+    filter: drop-shadow(0 0 3px rgba(37, 244, 255, 0.72));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edem-link-card {
+    transition: none;
+  }
+
+  .motion-enabled .edem-link-card.is-visible:hover,
+  .edem-link-card:hover {
+    transform: none;
+  }
+}

@@ -25,3 +25,7 @@
 ## Кнопки
 - [Buttons v1.1](../docs/BUTTONS_V1_1_APPROVED.md) — утверждённые обычное, выбранное и hover-состояния.
 - [Component Atlas v9](prototypes/components/atlas-v9-filter-selected-cyan.html): живой HTML. Выбранный фильтр циановый с белым контуром; наведение — фиолетовый с циановым.
+
+## Подготовка React-библиотеки
+
+[Очищенный Component Atlas v10.4](prototypes/components/atlas-clean/README.md) — исходники с модульными CSS/JS и без `!important` в активных стилях. Это этап очистки перед React; библиотека React ещё не опубликована. [Проверки](../tests/design-system/README.md).

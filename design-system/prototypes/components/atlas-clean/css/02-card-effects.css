@@ -1,0 +1,509 @@
+/* ЭДЕМ · 02-card-effects · Component Atlas v10.4 */
+
+.cyber-panel .cyber-fx .cyber-scan {
+  display: block;
+  position: absolute;
+  inset: auto 0 auto 0;
+  top: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(37, 244, 255, 0.2) 7%,
+    rgba(37, 244, 255, 0.96) 25%,
+    rgba(255, 255, 255, 0.98) 52%,
+    rgba(188, 92, 255, 0.9) 80%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 9px 2px rgba(37, 244, 255, 0.42),
+    0 0 21px 3px rgba(188, 92, 255, 0.28);
+  opacity: 0;
+  filter: none;
+  transform: translateY(0);
+  will-change: top, opacity;
+}
+
+.cyber-panel .cyber-fx .cyber-scan::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -21px;
+  height: 25px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(37, 244, 255, 0.08) 65%,
+    rgba(37, 244, 255, 0.14)
+  );
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cyber-panel[data-fx~="scan"]:is(:hover, :focus-within)
+    .cyber-fx
+    .cyber-scan {
+    animation: edemVisibleScan 5.8s linear 1 both;
+  }
+}
+
+@keyframes edemVisibleScan {
+  0% {
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (hover: none) {
+  .cyber-panel[data-fx~="scan"] .cyber-fx .cyber-scan {
+    opacity: 0.45;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cyber-panel[data-fx~="scan"] .cyber-fx .cyber-scan {
+      animation: edemVisibleScan 19s linear infinite;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-panel[data-fx~="scan"] .cyber-fx .cyber-scan {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+.cyber-panel .cyber-fx .cyber-tint {
+  inset: -48%;
+  opacity: 0.05;
+  filter: blur(14px);
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(
+      ellipse 42% 52% at 23% 27%,
+      rgba(37, 244, 255, 1) 0%,
+      rgba(37, 244, 255, 0.6) 31%,
+      transparent 76%
+    ),
+    radial-gradient(
+      ellipse 49% 42% at 78% 72%,
+      rgba(188, 92, 255, 1) 0%,
+      rgba(188, 92, 255, 0.7) 28%,
+      transparent 78%
+    ),
+    radial-gradient(
+      ellipse 38% 47% at 53% 49%,
+      rgba(117, 138, 255, 0.85) 0%,
+      transparent 82%
+    );
+  transform-origin: center;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cyber-panel .cyber-fx .cyber-tint {
+    animation: edemAmbientDriftA 37s cubic-bezier(0.45, 0.1, 0.55, 0.9) infinite
+      alternate;
+  }
+}
+
+.cyber-panel[data-fx~="surface"] .cyber-fx .cyber-tint {
+  inset: -48%;
+  opacity: 0.05;
+  filter: blur(14px);
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(
+      ellipse 42% 52% at 23% 27%,
+      rgba(37, 244, 255, 1) 0%,
+      rgba(37, 244, 255, 0.6) 31%,
+      transparent 76%
+    ),
+    radial-gradient(
+      ellipse 49% 42% at 78% 72%,
+      rgba(188, 92, 255, 1) 0%,
+      rgba(188, 92, 255, 0.7) 28%,
+      transparent 78%
+    ),
+    radial-gradient(
+      ellipse 38% 47% at 53% 49%,
+      rgba(117, 138, 255, 0.85) 0%,
+      transparent 82%
+    );
+  transform-origin: center;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cyber-panel[data-fx~="surface"] .cyber-fx .cyber-tint {
+    animation: edemAmbientDriftA 37s cubic-bezier(0.45, 0.1, 0.55, 0.9) infinite
+      alternate;
+  }
+}
+
+.cyber-panel .cyber-fx .cyber-tint::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    ellipse 32% 46% at 37% 64%,
+    #25f4ff 0%,
+    transparent 85%
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cyber-panel .cyber-fx .cyber-tint::before {
+    animation: edemAmbientDriftB 43s ease-in-out infinite alternate;
+  }
+}
+
+.cyber-panel .cyber-fx .cyber-tint::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    ellipse 45% 31% at 65% 28%,
+    #bc5cff 0%,
+    transparent 83%
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cyber-panel .cyber-fx .cyber-tint::after {
+    animation: edemAmbientDriftC 53s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes edemAmbientDriftA {
+  0% {
+    transform: translate3d(-7%, 3%, 0) rotate(-7deg) scale(1.01);
+  }
+
+  17% {
+    transform: translate3d(3%, -6%, 0) rotate(3deg) scale(1.12);
+  }
+
+  39% {
+    transform: translate3d(9%, 5%, 0) rotate(-2deg) scale(1.06);
+  }
+
+  62% {
+    transform: translate3d(-5%, 8%, 0) rotate(6deg) scale(1.14);
+  }
+
+  83% {
+    transform: translate3d(-10%, -3%, 0) rotate(-4deg) scale(1.04);
+  }
+
+  100% {
+    transform: translate3d(6%, -9%, 0) rotate(8deg) scale(1.11);
+  }
+}
+
+@keyframes edemAmbientDriftB {
+  0% {
+    transform: translate3d(11%, -8%, 0) scale(0.95);
+  }
+
+  24% {
+    transform: translate3d(-9%, 0%, 0) scale(1.14);
+  }
+
+  52% {
+    transform: translate3d(4%, 10%, 0) scale(0.99);
+  }
+
+  77% {
+    transform: translate3d(-4%, -7%, 0) scale(1.18);
+  }
+
+  100% {
+    transform: translate3d(12%, 4%, 0) scale(1.02);
+  }
+}
+
+@keyframes edemAmbientDriftC {
+  0% {
+    transform: translate3d(-10%, 6%, 0) rotate(-3deg) scale(1.06);
+  }
+
+  33% {
+    transform: translate3d(7%, -9%, 0) rotate(8deg) scale(0.93);
+  }
+
+  59% {
+    transform: translate3d(13%, 7%, 0) rotate(-6deg) scale(1.13);
+  }
+
+  85% {
+    transform: translate3d(-7%, -4%, 0) rotate(2deg) scale(1.03);
+  }
+
+  100% {
+    transform: translate3d(5%, 11%, 0) rotate(-4deg) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cyber-panel:nth-of-type(2) .cyber-tint {
+    animation-delay: -11s;
+  }
+
+  .cyber-panel:nth-of-type(3) .cyber-tint {
+    animation-delay: -23s;
+  }
+
+  .swatch.cyber-panel .cyber-tint {
+    animation-delay: -17s;
+  }
+
+  .swatch.cyber-panel:last-of-type .cyber-tint {
+    animation-delay: -29s;
+  }
+
+  .cyber-panel:nth-of-type(2) .cyber-tint::before {
+    animation-delay: -15s;
+  }
+
+  .cyber-panel:nth-of-type(3) .cyber-tint::after {
+    animation-delay: -21s;
+  }
+}
+
+.cyber-panel > h3,
+.cyber-panel > p,
+.cyber-panel > strong,
+.cyber-panel > .palette {
+  position: relative;
+  z-index: 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-panel .cyber-fx .cyber-tint,
+  .cyber-panel .cyber-fx .cyber-tint::before,
+  .cyber-panel .cyber-fx .cyber-tint::after {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}
+
+.cyber-panel .fx-fade {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.8s cubic-bezier(0.24, 0.65, 0.2, 1);
+  will-change: opacity;
+}
+
+.cyber-panel .fx-accent-fade {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.8s cubic-bezier(0.24, 0.65, 0.2, 1);
+  will-change: opacity;
+  z-index: 0;
+}
+
+.cyber-panel:is(:hover, :focus-within) .fx-fade,
+.cyber-panel:is(:hover, :focus-within) .fx-accent-fade {
+  opacity: 1;
+}
+
+.cyber-panel .fx-fade > span {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+.cyber-panel .fx-fade > .cyber-shine {
+  opacity: 1;
+}
+
+.cyber-panel .fx-fade > .cyber-corners {
+  opacity: 0.85;
+  transition: none;
+}
+
+.cyber-panel .fx-fade > .cyber-scan {
+  opacity: 1;
+}
+
+.cyber-panel .fx-accent-fade .cyber-accent-layer {
+  opacity: 1;
+  transition: none;
+}
+
+.cyber-panel .cyber-fx .fx-fade--scan .cyber-scan {
+  inset: auto 0 auto 0;
+  top: 0;
+  width: 100%;
+  height: 2px;
+}
+
+.cyber-panel .cyber-fx .fx-fade--shine .cyber-shine {
+  inset: -65% -70%;
+}
+
+@media (hover: none) {
+  .cyber-panel .fx-fade--shine,
+  .cyber-panel .fx-fade--scan {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-panel .fx-fade,
+  .cyber-panel .fx-accent-fade {
+    transition: none;
+  }
+
+  .cyber-panel .fx-fade--scan,
+  .cyber-panel .fx-fade--shine {
+    opacity: 0;
+  }
+}
+
+.ink-backplate {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+}
+
+.ink-backplate::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inset: -10px -15px -10px -10px;
+  background: rgba(0, 0, 0, 0.64);
+  clip-path: polygon(
+    0 15px,
+    15px 0,
+    calc(100% - 21px) 0,
+    100% 21px,
+    100% calc(100% - 13px),
+    calc(100% - 13px) 100%,
+    0 100%
+  );
+}
+
+.ink-backplate .backplate-content {
+  position: relative;
+  z-index: 1;
+}
+
+.lead.ink-backplate {
+  padding: 13px 17px 13px 26px;
+  margin-left: 0;
+  margin-bottom: 25px;
+}
+
+.lead.ink-backplate::before {
+  inset: 0;
+}
+
+.lead.ink-backplate > svg.rail-sketch {
+  left: 3px;
+  z-index: 2;
+}
+
+.meta.ink-backplate {
+  padding: 13px 20px;
+  max-width: 650px;
+}
+
+.meta.ink-backplate::before {
+  inset: 0;
+}
+
+.notes .rule-list.ink-backplate {
+  padding: 17px 24px 17px 31px;
+  max-width: 590px;
+}
+
+.notes .rule-list.ink-backplate::before {
+  inset: 0;
+}
+
+@media (max-width: 540px) {
+  .lead.ink-backplate {
+    padding: 15px 16px 15px 25px;
+  }
+
+  .meta.ink-backplate {
+    padding: 13px 17px;
+  }
+
+  .notes .rule-list.ink-backplate {
+    padding: 16px 16px 16px 26px;
+  }
+}
+
+.lead.ink-backplate--rail-origin {
+  position: relative;
+  padding: 17px 26px 18px 35px;
+  margin-left: 0;
+  min-height: 94px;
+}
+
+.lead.ink-backplate--rail-origin::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.67);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 24px) 0,
+    100% 24px,
+    100% calc(100% - 17px),
+    calc(100% - 17px) 100%,
+    0 100%
+  );
+  pointer-events: none;
+}
+
+.lead.ink-backplate--rail-origin > svg.rail-sketch {
+  left: 3px;
+  z-index: 3;
+}
+
+.lead.ink-backplate--rail-origin .backplate-content {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 540px) {
+  .lead.ink-backplate--rail-origin {
+    padding: 16px 23px 18px 31px;
+    min-height: 0;
+  }
+}

@@ -1,0 +1,3 @@
+lxml==6.1.1
+playwright==1.62.0
+tinycss2==1.5.1
