@@ -1,5 +1,5 @@
 .page {
-  min-block-size: 100dvh;
+  flex: 1 0 auto;
 }
 
 .section {

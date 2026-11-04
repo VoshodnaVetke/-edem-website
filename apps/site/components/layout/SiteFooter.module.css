@@ -1,0 +1,46 @@
+.footer {
+  padding-block: var(--edem-site-section-space) 1.5rem;
+  background: var(--edem-color-background);
+  color: var(--edem-color-text-primary);
+}
+
+.intro,
+.navigation {
+  display: grid;
+  align-content: start;
+  gap: var(--edem-card-gap);
+  min-inline-size: 0;
+}
+
+.intro > :where(h2, p),
+.navigation > p {
+  margin: 0;
+}
+
+.links {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--edem-color-text-primary);
+  text-decoration: none;
+}
+
+.links a:hover {
+  color: var(--edem-color-accent-primary);
+}
+
+.divider {
+  margin-block: var(--edem-site-section-space) 1rem;
+}
+
+.signature {
+  margin: 0;
+}

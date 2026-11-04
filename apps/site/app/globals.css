@@ -14,6 +14,9 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
   margin: 0;
   background: var(--edem-color-background);
   color: var(--edem-color-text-primary);

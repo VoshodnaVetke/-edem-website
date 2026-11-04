@@ -59,3 +59,115 @@ test("skip link reaches the main landmark using only the keyboard", async ({
   await page.keyboard.press("Enter");
   await expect(page.locator("#main-content")).toBeFocused();
 });
+
+test("the approved Navigation C switches between desktop and mobile patterns", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+
+  await expect(page.locator("header.edem-navigation")).toHaveCount(1);
+  await expect(page.locator("footer")).toHaveCount(1);
+  await expect(
+    page.getByRole("navigation", { name: "Основная навигация" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("navigation", { name: "Быстрая навигация" }),
+  ).toBeHidden();
+  await expect(
+    page.getByRole("navigation", { name: "Навигация в подвале" }),
+  ).toBeVisible();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(
+    page.getByRole("navigation", { name: "Основная навигация" }),
+  ).toBeHidden();
+  await expect(
+    page.getByRole("navigation", { name: "Быстрая навигация" }),
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: "Меню" }).click();
+  const dialog = page.getByRole("dialog", { name: "Меню" });
+  await expect(dialog).toBeVisible();
+  await expect(
+    dialog.getByRole("link", { name: "Оболочка сайта" }),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole("button", { name: "Меню" })).toBeFocused();
+});
+
+test("navigation search only returns implemented pages", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Поиск" }).click();
+  const dialog = page.getByRole("dialog", { name: "Поиск" });
+  await expect(dialog).toBeVisible();
+  await dialog
+    .getByRole("searchbox", { name: "Поисковый запрос" })
+    .fill("оболочка");
+  await expect(
+    dialog.getByRole("link", { name: "Оболочка сайта" }),
+  ).toBeVisible();
+  await expect(dialog.getByRole("link", { name: "Главная" })).toHaveCount(0);
+});
+
+test("demonstration shows real 960px and 390px shell previews", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/demo/shell");
+
+  const desktop = page.locator('iframe[title*="десктопе"]');
+  const mobile = page.locator('iframe[title*="мобильной навигации"]');
+  await expect(desktop).toHaveCount(1);
+  await expect(mobile).toHaveCount(1);
+
+  await desktop.scrollIntoViewIfNeeded();
+  await expect(
+    page.frameLocator('iframe[title*="десктопе"]').getByRole("heading", {
+      name: "Структура страницы",
+    }),
+  ).toBeVisible();
+
+  await mobile.scrollIntoViewIfNeeded();
+  await expect(
+    page
+      .frameLocator('iframe[title*="мобильной навигации"]')
+      .getByRole("navigation", { name: "Быстрая навигация" }),
+  ).toBeVisible();
+
+  const widths = await page
+    .locator("iframe")
+    .evaluateAll((elements) =>
+      elements.map(
+        (element) => (element as HTMLIFrameElement).contentWindow?.innerWidth,
+      ),
+    );
+  expect(widths).toEqual([960, 390]);
+  await page.screenshot({
+    path: "test-results/site-shell-overview.png",
+    fullPage: true,
+  });
+});
+
+test("shell preview can be examined at full desktop and mobile widths", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/demo/shell/preview");
+  await expect(page.locator("header.edem-navigation")).toBeVisible();
+  await expect(page.locator("footer")).toBeVisible();
+  await page.screenshot({
+    path: "test-results/site-shell-desktop.png",
+    fullPage: true,
+  });
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(
+    page.getByRole("navigation", { name: "Быстрая навигация" }),
+  ).toBeVisible();
+  await page.screenshot({
+    path: "test-results/site-shell-mobile.png",
+    fullPage: true,
+  });
+});
