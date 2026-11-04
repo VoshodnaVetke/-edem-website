@@ -10,7 +10,3 @@
 .content > :where(p, h1) {
   margin: 0;
 }
-
-.panel {
-  margin-block-start: var(--edem-card-gap);
-}

@@ -26,7 +26,6 @@ export function FoundationScreen() {
               разрабатываться отдельно от библиотеки компонентов.
             </Text>
             <TerminalPanel
-              className={styles.panel}
               code="SYSTEM / SITE"
               status="READY"
               footer="UI LIBRARY CONNECTED"

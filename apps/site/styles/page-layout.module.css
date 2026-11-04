@@ -1,5 +1,4 @@
 .page {
-  min-block-size: 100vh;
   min-block-size: 100dvh;
 }
 
@@ -10,7 +9,7 @@
 
 .stack {
   display: grid;
-  gap: var(--edem-site-flow-space);
+  gap: var(--edem-card-gap);
   min-inline-size: 0;
 }
 
