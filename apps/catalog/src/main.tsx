@@ -75,9 +75,7 @@ function App() {
                 className="catalog-sample"
                 data-sample={sample.id}
               >
-                <div className="catalog-sample__meta">
-                  {sample.group} · APPROVED
-                </div>
+                <div className="catalog-sample__meta">{sample.group} · APPROVED</div>
                 <Heading level={2}>{sample.title}</Heading>
                 <div className="catalog-preview">{sample.render()}</div>
                 <details>
@@ -92,9 +90,7 @@ function App() {
           </Gallery>
         </main>
         <footer>
-          <Text variant="system">
-            37 образцов / 37 approved
-          </Text>
+          <Text variant="system">37 образцов / 37 approved</Text>
         </footer>
       </Layout>
     </>
