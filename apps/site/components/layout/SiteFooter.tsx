@@ -12,9 +12,7 @@ export function SiteFooter() {
           <div className={`edem-span--intro ${styles.intro}`}>
             <Text variant="system">ЭДЕМ / МАСТЕРСКАЯ ГРУППА</Text>
             <Heading level={2}>Эдем</Heading>
-            <Text>
-              Авторская вселенная кабинетных и текстовых ролевых игр.
-            </Text>
+            <Text>Авторская вселенная кабинетных и текстовых ролевых игр.</Text>
           </div>
           <nav
             className={`edem-span--aside ${styles.navigation}`}

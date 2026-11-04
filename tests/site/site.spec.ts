@@ -102,7 +102,9 @@ test("navigation search only returns implemented pages", async ({ page }) => {
   await page.getByRole("button", { name: "Поиск" }).click();
   const dialog = page.getByRole("dialog", { name: "Поиск" });
   await expect(dialog).toBeVisible();
-  await dialog.getByRole("searchbox", { name: "Поисковый запрос" }).fill("оболочка");
+  await dialog
+    .getByRole("searchbox", { name: "Поисковый запрос" })
+    .fill("оболочка");
   await expect(
     dialog.getByRole("link", { name: "Оболочка сайта" }),
   ).toBeVisible();
@@ -129,17 +131,23 @@ test("demonstration shows real 960px and 390px shell previews", async ({
 
   await mobile.scrollIntoViewIfNeeded();
   await expect(
-    page.frameLocator('iframe[title*="мобильной навигации"]').getByRole(
-      "navigation",
-      { name: "Быстрая навигация" },
-    ),
+    page
+      .frameLocator('iframe[title*="мобильной навигации"]')
+      .getByRole("navigation", { name: "Быстрая навигация" }),
   ).toBeVisible();
 
-  const widths = await page.locator("iframe").evaluateAll((elements) =>
-    elements.map((element) => (element as HTMLIFrameElement).contentWindow?.innerWidth),
-  );
+  const widths = await page
+    .locator("iframe")
+    .evaluateAll((elements) =>
+      elements.map(
+        (element) => (element as HTMLIFrameElement).contentWindow?.innerWidth,
+      ),
+    );
   expect(widths).toEqual([960, 390]);
-  await page.screenshot({ path: "test-results/site-shell-overview.png", fullPage: true });
+  await page.screenshot({
+    path: "test-results/site-shell-overview.png",
+    fullPage: true,
+  });
 });
 
 test("shell preview can be examined at full desktop and mobile widths", async ({

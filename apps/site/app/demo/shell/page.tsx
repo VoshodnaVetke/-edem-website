@@ -31,7 +31,10 @@ export default function ShellDemoPage() {
             </div>
           </div>
           <div className={styles.examples}>
-            <section className={styles.desktopExample} aria-labelledby="desktop-title">
+            <section
+              className={styles.desktopExample}
+              aria-labelledby="desktop-title"
+            >
               <Heading level={2} id="desktop-title">
                 Десктоп · 960 px
               </Heading>
@@ -44,7 +47,10 @@ export default function ShellDemoPage() {
                 />
               </div>
             </section>
-            <section className={styles.mobileExample} aria-labelledby="mobile-title">
+            <section
+              className={styles.mobileExample}
+              aria-labelledby="mobile-title"
+            >
               <Heading level={2} id="mobile-title">
                 Телефон · 390 px
               </Heading>
