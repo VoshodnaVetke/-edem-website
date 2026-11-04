@@ -92,10 +92,9 @@ test("Navigation C remains functional on desktop and mobile", async ({
 test("only implemented pages appear in site navigation", async ({ page }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("navigation", { name: "Навигация в подвале" }).getByRole(
-      "link",
-      { name: "Главная" },
-    ),
+    page
+      .getByRole("navigation", { name: "Навигация в подвале" })
+      .getByRole("link", { name: "Главная" }),
   ).toHaveAttribute("href", "/");
   await expect(page.getByRole("button", { name: "Поиск" })).toHaveCount(0);
   await expect(page.locator('a[href^="/demo/"]')).toHaveCount(0);
