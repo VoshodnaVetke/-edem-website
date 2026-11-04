@@ -2,28 +2,20 @@
 
 import { Navigation } from "@edem/ui";
 import { usePathname } from "next/navigation";
-import {
-  mobileNavigation,
-  primaryNavigation,
-  searchAvailablePages,
-} from "../../config/navigation";
+import { siteNavigation } from "../../config/navigation";
 
-/** The approved Navigation C supplies the header, desktop menu and mobile menu. */
+/** Reuse the approved desktop/mobile Navigation C without site-specific clones. */
 export function SiteHeader() {
   const pathname = usePathname();
-  const currentHref = pathname.startsWith("/demo/shell")
-    ? "/demo/shell"
-    : pathname;
 
   return (
     <Navigation
       className="edem-layout"
       brand="ЭДЕМ"
       brandHref="/"
-      items={primaryNavigation}
-      bottomItems={mobileNavigation}
-      currentHref={currentHref}
-      onSearch={searchAvailablePages}
+      items={siteNavigation}
+      bottomItems={siteNavigation}
+      currentHref={pathname}
     />
   );
 }
