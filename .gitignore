@@ -19,3 +19,4 @@ __pycache__/
 playwright-report/
 test-results/
 *.tgz
+*.tsbuildinfo

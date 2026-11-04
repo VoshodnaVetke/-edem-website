@@ -12,11 +12,12 @@
     "dev": "npm run dev -w @edem/catalog",
     "test:browser": "playwright test",
     "format:check": "prettier --check packages apps tests scripts *.json *.ts .github/workflows",
-    "check": "npm run typecheck && npm test && npm run build && npm run test:browser",
+    "check": "npm run typecheck && npm test && npm run build && npm run test:browser && npm run test:site",
     "check:css": "node scripts/check-css.mjs",
     "dev:site": "npm run build -w @edem/ui && npm run dev -w @edem/site",
     "build:site": "npm run build -w @edem/ui && npm run build -w @edem/site",
-    "start:site": "npm run start -w @edem/site"
+    "start:site": "npm run start -w @edem/site",
+    "test:site": "playwright test -c playwright.site.config.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
