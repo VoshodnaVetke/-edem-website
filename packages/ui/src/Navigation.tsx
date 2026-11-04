@@ -90,7 +90,7 @@ function NavigationDialog({
     </dialog>
   );
 }
-/** Navigation C: the visual pattern is preliminary; all routes and search data are supplied by the host. */
+/** Navigation C: approved visual pattern; all routes and search data are supplied by the host. */
 export function Navigation({
   brand,
   brandHref = "/",

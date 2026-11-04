@@ -23,14 +23,10 @@ function Copy({ value }: { value: string }) {
 }
 function App() {
   const [query, setQuery] = useState("");
-  const [status, setStatus] = useState("all");
-  const visible = samples.filter(
-    (s) =>
-      (status === "all" ||
-        Boolean(s.preliminary) === (status === "preliminary")) &&
-      (s.title + " " + s.group)
-        .toLocaleLowerCase("ru")
-        .includes(query.toLocaleLowerCase("ru")),
+  const visible = samples.filter((sample) =>
+    (sample.title + " " + sample.group)
+      .toLocaleLowerCase("ru")
+      .includes(query.toLocaleLowerCase("ru")),
   );
   return (
     <>
@@ -55,9 +51,8 @@ function App() {
             </code>
           </pre>
           <Text>
-            Все маршруты, содержимое и результаты операций передаются
-            приложением. Навигация и три образца семейства кнопок сохраняют
-            предварительный статус.
+            Все 37 образцов утверждены. Маршруты, содержимое и результаты
+            операций передаются приложением.
           </Text>
         </section>
         <main id="catalog">
@@ -68,21 +63,6 @@ function App() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <div className="demo-actions">
-              {[
-                ["all", "Все"],
-                ["approved", "Утверждённые"],
-                ["preliminary", "Предварительные"],
-              ].map(([value, label]) => (
-                <Button
-                  key={value}
-                  selected={status === value}
-                  onClick={() => setStatus(value)}
-                >
-                  {label}
-                </Button>
-              ))}
-            </div>
             <p role="status">
               {visible.length} / {samples.length}
             </p>
@@ -96,8 +76,7 @@ function App() {
                 data-sample={sample.id}
               >
                 <div className="catalog-sample__meta">
-                  {sample.group} ·{" "}
-                  {sample.preliminary ? "PRELIMINARY" : "APPROVED"}
+                  {sample.group} · APPROVED
                 </div>
                 <Heading level={2}>{sample.title}</Heading>
                 <div className="catalog-preview">{sample.render()}</div>
@@ -114,7 +93,7 @@ function App() {
         </main>
         <footer>
           <Text variant="system">
-            37 образцов / 33 approved / 4 preliminary
+            37 образцов / 37 approved
           </Text>
         </footer>
       </Layout>

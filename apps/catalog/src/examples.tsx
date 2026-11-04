@@ -26,7 +26,6 @@ export type Sample = {
   id: string;
   title: string;
   group: string;
-  preliminary?: boolean;
   example: string;
   render: () => ReactNode;
 };
@@ -360,7 +359,6 @@ export const samples: Sample[] = [
     id: "family",
     title: "Семейство кнопок",
     group: "Кнопки",
-    preliminary: true,
     example:
       '<Button variant="text">Текст</Button><Button variant="icon" aria-label="Поиск">⌕</Button>',
     render: () => (
@@ -377,7 +375,6 @@ export const samples: Sample[] = [
     id: "sizes",
     title: "Размеры кнопок",
     group: "Кнопки",
-    preliminary: true,
     example:
       '<Button size="sm">S</Button><Button size="md">M</Button><Button size="lg">L</Button>',
     render: () => (
@@ -392,7 +389,6 @@ export const samples: Sample[] = [
     id: "async-buttons",
     title: "Асинхронные состояния кнопок",
     group: "Кнопки",
-    preliminary: true,
     example: '<Button state="loading">Загрузка…</Button>',
     render: () => <ButtonStates />,
   },
@@ -502,7 +498,6 @@ export const samples: Sample[] = [
     id: "navigation",
     title: "Гибридная навигация C",
     group: "Навигация",
-    preliminary: true,
     example:
       '<Navigation brand="ЭДЕМ" items={items} bottomItems={bottomItems} onSearch={search} />',
     render: () => <NavigationExample />,

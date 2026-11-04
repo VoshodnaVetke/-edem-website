@@ -9,17 +9,12 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
 });
-test("contains 37 samples, 33 approved and 4 preliminary; filters and search work", async ({
-  page,
-}) => {
+test("contains 37 approved samples; search works", async ({ page }) => {
   await expect(page.locator("[data-sample]")).toHaveCount(37);
-  await page
-    .getByRole("button", { name: "Предварительные", exact: true })
-    .click();
-  await expect(page.locator("[data-sample]")).toHaveCount(4);
-  await page.getByRole("button", { name: "Утверждённые", exact: true }).click();
-  await expect(page.locator("[data-sample]")).toHaveCount(33);
-  await page.getByRole("button", { name: "Все", exact: true }).click();
+  await expect(page.locator(".catalog-sample__meta")).toHaveCount(37);
+  await expect(page.locator(".catalog-sample__meta")).toHaveText(
+    Array.from({ length: 37 }, () => /APPROVED/),
+  );
   await page
     .getByRole("searchbox", { name: "Найти компонент" })
     .fill("Карточка-ссылка");
