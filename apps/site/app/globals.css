@@ -1,0 +1,11 @@
+html {
+  min-width: 320px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--edem-color-background);
+  color: var(--edem-color-text-primary);
+  font-family: var(--font-body);
+}
