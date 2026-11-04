@@ -1,0 +1,19 @@
+.page {
+  min-block-size: 100vh;
+  min-block-size: 100dvh;
+}
+
+.section {
+  inline-size: 100%;
+  padding-block: var(--edem-site-section-space);
+}
+
+.stack {
+  display: grid;
+  gap: var(--edem-site-flow-space);
+  min-inline-size: 0;
+}
+
+.stack > * {
+  min-inline-size: 0;
+}
