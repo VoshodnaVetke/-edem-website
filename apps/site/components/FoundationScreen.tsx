@@ -11,7 +11,10 @@ export function FoundationScreen() {
       tabIndex={-1}
       className={`${pageLayout.page} ${styles.foundation}`}
     >
-      <section aria-labelledby="foundation-title" className={pageLayout.section}>
+      <section
+        aria-labelledby="foundation-title"
+        className={pageLayout.section}
+      >
         <Layout>
           <div className={`${pageLayout.stack} ${styles.content}`}>
             <Text variant="system">ЭДЕМ / SITE FOUNDATION</Text>
