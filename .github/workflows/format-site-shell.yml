@@ -1,0 +1,25 @@
+name: Format site shell (temporary)
+on:
+  push:
+    branches: [feat/site-shell-navigation-demo]
+permissions:
+  contents: write
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npx prettier --write apps/site/app/demo/shell/page.tsx apps/site/components/layout/SiteFooter.tsx tests/site/site.spec.ts
+      - name: Commit formatted sources
+        run: |
+          if git diff --quiet -- apps/site/app/demo/shell/page.tsx apps/site/components/layout/SiteFooter.tsx tests/site/site.spec.ts; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/site/app/demo/shell/page.tsx apps/site/components/layout/SiteFooter.tsx tests/site/site.spec.ts
+          git commit -m "style(site): format shell demo and tests"
+          git push origin HEAD:feat/site-shell-navigation-demo
