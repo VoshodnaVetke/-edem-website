@@ -10,7 +10,7 @@
 
 .stack {
   display: grid;
-  gap: var(--edem-site-flow-space);
+  gap: var(--edem-card-gap);
   min-inline-size: 0;
 }
 
