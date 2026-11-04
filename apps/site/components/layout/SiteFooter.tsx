@@ -1,7 +1,7 @@
 "use client";
 
 import { Grid, Heading, Layout, SignalDivider, Text } from "@edem/ui";
-import { sitePages } from "../../config/navigation";
+import { siteNavigation } from "../../config/navigation";
 import styles from "./SiteFooter.module.css";
 
 export function SiteFooter() {
@@ -20,7 +20,7 @@ export function SiteFooter() {
           >
             <Text variant="system">Разделы сайта</Text>
             <ul className={styles.links}>
-              {sitePages.map((page) => (
+              {siteNavigation.map((page) => (
                 <li key={page.href}>
                   <a href={page.href}>{page.label}</a>
                 </li>

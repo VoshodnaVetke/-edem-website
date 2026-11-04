@@ -1,7 +1,0 @@
-.content {
-  max-inline-size: 44rem;
-}
-
-.content > :where(h1, p) {
-  margin: 0;
-}
