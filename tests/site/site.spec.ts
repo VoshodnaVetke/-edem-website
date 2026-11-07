@@ -187,3 +187,125 @@ test("approved footer keeps its content and responsive UI grid", async ({
     bottomBox!.y + 2,
   );
 });
+
+test("step 5 Figma route shells render actual public pages", async ({
+  page,
+}) => {
+  const routes = [
+    ["/", "Мастерская группа Эдема"],
+    ["/events", "Афиша игр"],
+    ["/games", "Наши игры"],
+    ["/world", "Вселенная «Эдем»"],
+    ["/wiki", "Энциклопедия"],
+    ["/order", "Заказать игру"],
+    ["/collaboration", "Сотрудничество"],
+    ["/about", "О мастерской группе"],
+  ] as const;
+
+  for (const [path, title] of routes) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(200);
+    await expect(page.locator("main#main-content")).toHaveCount(1);
+    await expect(
+      page.getByRole("main").getByRole("heading", { level: 1, name: title }),
+    ).toBeVisible();
+    await expect(page.getByRole("contentinfo")).toBeVisible();
+    await expect(page.locator("header.edem-navigation")).toHaveCount(1);
+  }
+
+  await page.goto("/order");
+  await expect(page.locator("form")).toHaveCount(0);
+  await page.goto("/collaboration");
+  await expect(page.locator("form")).toHaveCount(0);
+});
+
+test("desktop and mobile navigation use working route destinations", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+
+  const desktop = page.getByRole("navigation", { name: "Основная навигация" });
+  await expect(desktop.getByRole("link")).toHaveCount(4);
+  for (const [name, href] of [
+    ["Афиша", "/events"],
+    ["Наши игры", "/games"],
+    ["Вселенная", "/world"],
+    ["О мастерской группе", "/about"],
+  ]) {
+    await expect(desktop.getByRole("link", { name })).toHaveAttribute(
+      "href",
+      href,
+    );
+  }
+
+  await page.getByRole("button", { name: "Меню" }).click();
+  const menu = page.getByRole("dialog", { name: "Меню" });
+  await expect(menu.getByRole("link", { name: "Заказать игру" })).toHaveAttribute(
+    "href",
+    "/order",
+  );
+  await expect(
+    menu.getByRole("link", { name: "Сотрудничество" }),
+  ).toHaveAttribute("href", "/collaboration");
+  await page.keyboard.press("Escape");
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const bottom = page.getByRole("navigation", { name: "Быстрая навигация" });
+  await expect(bottom.getByRole("link")).toHaveCount(3);
+  await expect(bottom.locator("svg")).toHaveCount(3);
+  for (const [name, href] of [
+    ["Афиша", "/events"],
+    ["Мир", "/world"],
+    ["Энциклопедия", "/wiki"],
+  ]) {
+    await bottom.getByRole("link", { name }).click();
+    expect(new URL(page.url()).pathname).toBe(href);
+    await expect(bottom.getByRole("link", { name })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+  }
+});
+
+test("step 5 routes remain responsive without horizontal overflow", async ({
+  page,
+}) => {
+  for (const width of [320, 390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of [
+      "/",
+      "/events",
+      "/games",
+      "/world",
+      "/wiki",
+      "/order",
+      "/collaboration",
+      "/about",
+    ]) {
+      await page.goto(path);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= window.innerWidth,
+        ),
+        `${path} at ${width}px`,
+      ).toBe(true);
+    }
+  }
+});
+
+test("unimplemented private routes and details return 404", async ({
+  page,
+}) => {
+  for (const path of [
+    "/account",
+    "/team",
+    "/contacts",
+    "/games/unpublished",
+    "/events/unpublished",
+    "/wiki/unpublished",
+  ]) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(404);
+  }
+});

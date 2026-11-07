@@ -16,3 +16,31 @@
 .stack > * {
   min-inline-size: 0;
 }
+
+.stack > h1,
+.stack > p {
+  margin: 0;
+}
+
+.content {
+  margin-block-start: clamp(2rem, 5vw, 4rem);
+}
+
+.sectionHeading {
+  margin-block: 0 1.5rem;
+}
+
+.cardBody {
+  display: grid;
+  align-content: start;
+  gap: var(--edem-card-gap);
+}
+
+.cardBody > h3,
+.cardBody > p {
+  margin: 0;
+}
+
+.note {
+  margin-block: 1rem;
+}

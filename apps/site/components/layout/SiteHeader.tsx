@@ -2,9 +2,13 @@
 
 import { Navigation } from "@edem/ui";
 import { usePathname } from "next/navigation";
-import { siteNavigation } from "../../config/navigation";
+import {
+  desktopSiteNavigation,
+  mobileSiteNavigation,
+  siteNavigation,
+} from "../../config/navigation";
 
-/** Reuse the approved desktop/mobile Navigation C without site-specific clones. */
+/** Single approved Navigation C for desktop, dialogs and fixed mobile tabs. */
 export function SiteHeader() {
   const pathname = usePathname();
 
@@ -14,7 +18,8 @@ export function SiteHeader() {
       brand="ЭДЕМ"
       brandHref="/"
       items={siteNavigation}
-      bottomItems={siteNavigation}
+      desktopItems={desktopSiteNavigation}
+      bottomItems={mobileSiteNavigation}
       currentHref={pathname}
     />
   );

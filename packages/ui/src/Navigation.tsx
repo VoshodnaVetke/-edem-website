@@ -14,6 +14,8 @@ import { cx } from "./utils";
 export interface NavigationItem {
   label: string;
   href: string;
+  /** Optional icon for the fixed mobile destinations. */
+  icon?: "calendar" | "globe" | "book";
 }
 export interface SearchResult extends NavigationItem {
   description?: string;
@@ -23,6 +25,7 @@ export interface NavigationProps
   brand: ReactNode;
   brandHref?: string;
   items: readonly NavigationItem[];
+  desktopItems?: readonly NavigationItem[];
   bottomItems?: readonly NavigationItem[];
   currentHref?: string;
   account?: NavigationItem;
@@ -90,11 +93,51 @@ function NavigationDialog({
     </dialog>
   );
 }
+function BottomIcon({ icon }: { icon: NonNullable<NavigationItem["icon"]> }) {
+  const common = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      viewBox="0 0 24 24"
+      className="edem-navigation__bottom-icon"
+      {...common}
+    >
+      {icon === "calendar" && (
+        <>
+          <rect x="3" y="5" width="18" height="16" rx="1.5" />
+          <path d="M7 3v4M17 3v4M3 10h18M8 14h3M8 17h7" />
+        </>
+      )}
+      {icon === "globe" && (
+        <>
+          <circle cx="12" cy="12" r="9.5" />
+          <path d="M2.5 12h19M12 2.5c-4 4-4 15 0 19M12 2.5c4 4 4 15 0 19" />
+        </>
+      )}
+      {icon === "book" && (
+        <>
+          <path d="M12 6c-2.8-1.6-5.9-1.8-9-1v13c3.2-.8 6.4-.6 9 1 2.6-1.6 5.8-1.8 9-1V5c-3.1-.8-6.2-.6-9 1Z" />
+          <path d="M12 6v13" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 /** Navigation C: approved visual pattern; all routes and search data are supplied by the host. */
 export function Navigation({
   brand,
   brandHref = "/",
   items,
+  desktopItems,
   bottomItems = [],
   currentHref,
   account,
@@ -146,17 +189,23 @@ export function Navigation({
     };
   }, [query, open, onSearch]);
   const close = () => setOpen(null);
-  const links = (entries: readonly NavigationItem[]) =>
-    entries.map((item) => (
-      <a
-        key={item.href}
-        href={item.href}
-        aria-current={item.href === currentHref ? "page" : undefined}
-        onClick={close}
-      >
-        {item.label}
-      </a>
-    ));
+  const links = (entries: readonly NavigationItem[], mobile = false) =>
+    entries.map((item) => {
+      const active =
+        item.href === currentHref ||
+        (item.href !== "/" && currentHref?.startsWith(`${item.href}/`));
+      return (
+        <a
+          key={item.href}
+          href={item.href}
+          aria-current={active ? "page" : undefined}
+          onClick={close}
+        >
+          {mobile && item.icon && <BottomIcon icon={item.icon} />}
+          <span>{item.label}</span>
+        </a>
+      );
+    });
   return (
     <header {...props} className={cx("edem-navigation", className)}>
       <div className="edem-navigation__bar">
@@ -167,7 +216,7 @@ export function Navigation({
           className="edem-navigation__desktop"
           aria-label="Основная навигация"
         >
-          {links(items)}
+          {links(desktopItems ?? items)}
         </nav>
         <div className="edem-navigation__actions">
           <Button
@@ -200,7 +249,7 @@ export function Navigation({
       </div>
       {bottomItems.length > 0 && (
         <nav className="edem-navigation__bottom" aria-label="Быстрая навигация">
-          {links(bottomItems)}
+          {links(bottomItems, true)}
         </nav>
       )}
       <NavigationDialog
