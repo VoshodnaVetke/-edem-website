@@ -28,9 +28,7 @@ export default function CollaborationPage() {
           </div>
         </Card>
       </Grid>
-      <Text className={styles.note}>
-        Форма предложения пока не подключена.
-      </Text>
+      <Text className={styles.note}>Форма предложения пока не подключена.</Text>
     </PageShell>
   );
 }

@@ -241,10 +241,9 @@ test("desktop and mobile navigation use working route destinations", async ({
 
   await page.getByRole("button", { name: "Меню" }).click();
   const menu = page.getByRole("dialog", { name: "Меню" });
-  await expect(menu.getByRole("link", { name: "Заказать игру" })).toHaveAttribute(
-    "href",
-    "/order",
-  );
+  await expect(
+    menu.getByRole("link", { name: "Заказать игру" }),
+  ).toHaveAttribute("href", "/order");
   await expect(
     menu.getByRole("link", { name: "Сотрудничество" }),
   ).toHaveAttribute("href", "/collaboration");

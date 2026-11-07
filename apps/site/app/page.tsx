@@ -39,7 +39,9 @@ export default function HomePage() {
         <LinkCard href="/order" className="edem-span--half">
           <div className={styles.cardBody}>
             <Heading level={3}>Заказать игру</Heading>
-            <Text>Информация о разработке игры по индивидуальному запросу.</Text>
+            <Text>
+              Информация о разработке игры по индивидуальному запросу.
+            </Text>
             <Text variant="system">ПОДРОБНЕЕ</Text>
           </div>
         </LinkCard>
