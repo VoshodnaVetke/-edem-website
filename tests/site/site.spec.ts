@@ -137,3 +137,60 @@ test("mobile bottom navigation appears immediately and stays pinned", async ({
     expect(contentPadding).toBeGreaterThanOrEqual(before!.height);
   }
 });
+
+test("approved footer keeps its content and responsive UI grid", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+
+  const footer = page.getByRole("contentinfo");
+  await expect(
+    footer.getByRole("heading", { level: 2, name: "Эдем" }),
+  ).toBeVisible();
+  await expect(
+    footer.getByText("ЭДЕМ / МАСТЕРСКАЯ ГРУППА"),
+  ).toBeVisible();
+  await expect(
+    footer.getByText(
+      "Авторская вселенная кабинетных и текстовых ролевых игр.",
+    ),
+  ).toBeVisible();
+  await expect(
+    footer.locator(".edem-vector-divider__label"),
+  ).toHaveText("ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА");
+  await expect(
+    footer.getByRole("navigation", { name: "Навигация в подвале" }).getByRole(
+      "link",
+      { name: "Главная" },
+    ),
+  ).toHaveAttribute("href", "/");
+
+  const intro = footer.locator(".edem-span--intro");
+  const navigation = footer.getByRole("navigation", {
+    name: "Навигация в подвале",
+  });
+  const desktopIntro = await intro.boundingBox();
+  const desktopNav = await navigation.boundingBox();
+  expect(desktopIntro).not.toBeNull();
+  expect(desktopNav).not.toBeNull();
+  expect(desktopNav!.x).toBeGreaterThan(desktopIntro!.x);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileIntro = await intro.boundingBox();
+  const mobileNav = await navigation.boundingBox();
+  expect(mobileIntro).not.toBeNull();
+  expect(mobileNav).not.toBeNull();
+  expect(mobileNav!.y).toBeGreaterThan(mobileIntro!.y);
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  const footerBox = await footer.boundingBox();
+  const bottomBox = await page
+    .getByRole("navigation", { name: "Быстрая навигация" })
+    .boundingBox();
+  expect(footerBox).not.toBeNull();
+  expect(bottomBox).not.toBeNull();
+  expect(footerBox!.y + footerBox!.height).toBeLessThanOrEqual(
+    bottomBox!.y + 2,
+  );
+});
