@@ -126,10 +126,18 @@
     flex: 1 1 0;
     min-inline-size: 0;
     min-block-size: 58px;
+    flex-direction: column;
+    gap: 4px;
     justify-content: center;
     text-align: center;
     font-size: 0.75rem;
     line-height: 1.1;
+  }
+  .edem-navigation__bottom-icon {
+    display: block;
+    inline-size: 21px;
+    block-size: 21px;
+    flex: 0 0 auto;
   }
   .edem-navigation__bottom a[aria-current="page"] {
     background: rgb(37 244 255 / 7%);
