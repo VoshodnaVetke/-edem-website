@@ -145,31 +145,23 @@ test("approved footer keeps its content and responsive UI grid", async ({
   await page.goto("/");
 
   const footer = page.getByRole("contentinfo");
-  await expect(
-    footer.getByRole("heading", { level: 2, name: "Эдем" }),
-  ).toBeVisible();
-  await expect(
-    footer.getByText("ЭДЕМ / МАСТЕРСКАЯ ГРУППА"),
-  ).toBeVisible();
-  await expect(
-    footer.getByText(
-      "Авторская вселенная кабинетных и текстовых ролевых игр.",
-    ),
-  ).toBeVisible();
-  await expect(
-    footer.locator(".edem-vector-divider__label"),
-  ).toHaveText("ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА");
-  await expect(
-    footer.getByRole("navigation", { name: "Навигация в подвале" }).getByRole(
-      "link",
-      { name: "Главная" },
-    ),
-  ).toHaveAttribute("href", "/");
-
-  const intro = footer.locator(".edem-span--intro");
+  const heading = footer.getByRole("heading", { level: 2, name: "Эдем" });
+  const description = footer.getByText(
+    "Авторская вселенная кабинетных и текстовых ролевых игр.",
+  );
+  const divider = footer.locator(".edem-vector-divider__label");
   const navigation = footer.getByRole("navigation", {
     name: "Навигация в подвале",
   });
+  const home = navigation.getByRole("link", { name: "Главная" });
+
+  await expect(heading).toBeVisible();
+  await expect(footer.getByText("ЭДЕМ / МАСТЕРСКАЯ ГРУППА")).toBeVisible();
+  await expect(description).toBeVisible();
+  await expect(divider).toHaveText("ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА");
+  await expect(home).toHaveAttribute("href", "/");
+
+  const intro = footer.locator(".edem-span--intro");
   const desktopIntro = await intro.boundingBox();
   const desktopNav = await navigation.boundingBox();
   expect(desktopIntro).not.toBeNull();
@@ -185,9 +177,10 @@ test("approved footer keeps its content and responsive UI grid", async ({
 
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   const footerBox = await footer.boundingBox();
-  const bottomBox = await page
-    .getByRole("navigation", { name: "Быстрая навигация" })
-    .boundingBox();
+  const bottomBar = page.getByRole("navigation", {
+    name: "Быстрая навигация",
+  });
+  const bottomBox = await bottomBar.boundingBox();
   expect(footerBox).not.toBeNull();
   expect(bottomBox).not.toBeNull();
   expect(footerBox!.y + footerBox!.height).toBeLessThanOrEqual(
