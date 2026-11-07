@@ -63,3 +63,11 @@ body {
 .site-skip-link:focus-visible {
   transform: none;
 }
+
+@media (max-width: 40.625rem) {
+  body:has(.edem-navigation__bottom) {
+    padding-block-end: calc(
+      var(--edem-navigation-bottom-height) + env(safe-area-inset-bottom, 0px)
+    );
+  }
+}

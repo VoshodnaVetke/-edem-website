@@ -104,12 +104,44 @@
     display: none;
   }
   .edem-navigation__bottom {
+    position: fixed;
+    inset-block-end: 0;
+    inset-inline: 0;
+    z-index: 35;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: space-around;
-    padding: 0.5rem;
-    border-bottom: 1px solid rgb(255 255 255 / 20%);
+    flex-wrap: nowrap;
+    gap: 1px;
+    justify-content: center;
+    min-block-size: calc(
+      var(--edem-navigation-bottom-height) + env(safe-area-inset-bottom, 0px)
+    );
+    padding-block: 5px calc(4px + env(safe-area-inset-bottom, 0px));
+    padding-inline: max(7px, calc((100vw - 500px) / 2));
+    border-block-start: 1px solid rgb(191 213 232 / 27%);
+    background: rgb(8 13 22 / 98%);
+    backdrop-filter: blur(15px);
+  }
+  .edem-navigation__bottom a {
+    position: relative;
+    flex: 1 1 0;
+    min-inline-size: 0;
+    min-block-size: 58px;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.1;
+  }
+  .edem-navigation__bottom a[aria-current="page"] {
+    background: rgb(37 244 255 / 7%);
+  }
+  .edem-navigation__bottom a[aria-current="page"]::before {
+    position: absolute;
+    inset-block-start: -6px;
+    inline-size: 32px;
+    block-size: 2px;
+    background: var(--edem-color-accent-primary);
+    box-shadow: 0 0 10px rgb(37 244 255 / 40%);
+    content: "";
   }
   .edem-dialog__body {
     padding: 1rem;

@@ -106,3 +106,34 @@ test("removed demonstration routes return 404", async ({ page }) => {
     expect(response?.status()).toBe(404);
   }
 });
+
+test("mobile bottom navigation appears immediately and stays pinned", async ({
+  page,
+}) => {
+  for (const width of [320, 360, 390, 430]) {
+    await page.setViewportSize({ width, height: 740 });
+    await page.goto("/");
+
+    const bottom = page.getByRole("navigation", {
+      name: "Быстрая навигация",
+    });
+    await expect(bottom).toBeVisible();
+
+    const before = await bottom.boundingBox();
+    expect(before).not.toBeNull();
+    expect(Math.abs(before!.y + before!.height - 740)).toBeLessThan(2);
+    expect(
+      await bottom.evaluate((element) => getComputedStyle(element).position),
+    ).toBe("fixed");
+
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    const after = await bottom.boundingBox();
+    expect(after).not.toBeNull();
+    expect(Math.abs(after!.y + after!.height - 740)).toBeLessThan(2);
+
+    const contentPadding = await page.evaluate(() =>
+      parseFloat(getComputedStyle(document.body).paddingBottom),
+    );
+    expect(contentPadding).toBeGreaterThanOrEqual(before!.height);
+  }
+});
