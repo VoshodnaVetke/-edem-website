@@ -44,6 +44,7 @@
 }
 
 .edem-tree--viewport {
+  --edem-tree-viewport-opacity: 0.085;
   position: fixed;
   inset: 0;
   z-index: -1;
@@ -54,7 +55,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.05;
+  opacity: var(--edem-tree-viewport-opacity);
 }
 .edem-tree--viewport .edem-tree__artwork {
   flex: none;
