@@ -204,6 +204,29 @@ test("Parade keeps its full taxonomy and hides game focus on the detail page", a
   }
 });
 
+test("buttons and tags use one continuous closed outline", async ({ page }) => {
+  for (const route of ["/", "/events", "/games", "/games/parad-tehnologiy"]) {
+    await page.goto(exportedPath(route));
+    const plates = page.locator(
+      ".edem-button > .edem-sketch-plate, .edem-game-tag > .edem-sketch-plate",
+    );
+    expect(await plates.count()).toBeGreaterThan(0);
+    const outlines = await plates.evaluateAll((elements) =>
+      elements.map((plate) =>
+        [...plate.querySelectorAll(".edem-sketch-stroke")].map((path) => ({
+          shape: path.getAttribute("d"),
+          dash: getComputedStyle(path).strokeDasharray,
+        })),
+      ),
+    );
+    for (const outline of outlines) {
+      expect(outline).toEqual([
+        { shape: expect.stringMatching(/^M[^MmZz]+Z$/), dash: "none" },
+      ]);
+    }
+  }
+});
+
 test("game photos can be browsed and downloaded from the viewer", async ({
   page,
 }) => {

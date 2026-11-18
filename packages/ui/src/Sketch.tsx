@@ -244,7 +244,13 @@ export function SketchPlate({
       focusable="false"
     >
       <SketchSurface d={d} width={w} height={h} />
-      {stroke && <SketchPath d={d} seed={210} preset={preset} />}
+      {stroke && (
+        <path
+          className="edem-sketch-stroke"
+          d={d}
+          strokeWidth={presets[preset].strokeWidth}
+        />
+      )}
     </svg>
   );
 }
