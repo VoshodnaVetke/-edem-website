@@ -8,6 +8,11 @@ export function SiteFooter() {
   return (
     <footer className={styles.footer} aria-label="Подвал сайта">
       <Layout>
+        <SignalDivider
+          className={styles.divider}
+          label="ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА"
+          pulse="once"
+        />
         <Grid>
           <div className={`edem-span--intro ${styles.intro}`}>
             <Text variant="system">ЭДЕМ / МАСТЕРСКАЯ ГРУППА</Text>
@@ -28,10 +33,6 @@ export function SiteFooter() {
             </ul>
           </nav>
         </Grid>
-        <SignalDivider
-          className={styles.divider}
-          label="ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА"
-        />
         <Text variant="system" className={styles.signature}>
           Мастерская группа Эдема · Публичный сайт
         </Text>

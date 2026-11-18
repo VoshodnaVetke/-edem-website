@@ -20,7 +20,7 @@ export function useMedia(query: string) {
     () => false,
   );
 }
-export function useReveal(enabled: boolean) {
+export function useReveal(enabled: boolean, rootMargin = "0px 0px 240px 0px") {
   const ref = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
   const [inView, setInView] = useState(false);
@@ -41,7 +41,7 @@ export function useReveal(enabled: boolean) {
           entrance.disconnect();
         }
       },
-      { rootMargin: "0px 0px 240px 0px", threshold: 0 },
+      { rootMargin, threshold: 0 },
     );
     const activity = new IntersectionObserver(
       (entries) => setInView(entries.some((entry) => entry.isIntersecting)),
@@ -53,7 +53,7 @@ export function useReveal(enabled: boolean) {
       entrance.disconnect();
       activity.disconnect();
     };
-  }, [enabled, reduced]);
+  }, [enabled, reduced, rootMargin]);
   return {
     ref,
     revealed: enabled && !reduced && revealed,

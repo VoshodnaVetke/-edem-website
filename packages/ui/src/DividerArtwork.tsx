@@ -1,4 +1,18 @@
-export function DividerArtwork() {
+export function DividerArtwork({ track = false }: { track?: boolean }) {
+  if (track) {
+    return (
+      <svg preserveAspectRatio="none" role="presentation" viewBox="0 0 1200 52">
+        <path
+          className="edem-vector-divider__pulse"
+          d="M0 26H1200"
+          stroke="var(--edem-color-accent-primary)"
+          strokeWidth="2"
+          vectorEffect="non-scaling-stroke"
+          pathLength={1}
+        />
+      </svg>
+    );
+  }
   return (
     <svg preserveAspectRatio="none" role="presentation" viewBox="0 0 1200 52">
       <path
@@ -28,10 +42,11 @@ export function DividerArtwork() {
       </g>
       <path
         className="edem-vector-divider__pulse"
+        pathLength={1}
         d="M2 43H96L119 22H360L379 43H620"
         fill="none"
         stroke="#25F4FF"
-        strokeDasharray="45 740"
+        strokeDasharray=".08 1"
         strokeLinecap="round"
         strokeWidth="3"
       ></path>

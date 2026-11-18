@@ -52,7 +52,7 @@ export function GameFocusDisplay({
   className,
   ...props
 }: GameFocusDisplayProps) {
-  const { ref, revealed } = useReveal(true);
+  const { ref, revealed } = useReveal(true, "0px");
 
   if (!isValidGameFocus(focus)) {
     throw new Error("Game focus requires three integers in 0–5 totaling 10");

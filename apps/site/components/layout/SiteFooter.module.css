@@ -1,5 +1,6 @@
 .footer {
-  padding-block: var(--edem-site-section-space) 1.5rem;
+  padding-block: 0 1.5rem;
+  background: color-mix(in srgb, var(--edem-color-background) 92%, transparent);
   color: var(--edem-color-text-primary);
 }
 
@@ -37,9 +38,9 @@
 }
 
 .divider {
-  margin-block: var(--edem-site-section-space) 1rem;
+  margin-block: 0 clamp(1rem, 3vw, 2.5rem);
 }
 
 .signature {
-  margin: 0;
+  margin: 1.5rem 0 0;
 }
