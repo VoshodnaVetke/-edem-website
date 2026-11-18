@@ -1,0 +1,61 @@
+/* Compact neon-city signage for shared game taxonomy. */
+.edem-game-tag {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid var(--edem-tag-neon);
+  border-radius: 3px;
+  background: var(--edem-color-background);
+  color: var(--edem-tag-neon);
+  font: 700 0.75rem / 1.3 var(--font-display);
+  overflow-wrap: anywhere;
+  box-shadow:
+    inset 0 0 6px color-mix(in srgb, var(--edem-tag-neon) 10%, transparent),
+    0 0 7px color-mix(in srgb, var(--edem-tag-neon) 30%, transparent);
+  text-shadow: 0 0 7px color-mix(in srgb, var(--edem-tag-neon) 50%, transparent);
+}
+
+.edem-game-focus {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.edem-game-focus__row {
+  display: grid;
+  gap: 6px;
+}
+.edem-game-focus__heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--edem-color-text-primary);
+  font: 700 0.875rem / 1.4 var(--font-body);
+}
+.edem-game-focus__heading span:last-child {
+  color: var(--edem-tag-neon);
+  font-variant-numeric: tabular-nums;
+}
+.edem-game-focus__segments {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
+}
+.edem-game-focus__segment {
+  height: 11px;
+  background: var(--edem-color-surface-raised);
+  border-radius: 2px;
+}
+.edem-game-focus__segment[data-active="true"] {
+  background: var(--edem-tag-neon);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--edem-tag-neon) 40%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edem-game-tag,
+  .edem-game-focus__segment {
+    box-shadow: none;
+    text-shadow: none;
+  }
+}
