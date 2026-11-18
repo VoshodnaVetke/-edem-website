@@ -88,3 +88,32 @@
   min-height: 23px;
   padding: 4px 8px;
 }
+
+.photoViewer {
+  box-sizing: border-box;
+  width: min(94vw, 72rem);
+  max-height: 94dvh;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  border: 1px solid var(--edem-color-outline-sketch);
+  background: var(--edem-color-background);
+  color: var(--edem-color-text-primary);
+}
+
+.photoViewer::backdrop {
+  background: rgb(5 7 12 / 88%);
+}
+
+.viewerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.viewerPhoto {
+  display: block;
+  inline-size: 100%;
+  block-size: min(65dvh, 48rem);
+  margin-block: 0.5rem;
+  object-fit: contain;
+  touch-action: pan-y pinch-zoom;
+}

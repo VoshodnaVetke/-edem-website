@@ -204,6 +204,40 @@ test("Parade keeps its full taxonomy and hides game focus on the detail page", a
   }
 });
 
+test("game photos can be browsed and downloaded from the viewer", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(exportedPath("/games/parad-tehnologiy"));
+  const thumbnail = page.locator(".edem-gallery a").first();
+  await thumbnail.click();
+  const viewer = page.getByRole("dialog", { name: "Просмотр фотографий" });
+  const photo = viewer.getByRole("img");
+  await expect(photo).toHaveAttribute("src", /0001\.webp$/);
+  await viewer.getByRole("button", { name: "Вперёд" }).click();
+  await expect(photo).toHaveAttribute("src", /0002\.webp$/);
+  await page.keyboard.press("ArrowLeft");
+  await expect(photo).toHaveAttribute("src", /0001\.webp$/);
+  await photo.dispatchEvent("touchstart", { touches: [{ clientX: 250 }] });
+  await photo.dispatchEvent("touchend", { changedTouches: [{ clientX: 100 }] });
+  await expect(photo).toHaveAttribute("src", /0002\.webp$/);
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    viewer.getByRole("link", { name: "Скачать фото", exact: true }).click(),
+  ]);
+  expect(download.suggestedFilename()).toBe("parad-tehnologiy-2.webp");
+  expect(await download.failure()).toBeNull();
+  await expect(
+    viewer.getByRole("link", { name: "Архив оригиналов на Google Диске" }),
+  ).toHaveAttribute(
+    "href",
+    "https://drive.google.com/file/d/1qw0QXaWZ97yKEaE20K0cnjmoWr5kNVTD/view",
+  );
+  await page.keyboard.press("Escape");
+  await expect(viewer).toBeHidden();
+  await expect(thumbnail).toBeFocused();
+});
+
 test("homepage serves the expected revision and loads its resources", async ({
   page,
   request,
