@@ -1,4 +1,4 @@
-import type { CardProps } from "@edem/ui";
+import type { CardProps, GameFocus, GameTagId } from "@edem/ui";
 import deployment from "./deployment.json";
 
 export const gameFormat = "Кабинетная ролевая игра";
@@ -12,6 +12,8 @@ export const games: {
   albums: string[];
   summary?: string;
   tags?: readonly string[];
+  tagIds?: readonly GameTagId[];
+  focus?: GameFocus;
 }[] = [
   {
     slug: "kazn-ognya-vechnogo",
@@ -31,7 +33,14 @@ export const games: {
   {
     slug: "parad-tehnologiy",
     title: "Парад технологий",
-    tags: ["Для опытных", "Элита Эдема"],
+    tagIds: [
+      "chamber",
+      "elite",
+      "corporations",
+      "corporate-rivalry",
+      "experienced",
+    ],
+    focus: { social: 5, combat: 1, systems: 4 },
     frame: "double",
     albums: ["https://vk.ru/album-224149467_305437371"],
     summary:
