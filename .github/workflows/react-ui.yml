@@ -1,22 +1,11 @@
 name: React UI
-
-# Full visual, accessibility, unit and end-to-end suite is deliberately
-# separate from production publishing.
-on:
-  pull_request:
-  workflow_dispatch:
-
+on: [push, pull_request]
 permissions:
   contents: read
-
-concurrency:
-  group: react-ui-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
