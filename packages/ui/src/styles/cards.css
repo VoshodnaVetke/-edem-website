@@ -151,19 +151,40 @@
   );
   transform: translateY(-100%);
 }
-.edem-card-effects__idle {
-  left: 12%;
-  width: 29%;
-  height: 3px;
-  top: 84%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--edem-color-accent-primary),
-    var(--edem-color-accent-secondary),
-    transparent
-  );
+.edem-card-glitch {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.edem-card-glitch > span {
+  position: absolute;
   opacity: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    var(--edem-glitch-color) 0 2px,
+    transparent 2px 3px
+  );
+  box-shadow: 0 0 5px var(--edem-glitch-color);
+}
+.edem-card-glitch > [data-shape="vertical"] {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--edem-glitch-color) 0 2px,
+    transparent 2px 3px
+  );
+}
+.edem-frame__glitch {
+  fill: none;
+  stroke: var(--edem-glitch-color);
+  stroke-width: 3;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .edem-card-glitch,
+  .edem-frame__glitch {
+    display: none;
+  }
 }
 .edem-card[data-accent="violet"] .edem-card-effects__glass {
   transform: rotate(180deg);
@@ -175,9 +196,6 @@
   }
   .edem-card:hover .edem-card-effects__shine {
     opacity: 1;
-  }
-  .edem-link-card:hover {
-    transform: translateY(-4px);
   }
   .edem-link-card:hover .edem-frame__border {
     color: var(--edem-color-accent-primary);
@@ -200,21 +218,21 @@
   .edem-link-card {
     transition: transform 0.24s cubic-bezier(0.2, 0.75, 0.25, 1);
   }
+  .edem-link-card .edem-frame__border {
+    transition:
+      color 0.42s ease-in-out,
+      filter 0.52s ease-in-out;
+  }
   .edem-card-content[data-revealed="true"] .edem-frame__border path {
     animation: edem-trace 4.3s linear backwards;
-  }
-  .edem-card-content[data-active="true"] .edem-card-effects__idle {
-    animation: edem-idle 17s steps(1, end) infinite;
-  }
-  .edem-card:hover .edem-card-effects__idle,
-  .edem-card:is(:focus-visible, :has(:focus-visible)) .edem-card-effects__idle {
-    animation-play-state: paused;
-    visibility: hidden;
   }
   .edem-card:is(:focus-visible, :has(:focus-visible)) .edem-card-effects__scan {
     animation: edem-scan 5.8s linear;
   }
   @media (hover: hover) and (pointer: fine) {
+    .edem-link-card:hover {
+      transform: translateY(-4px);
+    }
     .edem-card:hover .edem-card-effects__scan {
       animation: edem-scan 5.8s linear;
     }
@@ -222,9 +240,6 @@
   @media (hover: none), (pointer: coarse) {
     .edem-card-content[data-revealed="true"] .edem-frame__border path {
       animation-duration: 1.35s;
-    }
-    .edem-card-effects__idle {
-      display: none;
     }
   }
 }
@@ -261,17 +276,5 @@
   100% {
     opacity: 0;
     transform: translateY(100%);
-  }
-}
-@keyframes edem-idle {
-  0%,
-  94%,
-  97%,
-  100% {
-    opacity: 0;
-  }
-  95%,
-  96% {
-    opacity: 0.7;
   }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type Ref } from "react";
 import rough from "roughjs";
 import { frames, outlinePoints, type FrameVariant } from "./geometry";
 import { cx } from "./utils";
@@ -131,10 +131,12 @@ export function Frame({
   variant = "system",
   seed = 1410,
   mediaClipId,
+  glitchRef,
 }: {
   variant?: FrameVariant;
   seed?: number;
   mediaClipId?: string;
+  glitchRef?: Ref<SVGPathElement>;
 }) {
   return (
     <svg
@@ -183,6 +185,15 @@ export function Frame({
             }
           />
         ),
+      )}
+      {glitchRef && (
+        <path
+          ref={glitchRef}
+          className="edem-frame__glitch"
+          d={frames[variant][0].d}
+          pathLength={1}
+          vectorEffect="non-scaling-stroke"
+        />
       )}
     </svg>
   );

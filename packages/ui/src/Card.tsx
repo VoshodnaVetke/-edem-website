@@ -6,6 +6,7 @@ import {
   type ReactNode,
   type PointerEvent,
 } from "react";
+import { useCardGlitch } from "./card-glitch";
 import { LinkAction } from "./Button";
 import { Frame } from "./Sketch";
 import { useReveal } from "./hooks";
@@ -28,6 +29,8 @@ function Contents({
 }) {
   const { ref, revealed, active } = useReveal(reveal);
   const id = useId();
+  const { blockRef, edgeRef } = useCardGlitch(active);
+  const clipPath = frameClips[frame ?? "system"];
   function move(event: PointerEvent<HTMLDivElement>) {
     if (event.pointerType !== "mouse") return;
     const r = event.currentTarget.getBoundingClientRect();
@@ -42,7 +45,7 @@ function Contents({
   }
   return (
     <div
-      onPointerMove={move}
+      onPointerMove={effects ? move : undefined}
       ref={ref}
       className="edem-card-content"
       data-revealed={revealed}
@@ -57,19 +60,25 @@ function Contents({
           {cover}
         </div>
       )}
-      <Frame variant={frame} mediaClipId={cover ? id : undefined} />
+      <Frame
+        variant={frame}
+        mediaClipId={cover ? id : undefined}
+        glitchRef={edgeRef}
+      />
       {effects && (
         <div
           className="edem-card-effects"
-          style={{ clipPath: frameClips[frame ?? "system"] }}
+          style={{ clipPath }}
           aria-hidden="true"
         >
           <span className="edem-card-effects__glass" />
           <span className="edem-card-effects__shine" />
           <span className="edem-card-effects__scan" />
-          <span className="edem-card-effects__idle" />
         </div>
       )}
+      <div className="edem-card-glitch" style={{ clipPath }} aria-hidden="true">
+        <span ref={blockRef} />
+      </div>
       <div className="edem-card-content__inner">{children}</div>
     </div>
   );

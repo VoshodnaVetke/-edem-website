@@ -82,6 +82,10 @@ test("link-card lift and outline never alter its SVG fill", async ({
   const link = page.locator("#link .edem-link-card");
   const fill = link.locator(".edem-frame__fill");
   const color = await fill.evaluate((e) => getComputedStyle(e).fill);
+  const border = link.locator(".edem-frame__border");
+  const idleColor = await border.evaluate((e) => getComputedStyle(e).color);
+  await expect(border).toHaveCSS("transition-property", "color, filter");
+  await expect(border).toHaveCSS("transition-duration", "0.42s, 0.52s");
   await link.hover();
   await expect(link).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, -4)");
   await expect(link.locator(".edem-frame__border")).toHaveCSS(
@@ -89,6 +93,9 @@ test("link-card lift and outline never alter its SVG fill", async ({
     "rgb(37, 244, 255)",
   );
   await expect(fill).toHaveCSS("fill", color);
+  await page.mouse.move(0, 0);
+  await expect(border).toHaveCSS("color", idleColor);
+  await expect(border).toHaveCSS("filter", "none");
 });
 test("field errors are visible, associated with the input and clear after correction", async ({
   page,
@@ -150,6 +157,10 @@ test("reduced motion disables every optional CSS animation and link lift", async
   await page.locator("#link .edem-link-card").hover();
   await expect(page.locator("#link .edem-link-card")).toHaveCSS(
     "transform",
+    "none",
+  );
+  await expect(page.locator("#link .edem-card-glitch")).toHaveCSS(
+    "display",
     "none",
   );
   expect(
@@ -228,21 +239,65 @@ test("large text and long content remain readable without horizontal overflow", 
     ),
   ).toBe(true);
 });
-test("idle card effects stop after the card leaves the viewport", async ({
+test("cards and card links vary their glitches and stop outside the viewport", async ({
   page,
 }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.install();
+
   const content = page.locator("#card-1 .edem-card-content");
+  const link = page.locator("#link .edem-card-content");
   await content.scrollIntoViewIfNeeded();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(content).toHaveAttribute("data-active", "true");
-  await expect(content.locator(".edem-card-effects__idle")).toHaveCSS(
-    "animation-name",
-    "edem-idle",
-  );
+
+  const block = content.locator(".edem-card-glitch span");
+  for (const [random, shape] of [
+    [0.1, "horizontal"],
+    [0.3, "vertical"],
+    [0.6, "square"],
+    [0.9, "edge"],
+  ] as const) {
+    await page.evaluate((value) => {
+      Math.random = () => value;
+    }, random);
+    await page.clock.fastForward(13_000);
+    await expect(block).toHaveAttribute("data-shape", shape);
+    const target =
+      shape === "edge" ? content.locator(".edem-frame__glitch") : block;
+    const opacity = await target.evaluate((element) => {
+      const [animation] = element.getAnimations();
+      if (!animation) return 0;
+      animation.pause();
+      animation.currentTime =
+        Number(animation.effect?.getTiming().duration) * 0.25;
+      return Number(getComputedStyle(element).opacity);
+    });
+    expect(opacity).toBeGreaterThan(0.25);
+    if (shape === "edge") {
+      const edge = target;
+      await expect(edge).toHaveCSS("stroke-dasharray", /[\d.]+px, 1px/);
+    } else {
+      const { width, height } = (await block.boundingBox())!;
+      expect(Math.sign(width - height)).toBe(
+        shape === "horizontal" ? 1 : shape === "vertical" ? -1 : 0,
+      );
+    }
+  }
+
   await page.locator("#navigation").scrollIntoViewIfNeeded();
   await expect(content).toHaveAttribute("data-active", "false");
-  await expect(content.locator(".edem-card-effects__idle")).toHaveCSS(
-    "animation-name",
-    "none",
+  await expect(block).not.toHaveAttribute("data-shape");
+  await link.scrollIntoViewIfNeeded();
+  await expect(link).toHaveAttribute("data-active", "true");
+  await page.clock.fastForward(13_000);
+  await expect(link.locator(".edem-card-glitch span")).toHaveAttribute(
+    "data-shape",
+    "edge",
+  );
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(link.locator(".edem-card-glitch span")).not.toHaveAttribute(
+    "data-shape",
   );
 });
 test("the field changes its existing hand-drawn stroke without adding a focus frame", async ({
