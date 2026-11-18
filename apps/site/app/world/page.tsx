@@ -2,6 +2,7 @@
 
 import { ButtonLink, Card, Grid, Heading, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
+import { siteHref } from "../../config/site-href";
 import styles from "../../styles/page-layout.module.css";
 
 const topics = [
@@ -34,7 +35,7 @@ export default function WorldPage() {
         ))}
       </Grid>
       <div className={styles.content}>
-        <ButtonLink href="/wiki">Перейти в энциклопедию</ButtonLink>
+        <ButtonLink href={siteHref("/wiki")}>Перейти в энциклопедию</ButtonLink>
       </div>
     </PageShell>
   );

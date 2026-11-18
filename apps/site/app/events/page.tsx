@@ -2,6 +2,7 @@
 
 import { ButtonLink, Heading, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
+import { siteHref } from "../../config/site-href";
 import styles from "../../styles/page-layout.module.css";
 
 export default function EventsPage() {
@@ -18,7 +19,9 @@ export default function EventsPage() {
         Подтверждённых дат и открытых наборов для публикации пока нет.
         Информация появится после согласования с организаторами.
       </Text>
-      <ButtonLink href="/games">Посмотреть проведённые игры</ButtonLink>
+      <ButtonLink href={siteHref("/games")}>
+        Посмотреть проведённые игры
+      </ButtonLink>
     </PageShell>
   );
 }

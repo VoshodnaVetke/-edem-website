@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import treeImage from "./assets/tree.svg";
+import { treeUrl } from "./assets/tree-url";
 /** Loaded only for renderer="webgl"; owns and disposes every GPU/DOM resource. */
 export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
   const renderer = new THREE.WebGLRenderer({
@@ -12,10 +12,9 @@ export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
   camera.position.z = 10;
   const geometry = new THREE.PlaneGeometry(1, 1);
-  const url = treeImage;
   let texture: THREE.Texture;
   try {
-    texture = await new THREE.TextureLoader().loadAsync(url);
+    texture = await new THREE.TextureLoader().loadAsync(treeUrl);
   } catch (error) {
     geometry.dispose();
     renderer.dispose();

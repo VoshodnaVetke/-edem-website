@@ -1,12 +1,28 @@
 import { expect, test } from "@playwright/test";
 
+const pagesBasePath = "/-edem-website";
+
+function exportedPath(route: string) {
+  return route === "/" ? pagesBasePath + "/" : pagesBasePath + route + "/";
+}
+
 test("homepage uses shared typography, colors, header and footer", async ({
   page,
 }) => {
-  await page.goto("/");
+  const stylesheets: string[] = [];
+  const fonts: string[] = [];
+  page.on("response", (response) => {
+    if (!response.ok()) return;
+    const path = new URL(response.url()).pathname;
+    const type = response.request().resourceType();
+    if (type === "stylesheet") stylesheets.push(path);
+    if (type === "font") fonts.push(path);
+  });
+
+  await page.goto(exportedPath("/"));
   await expect(page).toHaveTitle("Эдем | Мастерская ролевых игр");
   await expect(
-    page.getByRole("heading", { name: "Мастерская группа Эдема" }),
+    page.getByRole("heading", { name: "Миры, в которые можно войти." }),
   ).toBeVisible();
   await expect(page.locator("header.edem-navigation")).toHaveCount(1);
   await expect(page.locator("footer")).toHaveCount(1);
@@ -31,10 +47,53 @@ test("homepage uses shared typography, colors, header and footer", async ({
   expect(theme.background).toBe("rgb(5, 7, 12)");
   expect(theme.token).toBeTruthy();
   expect(theme.layout).toBeTruthy();
+
+  for (const assets of [stylesheets, fonts]) {
+    expect(assets.length).toBeGreaterThan(0);
+    expect(
+      assets.every((path) => path.startsWith(`${pagesBasePath}/_next/`)),
+    ).toBe(true);
+  }
+  const artwork = page.locator(".edem-tree__artwork");
+  await expect(artwork).toBeVisible();
+  expect(
+    await artwork.evaluate(async (image: HTMLImageElement) => {
+      await image.decode();
+      return image.naturalWidth;
+    }),
+  ).toBeGreaterThan(0);
+});
+
+test("homepage sections lead to the published routes", async ({
+  page,
+  request,
+}) => {
+  const destinations = [
+    ["Миры, в которые можно войти.", "Открыть мир Эдема", "/world"],
+    ["Миры, в которые можно войти.", "Ближайшие игры", "/events"],
+    ["Впервые в Эдеме?", /Начать знакомство/i, "/world"],
+    ["Станьте частью истории", /К афише/i, "/events"],
+    ["Станьте частью истории", /Подробнее о заказе/i, "/order"],
+    ["За историями стоят люди", "Проведённые игры", "/games"],
+    ["За историями стоят люди", "Наша команда", "/about"],
+  ] as const;
+
+  for (const [section, name, route] of destinations) {
+    const href = exportedPath(route);
+    await page.goto(exportedPath("/"));
+    const link = page.getByRole("region", { name: section }).getByRole("link", {
+      name,
+    });
+    await expect(link).toHaveAttribute("href", href);
+    const response = await request.get(href);
+    expect(response.status()).toBe(200);
+    await link.click();
+    await expect(page).toHaveURL((url) => url.pathname === href);
+  }
 });
 
 test("real site shell fits desktop and mobile widths", async ({ page }) => {
-  await page.goto("/");
+  await page.goto(exportedPath("/"));
   for (const width of [320, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await expect(page.locator("#main-content")).toBeVisible();
@@ -48,7 +107,7 @@ test("real site shell fits desktop and mobile widths", async ({ page }) => {
 });
 
 test("skip link reaches the main landmark by keyboard", async ({ page }) => {
-  await page.goto("/");
+  await page.goto(exportedPath("/"));
   const skip = page.getByRole("link", { name: "Перейти к содержимому" });
   await page.keyboard.press("Tab");
   await expect(skip).toBeFocused();
@@ -61,7 +120,7 @@ test("Navigation C remains functional on desktop and mobile", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto("/");
+  await page.goto(exportedPath("/"));
   await expect(
     page.getByRole("navigation", { name: "Основная навигация" }),
   ).toBeVisible();
@@ -90,20 +149,22 @@ test("Navigation C remains functional on desktop and mobile", async ({
 });
 
 test("only implemented pages appear in site navigation", async ({ page }) => {
-  await page.goto("/");
+  await page.goto(exportedPath("/"));
   await expect(
     page
       .getByRole("navigation", { name: "Навигация в подвале" })
       .getByRole("link", { name: "Главная" }),
-  ).toHaveAttribute("href", "/");
+  ).toHaveAttribute("href", exportedPath("/"));
   await expect(page.getByRole("button", { name: "Поиск" })).toHaveCount(0);
-  await expect(page.locator('a[href^="/demo/"]')).toHaveCount(0);
+  await expect(page.locator(`a[href^="${pagesBasePath}/demo/"]`)).toHaveCount(
+    0,
+  );
 });
 
-test("removed demonstration routes return 404", async ({ page }) => {
+test("removed demonstration routes return 404", async ({ request }) => {
   for (const path of ["/demo/shell", "/demo/shell/preview"]) {
-    const response = await page.goto(path);
-    expect(response?.status()).toBe(404);
+    const response = await request.get(exportedPath(path));
+    expect(response.status()).toBe(404);
   }
 });
 
@@ -112,7 +173,7 @@ test("mobile bottom navigation appears immediately and stays pinned", async ({
 }) => {
   for (const width of [320, 360, 390, 430]) {
     await page.setViewportSize({ width, height: 740 });
-    await page.goto("/");
+    await page.goto(exportedPath("/"));
 
     const bottom = page.getByRole("navigation", {
       name: "Быстрая навигация",
@@ -142,7 +203,7 @@ test("approved footer keeps its content and responsive UI grid", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/");
+  await page.goto(exportedPath("/"));
 
   const footer = page.getByRole("contentinfo");
   const heading = footer.getByRole("heading", { level: 2, name: "Эдем" });
@@ -159,7 +220,7 @@ test("approved footer keeps its content and responsive UI grid", async ({
   await expect(footer.getByText("ЭДЕМ / МАСТЕРСКАЯ ГРУППА")).toBeVisible();
   await expect(description).toBeVisible();
   await expect(divider).toHaveText("ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА");
-  await expect(home).toHaveAttribute("href", "/");
+  await expect(home).toHaveAttribute("href", exportedPath("/"));
 
   const intro = footer.locator(".edem-span--intro");
   const desktopIntro = await intro.boundingBox();
@@ -192,7 +253,7 @@ test("step 5 Figma route shells render actual public pages", async ({
   page,
 }) => {
   const routes = [
-    ["/", "Мастерская группа Эдема"],
+    ["/", "Миры, в которые можно войти."],
     ["/events", "Афиша игр"],
     ["/games", "Наши игры"],
     ["/world", "Вселенная «Эдем»"],
@@ -203,7 +264,7 @@ test("step 5 Figma route shells render actual public pages", async ({
   ] as const;
 
   for (const [path, title] of routes) {
-    const response = await page.goto(path);
+    const response = await page.goto(exportedPath(path));
     expect(response?.status(), path).toBe(200);
     await expect(page.locator("main#main-content")).toHaveCount(1);
     await expect(
@@ -213,9 +274,9 @@ test("step 5 Figma route shells render actual public pages", async ({
     await expect(page.locator("header.edem-navigation")).toHaveCount(1);
   }
 
-  await page.goto("/order");
+  await page.goto(exportedPath("/order"));
   await expect(page.locator("form")).toHaveCount(0);
-  await page.goto("/collaboration");
+  await page.goto(exportedPath("/collaboration"));
   await expect(page.locator("form")).toHaveCount(0);
 });
 
@@ -223,7 +284,7 @@ test("desktop and mobile navigation use working route destinations", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto("/");
+  await page.goto(exportedPath("/"));
 
   const desktop = page.getByRole("navigation", { name: "Основная навигация" });
   await expect(desktop.getByRole("link")).toHaveCount(4);
@@ -235,7 +296,7 @@ test("desktop and mobile navigation use working route destinations", async ({
   ]) {
     await expect(desktop.getByRole("link", { name })).toHaveAttribute(
       "href",
-      href,
+      exportedPath(href),
     );
   }
 
@@ -243,10 +304,10 @@ test("desktop and mobile navigation use working route destinations", async ({
   const menu = page.getByRole("dialog", { name: "Меню" });
   await expect(
     menu.getByRole("link", { name: "Заказать игру" }),
-  ).toHaveAttribute("href", "/order");
+  ).toHaveAttribute("href", exportedPath("/order"));
   await expect(
     menu.getByRole("link", { name: "Сотрудничество" }),
-  ).toHaveAttribute("href", "/collaboration");
+  ).toHaveAttribute("href", exportedPath("/collaboration"));
   await page.keyboard.press("Escape");
 
   await page.setViewportSize({ width: 390, height: 844 });
@@ -259,7 +320,7 @@ test("desktop and mobile navigation use working route destinations", async ({
     ["Энциклопедия", "/wiki"],
   ]) {
     await bottom.getByRole("link", { name }).click();
-    expect(new URL(page.url()).pathname).toBe(href);
+    expect(new URL(page.url()).pathname).toBe(exportedPath(href));
     await expect(bottom.getByRole("link", { name })).toHaveAttribute(
       "aria-current",
       "page",
@@ -282,7 +343,7 @@ test("step 5 routes remain responsive without horizontal overflow", async ({
       "/collaboration",
       "/about",
     ]) {
-      await page.goto(path);
+      await page.goto(exportedPath(path));
       expect(
         await page.evaluate(
           () => document.documentElement.scrollWidth <= window.innerWidth,
@@ -294,7 +355,7 @@ test("step 5 routes remain responsive without horizontal overflow", async ({
 });
 
 test("unimplemented private routes and details return 404", async ({
-  page,
+  request,
 }) => {
   for (const path of [
     "/account",
@@ -304,7 +365,7 @@ test("unimplemented private routes and details return 404", async ({
     "/events/unpublished",
     "/wiki/unpublished",
   ]) {
-    const response = await page.goto(path);
-    expect(response?.status(), path).toBe(404);
+    const response = await request.get(exportedPath(path));
+    expect(response.status(), path).toBe(404);
   }
 });

@@ -13,7 +13,7 @@ npm run dev
 
 Каталог откроется на `http://localhost:5173`. Изменения компонентов и CSS подхватываются без ручной сборки.
 
-Отдельный сайт: `npm run dev:site` (сначала сборка UI, затем Next.js на `http://localhost:3000`). Команда `npm run build:site` собирает UI и сайт.
+Отдельный сайт: `npm run dev:site` (сначала сборка UI, затем Next.js на `http://localhost:3000/-edem-website/`). Команда `npm run build:site` собирает UI и статический экспорт сайта.
 
 ## Сборка и проверки
 

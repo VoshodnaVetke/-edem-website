@@ -1,0 +1,38 @@
+.home {
+  display: grid;
+  gap: var(--edem-site-section-space);
+  padding-block: var(--edem-site-section-space);
+}
+
+.hero {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+.heroTitle {
+  text-transform: uppercase;
+}
+
+.heroActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--edem-card-gap);
+}
+
+.actionArrow {
+  font-family: var(--font-mono);
+}
+
+.hero .heroArtwork {
+  min-height: clamp(10.625rem, 18vw, 14rem);
+  background: var(--edem-background-gradient);
+}
+
+.accent {
+  color: var(--edem-color-accent-primary);
+}
+
+.home .cardTitle {
+  margin: 0;
+}

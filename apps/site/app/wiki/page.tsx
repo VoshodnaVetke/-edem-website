@@ -2,6 +2,7 @@
 
 import { ButtonLink, Heading, Reading, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
+import { siteHref } from "../../config/site-href";
 import styles from "../../styles/page-layout.module.css";
 
 export default function WikiPage() {
@@ -26,7 +27,7 @@ export default function WikiPage() {
         </p>
       </Reading>
       <div className={styles.content}>
-        <ButtonLink href="/world">К знакомству с миром</ButtonLink>
+        <ButtonLink href={siteHref("/world")}>К знакомству с миром</ButtonLink>
       </div>
     </PageShell>
   );
