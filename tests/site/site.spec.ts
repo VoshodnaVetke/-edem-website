@@ -218,8 +218,16 @@ test("game photos can be browsed and downloaded from the viewer", async ({
   await expect(photo).toHaveAttribute("src", /0002\.webp$/);
   await page.keyboard.press("ArrowLeft");
   await expect(photo).toHaveAttribute("src", /0001\.webp$/);
-  await photo.dispatchEvent("touchstart", { touches: [{ clientX: 250 }] });
-  await photo.dispatchEvent("touchend", { changedTouches: [{ clientX: 100 }] });
+  await photo.evaluate((element) => {
+    const start = new Touch({ identifier: 1, target: element, clientX: 250 });
+    const end = new Touch({ identifier: 1, target: element, clientX: 100 });
+    element.dispatchEvent(
+      new TouchEvent("touchstart", { bubbles: true, touches: [start] }),
+    );
+    element.dispatchEvent(
+      new TouchEvent("touchend", { bubbles: true, changedTouches: [end] }),
+    );
+  });
   await expect(photo).toHaveAttribute("src", /0002\.webp$/);
   const [download] = await Promise.all([
     page.waitForEvent("download"),
