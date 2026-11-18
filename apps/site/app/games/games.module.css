@@ -30,7 +30,12 @@
 
 .cover::after {
   content: "";
-  background: linear-gradient(transparent 15%, rgb(5 7 12 / 94%) 77%);
+  background: linear-gradient(
+    155deg,
+    rgb(5 7 12 / 70%),
+    rgb(5 7 12 / 56%) 38%,
+    rgb(5 7 12 / 94%) 88%
+  );
 }
 
 @media (hover: hover) and (pointer: fine) {
