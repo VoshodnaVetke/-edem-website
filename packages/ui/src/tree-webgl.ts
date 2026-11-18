@@ -27,10 +27,14 @@ export async function mountTree(
   texture.colorSpace = THREE.SRGBColorSpace;
   const image = texture.image as HTMLImageElement;
   const treeAspect = image.naturalHeight / image.naturalWidth;
+  const viewportOpacity = Number.parseFloat(
+    getComputedStyle(mount).getPropertyValue("--edem-tree-viewport-opacity"),
+  );
+  const opacity = Number.isFinite(viewportOpacity) ? viewportOpacity : 0.05;
   const definitions = [
     {
       z: -0.9,
-      opacity: 0.009,
+      opacity: opacity * 0.18,
       color: 0xbc5cff,
       x: -0.06,
       y: 0.035,
@@ -38,13 +42,13 @@ export async function mountTree(
     },
     {
       z: -0.5,
-      opacity: 0.0115,
+      opacity: opacity * 0.23,
       color: 0x25f4ff,
       x: 0.04,
       y: -0.02,
       scale: 1.035,
     },
-    { z: 0, opacity: 0.0295, color: 0xffffff, x: 0, y: 0, scale: 1 },
+    { z: 0, opacity: opacity * 0.59, color: 0xffffff, x: 0, y: 0, scale: 1 },
   ];
   const planes = definitions.map((d) => {
     const material = new THREE.MeshBasicMaterial({

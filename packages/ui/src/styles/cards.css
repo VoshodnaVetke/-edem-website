@@ -26,6 +26,7 @@
 .edem-card[data-frame="asym"] .edem-card-content__inner {
   padding-top: 40px;
   padding-right: 42px;
+  padding-left: clamp(30px, 4.25cqi, 54px);
 }
 .edem-frame {
   position: absolute;

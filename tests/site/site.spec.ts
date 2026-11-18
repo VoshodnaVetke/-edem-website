@@ -130,6 +130,51 @@ test("the tree stays behind the page and respects reduced motion", async ({
   await expect(artwork).toHaveCSS("animation-name", "none");
 });
 
+test("the first-visit frame leaves clearance around each line of text", async ({
+  page,
+}) => {
+  for (const width of [320, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(exportedPath("/"));
+    await page.evaluate(() => document.fonts.ready);
+    const card = page
+      .getByRole("region", { name: "Впервые в Эдеме?" })
+      .getByRole("link");
+    const overlaps = await card.evaluate((element) => {
+      const clearance = 8;
+      const lines = [...element.querySelectorAll("h2, p")].flatMap((text) => {
+        const range = document.createRange();
+        range.selectNodeContents(text);
+        return [...range.getClientRects()];
+      });
+      for (const path of element.querySelectorAll<SVGPathElement>(
+        ".edem-frame__border path",
+      )) {
+        const transform = path.getScreenCTM()!;
+        const length = path.getTotalLength();
+        for (let offset = 0; offset < length; offset += 1) {
+          const { x, y } = path
+            .getPointAtLength(offset)
+            .matrixTransform(transform);
+          if (
+            lines.some(
+              (line) =>
+                x >= line.left - clearance &&
+                x <= line.right + clearance &&
+                y >= line.top - clearance &&
+                y <= line.bottom + clearance,
+            )
+          ) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+    expect(overlaps, `frame clearance at ${width}px`).toBe(false);
+  }
+});
+
 test("homepage sections lead to the published routes", async ({
   page,
   request,

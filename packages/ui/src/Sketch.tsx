@@ -8,9 +8,9 @@ const generator = rough.generator();
 const presets = {
   border: {
     strokeWidth: 2.15,
-    roughness: 1.55,
-    bowing: 1.5,
-    maxRandomnessOffset: 2.5,
+    roughness: 1.35,
+    bowing: 1.05,
+    maxRandomnessOffset: 2.1,
   },
   inner: {
     strokeWidth: 1.1,
@@ -21,9 +21,9 @@ const presets = {
   },
   detail: {
     strokeWidth: 1.9,
-    roughness: 1.15,
-    bowing: 1,
-    maxRandomnessOffset: 1.75,
+    roughness: 1.05,
+    bowing: 0.9,
+    maxRandomnessOffset: 1.6,
   },
   control: {
     strokeWidth: 1.8,
