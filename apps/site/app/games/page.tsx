@@ -1,6 +1,13 @@
 "use client";
 
-import { Grid, Heading, LinkCard, Text } from "@edem/ui";
+import {
+  GameFocusDisplay,
+  GameTagBadge,
+  Grid,
+  Heading,
+  LinkCard,
+  Text,
+} from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import { gameFormat, games, photoPath } from "../../config/past-games";
 import { siteHref } from "../../config/site-href";
@@ -10,7 +17,7 @@ export default function GamesPage() {
   return (
     <PageShell title="Наши игры">
       <Grid>
-        {games.map(({ slug, title, frame }) => (
+        {games.map(({ slug, title, frame, tagIds, focus }) => (
           <LinkCard
             key={slug}
             href={siteHref(`/games/${slug}`)}
@@ -26,7 +33,18 @@ export default function GamesPage() {
           >
             <div className={styles.caption}>
               <Heading level={2}>{title}</Heading>
-              <Text variant="system">{gameFormat}</Text>
+              {slug === "parad-tehnologiy" && tagIds && focus ? (
+                <div className={styles.paradeMeta}>
+                  <div className={styles.paradeTags} aria-label="Теги игры">
+                    {tagIds.map((id) => (
+                      <GameTagBadge key={id} tag={id} />
+                    ))}
+                  </div>
+                  <GameFocusDisplay focus={focus} />
+                </div>
+              ) : (
+                <Text variant="system">{gameFormat}</Text>
+              )}
             </div>
           </LinkCard>
         ))}
