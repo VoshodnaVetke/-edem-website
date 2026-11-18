@@ -113,6 +113,8 @@ export type GameFocus = Readonly<{
 
 export function isValidGameFocus(value: GameFocus): boolean {
   const points = [value.social, value.combat, value.systems];
-  return points.every((n) => Number.isInteger(n) && n >= 0 && n <= 5) &&
-    points.reduce((sum, n) => sum + n, 0) === 10;
+  return (
+    points.every((n) => Number.isInteger(n) && n >= 0 && n <= 5) &&
+    points.reduce((sum, n) => sum + n, 0) === 10
+  );
 }
