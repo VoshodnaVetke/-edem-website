@@ -73,7 +73,9 @@ test("the schedule lists the Council and the archive leads to the game galleries
     const cover = card.locator("img");
     await expect(cover).toHaveAttribute(
       "src",
-      `${pagesBasePath}/images/games/${slug}.webp`,
+      slug === "parad-tehnologiy"
+        ? `${pagesBasePath}/images/games/${slug}/0073.webp`
+        : `${pagesBasePath}/images/games/${slug}.webp`,
     );
     expect(
       await cover.evaluate(async (image: HTMLImageElement) => {
