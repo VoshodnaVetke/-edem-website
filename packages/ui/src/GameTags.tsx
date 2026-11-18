@@ -31,7 +31,7 @@ export const GameTagBadge = forwardRef<HTMLSpanElement, GameTagBadgeProps>(
         style={{ ...style, "--edem-tag-neon": record.color } as NeonStyle}
       >
         <SketchPlate />
-        <span className="edem-game-tag__label">{record.label}</span>
+        {record.label}
       </span>
     );
   },

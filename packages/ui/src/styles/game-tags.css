@@ -18,9 +18,8 @@
   overflow-wrap: anywhere;
 }
 
-.edem-game-tag__label {
-  position: relative;
-  z-index: 1;
+.edem-game-tag > .edem-sketch-plate {
+  z-index: -1;
 }
 
 .edem-game-focus {
