@@ -14,10 +14,6 @@
   margin: 0;
 }
 
-.caption > .previewMeta {
-  font-size: 0.625rem;
-}
-
 .cover,
 .cover img,
 .cover::after {
@@ -87,6 +83,8 @@
   font-size: 0.68rem;
 }
 
-.gameFocus {
-  width: min(100%, 32rem);
+.previewTags :global(.edem-game-tag) {
+  font-size: 0.625rem;
+  min-height: 23px;
+  padding: 4px 8px;
 }

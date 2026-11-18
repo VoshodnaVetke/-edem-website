@@ -1,6 +1,6 @@
 "use client";
 
-import { ButtonLink, Gallery, GameFocusDisplay } from "@edem/ui";
+import { ButtonLink, Gallery } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { photoPath, type games } from "../../../config/past-games";
 import layout from "../../../styles/page-layout.module.css";
@@ -21,9 +21,6 @@ export function GameDetails({
       titleDetails={<GameTagList tagIds={game.tagIds} />}
     >
       <div className={layout.stack}>
-        <section className={styles.gameFocus} aria-label="Игровые акценты">
-          <GameFocusDisplay focus={game.focus} />
-        </section>
         {photoCount > 0 && (
           <Gallery className={styles.gallery} aria-label="Фотографии с игры">
             {Array.from({ length: photoCount }, (_, index) => {

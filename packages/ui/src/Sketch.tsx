@@ -200,10 +200,12 @@ export function Frame({
 }
 export function SketchPlate({
   shape = "control",
+  preset = "control",
   stroke = true,
   className,
 }: {
   shape?: "control" | "rail";
+  preset?: "control" | "inner";
   stroke?: boolean;
   className?: string;
 }) {
@@ -242,7 +244,7 @@ export function SketchPlate({
       focusable="false"
     >
       <SketchSurface d={d} width={w} height={h} />
-      {stroke && <SketchPath d={d} seed={210} />}
+      {stroke && <SketchPath d={d} seed={210} preset={preset} />}
     </svg>
   );
 }

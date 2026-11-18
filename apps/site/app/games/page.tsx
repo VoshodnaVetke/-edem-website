@@ -1,15 +1,13 @@
 "use client";
 
-import { getGameTag, Grid, Heading, LinkCard, Text } from "@edem/ui";
+import { Grid, Heading, LinkCard } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import { games, photoPath } from "../../config/past-games";
 import { siteHref } from "../../config/site-href";
+import { GameTagList } from "./GameTagList";
 import styles from "./games.module.css";
 
-const previewMeta = (["chamber", "moscow", "16-plus"] as const)
-  .map(getGameTag)
-  .map((tag) => tag.shortLabel ?? tag.label)
-  .join(" · ");
+const previewTagIds = ["chamber", "moscow", "16-plus"] as const;
 
 export default function GamesPage() {
   return (
@@ -30,9 +28,7 @@ export default function GamesPage() {
           >
             <div className={styles.caption}>
               <Heading level={2}>{title}</Heading>
-              <Text variant="system" className={styles.previewMeta}>
-                {previewMeta}
-              </Text>
+              <GameTagList tagIds={previewTagIds} compact />
             </div>
           </LinkCard>
         ))}

@@ -44,24 +44,17 @@ test("the schedule lists the Council and the archive leads to the game galleries
       "Казнь Огня Вечного",
       "kazn-ognya-vechnogo",
       ["300790782", "299694271"],
-      [4, 2, 4],
       8,
     ],
-    ["Казино Мефиса", "kazino-mefisa", ["303755489"], [5, 0, 5], 7],
-    ["Парад технологий", "parad-tehnologiy", ["305437371"], [5, 1, 4], 9],
-    [
-      "Тени Восточного города",
-      "teni-vostochnogo-goroda",
-      ["308118503"],
-      [5, 2, 3],
-      7,
-    ],
-    ["Ад на земле", "ad-na-zemle", ["309547135"], [5, 2, 3], 7],
+    ["Казино Мефиса", "kazino-mefisa", ["303755489"], 7],
+    ["Парад технологий", "parad-tehnologiy", ["305437371"], 9],
+    ["Тени Восточного города", "teni-vostochnogo-goroda", ["308118503"], 7],
+    ["Ад на земле", "ad-na-zemle", ["309547135"], 7],
   ] as const;
   await expect(
     page.getByRole("main").getByRole("heading", { level: 2 }),
   ).toHaveText(games.map(([title]) => title));
-  for (const [title, slug, albumIds, focus, tagCount] of games) {
+  for (const [title, slug, albumIds, tagCount] of games) {
     const card = page
       .getByRole("main")
       .getByRole("link")
@@ -69,16 +62,12 @@ test("the schedule lists the Council and the archive leads to the game galleries
         has: page.getByRole("heading", { name: title, exact: true }),
       });
     const players = slug === "ad-na-zemle" ? "up-to-20" : "20-to-40";
-    const scores = focus.map(
-      (score, index) =>
-        `${["Социалка", "Боёвка", "Механики"][index]}: ${score} из 5`,
-    );
-    const preview = card.getByText("Кабинетная · Москва · 16+", {
-      exact: true,
-    });
-    await expect(preview).toBeVisible();
-    await expect(preview).toHaveCSS("font-size", "10px");
-    await expect(card.locator("[data-tag-id]")).toHaveCount(0);
+    await expect(card.getByRole("listitem")).toHaveText([
+      "Кабинетная",
+      "Москва",
+      "16+",
+    ]);
+    await expect(card.locator("[data-tag-id]")).toHaveCount(3);
     await expect(card.getByRole("img", { name: /из 5$/ })).toHaveCount(0);
     await expect(card.getByText("Об игре", { exact: true })).toHaveCount(0);
     const cover = card.locator("img");
@@ -115,10 +104,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
     await expect(tags.locator("[data-tag-id]")).toHaveCount(tagCount);
     await expect(tags.locator('[data-tag-id="16-plus"]')).toBeVisible();
     await expect(tags.locator(`[data-tag-id="${players}"]`)).toBeVisible();
-    const focusRegion = page.getByRole("region", { name: "Игровые акценты" });
-    for (const name of scores) {
-      await expect(focusRegion.getByRole("img", { name })).toBeVisible();
-    }
+    await expect(page.locator("main .edem-game-focus")).toHaveCount(0);
     const photos = page.locator("main .edem-gallery img");
     expect(await photos.count()).toBeGreaterThan(1);
     const photo = photos.first();
@@ -161,7 +147,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
   }
 });
 
-test("Parade keeps its full taxonomy and game focus on the detail page", async ({
+test("Parade keeps its full taxonomy and hides game focus on the detail page", async ({
   page,
 }) => {
   const tagLabels = [
@@ -175,7 +161,6 @@ test("Parade keeps its full taxonomy and game focus on the detail page", async (
     "20–40 игроков",
     "Завершена",
   ];
-  const scores = ["Социалка: 5 из 5", "Боёвка: 1 из 5", "Механики: 4 из 5"];
   await page.goto(exportedPath("/games/parad-tehnologiy"));
   const heading = page.getByRole("heading", {
     level: 1,
@@ -195,22 +180,11 @@ test("Parade keeps its full taxonomy and game focus on the detail page", async (
   await expect(
     page.getByText("Игровые акценты · 10 очков", { exact: true }),
   ).toHaveCount(0);
-  const focus = page.getByRole("region", { name: "Игровые акценты" });
-  for (const name of scores) {
-    await expect(focus.getByRole("img", { name })).toBeVisible();
-  }
-
-  const segment = focus
-    .locator('.edem-game-focus__segment[data-active="true"]')
-    .nth(1);
-  await expect(focus).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-  await expect(segment).toHaveCSS("height", "4px");
-  await expect(segment).toHaveCSS("animation-name", "none");
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await focus.scrollIntoViewIfNeeded();
-  await expect(segment).toHaveCSS("animation-name", "edem-game-focus-fill");
-  await expect(segment).toHaveCSS("animation-delay", "0.095s");
-  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator("main .edem-game-focus")).toHaveCount(0);
+  await expect(firstTag.locator(".edem-sketch-stroke")).toHaveAttribute(
+    "stroke-width",
+    "1.1",
+  );
 
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 850 });
@@ -218,11 +192,9 @@ test("Parade keeps its full taxonomy and game focus on the detail page", async (
     const titleBox = (await heading.boundingBox())!;
     const tagsBox = (await tags.boundingBox())!;
     const summaryBox = (await summary.boundingBox())!;
-    const focusBox = (await focus.boundingBox())!;
     const photoBox = (await photo.boundingBox())!;
     expect(tagsBox.y).toBeGreaterThanOrEqual(titleBox.y + titleBox.height);
-    expect(focusBox.y).toBeGreaterThanOrEqual(summaryBox.y + summaryBox.height);
-    expect(photoBox.y).toBeGreaterThanOrEqual(focusBox.y + focusBox.height);
+    expect(photoBox.y).toBeGreaterThanOrEqual(summaryBox.y + summaryBox.height);
     expect(photoBox.width).toBeLessThan(width / 2);
     if (width === 1440) {
       expect(summaryBox.x).toBeGreaterThan(titleBox.x + titleBox.width);
