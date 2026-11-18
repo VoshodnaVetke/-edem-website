@@ -90,12 +90,14 @@ export function SketchSurface({
   height,
   seed = 210,
   className,
+  transform,
 }: {
   d: string;
   width: number;
   height: number;
   seed?: number;
   className?: string;
+  transform?: string;
 }) {
   const path = useMemo(() => {
     let state = stableSeed(seed);
@@ -117,18 +119,26 @@ export function SketchSurface({
         .join(" ") + " Z"
     );
   }, [d, width, height, seed]);
-  return <path className={cx("edem-sketch-surface", className)} d={path} />;
+  return (
+    <path
+      className={cx("edem-sketch-surface", className)}
+      d={path}
+      transform={transform}
+    />
+  );
 }
 export function Frame({
   variant = "system",
   seed = 1410,
+  mediaClipId,
 }: {
   variant?: FrameVariant;
   seed?: number;
+  mediaClipId?: string;
 }) {
   return (
     <svg
-      className="edem-frame"
+      className={cx("edem-frame", mediaClipId && "edem-frame--with-media")}
       viewBox="0 0 440 290"
       preserveAspectRatio="none"
       aria-hidden="true"
@@ -136,14 +146,28 @@ export function Frame({
     >
       {frames[variant].map((p, i) =>
         p.kind === "fill" ? (
-          <SketchSurface
-            key={i}
-            className="edem-frame__fill"
-            d={p.d}
-            width={440}
-            height={290}
-            seed={seed}
-          />
+          mediaClipId ? (
+            <defs key={i}>
+              <clipPath id={mediaClipId} clipPathUnits="objectBoundingBox">
+                <SketchSurface
+                  d={p.d}
+                  width={440}
+                  height={290}
+                  seed={seed}
+                  transform={`scale(${1 / 440} ${1 / 290})`}
+                />
+              </clipPath>
+            </defs>
+          ) : (
+            <SketchSurface
+              key={i}
+              className="edem-frame__fill"
+              d={p.d}
+              width={440}
+              height={290}
+              seed={seed}
+            />
+          )
         ) : (
           <SketchPath
             key={i}

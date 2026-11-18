@@ -36,6 +36,15 @@
   overflow: visible;
   pointer-events: none;
 }
+.edem-card-media {
+  position: absolute;
+  inset: 0;
+  background: var(--edem-surface-fill);
+  pointer-events: none;
+}
+.edem-frame--with-media {
+  z-index: 1;
+}
 .edem-frame__border {
   color: var(--edem-color-outline-sketch);
 }
