@@ -73,16 +73,14 @@ test("the schedule lists the Council and the archive leads to the game galleries
       (score, index) =>
         `${["Социалка", "Боёвка", "Механики"][index]}: ${score} из 5`,
     );
-    await expect(card.locator("[data-tag-id]")).toHaveCount(tagCount);
-    await expect(card.locator('[data-tag-id="16-plus"]')).toBeVisible();
-    await expect(card.locator(`[data-tag-id="${players}"]`)).toBeVisible();
-    for (const name of scores) {
-      await expect(card.getByRole("img", { name })).toBeVisible();
-    }
-    const action = card.getByText("Об игре");
-    await expect(action).toBeVisible();
-    await expect(action.locator("..")).toHaveCSS("min-height", "52px");
-    await expect(card.getByRole("link")).toHaveCount(0);
+    const preview = card.getByText("Кабинетная · Москва · 16+", {
+      exact: true,
+    });
+    await expect(preview).toBeVisible();
+    await expect(preview).toHaveCSS("font-size", "10px");
+    await expect(card.locator("[data-tag-id]")).toHaveCount(0);
+    await expect(card.getByRole("img", { name: /из 5$/ })).toHaveCount(0);
+    await expect(card.getByText("Об игре", { exact: true })).toHaveCount(0);
     const cover = card.locator("img");
     await expect(cover).toHaveAttribute(
       "src",
@@ -103,15 +101,9 @@ test("the schedule lists the Council and the archive leads to the game galleries
       await card.press("Tab");
       await page.keyboard.press("Shift+Tab");
       await expect(card).toBeFocused();
-      await expect(action.locator("..")).toHaveCSS(
-        "color",
-        await page
-          .locator("body")
-          .evaluate((body) => getComputedStyle(body).backgroundColor),
-      );
       await card.press("Enter");
     } else {
-      await action.click();
+      await card.click();
     }
     await expect(page).toHaveURL(
       (url) => url.pathname === exportedPath(`/games/${slug}`),
@@ -169,7 +161,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
   }
 });
 
-test("Parade shows its taxonomy and game focus on the card and detail page", async ({
+test("Parade keeps its full taxonomy and game focus on the detail page", async ({
   page,
 }) => {
   const tagLabels = [
@@ -184,16 +176,6 @@ test("Parade shows its taxonomy and game focus on the card and detail page", asy
     "Завершена",
   ];
   const scores = ["Социалка: 5 из 5", "Боёвка: 1 из 5", "Механики: 4 из 5"];
-  await page.goto(exportedPath("/games"));
-  const archive = page.getByRole("main");
-  const paradeCard = archive.getByRole("link").filter({
-    has: page.getByRole("heading", { name: "Парад технологий", exact: true }),
-  });
-  await expect(paradeCard.locator("[data-tag-id]")).toHaveText(tagLabels);
-  for (const name of scores) {
-    await expect(paradeCard.getByRole("img", { name })).toBeVisible();
-  }
-
   await page.goto(exportedPath("/games/parad-tehnologiy"));
   const heading = page.getByRole("heading", {
     level: 1,
