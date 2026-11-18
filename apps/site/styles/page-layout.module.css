@@ -21,6 +21,23 @@
   margin: 0;
 }
 
+.splitHeader {
+  display: grid;
+  align-items: start;
+  gap: var(--edem-card-gap);
+}
+
+.splitHeader > p {
+  margin: 0;
+}
+
+@media (min-width: 48rem) {
+  .splitHeader {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+  }
+}
+
 .content {
   margin-block-start: clamp(2rem, 5vw, 4rem);
 }

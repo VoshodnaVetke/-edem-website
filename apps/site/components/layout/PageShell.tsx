@@ -8,6 +8,7 @@ interface PageShellProps {
   eyebrow?: string;
   title: string;
   description?: string;
+  titleDetails?: ReactNode;
   children?: ReactNode;
 }
 
@@ -16,17 +17,31 @@ export function PageShell({
   eyebrow,
   title,
   description,
+  titleDetails,
   children,
 }: PageShellProps) {
+  const heading = (
+    <>
+      {eyebrow && <Text variant="system">{eyebrow}</Text>}
+      <Heading level={1} id="page-title">
+        {title}
+      </Heading>
+    </>
+  );
+
   return (
     <main id="main-content" tabIndex={-1} className={styles.page}>
       <section className={styles.section} aria-labelledby="page-title">
         <Layout>
-          <div className={styles.stack}>
-            {eyebrow && <Text variant="system">{eyebrow}</Text>}
-            <Heading level={1} id="page-title">
-              {title}
-            </Heading>
+          <div className={titleDetails ? styles.splitHeader : styles.stack}>
+            {titleDetails ? (
+              <div className={styles.stack}>
+                {heading}
+                {titleDetails}
+              </div>
+            ) : (
+              heading
+            )}
             {description && <Text variant="lead">{description}</Text>}
           </div>
           {children && <div className={styles.content}>{children}</div>}
