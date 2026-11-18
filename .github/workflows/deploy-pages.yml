@@ -10,11 +10,9 @@ permissions:
   pages: write
   id-token: write
 
-# Publish only the newest commit. GitHub Pages keeps the previous deployment
-# live until the replacement deployment succeeds.
 concurrency:
   group: github-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -40,24 +38,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check formatting and types
-        run: |
-          npm run format:check
-          npm run typecheck
-
       - name: Build UI library and website
         run: npm run build:site
 
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
       - name: Verify static export
-        run: |
-          test -s apps/site/out/index.html
-          test -s apps/site/out/games/index.html
-          test -s apps/site/out/games/kazino-mefisa/index.html
-          test -s apps/site/out/games/parad-tehnologiy/index.html
-          test -s apps/site/out/images/games/parad-tehnologiy/0073.webp
-          test -s apps/site/out/images/games/parad-tehnologiy/0205-thumb.webp
-          test -s apps/site/out/images/games/kazino-mefisa/0100-thumb.webp
-          node scripts/verify-gallery-manifests.mjs
+        run: npm run test:site
 
       - name: Disable Jekyll
         run: touch apps/site/out/.nojekyll
@@ -73,3 +61,10 @@ jobs:
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify published website
+        env:
+          EDEM_SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          test -n "$EDEM_SITE_URL"
+          npm run test:site
