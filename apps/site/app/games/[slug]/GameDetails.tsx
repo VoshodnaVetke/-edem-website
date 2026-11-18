@@ -1,6 +1,12 @@
 "use client";
 
-import { ButtonLink, Gallery, Text } from "@edem/ui";
+import {
+  ButtonLink,
+  Gallery,
+  GameFocusDisplay,
+  GameTagBadge,
+  Text,
+} from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { gameFormat, photoPath, type games } from "../../../config/past-games";
 import layout from "../../../styles/page-layout.module.css";
@@ -18,16 +24,32 @@ export function GameDetails({
       title={game.title}
       description={game.summary}
       titleDetails={
-        <ul className={styles.tags} aria-label="Теги игры">
-          {[gameFormat, ...(game.tags ?? [])].map((tag) => (
-            <li key={tag}>
-              <Text variant="system">{tag}</Text>
-            </li>
-          ))}
-        </ul>
+        game.slug === "parad-tehnologiy" && game.tagIds ? (
+          <ul className={styles.paradeTags} aria-label="Теги игры">
+            {game.tagIds.map((id) => (
+              <li key={id}>
+                <GameTagBadge tag={id} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul className={styles.tags} aria-label="Теги игры">
+            {[gameFormat, ...(game.tags ?? [])].map((tag) => (
+              <li key={tag}>
+                <Text variant="system">{tag}</Text>
+              </li>
+            ))}
+          </ul>
+        )
       }
     >
       <div className={layout.stack}>
+        {game.slug === "parad-tehnologiy" && game.focus && (
+          <section className={styles.paradeFocus} aria-label="Игровые акценты">
+            <Text variant="system">Игровые акценты · 10 очков</Text>
+            <GameFocusDisplay focus={game.focus} />
+          </section>
+        )}
         {photoCount > 0 && (
           <Gallery className={styles.gallery} aria-label="Фотографии с игры">
             {Array.from({ length: photoCount }, (_, index) => {
