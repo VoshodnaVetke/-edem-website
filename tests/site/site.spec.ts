@@ -592,9 +592,13 @@ for (const width of [1440, 390]) {
       (url) => url.pathname === exportedPath("/games"),
     );
     const last = page.getByRole("heading", { level: 2, name: "Ад на земле" });
-    await last.evaluate((element) =>
-      element.scrollIntoView({ block: "center", behavior: "instant" }),
-    );
+    await last.evaluate(async (element) => {
+      const currentDocument = document as Document & {
+        activeViewTransition?: ViewTransition;
+      };
+      await currentDocument.activeViewTransition?.finished;
+      element.scrollIntoView({ block: "center", behavior: "instant" });
+    });
     const position = await page.evaluate(() => scrollY);
     expect(position).toBeGreaterThan(0);
     await expect
@@ -603,7 +607,12 @@ for (const width of [1440, 390]) {
     const previousProgress = Number(
       await progress.getAttribute("data-progress"),
     );
-    await last.click();
+    // Click where the heading is already visible, without Playwright re-scrolling it.
+    const headingBox = (await last.boundingBox())!;
+    await page.mouse.click(
+      headingBox.x + headingBox.width / 2,
+      headingBox.y + headingBox.height / 2,
+    );
     await expect(page).toHaveURL(
       (url) => url.pathname === exportedPath("/games/ad-na-zemle"),
     );
