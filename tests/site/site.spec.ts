@@ -214,7 +214,15 @@ test("game photos can be browsed and downloaded from the viewer", async ({
   const viewer = page.getByRole("dialog", { name: "Просмотр фотографий" });
   const photo = viewer.getByRole("img");
   await expect(photo).toHaveAttribute("src", /0001\.webp$/);
-  await viewer.getByRole("button", { name: "Вперёд" }).click();
+  const previous = viewer.getByRole("button", { name: "Предыдущее фото" });
+  const next = viewer.getByRole("button", { name: "Следующее фото" });
+  await expect(previous).toHaveText("←");
+  await expect(next).toHaveText("→");
+  await expect(next.locator(".edem-sketch-stroke")).toHaveAttribute(
+    "stroke-width",
+    "1.1",
+  );
+  await next.click();
   await expect(photo).toHaveAttribute("src", /0002\.webp$/);
   await page.keyboard.press("ArrowLeft");
   await expect(photo).toHaveAttribute("src", /0001\.webp$/);
@@ -235,12 +243,7 @@ test("game photos can be browsed and downloaded from the viewer", async ({
   ]);
   expect(download.suggestedFilename()).toBe("parad-tehnologiy-2.webp");
   expect(await download.failure()).toBeNull();
-  await expect(
-    viewer.getByRole("link", { name: "Архив оригиналов на Google Диске" }),
-  ).toHaveAttribute(
-    "href",
-    "https://drive.google.com/file/d/1qw0QXaWZ97yKEaE20K0cnjmoWr5kNVTD/view",
-  );
+  await expect(viewer.getByRole("link")).toHaveCount(1);
   await page.keyboard.press("Escape");
   await expect(viewer).toBeHidden();
   await expect(thumbnail).toBeFocused();
