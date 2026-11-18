@@ -109,15 +109,55 @@
   justify-content: space-between;
 }
 
+.viewerStage {
+  position: relative;
+  margin-block: 0.5rem;
+  touch-action: pan-y pinch-zoom;
+}
+
 .viewerPhoto {
   display: block;
   inline-size: 100%;
   block-size: min(65dvh, 48rem);
-  margin-block: 0.5rem;
   object-fit: contain;
-  touch-action: pan-y pinch-zoom;
 }
 
-.viewerArrow {
-  font-size: 1.25rem;
+.viewerStage > button,
+.viewerClose {
+  border: 0;
+  background: transparent;
+  color: var(--edem-color-text-primary);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.viewerClose {
+  inline-size: 44px;
+  block-size: 44px;
+}
+
+.viewerStage > button {
+  position: absolute;
+  inset-block: 0;
+  inline-size: 50%;
+  display: flex;
+  align-items: center;
+  padding-inline: clamp(0.4rem, 2vw, 1.25rem);
+  text-shadow: 0 1px 5px var(--edem-color-background);
+}
+
+.viewerPrevious {
+  inset-inline-start: 0;
+}
+
+.viewerNext {
+  inset-inline-end: 0;
+  justify-content: flex-end;
+}
+
+.viewerStage > button:focus-visible,
+.viewerClose:focus-visible {
+  outline: 2px solid var(--edem-color-focus-ring);
+  outline-offset: -2px;
 }

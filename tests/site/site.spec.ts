@@ -218,12 +218,23 @@ test("game photos can be browsed and downloaded from the viewer", async ({
   const next = viewer.getByRole("button", { name: "Следующее фото" });
   await expect(previous).toHaveText("←");
   await expect(next).toHaveText("→");
-  await expect(next.locator(".edem-sketch-stroke")).toHaveAttribute(
-    "stroke-width",
-    "1.1",
+  const close = viewer.getByRole("button", { name: "Закрыть" });
+  await expect(close).toHaveText("×");
+  for (const control of [close, previous, next]) {
+    await expect(control).toHaveCSS("border-top-width", "0px");
+  }
+  const imageBox = (await photo.boundingBox())!;
+  await page.mouse.click(
+    imageBox.x + imageBox.width * 0.66,
+    imageBox.y + imageBox.height * 0.3,
   );
-  await next.click();
   await expect(photo).toHaveAttribute("src", /0002\.webp$/);
+  await page.mouse.click(
+    imageBox.x + imageBox.width * 0.33,
+    imageBox.y + imageBox.height * 0.3,
+  );
+  await expect(photo).toHaveAttribute("src", /0001\.webp$/);
+  await page.keyboard.press("ArrowRight");
   await page.keyboard.press("ArrowLeft");
   await expect(photo).toHaveAttribute("src", /0001\.webp$/);
   await photo.evaluate((element) => {
@@ -244,7 +255,7 @@ test("game photos can be browsed and downloaded from the viewer", async ({
   expect(download.suggestedFilename()).toBe("parad-tehnologiy-2.webp");
   expect(await download.failure()).toBeNull();
   await expect(viewer.getByRole("link")).toHaveCount(1);
-  await page.keyboard.press("Escape");
+  await close.click();
   await expect(viewer).toBeHidden();
   await expect(thumbnail).toBeFocused();
 });
