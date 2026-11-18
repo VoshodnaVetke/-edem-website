@@ -33,7 +33,22 @@ export type {
   SearchResult,
 } from "./Navigation";
 
-export { GAME_TAG_COLORS, GAME_TAGS, ALL_GAME_TAGS, getGameTag, GAME_FOCUS, isValidGameFocus } from "./game-tags";
-export type { GameTag, GameTagId, GameTagCategory, GameFocus } from "./game-tags";
+export {
+  GAME_TAG_COLORS,
+  GAME_TAGS,
+  ALL_GAME_TAGS,
+  getGameTag,
+  GAME_FOCUS,
+  isValidGameFocus,
+} from "./game-tags";
+export type {
+  GameTag,
+  GameTagId,
+  GameTagCategory,
+  GameFocus,
+} from "./game-tags";
 export { GameTagBadge, GameFocusDisplay } from "./GameTags";
-export type { GameTagBadgeProps, GameFocusDisplayProps } from "./GameTags";
+export type {
+  GameTagBadgeProps,
+  GameFocusDisplayProps,
+} from "./GameTags";
