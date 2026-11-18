@@ -4,6 +4,7 @@ import { ButtonLink, Heading, GameFocusDisplay, SignalDivider } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { SiteSectionRail } from "../../../components/layout/SiteSectionRail";
 import { photoPath, type games } from "../../../config/past-games";
+import { siteDividers } from "../../../config/site-dividers";
 import layout from "../../../styles/page-layout.module.css";
 import { GameTagList } from "../GameTagList";
 import { GamePhotoGallery } from "./GamePhotoGallery";
@@ -33,7 +34,7 @@ export function GameDetails({
             className="site-content-divider"
             label=""
             pulse="none"
-            variationSeed={`game.${game.slug}`}
+            variant={siteDividers(`/games/${game.slug}`).content}
             aria-hidden="true"
           />
           <Heading level={2} id="game-focus">

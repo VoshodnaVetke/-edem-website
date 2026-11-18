@@ -3,6 +3,7 @@
 import { ButtonLink, Card, Heading, SignalDivider, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import { siteHref } from "../../config/site-href";
+import { siteDividers } from "../../config/site-dividers";
 import styles from "../../styles/page-layout.module.css";
 import { GameTagList } from "../games/GameTagList";
 
@@ -36,7 +37,7 @@ export default function EventsPage() {
           className="site-content-divider site-content-divider--muted"
           label=""
           pulse="none"
-          variationSeed="events.choose"
+          variant={siteDividers("/events").content}
           aria-hidden="true"
         />
         <Heading level={2} id="choose">

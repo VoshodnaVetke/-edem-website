@@ -4,6 +4,7 @@ import { Card, Grid, Heading, LinkCard, SignalDivider, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import { SiteSectionRail } from "../../components/layout/SiteSectionRail";
 import { siteHref } from "../../config/site-href";
+import { siteDividers } from "../../config/site-dividers";
 import styles from "../../styles/page-layout.module.css";
 
 const topics = [
@@ -71,7 +72,7 @@ export default function WorldPage() {
           className="site-content-divider"
           label=""
           pulse="none"
-          variationSeed="world.intro"
+          variant={siteDividers("/world").content}
           aria-hidden="true"
         />
         <LinkCard telemetry href={siteHref("/world/neurochip")} frame="asym">
