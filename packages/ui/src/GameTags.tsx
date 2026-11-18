@@ -6,6 +6,8 @@ import {
   type GameFocus,
   type GameTagId,
 } from "./game-tags";
+import { useReveal } from "./hooks";
+import { SketchPlate } from "./Sketch";
 import { cx } from "./utils";
 
 type NeonStyle = CSSProperties & { "--edem-tag-neon": string };
@@ -28,6 +30,7 @@ export const GameTagBadge = forwardRef<HTMLSpanElement, GameTagBadgeProps>(
         className={cx("edem-game-tag", className)}
         style={{ ...style, "--edem-tag-neon": record.color } as NeonStyle}
       >
+        <SketchPlate />
         {record.label}
       </span>
     );
@@ -44,12 +47,19 @@ export function GameFocusDisplay({
   className,
   ...props
 }: GameFocusDisplayProps) {
+  const { ref, revealed } = useReveal(true);
+
   if (!isValidGameFocus(focus)) {
     throw new Error("Game focus requires three integers in 0–5 totaling 10");
   }
 
   return (
-    <div {...props} className={cx("edem-game-focus", className)}>
+    <div
+      {...props}
+      ref={ref}
+      className={cx("edem-game-focus", className)}
+      data-revealed={revealed}
+    >
       {(Object.keys(GAME_FOCUS) as (keyof GameFocus)[]).map((key) => {
         const meta = GAME_FOCUS[key];
         const score = focus[key];
@@ -72,6 +82,7 @@ export function GameFocusDisplay({
                 <span
                   className="edem-game-focus__segment"
                   data-active={i < score ? "true" : "false"}
+                  style={{ animationDelay: `${i * 95}ms` }}
                   aria-hidden="true"
                   key={i}
                 />

@@ -1,20 +1,25 @@
-/* Compact neon-city signage for shared game taxonomy. */
 .edem-game-tag {
+  --edem-sketch-ink: var(--edem-tag-neon);
+  --edem-surface-fill: color-mix(
+    in srgb,
+    var(--edem-tag-neon) 10%,
+    transparent
+  );
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   max-width: 100%;
   min-height: 30px;
-  padding: 5px 10px;
-  border: 1px solid var(--edem-tag-neon);
-  border-radius: 3px;
-  background: var(--edem-color-background);
+  padding: 6px 10px;
   color: var(--edem-tag-neon);
   font: 700 0.75rem / 1.3 var(--font-display);
+  text-transform: uppercase;
   overflow-wrap: anywhere;
-  box-shadow:
-    inset 0 0 6px color-mix(in srgb, var(--edem-tag-neon) 10%, transparent),
-    0 0 7px color-mix(in srgb, var(--edem-tag-neon) 30%, transparent);
-  text-shadow: 0 0 7px color-mix(in srgb, var(--edem-tag-neon) 50%, transparent);
+}
+
+.edem-game-tag > .edem-sketch-plate {
+  z-index: -1;
 }
 
 .edem-game-focus {
@@ -43,19 +48,32 @@
   gap: 5px;
 }
 .edem-game-focus__segment {
-  height: 11px;
+  height: 4px;
   background: var(--edem-color-surface-raised);
-  border-radius: 2px;
-}
-.edem-game-focus__segment[data-active="true"] {
-  background: var(--edem-tag-neon);
-  box-shadow: 0 0 7px color-mix(in srgb, var(--edem-tag-neon) 40%, transparent);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .edem-game-tag,
-  .edem-game-focus__segment {
-    box-shadow: none;
-    text-shadow: none;
+.edem-game-focus__segment[data-active="true"] {
+  background: var(--edem-tag-neon);
+  transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edem-game-focus[data-revealed="true"]
+    .edem-game-focus__segment[data-active="true"] {
+    animation-name: edem-game-focus-fill;
+    animation-duration: 340ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: backwards;
+  }
+}
+
+@keyframes edem-game-focus-fill {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
   }
 }

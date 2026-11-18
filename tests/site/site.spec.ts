@@ -173,10 +173,28 @@ test("Parade shows its taxonomy and game focus on the card and detail page", asy
   });
 
   await expect(tags.getByRole("listitem")).toHaveText(tagLabels);
+  const firstTag = tags.locator("[data-tag-id]").first();
+  await expect(firstTag).toHaveCSS("text-transform", "uppercase");
+  await expect(firstTag.locator(".edem-sketch-plate")).toHaveCount(1);
+  await expect(
+    page.getByText("Игровые акценты · 10 очков", { exact: true }),
+  ).toHaveCount(0);
   const focus = page.getByRole("region", { name: "Игровые акценты" });
   for (const name of scores) {
     await expect(focus.getByRole("img", { name })).toBeVisible();
   }
+
+  const segment = focus
+    .locator('.edem-game-focus__segment[data-active="true"]')
+    .nth(1);
+  await expect(focus).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  await expect(segment).toHaveCSS("height", "4px");
+  await expect(segment).toHaveCSS("animation-name", "none");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await focus.scrollIntoViewIfNeeded();
+  await expect(segment).toHaveCSS("animation-name", "edem-game-focus-fill");
+  await expect(segment).toHaveCSS("animation-delay", "0.095s");
+  await page.emulateMedia({ reducedMotion: "reduce" });
 
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 850 });
