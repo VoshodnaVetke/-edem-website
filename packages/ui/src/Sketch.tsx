@@ -248,6 +248,11 @@ export function SketchPlate({
     </svg>
   );
 }
-export function ControlBorder() {
-  return <SketchPlate className="edem-control-border" />;
+export function ControlBorder({ soft = false }: { soft?: boolean }) {
+  return (
+    <SketchPlate
+      className="edem-control-border"
+      preset={soft ? "inner" : "control"}
+    />
+  );
 }

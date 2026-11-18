@@ -9,6 +9,7 @@ import { cx } from "./utils";
 export type AsyncState = "idle" | "loading" | "success" | "error";
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg";
+  softOutline?: boolean;
   variant?: "default" | "text" | "icon";
   state?: AsyncState;
   /** Controlled persistent toggle. Omit for ordinary action buttons. */
@@ -30,6 +31,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       size = "md",
       variant = "default",
+      softOutline,
       state = "idle",
       selected,
       disabled,
@@ -54,7 +56,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className,
         )}
       >
-        <ControlBorder />
+        <ControlBorder soft={softOutline} />
         <span>{children}</span>
         {state === "loading" && (
           <span aria-hidden="true" className="edem-button__busy" />
@@ -66,16 +68,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 export interface ButtonLinkProps
   extends AnchorHTMLAttributes<HTMLAnchorElement> {
   size?: ButtonProps["size"];
+  softOutline?: boolean;
 }
 export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
-  function ButtonLink({ children, className, size = "md", ...props }, ref) {
+  function ButtonLink(
+    { children, className, size = "md", softOutline, ...props },
+    ref,
+  ) {
     return (
       <a
         {...props}
         ref={ref}
         className={cx("edem-button", `edem-button--${size}`, className)}
       >
-        <ControlBorder />
+        <ControlBorder soft={softOutline} />
         <span>{children}</span>
       </a>
     );

@@ -117,3 +117,7 @@
   object-fit: contain;
   touch-action: pan-y pinch-zoom;
 }
+
+.viewerArrow {
+  font-size: 1.25rem;
+}

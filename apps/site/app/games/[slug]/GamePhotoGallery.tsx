@@ -5,13 +5,6 @@ import { useRef, useState } from "react";
 import layout from "../../../styles/page-layout.module.css";
 import styles from "../games.module.css";
 
-const oneArchive = {
-  "ad-na-zemle": "1TbiFYoUMrNNuXxbYz1vAl5-pIfGbV8hf",
-  "kazino-mefisa": "1ExHcSsyM2R-5S1q1NhD9ZRsnnrhubkiG",
-  "parad-tehnologiy": "1qw0QXaWZ97yKEaE20K0cnjmoWr5kNVTD",
-  "teni-vostochnogo-goroda": "1HjLxMeg577g0-Gt05aa1oKdd2IpSNQWo",
-} as const;
-
 export function GamePhotoGallery({
   title,
   folder,
@@ -32,14 +25,6 @@ export function GamePhotoGallery({
   const description = (index: number) => `«${title}», фото ${index}`;
   const move = (step: number) =>
     setNumber((current) => ((current - 1 + step + count) % count) + 1);
-
-  // The two original archives were imported in photographer order.
-  const archive =
-    slug === "kazn-ognya-vechnogo"
-      ? number <= 537
-        ? "1y63PtFqK2Ebd2UN1H7aVUjC5gFX3oFX1"
-        : "1l_i1Vi31mpF_QmIkZAqp5YfzPajM6_M0"
-      : oneArchive[slug as keyof typeof oneArchive];
 
   return (
     <>
@@ -93,7 +78,7 @@ export function GamePhotoGallery({
           <span aria-live="polite">
             {number} / {count}
           </span>
-          <Button size="sm" onClick={() => dialog.current?.close()}>
+          <Button softOutline size="sm" onClick={() => dialog.current?.close()}>
             Закрыть
           </Button>
         </div>
@@ -118,29 +103,36 @@ export function GamePhotoGallery({
           }}
         />
         <div className={layout.actions}>
-          <Button size="sm" onClick={() => move(-1)}>
-            Назад
+          <Button
+            softOutline
+            size="sm"
+            variant="icon"
+            aria-label="Предыдущее фото"
+            onClick={() => move(-1)}
+          >
+            <span className={styles.viewerArrow} aria-hidden="true">
+              ←
+            </span>
           </Button>
-          <Button size="sm" onClick={() => move(1)}>
-            Вперёд
+          <Button
+            softOutline
+            size="sm"
+            variant="icon"
+            aria-label="Следующее фото"
+            onClick={() => move(1)}
+          >
+            <span className={styles.viewerArrow} aria-hidden="true">
+              →
+            </span>
           </Button>
           <ButtonLink
+            softOutline
             size="sm"
             href={`${photo(number)}.webp`}
             download={`${slug}-${number}.webp`}
           >
             Скачать фото
           </ButtonLink>
-          {archive && (
-            <ButtonLink
-              size="sm"
-              href={`https://drive.google.com/file/d/${archive}/view`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Архив оригиналов на Google Диске
-            </ButtonLink>
-          )}
         </div>
       </dialog>
     </>
