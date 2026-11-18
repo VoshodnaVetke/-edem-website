@@ -2,10 +2,22 @@
 
 import { ButtonLink, Gallery } from "@edem/ui";
 import { useRef, useState } from "react";
+import photoCounts from "../../../config/game-photo-counts.json";
 import kazinoMefisaOrder from "../../../config/kazino-mefisa-photo-order.json";
+import kaznOgnyaVechnogoExclusions from "../../../config/kazn-ognya-vechnogo-photo-exclusions.json";
 import paradTehnologiyOrder from "../../../config/parad-tehnologiy-photo-order.json";
 import layout from "../../../styles/page-layout.module.css";
 import styles from "../games.module.css";
+
+const excluded = new Set(kaznOgnyaVechnogoExclusions);
+const photoOrders: Partial<Record<string, number[]>> = {
+  "kazino-mefisa": kazinoMefisaOrder,
+  "kazn-ognya-vechnogo": Array.from(
+    { length: photoCounts["kazn-ognya-vechnogo"] + excluded.size },
+    (_, index) => index + 1,
+  ).filter((number) => !excluded.has(number)),
+  "parad-tehnologiy": paradTehnologiyOrder,
+};
 
 export function GamePhotoGallery({
   title,
@@ -22,13 +34,9 @@ export function GamePhotoGallery({
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLAnchorElement>(null);
   const touchStart = useRef<number | null>(null);
+  const order = photoOrders[slug];
   const photo = (index: number) => {
-    const originalIndex =
-      slug === "kazino-mefisa"
-        ? kazinoMefisaOrder[index - 1]
-        : slug === "parad-tehnologiy"
-          ? paradTehnologiyOrder[index - 1]
-          : index;
+    const originalIndex = order ? order[index - 1] : index;
     return `${folder}/${String(originalIndex).padStart(4, "0")}`;
   };
   const description = (index: number) => `«${title}», фото ${index}`;

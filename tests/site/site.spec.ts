@@ -118,7 +118,17 @@ test("the schedule lists the Council and the archive leads to the game galleries
           ? "0205"
           : "0001";
     if (slug === "kazino-mefisa") {
-      await expect(photos).toHaveCount(142);
+      await expect(photos).toHaveCount(141);
+      await expect(photos.nth(93)).toHaveAttribute(
+        "src",
+        /\/0230-thumb\.webp$/,
+      );
+    } else if (slug === "kazn-ognya-vechnogo") {
+      await expect(photos).toHaveCount(953);
+      await expect(photos.nth(67)).toHaveAttribute(
+        "src",
+        /\/0071-thumb\.webp$/,
+      );
     } else if (slug === "parad-tehnologiy") {
       await expect(photos).toHaveCount(120);
     }
