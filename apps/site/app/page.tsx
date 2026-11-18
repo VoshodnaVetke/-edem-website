@@ -65,7 +65,7 @@ export default function HomePage() {
             <LinkCard href={siteHref("/events")} className="edem-span--half">
               <div className={layout.cardBody}>
                 <Heading level={3}>Ближайшие игры</Heading>
-                <Text>Анонсы предстоящих игр и информация об участии.</Text>
+                <Text>«Совет Светочей» — для опытных игроков.</Text>
                 <Text variant="system" className={styles.accent}>
                   К АФИШЕ <span aria-hidden="true">↗</span>
                 </Text>
@@ -99,9 +99,7 @@ export default function HomePage() {
             >
               <div className={layout.cardBody}>
                 <Heading level={3}>Проведённые игры</Heading>
-                <Text>
-                  «Парад технологий» и «Совет Светочей» в архиве мастерской.
-                </Text>
+                <Text>Архив мастерской и фотоальбомы с игр.</Text>
               </div>
             </LinkCard>
             <LinkCard href={siteHref("/about")} className="edem-span--half">
