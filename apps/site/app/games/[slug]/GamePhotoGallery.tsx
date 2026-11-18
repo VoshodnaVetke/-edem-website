@@ -3,6 +3,7 @@
 import { ButtonLink, Gallery } from "@edem/ui";
 import { useRef, useState } from "react";
 import kazinoMefisaOrder from "../../../config/kazino-mefisa-photo-order.json";
+import paradTehnologiyOrder from "../../../config/parad-tehnologiy-photo-order.json";
 import layout from "../../../styles/page-layout.module.css";
 import styles from "../games.module.css";
 
@@ -23,7 +24,11 @@ export function GamePhotoGallery({
   const touchStart = useRef<number | null>(null);
   const photo = (index: number) => {
     const originalIndex =
-      slug === "kazino-mefisa" ? kazinoMefisaOrder[index - 1] : index;
+      slug === "kazino-mefisa"
+        ? kazinoMefisaOrder[index - 1]
+        : slug === "parad-tehnologiy"
+          ? paradTehnologiyOrder[index - 1]
+          : index;
     return `${folder}/${String(originalIndex).padStart(4, "0")}`;
   };
   const description = (index: number) => `«${title}», фото ${index}`;
