@@ -6,6 +6,7 @@ import {
   GAME_TAGS,
   GameFocusDisplay,
   GameTagBadge,
+  type GameTagId,
   getGameTag,
   isValidGameFocus,
 } from "@edem/ui";
@@ -29,6 +30,12 @@ describe("approved game taxonomy", () => {
     expect(tag).toHaveAttribute("data-tag-id", "chamber");
     expect(tag).toHaveStyle({ "--edem-tag-neon": "#BC5CFF" });
     expect(getGameTag("20-to-40").color).toBe("#BC5CFF");
+  });
+
+  it("rejects a tag absent from the registry", () => {
+    expect(() => getGameTag("unregistered-tag" as GameTagId)).toThrow(
+      "Unknown game tag: unregistered-tag",
+    );
   });
 
   it("requires ten allocated focus points with each value <= 5", () => {

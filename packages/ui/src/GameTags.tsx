@@ -12,7 +12,8 @@ import { cx } from "./utils";
 
 type NeonStyle = CSSProperties & { "--edem-tag-neon": string };
 
-export interface GameTagBadgeProps extends HTMLAttributes<HTMLSpanElement> {
+export interface GameTagBadgeProps
+  extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
   /** ID from the central game-tag registry; labels and colors are never duplicated by callers. */
   tag: GameTagId;
 }

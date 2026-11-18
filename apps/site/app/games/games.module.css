@@ -30,32 +30,18 @@
 
 .cover::after {
   content: "";
-  background: linear-gradient(transparent 15%, rgb(5 7 12 / 94%) 77%);
+  background: linear-gradient(
+    155deg,
+    rgb(5 7 12 / 70%),
+    rgb(5 7 12 / 56%) 38%,
+    rgb(5 7 12 / 94%) 88%
+  );
 }
 
 @media (hover: hover) and (pointer: fine) {
   .gameCard:hover .cover img {
     filter: brightness(1.12);
   }
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.tags li {
-  padding: 0.3rem 0.65rem;
-  border: 1px solid var(--edem-color-outline-sketch);
-  background: var(--edem-color-surface);
-}
-
-.tags p {
-  margin: 0;
 }
 
 .gallery:global(.edem-gallery) {
@@ -79,15 +65,14 @@
   object-fit: cover;
 }
 
-/* Parade pilot only: reusable neon taxonomy and relative game-emphasis bars. */
-.paradeMeta {
+.gameMeta {
   display: grid;
   gap: 0.8rem;
   width: 100%;
   max-width: 30rem;
 }
 
-.paradeTags {
+.gameTags {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -97,18 +82,23 @@
   list-style: none;
 }
 
-.paradeTags :global(.edem-game-tag) {
+.gameTags > li {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.gameTags :global(.edem-game-tag) {
   font-size: 0.68rem;
 }
 
-.paradeMeta :global(.edem-game-focus) {
+.gameMeta :global(.edem-game-focus) {
   width: 100%;
 }
 
-.paradeMeta :global(.edem-game-focus__heading) {
+.gameMeta :global(.edem-game-focus__heading) {
   font-size: 0.76rem;
 }
 
-.paradeFocus {
+.gameFocus {
   width: min(100%, 32rem);
 }
