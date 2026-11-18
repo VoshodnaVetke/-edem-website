@@ -22,7 +22,14 @@ export default function GamesPage() {
             className={`edem-span--half ${styles.gameCard}`}
             cover={
               <div className={styles.cover}>
-                <img src={`${photoPath}/${slug}.webp`} alt="" />
+                <img
+                  src={
+                    slug === "parad-tehnologiy"
+                      ? `${photoPath}/${slug}/0073.webp`
+                      : `${photoPath}/${slug}.webp`
+                  }
+                  alt=""
+                />
               </div>
             }
           >
