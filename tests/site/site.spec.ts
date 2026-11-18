@@ -96,7 +96,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
     await expect(
       page.getByRole("heading", { level: 1, name: title }),
     ).toBeVisible();
-    const photos = page.getByRole("main").getByRole("img");
+    const photos = page.locator("main .edem-gallery img");
     expect(await photos.count()).toBeGreaterThan(1);
     const photo = photos.first();
     await expect(photo).toBeVisible();
@@ -138,9 +138,28 @@ test("the schedule lists the Council and the archive leads to the game galleries
   }
 });
 
-test("game details place tags by the title and the gallery below", async ({
+test("Parade shows its taxonomy and game focus on the card and detail page", async ({
   page,
 }) => {
+  const tagLabels = [
+    "Кабинетная ролевая игра",
+    "Элита",
+    "Корпорации",
+    "Корпоративная конкуренция",
+    "Опытным игрокам",
+  ];
+  const scores = ["Социалка: 5 из 5", "Боёвка: 1 из 5", "Механики: 4 из 5"];
+  await page.goto(exportedPath("/games"));
+  const archive = page.getByRole("main");
+  const paradeCard = archive.getByRole("link").filter({
+    has: page.getByRole("heading", { name: "Парад технологий", exact: true }),
+  });
+  await expect(paradeCard.locator("[data-tag-id]")).toHaveText(tagLabels);
+  for (const name of scores) {
+    await expect(paradeCard.getByRole("img", { name })).toBeVisible();
+  }
+  await expect(archive.getByRole("img", { name: /из 5$/ })).toHaveCount(3);
+
   await page.goto(exportedPath("/games/parad-tehnologiy"));
   const heading = page.getByRole("heading", {
     level: 1,
@@ -153,11 +172,11 @@ test("game details place tags by the title and the gallery below", async ({
     exact: true,
   });
 
-  await expect(tags.getByRole("listitem")).toHaveText([
-    "Кабинетная ролевая игра",
-    "Для опытных",
-    "Элита Эдема",
-  ]);
+  await expect(tags.getByRole("listitem")).toHaveText(tagLabels);
+  const focus = page.getByRole("region", { name: "Игровые акценты" });
+  for (const name of scores) {
+    await expect(focus.getByRole("img", { name })).toBeVisible();
+  }
 
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 850 });
@@ -165,9 +184,11 @@ test("game details place tags by the title and the gallery below", async ({
     const titleBox = (await heading.boundingBox())!;
     const tagsBox = (await tags.boundingBox())!;
     const summaryBox = (await summary.boundingBox())!;
+    const focusBox = (await focus.boundingBox())!;
     const photoBox = (await photo.boundingBox())!;
     expect(tagsBox.y).toBeGreaterThanOrEqual(titleBox.y + titleBox.height);
-    expect(photoBox.y).toBeGreaterThanOrEqual(summaryBox.y + summaryBox.height);
+    expect(focusBox.y).toBeGreaterThanOrEqual(summaryBox.y + summaryBox.height);
+    expect(photoBox.y).toBeGreaterThanOrEqual(focusBox.y + focusBox.height);
     expect(photoBox.width).toBeLessThan(width / 2);
     if (width === 1440) {
       expect(summaryBox.x).toBeGreaterThan(titleBox.x + titleBox.width);
