@@ -214,6 +214,9 @@ test("Parade displays its taxonomy and game focus above the gallery", async ({
     const titleBox = (await heading.boundingBox())!;
     const tagsBox = (await tags.boundingBox())!;
     const summaryBox = (await summary.boundingBox())!;
+    const regionBox = (await focus.boundingBox())!;
+    const chartBox = (await focus.locator(".edem-game-focus").boundingBox())!;
+    expect(chartBox.width).toBeCloseTo(regionBox.width, 0);
     const photoBox = (await photo.boundingBox())!;
     expect(tagsBox.y).toBeGreaterThanOrEqual(titleBox.y + titleBox.height);
     expect(photoBox.y).toBeGreaterThanOrEqual(summaryBox.y + summaryBox.height);
@@ -224,6 +227,48 @@ test("Parade displays its taxonomy and game focus above the gallery", async ({
       expect(summaryBox.y).toBeGreaterThanOrEqual(tagsBox.y + tagsBox.height);
     }
   }
+});
+
+test("site cards show telemetry and full-width dividers vary by placement", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 850 });
+  const designs = new Set<string>();
+  for (const route of [
+    ...publicPages.map(([route]) => route),
+    "/world/neurochip",
+    "/games/parad-tehnologiy",
+  ]) {
+    await page.goto(exportedPath(route));
+    const cards = page.locator("main .edem-card");
+    await expect(cards.locator(".edem-card-telemetry")).toHaveCount(
+      await cards.count(),
+    );
+    const divider = page.locator("main .site-content-divider");
+    if (await divider.count()) {
+      const design = await divider.getAttribute("data-variant");
+      expect(design).toBeTruthy();
+      designs.add(design!);
+      const ratio = await divider.evaluate(
+        (element) =>
+          element.getBoundingClientRect().width /
+          element.parentElement!.getBoundingClientRect().width,
+      );
+      expect(ratio).toBeCloseTo(1, 2);
+    }
+  }
+  expect(designs.size).toBe(3);
+  await page.goto(exportedPath("/games"));
+  await page.mouse.move(0, 0);
+  const card = page.locator("main .edem-link-card").first();
+  await expect(card.locator(".edem-card-telemetry__standby")).toBeVisible();
+  await card.hover();
+  await expect(card.locator(".edem-card-telemetry__active")).toBeVisible();
+  await page.mouse.move(0, 0);
+  await card.press("Tab");
+  await page.keyboard.press("Shift+Tab");
+  await expect(card).toBeFocused();
+  await expect(card.locator(".edem-card-telemetry__active")).toBeVisible();
 });
 
 test("buttons and tags use one continuous closed outline", async ({ page }) => {

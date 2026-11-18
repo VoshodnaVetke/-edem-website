@@ -15,6 +15,7 @@ export default function GamesPage() {
       <Grid>
         {games.map(({ slug, title, frame }) => (
           <LinkCard
+            telemetry
             key={slug}
             href={siteHref(`/games/${slug}`)}
             frame={frame}

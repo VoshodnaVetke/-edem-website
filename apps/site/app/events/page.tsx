@@ -23,7 +23,7 @@ export default function EventsPage() {
         <Heading level={2} id="upcoming" className={styles.sectionHeading}>
           Ближайшие события
         </Heading>
-        <Card frame="asym" reveal={false}>
+        <Card telemetry frame="asym" reveal={false}>
           <div className={styles.cardBody}>
             <div className={styles.actions}>
               <GameTagBadge tag="chamber" />
@@ -45,6 +45,7 @@ export default function EventsPage() {
           className="site-content-divider site-content-divider--muted"
           label=""
           pulse="none"
+          variationSeed="events.choose"
           aria-hidden="true"
         />
         <Heading level={2} id="choose">

@@ -114,9 +114,9 @@ export function getGameTag(id: GameTagId): GameTag {
 
 /** Relative game emphasis: three integers, each 0–5, summing to exactly ten. */
 export const GAME_FOCUS = {
-  social: { label: "Социалка", color: C.pink },
-  combat: { label: "Боёвка", color: C.red },
-  systems: { label: "Механики", color: C.cyan },
+  social: { label: "Социалка", color: C.violet, code: "SOC" },
+  combat: { label: "Боёвка", color: C.orange, code: "CMB" },
+  systems: { label: "Механики", color: C.cyan, code: "SYS" },
 } as const;
 
 export type GameFocus = Readonly<{

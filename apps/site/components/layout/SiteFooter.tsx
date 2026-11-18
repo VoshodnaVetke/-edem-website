@@ -1,10 +1,12 @@
 "use client";
 
 import { Grid, Heading, Layout, SignalDivider, Text } from "@edem/ui";
+import { usePathname } from "next/navigation";
 import { siteNavigation } from "../../config/navigation";
 import styles from "./SiteFooter.module.css";
 
 export function SiteFooter() {
+  const pathname = usePathname();
   return (
     <footer className={styles.footer} aria-label="Подвал сайта">
       <Layout>
@@ -12,6 +14,7 @@ export function SiteFooter() {
           className={styles.divider}
           label="ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА"
           pulse="once"
+          variationSeed={`footer.${pathname}`}
         />
         <Grid>
           <div className={`edem-span--intro ${styles.intro}`}>

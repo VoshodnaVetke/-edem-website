@@ -208,10 +208,10 @@ html {
 }
 
 .site-content-divider.edem-vector-divider {
-  width: min(22rem, 55%);
+  width: 100%;
   margin: 0 0 clamp(1rem, 3vw, 2rem);
   padding: 0;
-  opacity: 0.55;
+  opacity: 0.72;
 }
 
 .site-content-divider.edem-vector-divider svg {
@@ -219,7 +219,6 @@ html {
 }
 
 .site-content-divider--muted.edem-vector-divider {
-  width: 100%;
   opacity: 0.32;
 }
 

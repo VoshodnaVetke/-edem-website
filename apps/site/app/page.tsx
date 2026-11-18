@@ -52,9 +52,10 @@ export default function HomePage() {
             className="site-content-divider"
             label=""
             pulse="none"
+            variationSeed="home.intro"
             aria-hidden="true"
           />
-          <LinkCard href={siteHref("/world")} frame="asym">
+          <LinkCard telemetry href={siteHref("/world")} frame="asym">
             <div className={layout.cardBody}>
               <Heading level={2} id="first-visit">
                 Впервые в Эдеме?
@@ -76,7 +77,11 @@ export default function HomePage() {
             Станьте частью истории
           </Heading>
           <Grid>
-            <LinkCard href={siteHref("/events")} className="edem-span--half">
+            <LinkCard
+              telemetry
+              href={siteHref("/events")}
+              className="edem-span--half"
+            >
               <div className={layout.cardBody}>
                 <Heading level={3}>Ближайшие игры</Heading>
                 <Text>«Совет Светочей» — для опытных игроков.</Text>
@@ -86,6 +91,7 @@ export default function HomePage() {
               </div>
             </LinkCard>
             <LinkCard
+              telemetry
               href={siteHref("/order")}
               frame="double"
               className="edem-span--half"
@@ -107,6 +113,7 @@ export default function HomePage() {
           </Heading>
           <Grid>
             <LinkCard
+              telemetry
               href={siteHref("/games")}
               frame="asym"
               className="edem-span--half"
@@ -116,7 +123,11 @@ export default function HomePage() {
                 <Text>Архив мастерской и фотоальбомы с игр.</Text>
               </div>
             </LinkCard>
-            <LinkCard href={siteHref("/about")} className="edem-span--half">
+            <LinkCard
+              telemetry
+              href={siteHref("/about")}
+              className="edem-span--half"
+            >
               <div className={layout.cardBody}>
                 <Heading level={3}>Наша команда</Heading>
                 <Text>

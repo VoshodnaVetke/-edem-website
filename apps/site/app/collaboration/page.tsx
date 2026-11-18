@@ -16,7 +16,12 @@ export default function CollaborationPage() {
           Варианты сотрудничества
         </Heading>
         <Grid>
-          <LinkCard href="#proposal" frame="double" className="edem-span--half">
+          <LinkCard
+            telemetry
+            href="#proposal"
+            frame="double"
+            className="edem-span--half"
+          >
             <div className={styles.cardBody}>
               <Heading level={3}>Создавайте игры</Heading>
               <Text>
@@ -26,7 +31,12 @@ export default function CollaborationPage() {
               <Text variant="system">Подготовить предложение об игре</Text>
             </div>
           </LinkCard>
-          <LinkCard href="#proposal" frame="asym" className="edem-span--half">
+          <LinkCard
+            telemetry
+            href="#proposal"
+            frame="asym"
+            className="edem-span--half"
+          >
             <div className={styles.cardBody}>
               <Heading level={3}>Совместные проекты</Heading>
               <Text>
@@ -45,7 +55,7 @@ export default function CollaborationPage() {
         <Heading level={2} id="proposal" className={styles.sectionHeading}>
           Обсудим сотрудничество
         </Heading>
-        <Card reveal={false}>
+        <Card telemetry reveal={false}>
           <div className={styles.cardBody}>
             <Text>
               В предложении укажите, кто вы и какой результат хотите получить

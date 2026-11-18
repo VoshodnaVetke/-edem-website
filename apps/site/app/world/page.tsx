@@ -71,9 +71,10 @@ export default function WorldPage() {
           className="site-content-divider"
           label=""
           pulse="none"
+          variationSeed="world.intro"
           aria-hidden="true"
         />
-        <LinkCard href={siteHref("/world/neurochip")} frame="asym">
+        <LinkCard telemetry href={siteHref("/world/neurochip")} frame="asym">
           <div className={styles.cardBody}>
             <Heading level={2} id="first-reading">
               Впервые в Эдеме?
@@ -96,6 +97,7 @@ export default function WorldPage() {
         <Grid>
           {topics.map(({ id, title, description, frame }) => (
             <Card
+              telemetry
               key={id}
               frame={frame}
               className="edem-span--third"
