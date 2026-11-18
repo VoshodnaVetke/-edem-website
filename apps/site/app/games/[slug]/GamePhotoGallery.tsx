@@ -2,20 +2,15 @@
 
 import { ButtonLink, Gallery } from "@edem/ui";
 import { useRef, useState } from "react";
-import photoCounts from "../../../config/game-photo-counts.json";
 import kazinoMefisaOrder from "../../../config/kazino-mefisa-photo-order.json";
-import kaznOgnyaVechnogoExclusions from "../../../config/kazn-ognya-vechnogo-photo-exclusions.json";
+import kaznOgnyaVechnogoOrder from "../../../config/kazn-ognya-vechnogo-photo-order.json";
 import paradTehnologiyOrder from "../../../config/parad-tehnologiy-photo-order.json";
 import layout from "../../../styles/page-layout.module.css";
 import styles from "../games.module.css";
 
-const excluded = new Set(kaznOgnyaVechnogoExclusions);
 const photoOrders: Partial<Record<string, number[]>> = {
   "kazino-mefisa": kazinoMefisaOrder,
-  "kazn-ognya-vechnogo": Array.from(
-    { length: photoCounts["kazn-ognya-vechnogo"] + excluded.size },
-    (_, index) => index + 1,
-  ).filter((number) => !excluded.has(number)),
+  "kazn-ognya-vechnogo": kaznOgnyaVechnogoOrder,
   "parad-tehnologiy": paradTehnologiyOrder,
 };
 
