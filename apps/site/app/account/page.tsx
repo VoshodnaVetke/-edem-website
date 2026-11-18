@@ -72,8 +72,7 @@ export default function AccountPage() {
           Итоги игр
         </Heading>
         <Text>
-          В открытом архиве можно прочитать завязки «Парада технологий» и
-          «Совета Светочей». Итоги игр появятся после редакционной подготовки.
+          В открытом архиве собраны проведённые игры и ссылки на фотоальбомы.
         </Text>
         <div className={styles.actions}>
           <ButtonLink href={siteHref("/games")}>Открыть архив игр</ButtonLink>

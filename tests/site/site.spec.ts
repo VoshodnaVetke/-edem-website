@@ -19,6 +19,42 @@ function exportedPath(route: string) {
   return route === "/" ? pagesBasePath + "/" : pagesBasePath + route + "/";
 }
 
+test("the schedule lists the Council and past games link to their VK albums", async ({
+  page,
+}) => {
+  await page.goto(exportedPath("/events"));
+  const council = page.getByRole("article").filter({
+    has: page.getByRole("heading", { name: "Совет Светочей", exact: true }),
+  });
+  await expect(council).toBeVisible();
+  await expect(council.getByText("Для опытных игроков")).toBeVisible();
+
+  await page.getByRole("link", { name: "Посмотреть проведённые игры" }).click();
+  await expect(page).toHaveURL(new RegExp(`${exportedPath("/games")}$`));
+  await expect(council).toHaveCount(0);
+
+  const games = [
+    ["Ад на земле", ["309547135"]],
+    ["Тени Восточного города", ["308118503"]],
+    ["Парад технологий", ["305437371"]],
+    ["Казино Мефиса", ["303755489"]],
+    ["Казнь Огня Вечного", ["300790782", "299694271"]],
+  ] as const;
+  for (const [title, albumIds] of games) {
+    const game = page.getByRole("article").filter({
+      has: page.getByRole("heading", { name: title, exact: true }),
+    });
+    const albumLinks = game.getByRole("link");
+    await expect(albumLinks).toHaveCount(albumIds.length);
+    for (const [index, id] of albumIds.entries()) {
+      await expect(albumLinks.nth(index)).toHaveAttribute(
+        "href",
+        `https://vk.ru/album-224149467_${id}`,
+      );
+    }
+  }
+});
+
 test("homepage serves the expected revision and loads its resources", async ({
   page,
   request,

@@ -18,10 +18,16 @@ export default function EventsPage() {
         </Heading>
         <Card frame="asym" reveal={false}>
           <div className={styles.cardBody}>
-            <Heading level={3}>Открытых наборов сейчас нет</Heading>
-            <Text>
-              Подтверждённые даты и условия участия появятся в анонсах.
+            <Text variant="system">
+              Кабинетная ролевая игра · Для опытных игроков
             </Text>
+            <Heading level={3}>Совет Светочей</Heading>
+            <Text>
+              Кандидаты участвуют в выборах в Совет Светочей. Игроки обсуждают
+              решения о будущем Эдема, ищут союзников и договариваются о том,
+              кто войдёт в Совет.
+            </Text>
+            <Text>Дата игры и условия записи будут объявлены.</Text>
           </div>
         </Card>
       </section>
