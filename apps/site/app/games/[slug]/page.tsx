@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import photoCounts from "../../../config/game-photo-counts.json";
 import { games } from "../../../config/past-games";
 import { GameDetails } from "./GameDetails";
 
@@ -16,5 +17,6 @@ export default async function GamePage({
   const { slug } = await params;
   const game = games.find((entry) => entry.slug === slug);
   if (!game) notFound();
-  return <GameDetails game={game} />;
+  const counts: Partial<Record<string, number>> = photoCounts;
+  return <GameDetails game={game} photoCount={counts[slug] ?? 0} />;
 }
