@@ -15,7 +15,7 @@ export function SiteHeader() {
 
   return (
     <Navigation
-      className="edem-layout"
+      className="edem-layout site-header"
       brand="ЭДЕМ"
       brandHref={siteHref("/")}
       items={siteNavigation}

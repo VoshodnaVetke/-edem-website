@@ -43,6 +43,31 @@
   object-fit: contain;
 }
 
+.edem-tree--viewport {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  min-height: 0;
+  pointer-events: none;
+}
+.edem-tree--viewport .edem-tree__fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.05;
+}
+.edem-tree--viewport .edem-tree__artwork {
+  flex: none;
+  width: max(185vw, 1300px);
+  max-width: none;
+  height: auto;
+}
+@media (width < 860px) {
+  .edem-tree--viewport .edem-tree__artwork {
+    width: 260vw;
+  }
+}
+
 .edem-tree__webgl canvas {
   display: block;
   width: 100%;

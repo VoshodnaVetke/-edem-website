@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  ButtonLink,
-  Grid,
-  Heading,
-  Layout,
-  LinkCard,
-  Text,
-  TreeBackground,
-} from "@edem/ui";
+import { ButtonLink, Grid, Heading, Layout, LinkCard, Text } from "@edem/ui";
 import { siteHref } from "../config/site-href";
 import layout from "../styles/page-layout.module.css";
 import styles from "./home.module.css";
@@ -17,7 +9,7 @@ export default function HomePage() {
   return (
     <main id="main-content" tabIndex={-1} className={layout.page}>
       <Layout className={styles.home}>
-        <section className={styles.hero} aria-labelledby="page-title">
+        <section aria-labelledby="page-title">
           <div className={layout.stack}>
             <Text variant="system" className={styles.accent}>
               МАСТЕРСКАЯ РОЛЕВЫХ ИГР / ВХОД В ЭДЕМ
@@ -45,7 +37,6 @@ export default function HomePage() {
               </ButtonLink>
             </div>
           </div>
-          <TreeBackground className={styles.heroArtwork} />
         </section>
 
         <section aria-labelledby="first-visit">
@@ -80,7 +71,11 @@ export default function HomePage() {
                 </Text>
               </div>
             </LinkCard>
-            <LinkCard href={siteHref("/order")} className="edem-span--half">
+            <LinkCard
+              href={siteHref("/order")}
+              frame="double"
+              className="edem-span--half"
+            >
               <div className={layout.cardBody}>
                 <Heading level={3}>Игра под заказ</Heading>
                 <Text>Ролевое событие под ваш запрос.</Text>
@@ -97,7 +92,11 @@ export default function HomePage() {
             За историями стоят люди
           </Heading>
           <Grid>
-            <LinkCard href={siteHref("/games")} className="edem-span--half">
+            <LinkCard
+              href={siteHref("/games")}
+              frame="asym"
+              className="edem-span--half"
+            >
               <div className={layout.cardBody}>
                 <Heading level={3}>Проведённые игры</Heading>
                 <Text>

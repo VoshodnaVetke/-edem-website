@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { SiteBackground } from "../components/layout/SiteBackground";
 import { SiteHeader } from "../components/layout/SiteHeader";
 import { SiteFooter } from "../components/layout/SiteFooter";
 import "@edem/ui/styles.css";
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body>
+        <SiteBackground />
         <a className="site-skip-link" href="#main-content">
           Перейти к содержимому
         </a>

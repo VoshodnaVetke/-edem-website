@@ -31,7 +31,7 @@ export default function AccountPage() {
         <Heading level={2} id="my-games" className={styles.sectionHeading}>
           Мои игры
         </Heading>
-        <Card reveal={false}>
+        <Card frame="double" reveal={false}>
           <div className={styles.cardBody}>
             <Heading level={3}>Ближайшая игра</Heading>
             <Text>

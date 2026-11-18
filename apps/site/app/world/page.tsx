@@ -8,41 +8,47 @@ import styles from "../../styles/page-layout.module.css";
 const topics = [
   {
     id: "history",
+    frame: "double",
     title: "После катастрофы",
     description:
       "После Ядерной войны большие участки суши стали радиоактивной пустошью. Города и другие крупные центры оказались разделены обширными малонаселёнными территориями.",
   },
   {
     id: "power",
+    frame: "system",
     title: "Власть и государство",
     description:
       "Во главе Эдема стоит Адам. Выборы в Совет Светочей стали завязкой одной из кабинетных игр.",
   },
   {
     id: "daily-life",
+    frame: "asym",
     title: "Повседневная жизнь",
     description:
       "Нейрочип удостоверяет личность гражданина, а социальный рейтинг влияет на его права и разрешения.",
   },
   {
     id: "geography",
+    frame: "system",
     title: "Города и пустошь",
     description:
       "Эдем объединяет Западный, Восточный и Северный города-территории. В пустоши за пределами городов есть дороги, промышленные объекты и небольшие поселения.",
   },
   {
     id: "corporations",
+    frame: "asym",
     title: "Корпорации",
     description:
       "Крупнейшие компании развивают технологии и конкурируют за проекты. На «Параде технологий» изобретатели представляют свои разработки, а корпорации ищут, во что вложиться.",
   },
   {
     id: "stories",
+    frame: "double",
     title: "Люди и истории",
     description:
       "Государство, технологии и соперничество становятся личными, когда участники принимают решения за своих персонажей.",
   },
-];
+] as const;
 
 export default function WorldPage() {
   return (
@@ -73,8 +79,13 @@ export default function WorldPage() {
           Как устроен мир
         </Heading>
         <Grid>
-          {topics.map(({ id, title, description }) => (
-            <Card key={id} className="edem-span--third" reveal={false}>
+          {topics.map(({ id, title, description, frame }) => (
+            <Card
+              key={id}
+              frame={frame}
+              className="edem-span--third"
+              reveal={false}
+            >
               <div className={styles.cardBody}>
                 <Heading level={3} id={id}>
                   {title}

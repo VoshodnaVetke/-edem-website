@@ -96,8 +96,13 @@ test("homepage serves the expected revision and loads its resources", async ({
 
   expect(errors).toEqual([]);
   expect(loadedTypes).toEqual(new Set(resourceTypes));
-  const artwork = page.locator(".edem-tree__artwork");
-  await expect(artwork).toBeVisible();
+  const background = page.locator("body > .edem-tree--viewport");
+  await expect(background).toHaveCount(1);
+  await expect(background).toHaveAttribute("aria-hidden", "true");
+  await expect(background).toHaveCSS("position", "fixed");
+  await expect(background).toHaveCSS("pointer-events", "none");
+  await expect(page.locator("main .edem-tree")).toHaveCount(0);
+  const artwork = background.locator(".edem-tree__artwork");
   expect(
     await artwork.evaluate(async (image: HTMLImageElement) => {
       await image.decode();
@@ -106,10 +111,37 @@ test("homepage serves the expected revision and loads its resources", async ({
   ).toBeGreaterThan(0);
 });
 
+test("the tree stays behind the page and respects reduced motion", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(exportedPath("/"));
+  const background = page.locator("body > .edem-tree--viewport");
+  const canvas = background.locator("canvas");
+  await expect(canvas).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, innerHeight));
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  expect(await background.boundingBox()).toMatchObject({ x: 0, y: 0 });
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(canvas).toHaveCount(0);
+  const artwork = background.locator(".edem-tree__artwork");
+  await expect(artwork).toBeVisible();
+  await expect(artwork).toHaveCSS("animation-name", "none");
+});
+
 test("homepage sections lead to the published routes", async ({
   page,
   request,
 }) => {
+  await page.goto(exportedPath("/"));
+  const frames = await page
+    .locator("main [data-frame]")
+    .evaluateAll((cards) =>
+      cards.map((card) => card.getAttribute("data-frame")),
+    );
+  expect(new Set(frames)).toEqual(new Set(["system", "double", "asym"]));
+
   const destinations = [
     ["Миры, в которые можно войти.", "Открыть мир Эдема", "/world"],
     ["Миры, в которые можно войти.", "Ближайшие игры", "/events"],
@@ -299,6 +331,7 @@ test("public pages and their internal links resolve", async ({
   for (const [path, , title] of publicPages) {
     const response = await page.goto(exportedPath(path));
     expect(response?.status(), path).toBe(200);
+    await expect(page.locator("body > .edem-tree--viewport")).toHaveCount(1);
     await expect(page.locator("main#main-content")).toHaveCount(1);
     await expect(
       page.getByRole("main").getByRole("heading", { level: 1, name: title }),

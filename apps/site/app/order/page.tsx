@@ -8,20 +8,24 @@ const formats = [
   [
     "Кабинетная игра",
     "Ролевая игра в помещении. Участники ведут переговоры, разыгрывают сцены и принимают решения за своих персонажей.",
+    "asym",
   ],
   [
     "Полигонная игра",
     "Игра на площадке под открытым небом. При подготовке важно обсудить территорию, продолжительность и условия на месте.",
+    "system",
   ],
   [
     "D&D",
     "Настольное приключение с ведущим. Можно заранее описать состав группы, игровой опыт и желаемую продолжительность.",
+    "double",
   ],
   [
     "Ролевой бал",
     "Событие, в котором танцы и общение становятся частью истории. Опишите, какую роль должны играть костюмы, танцевальная программа и сюжет.",
+    "asym",
   ],
-];
+] as const;
 
 export default function OrderPage() {
   return (
@@ -35,8 +39,13 @@ export default function OrderPage() {
           От идеи до игры
         </Heading>
         <Grid>
-          {formats.map(([name, detail]) => (
-            <Card key={name} className="edem-span--half" reveal={false}>
+          {formats.map(([name, detail, frame]) => (
+            <Card
+              key={name}
+              frame={frame}
+              className="edem-span--half"
+              reveal={false}
+            >
               <div className={styles.cardBody}>
                 <Heading level={3}>{name}</Heading>
                 <Text>{detail}</Text>

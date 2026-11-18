@@ -14,16 +14,21 @@ html {
 }
 
 body {
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   min-block-size: 100dvh;
   margin: 0;
-  background: var(--edem-color-background);
+  background: var(--edem-color-background) var(--edem-background-gradient) fixed;
   color: var(--edem-color-text-primary);
   font-family: var(--font-body);
   font-size: var(--edem-type-body-size);
   font-weight: var(--edem-font-weight-body);
   line-height: var(--edem-type-body-leading);
+}
+
+.site-header.edem-navigation {
+  background: transparent;
 }
 
 :where(img, video) {

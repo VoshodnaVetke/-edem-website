@@ -8,15 +8,17 @@ import styles from "../../styles/page-layout.module.css";
 const archive = [
   {
     title: "Парад технологий",
+    frame: "double",
     summary:
       "Изобретатели представляют разработки, а корпорации ищут перспективные проекты и договариваются о сделках. В центре игры — инвестиции, переговоры и соперничество за право заняться новым проектом.",
   },
   {
     title: "Совет Светочей",
+    frame: "asym",
     summary:
       "Кандидаты участвуют в выборах в Совет Светочей. Игроки обсуждают решения о будущем Эдема, ищут союзников и договариваются о том, кто войдёт в Совет.",
   },
-];
+] as const;
 
 export default function GamesPage() {
   return (
@@ -30,8 +32,13 @@ export default function GamesPage() {
           Архив проектов
         </Heading>
         <Grid>
-          {archive.map(({ title, summary }) => (
-            <Card key={title} className="edem-span--half" reveal={false}>
+          {archive.map(({ title, summary, frame }) => (
+            <Card
+              key={title}
+              frame={frame}
+              className="edem-span--half"
+              reveal={false}
+            >
               <div className={styles.cardBody}>
                 <Text variant="system">Кабинетная ролевая игра</Text>
                 <Heading level={3}>{title}</Heading>

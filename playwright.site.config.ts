@@ -20,6 +20,7 @@ export default defineConfig({
   use: {
     ...sharedPlaywrightConfig.use,
     baseURL: publishedUrl?.origin ?? localOrigin,
+    reducedMotion: "reduce",
   },
   webServer: publishedUrl
     ? undefined
