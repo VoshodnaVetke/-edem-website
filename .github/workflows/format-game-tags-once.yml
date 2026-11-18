@@ -1,0 +1,31 @@
+name: Format new game tags (one-time)
+
+on:
+  push:
+    paths:
+      - .github/workflows/format-game-tags-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Format and remove temporary workflow
+        run: |
+          npx prettier --write packages/ui/src/game-tags.ts packages/ui/src/GameTags.tsx packages/ui/src/index.ts packages/ui/src/styles/game-tags.css tests/unit/game-tags.test.tsx
+          git rm .github/workflows/format-game-tags-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages/ui/src/game-tags.ts packages/ui/src/GameTags.tsx packages/ui/src/index.ts packages/ui/src/styles/game-tags.css tests/unit/game-tags.test.tsx
+          git commit -m "style(ui): format game taxonomy files"
+          git push
