@@ -1,17 +1,29 @@
 "use client";
 
-import { ButtonLink, Gallery } from "@edem/ui";
+import { ButtonLink, Gallery, Text } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
-import type { games } from "../../../config/past-games";
+import { gameFormat, type games } from "../../../config/past-games";
 import layout from "../../../styles/page-layout.module.css";
 import styles from "../games.module.css";
 
 export function GameDetails({ game }: { game: (typeof games)[number] }) {
   return (
-    <PageShell title={game.title} description={game.summary}>
+    <PageShell
+      title={game.title}
+      description={game.summary}
+      titleDetails={
+        <ul className={styles.tags} aria-label="Теги игры">
+          {[gameFormat, ...(game.tags ?? [])].map((tag) => (
+            <li key={tag}>
+              <Text variant="system">{tag}</Text>
+            </li>
+          ))}
+        </ul>
+      }
+    >
       <div className={layout.stack}>
         {game.photos?.length ? (
-          <Gallery aria-label="Фотографии с игры">
+          <Gallery className={styles.gallery} aria-label="Фотографии с игры">
             {game.photos.map(({ src, alt }) => (
               <a key={src} href={src}>
                 <img

@@ -39,6 +39,39 @@
   }
 }
 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags li {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--edem-color-outline-sketch);
+  background: var(--edem-color-surface);
+}
+
+.tags p {
+  margin: 0;
+}
+
+.gallery:global(.edem-gallery) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gallery > a {
+  inline-size: 100%;
+}
+
+@media (min-width: 48rem) {
+  .gallery:global(.edem-gallery) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 .photo {
   display: block;
   inline-size: 100%;

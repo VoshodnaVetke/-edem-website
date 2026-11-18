@@ -1,6 +1,8 @@
 import type { CardProps } from "@edem/ui";
 import deployment from "./deployment.json";
 
+export const gameFormat = "Кабинетная ролевая игра";
+
 const photoPath = `${deployment.basePath}/images/games`;
 
 export const games: {
@@ -9,6 +11,7 @@ export const games: {
   frame: CardProps["frame"];
   albums: string[];
   summary?: string;
+  tags?: readonly string[];
   photos?: readonly { src: string; alt: string }[];
 }[] = [
   {
@@ -47,6 +50,7 @@ export const games: {
       },
     ],
     title: "Парад технологий",
+    tags: ["Для опытных", "Элита Эдема"],
     frame: "double",
     albums: ["https://vk.ru/album-224149467_305437371"],
     summary:

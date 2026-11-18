@@ -115,6 +115,44 @@ test("the schedule lists the Council and past games link to their VK albums", as
   }
 });
 
+test("game details place tags by the title and the gallery below", async ({
+  page,
+}) => {
+  await page.goto(exportedPath("/games/parad-tehnologiy"));
+  const heading = page.getByRole("heading", {
+    level: 1,
+    name: "Парад технологий",
+  });
+  const tags = page.getByRole("list", { name: "Теги игры" });
+  const summary = page.getByText(/^Изобретатели представляют разработки/);
+  const photo = page.getByRole("img", {
+    name: "Участники в костюмах разговаривают, один держит микрофон",
+  });
+
+  await expect(tags.getByRole("listitem")).toHaveText([
+    "Кабинетная ролевая игра",
+    "Для опытных",
+    "Элита Эдема",
+  ]);
+
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 850 });
+    await page.evaluate(() => document.fonts.ready);
+    const titleBox = (await heading.boundingBox())!;
+    const tagsBox = (await tags.boundingBox())!;
+    const summaryBox = (await summary.boundingBox())!;
+    const photoBox = (await photo.boundingBox())!;
+    expect(tagsBox.y).toBeGreaterThanOrEqual(titleBox.y + titleBox.height);
+    expect(photoBox.y).toBeGreaterThanOrEqual(summaryBox.y + summaryBox.height);
+    expect(photoBox.width).toBeLessThan(width / 2);
+    if (width === 1440) {
+      expect(summaryBox.x).toBeGreaterThan(titleBox.x + titleBox.width);
+    } else {
+      expect(summaryBox.y).toBeGreaterThanOrEqual(tagsBox.y + tagsBox.height);
+    }
+  }
+});
+
 test("homepage serves the expected revision and loads its resources", async ({
   page,
   request,

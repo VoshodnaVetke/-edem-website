@@ -2,7 +2,7 @@
 
 import { Grid, Heading, LinkCard, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
-import { games } from "../../config/past-games";
+import { gameFormat, games } from "../../config/past-games";
 import { siteHref } from "../../config/site-href";
 import styles from "./games.module.css";
 
@@ -28,7 +28,7 @@ export default function GamesPage() {
           >
             <div className={styles.caption}>
               <Heading level={2}>{title}</Heading>
-              <Text variant="system">Кабинетная ролевая игра</Text>
+              <Text variant="system">{gameFormat}</Text>
             </div>
           </LinkCard>
         ))}
