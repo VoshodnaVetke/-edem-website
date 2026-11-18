@@ -6,9 +6,12 @@ import "@edem/ui/styles.css";
 import "@edem/ui/fonts.css";
 import "./globals.css";
 
+const revision = process.env.EDEM_SITE_REVISION;
+
 export const metadata: Metadata = {
   title: "Эдем | Мастерская ролевых игр",
   description: "Сайт мастерской группы Эдема.",
+  other: revision ? { "edem-revision": revision } : undefined,
 };
 
 export default function RootLayout({

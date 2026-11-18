@@ -17,7 +17,8 @@
     "dev:site": "npm run build -w @edem/ui && npm run dev -w @edem/site",
     "build:site": "npm run build -w @edem/ui && npm run build -w @edem/site",
     "start:site": "npm run start -w @edem/site",
-    "test:site": "playwright test -c playwright.site.config.ts"
+    "test:site": "playwright test -c playwright.site.config.ts",
+    "merge:site": "node scripts/merge-site-pr.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
