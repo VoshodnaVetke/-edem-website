@@ -37,8 +37,16 @@ export const GAME_TAGS = {
   theme: [
     { id: "political-intrigue", label: "Политические интриги", color: C.pink },
     { id: "criminal-conflict", label: "Криминальные разборки", color: C.red },
-    { id: "corporate-rivalry", label: "Корпоративная конкуренция", color: C.yellow },
-    { id: "tech-conflict", label: "Технологическое противостояние", color: C.cyan },
+    {
+      id: "corporate-rivalry",
+      label: "Корпоративная конкуренция",
+      color: C.yellow,
+    },
+    {
+      id: "tech-conflict",
+      label: "Технологическое противостояние",
+      color: C.cyan,
+    },
     { id: "conspiracies", label: "Тайны и заговоры", color: C.violet },
     { id: "magic-mysteries", label: "Магические тайны", color: C.violet },
     { id: "survival", label: "Борьба за выживание", color: C.green },

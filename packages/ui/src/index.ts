@@ -48,7 +48,4 @@ export type {
   GameFocus,
 } from "./game-tags";
 export { GameTagBadge, GameFocusDisplay } from "./GameTags";
-export type {
-  GameTagBadgeProps,
-  GameFocusDisplayProps,
-} from "./GameTags";
+export type { GameTagBadgeProps, GameFocusDisplayProps } from "./GameTags";
