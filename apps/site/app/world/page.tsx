@@ -1,7 +1,8 @@
 "use client";
 
-import { Card, Grid, Heading, LinkCard, Text } from "@edem/ui";
+import { Card, Grid, Heading, LinkCard, SignalDivider, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
+import { SiteSectionRail } from "../../components/layout/SiteSectionRail";
 import { siteHref } from "../../config/site-href";
 import styles from "../../styles/page-layout.module.css";
 
@@ -50,6 +51,13 @@ const topics = [
   },
 ] as const;
 
+const sections = [
+  { id: "page-title", label: "Вселенная «Эдем»" },
+  { id: "first-reading", label: "Впервые в Эдеме?" },
+  { id: "world-topics", label: "Как устроен мир" },
+  { id: "knowledge", label: "О знаниях и спойлерах" },
+] as const;
+
 export default function WorldPage() {
   return (
     <PageShell
@@ -58,6 +66,13 @@ export default function WorldPage() {
       description="Государство после катастрофы. Здесь технологии входят в повседневную жизнь, а социальный рейтинг влияет на возможности граждан."
     >
       <section aria-labelledby="first-reading">
+        <SiteSectionRail sections={sections} />
+        <SignalDivider
+          className="site-content-divider"
+          label=""
+          pulse="none"
+          aria-hidden="true"
+        />
         <LinkCard href={siteHref("/world/neurochip")} frame="asym">
           <div className={styles.cardBody}>
             <Heading level={2} id="first-reading">

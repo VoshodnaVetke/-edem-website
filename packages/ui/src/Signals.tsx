@@ -1,21 +1,52 @@
-import type { HTMLAttributes } from "react";
+import { useEffect, useRef, useState, type HTMLAttributes } from "react";
 import { DividerArtwork } from "./DividerArtwork";
 import { OrbArtwork } from "./OrbArtwork";
 import { cx } from "./utils";
 export interface SignalDividerProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
   label?: string;
+  pulse?: "loop" | "once" | "play" | "none";
+  track?: boolean;
 }
 export function SignalDivider({
   label = "EDEN / CHANNEL LINK",
+  pulse = "loop",
+  track = false,
   className,
   ...props
 }: SignalDividerProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const element = ref.current;
+    if (pulse !== "once" || seen || !element) return;
+    if (!("IntersectionObserver" in window)) {
+      setSeen(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSeen(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [pulse, seen]);
+
   return (
-    <div {...props} className={cx("edem-vector-divider", className)}>
-      <div className="edem-vector-divider__label">{label}</div>
+    <div
+      {...props}
+      ref={ref}
+      data-pulse={pulse === "once" && seen ? "play" : pulse}
+      className={cx("edem-vector-divider", className)}
+    >
+      {label && <div className="edem-vector-divider__label">{label}</div>}
       <div aria-hidden="true">
-        <DividerArtwork />
+        <DividerArtwork track={track} />
       </div>
     </div>
   );

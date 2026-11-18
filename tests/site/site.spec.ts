@@ -104,7 +104,9 @@ test("the schedule lists the Council and the archive leads to the game galleries
     await expect(tags.locator("[data-tag-id]")).toHaveCount(tagCount);
     await expect(tags.locator('[data-tag-id="16-plus"]')).toBeVisible();
     await expect(tags.locator(`[data-tag-id="${players}"]`)).toBeVisible();
-    await expect(page.locator("main .edem-game-focus")).toHaveCount(0);
+    await expect(
+      page.getByRole("region", { name: "Игровые акценты" }),
+    ).toBeVisible();
     const photos = page.locator("main .edem-gallery img");
     expect(await photos.count()).toBeGreaterThan(1);
     const photo = photos.first();
@@ -147,7 +149,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
   }
 });
 
-test("Parade keeps its full taxonomy and hides game focus on the detail page", async ({
+test("Parade displays its taxonomy and game focus above the gallery", async ({
   page,
 }) => {
   const tagLabels = [
@@ -180,7 +182,14 @@ test("Parade keeps its full taxonomy and hides game focus on the detail page", a
   await expect(
     page.getByText("Игровые акценты · 10 очков", { exact: true }),
   ).toHaveCount(0);
-  await expect(page.locator("main .edem-game-focus")).toHaveCount(0);
+  const focus = page.getByRole("region", { name: "Игровые акценты" });
+  await expect(
+    focus.getByRole("img", { name: "Социалка: 5 из 5" }),
+  ).toBeVisible();
+  const segment = focus
+    .locator('.edem-game-focus__segment[data-active="true"]')
+    .first();
+  await expect(segment).toHaveCSS("animation-name", "none");
   await expect(firstTag.locator(".edem-sketch-stroke")).toHaveAttribute(
     "stroke-width",
     "1.1",
@@ -375,24 +384,211 @@ test("homepage serves the expected revision and loads its resources", async ({
   ).toBeGreaterThan(0);
 });
 
-test("the tree stays behind the page and respects reduced motion", async ({
+test("the tree uses a stable SVG on desktop and mobile from the first frame", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto(exportedPath("/"));
-  const background = page.locator("body > .edem-tree--viewport");
-  const canvas = background.locator("canvas");
-  await expect(canvas).toBeVisible();
-  await page.evaluate(() => window.scrollTo(0, innerHeight));
-  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
-  expect(await background.boundingBox()).toMatchObject({ x: 0, y: 0 });
-
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(canvas).toHaveCount(0);
-  const artwork = background.locator(".edem-tree__artwork");
-  await expect(artwork).toBeVisible();
-  await expect(artwork).toHaveCSS("animation-name", "none");
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto(exportedPath("/events"));
+    const background = page.locator("body > .edem-tree--viewport");
+    const artwork = background.locator(".edem-tree__artwork");
+    await expect(artwork).toBeVisible();
+    await expect(artwork).toHaveCSS("animation-name", "none");
+    await expect(artwork).toHaveCSS("transform", "none");
+    await expect(background.locator("canvas")).toHaveCount(0);
+    const initialBox = await artwork.boundingBox();
+    await page.evaluate(() =>
+      window.scrollTo({ top: innerHeight, behavior: "instant" }),
+    );
+    await expect.poll(() => artwork.boundingBox()).toEqual(initialBox);
+    await page.reload();
+    await expect.poll(() => artwork.boundingBox()).toEqual(initialBox);
+  }
 });
+
+for (const width of [1440, 390]) {
+  test(`page navigation and scroll progress work at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 760 });
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto(exportedPath("/"));
+    const progress = page.locator(".site-progress");
+    await expect(progress).toHaveAttribute("data-progress", "0");
+    await expect(page.locator(".site-progress-impulse")).toHaveCount(0);
+    await page
+      .getByRole("link", { name: /Ближайшие игры/ })
+      .first()
+      .click();
+    await expect(page).toHaveURL(
+      (url) => url.pathname === exportedPath("/events"),
+    );
+    await expect(
+      page.locator('.site-progress-impulse[data-pulse="play"]'),
+    ).toHaveCount(1);
+    await expect(
+      page.getByRole("status").filter({ hasText: "Загрузка раздела" }),
+    ).toHaveCount(0);
+    await page
+      .getByRole("link", { name: "Посмотреть проведённые игры" })
+      .click();
+    await expect(page).toHaveURL(
+      (url) => url.pathname === exportedPath("/games"),
+    );
+    const last = page.getByRole("heading", { level: 2, name: "Ад на земле" });
+    await last.evaluate((element) =>
+      element.scrollIntoView({ block: "center", behavior: "instant" }),
+    );
+    const position = await page.evaluate(() => scrollY);
+    expect(position).toBeGreaterThan(0);
+    await expect
+      .poll(async () => Number(await progress.getAttribute("data-progress")))
+      .toBeGreaterThan(0);
+    const previousProgress = Number(
+      await progress.getAttribute("data-progress"),
+    );
+    await last.click();
+    await expect(page).toHaveURL(
+      (url) => url.pathname === exportedPath("/games/ad-na-zemle"),
+    );
+    await page.goBack();
+    await expect(page).toHaveURL(
+      (url) => url.pathname === exportedPath("/games"),
+    );
+    await expect
+      .poll(() => page.evaluate(() => scrollY).catch(() => 0))
+      .toBeCloseTo(position, 0);
+    await expect
+      .poll(async () => Number(await progress.getAttribute("data-progress")))
+      .toBeCloseTo(previousProgress, 2);
+    await page.goForward();
+    await expect(page).toHaveURL(
+      (url) => url.pathname === exportedPath("/games/ad-na-zemle"),
+    );
+
+    await page.evaluate(() => {
+      const main = document.querySelector("main")!;
+      window.scrollTo({
+        top: Math.ceil(
+          main.getBoundingClientRect().bottom + scrollY - innerHeight,
+        ),
+        behavior: "instant",
+      });
+    });
+    await expect(progress).toHaveAttribute("data-progress", "1");
+    await page.evaluate(() =>
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }),
+    );
+    await expect(page.locator('footer [data-pulse="play"]')).toHaveCount(1);
+  });
+}
+
+test("anchor navigation tracks the current heading and respects reduced motion", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1600, height: 860 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const [route, label, id] of [
+    ["/world", "Как устроен мир", "world-topics"],
+    ["/games/parad-tehnologiy", "Фотографии", "game-photos"],
+  ]) {
+    await page.goto(exportedPath(route));
+    const rail = page.getByRole("navigation", {
+      name: "Разделы этой страницы",
+    });
+    const link = rail.getByRole("link", { name: label });
+    await link.focus();
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL((url) => url.hash === `#${id}`);
+    await expect(link).toHaveAttribute("aria-current", "location");
+    const header = (await page.locator(".site-header-shell").boundingBox())!;
+    const heading = (await page.locator(`#${id}`).boundingBox())!;
+    expect(heading.y).toBeGreaterThanOrEqual(header.y + header.height);
+    await expect(page.locator(".site-progress-impulse")).toHaveCount(0);
+    await expect(page.locator("main")).toHaveCSS("animation-name", "none");
+    await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
+  }
+  await page.setViewportSize({ width: 1600, height: 1800 });
+  await page.goto(exportedPath("/events"));
+  await expect(page.locator(".site-progress")).toHaveAttribute(
+    "data-progress",
+    "0",
+  );
+  await expect(page.locator(".site-progress-fill")).toBeHidden();
+  await expect(page.locator(".site-section-rail")).toHaveCount(0);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(exportedPath("/world"));
+  await expect(page.locator(".site-section-rail")).toBeHidden();
+});
+
+for (const motion of ["no-preference", "reduce"] as const) {
+  test(`only a pending internal navigation shows a loader with motion ${motion}`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: motion });
+    await page.goto(exportedPath("/"));
+    await expect(page.locator(".site-progress")).toHaveAttribute(
+      "data-progress",
+      "0",
+    );
+    // Playwright locators wait for the incoming document during a pending navigation.
+    // Observe the visible status in the outgoing document itself.
+    await page.evaluate(() => {
+      const observer = new MutationObserver(() => {
+        const loader = document.querySelector(".site-progress-loader");
+        const icon = loader?.querySelector("svg");
+        if (!loader?.getClientRects().length || !icon) return;
+        console.info("section-loader-visible", getComputedStyle(icon).display);
+        observer.disconnect();
+      });
+      observer.observe(document.querySelector(".site-progress")!, {
+        childList: true,
+      });
+    });
+    const shown = page.waitForEvent("console", {
+      predicate: (message) =>
+        message.text().startsWith("section-loader-visible"),
+      timeout: 8000,
+    });
+    let resume!: () => void;
+    const gate = new Promise<void>((resolve) => {
+      resume = resolve;
+    });
+    const waitForEvents = (url: URL) =>
+      url.pathname === exportedPath("/events");
+    await page.route(waitForEvents, async (route) => {
+      await gate;
+      await route.continue();
+    });
+    const click = page
+      .getByRole("link", { name: /Ближайшие игры/ })
+      .first()
+      .click();
+    try {
+      const message = await shown;
+      expect(message.text()).toBe(
+        `section-loader-visible ${motion === "reduce" ? "none" : "block"}`,
+      );
+    } finally {
+      resume();
+      await click;
+    }
+    await expect(page).toHaveURL(
+      (url) => url.pathname === exportedPath("/events"),
+    );
+    await expect(page.locator(".site-progress-loader")).toHaveCount(0);
+    await page.unroute(waitForEvents);
+    await page.reload();
+    await expect(page.locator(".site-progress")).toHaveAttribute(
+      "data-progress",
+      "0",
+    );
+    await expect(
+      page.locator(".site-progress-loader, .site-progress-impulse"),
+    ).toHaveCount(0);
+  });
+}
 
 test("the first-visit frame leaves clearance around each line of text", async ({
   page,

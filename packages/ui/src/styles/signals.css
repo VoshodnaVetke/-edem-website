@@ -62,14 +62,32 @@
   display: block;
   overflow: visible;
 }
+.edem-vector-divider__pulse {
+  opacity: 0;
+  stroke-dasharray: 0.08 1;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .edem-vector-divider__pulse {
+  [data-pulse="loop"] .edem-vector-divider__pulse {
     animation: edemPulseRun 12s linear infinite;
   }
+
+  [data-pulse="play"] .edem-vector-divider__pulse {
+    animation: edemPulseRun 650ms ease-out;
+  }
 }
+
 @keyframes edemPulseRun {
-  to {
-    stroke-dashoffset: -790;
+  0% {
+    opacity: 1;
+    stroke-dashoffset: 0.08;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -1;
   }
 }
 @media (max-width: 760px) {

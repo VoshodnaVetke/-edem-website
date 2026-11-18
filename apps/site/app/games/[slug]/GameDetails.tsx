@@ -1,7 +1,8 @@
 "use client";
 
-import { ButtonLink } from "@edem/ui";
+import { ButtonLink, Heading, GameFocusDisplay, SignalDivider } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
+import { SiteSectionRail } from "../../../components/layout/SiteSectionRail";
 import { photoPath, type games } from "../../../config/past-games";
 import layout from "../../../styles/page-layout.module.css";
 import { GameTagList } from "../GameTagList";
@@ -14,20 +15,43 @@ export function GameDetails({
   game: (typeof games)[number];
   photoCount: number;
 }) {
+  const sections = [
+    { id: "page-title", label: game.title },
+    { id: "game-focus", label: "Игровые акценты" },
+    { id: "game-photos", label: "Фотографии" },
+  ];
   return (
     <PageShell
       title={game.title}
       description={game.summary}
       titleDetails={<GameTagList tagIds={game.tagIds} />}
     >
+      {photoCount > 0 && <SiteSectionRail sections={sections} />}
       <div className={layout.stack}>
-        {photoCount > 0 && (
-          <GamePhotoGallery
-            title={game.title}
-            slug={game.slug}
-            folder={`${photoPath}/${game.slug}`}
-            count={photoCount}
+        <section className={layout.stack} aria-labelledby="game-focus">
+          <SignalDivider
+            className="site-content-divider"
+            label=""
+            pulse="none"
+            aria-hidden="true"
           />
+          <Heading level={2} id="game-focus">
+            Игровые акценты
+          </Heading>
+          <GameFocusDisplay focus={game.focus} className={layout.gameFocus} />
+        </section>
+        {photoCount > 0 && (
+          <section className={layout.stack} aria-labelledby="game-photos">
+            <Heading level={2} id="game-photos">
+              Фотографии
+            </Heading>
+            <GamePhotoGallery
+              title={game.title}
+              slug={game.slug}
+              folder={`${photoPath}/${game.slug}`}
+              count={photoCount}
+            />
+          </section>
         )}
         <div className={layout.actions}>
           {game.albums.map((href, index) => (
