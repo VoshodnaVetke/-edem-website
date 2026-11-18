@@ -39,12 +39,15 @@ test("the schedule lists the Council and past games link to their VK albums", as
     page.getByRole("heading", { name: "Архив проектов" }),
   ).toHaveCount(0);
   const games = [
-    ["Ад на земле", "ad-na-zemle", ["309547135"]],
-    ["Тени Восточного города", "teni-vostochnogo-goroda", ["308118503"]],
-    ["Парад технологий", "parad-tehnologiy", ["305437371"]],
-    ["Казино Мефиса", "kazino-mefisa", ["303755489"]],
     ["Казнь Огня Вечного", "kazn-ognya-vechnogo", ["300790782", "299694271"]],
+    ["Казино Мефиса", "kazino-mefisa", ["303755489"]],
+    ["Парад технологий", "parad-tehnologiy", ["305437371"]],
+    ["Тени Восточного города", "teni-vostochnogo-goroda", ["308118503"]],
+    ["Ад на земле", "ad-na-zemle", ["309547135"]],
   ] as const;
+  await expect(
+    page.getByRole("main").getByRole("heading", { level: 2 }),
+  ).toHaveText(games.map(([title]) => title));
   for (const [title, slug, albumIds] of games) {
     const card = page
       .getByRole("main")
