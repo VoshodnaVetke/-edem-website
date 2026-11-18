@@ -19,8 +19,9 @@ function exportedPath(route: string) {
   return route === "/" ? pagesBasePath + "/" : pagesBasePath + route + "/";
 }
 
-test("the schedule lists the Council and past games link to their VK albums", async ({
+test("the schedule lists the Council and the archive leads to the game galleries", async ({
   page,
+  request,
 }) => {
   await page.goto(exportedPath("/events"));
   const council = page.getByRole("article").filter({
@@ -95,12 +96,34 @@ test("the schedule lists the Council and past games link to their VK albums", as
     await expect(
       page.getByRole("heading", { level: 1, name: title }),
     ).toBeVisible();
-    const photo = page.getByRole("main").getByRole("img");
+    const photos = page.getByRole("main").getByRole("img");
+    expect(await photos.count()).toBeGreaterThan(1);
+    const photo = photos.first();
     await expect(photo).toBeVisible();
     await expect(photo).toHaveAttribute(
       "src",
-      `${pagesBasePath}/images/games/${slug}.webp`,
+      `${pagesBasePath}/images/games/${slug}/0001-thumb.webp`,
     );
+    await expect(photo.locator("..")).toHaveAttribute(
+      "href",
+      `${pagesBasePath}/images/games/${slug}/0001.webp`,
+    );
+    await expect(
+      page.locator(
+        `main img[src="${pagesBasePath}/images/games/${slug}.webp"]`,
+      ),
+    ).toHaveCount(0);
+    expect(
+      await photo.evaluate(async (img: HTMLImageElement) => {
+        await img.decode();
+        return img.naturalWidth;
+      }),
+    ).toBeGreaterThan(0);
+    const full = await request.head(
+      `${pagesBasePath}/images/games/${slug}/0001.webp`,
+    );
+    expect(full.status()).toBe(200);
+    expect(full.headers()["content-type"]).toContain("image/webp");
     const albumLinks = page
       .getByRole("main")
       .getByRole("link", { name: /в ВК/ });
@@ -126,7 +149,8 @@ test("game details place tags by the title and the gallery below", async ({
   const tags = page.getByRole("list", { name: "Теги игры" });
   const summary = page.getByText(/^Изобретатели представляют разработки/);
   const photo = page.getByRole("img", {
-    name: "Участники в костюмах разговаривают, один держит микрофон",
+    name: "«Парад технологий», фото 1",
+    exact: true,
   });
 
   await expect(tags.getByRole("listitem")).toHaveText([

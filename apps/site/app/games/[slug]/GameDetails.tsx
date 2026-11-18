@@ -2,11 +2,17 @@
 
 import { ButtonLink, Gallery, Text } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
-import { gameFormat, type games } from "../../../config/past-games";
+import { gameFormat, photoPath, type games } from "../../../config/past-games";
 import layout from "../../../styles/page-layout.module.css";
 import styles from "../games.module.css";
 
-export function GameDetails({ game }: { game: (typeof games)[number] }) {
+export function GameDetails({
+  game,
+  photoCount,
+}: {
+  game: (typeof games)[number];
+  photoCount: number;
+}) {
   return (
     <PageShell
       title={game.title}
@@ -22,20 +28,25 @@ export function GameDetails({ game }: { game: (typeof games)[number] }) {
       }
     >
       <div className={layout.stack}>
-        {game.photos?.length ? (
+        {photoCount > 0 && (
           <Gallery className={styles.gallery} aria-label="Фотографии с игры">
-            {game.photos.map(({ src, alt }) => (
-              <a key={src} href={src}>
-                <img
-                  src={src}
-                  alt={alt}
-                  loading="lazy"
-                  className={styles.photo}
-                />
-              </a>
-            ))}
+            {Array.from({ length: photoCount }, (_, index) => {
+              const number = index + 1;
+              const photo = `${photoPath}/${game.slug}/${String(number).padStart(4, "0")}`;
+              return (
+                <a key={photo} href={`${photo}.webp`}>
+                  <img
+                    src={`${photo}-thumb.webp`}
+                    alt={`«${game.title}», фото ${number}`}
+                    loading="lazy"
+                    decoding="async"
+                    className={styles.photo}
+                  />
+                </a>
+              );
+            })}
           </Gallery>
-        ) : null}
+        )}
         <div className={layout.actions}>
           {game.albums.map((href, index) => (
             <ButtonLink key={href} href={href}>
