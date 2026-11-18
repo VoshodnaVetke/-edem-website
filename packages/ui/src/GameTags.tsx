@@ -16,11 +16,15 @@ export interface GameTagBadgeProps
   extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
   /** ID from the central game-tag registry; labels and colors are never duplicated by callers. */
   tag: GameTagId;
+  compact?: boolean;
 }
 
 /** Read-only presentation. Interactive filters should wrap this in their own real controls. */
 export const GameTagBadge = forwardRef<HTMLSpanElement, GameTagBadgeProps>(
-  function GameTagBadge({ tag, className, style, ...props }, ref) {
+  function GameTagBadge(
+    { tag, compact = false, className, style, ...props },
+    ref,
+  ) {
     const record = getGameTag(tag);
     return (
       <span
@@ -31,8 +35,8 @@ export const GameTagBadge = forwardRef<HTMLSpanElement, GameTagBadgeProps>(
         className={cx("edem-game-tag", className)}
         style={{ ...style, "--edem-tag-neon": record.color } as NeonStyle}
       >
-        <SketchPlate />
-        {record.label}
+        <SketchPlate preset="inner" />
+        {compact ? (record.shortLabel ?? record.label) : record.label}
       </span>
     );
   },
