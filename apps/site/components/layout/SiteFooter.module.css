@@ -37,10 +37,6 @@
   color: var(--edem-color-accent-primary);
 }
 
-.divider {
-  margin-block: 0 clamp(1rem, 3vw, 2.5rem);
-}
-
 .signature {
   margin: 1.5rem 0 0;
 }

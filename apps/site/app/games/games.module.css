@@ -91,6 +91,19 @@
   padding: 4px 8px;
 }
 
+@media (max-width: 40.625rem) {
+  .gameTags {
+    gap: 0.25rem;
+  }
+
+  .gameTags :global(.edem-game-tag) {
+    font-size: 0.5rem;
+    line-height: 1.15;
+    min-height: 15px;
+    padding: 2px 4px;
+  }
+}
+
 .photoViewer {
   box-sizing: border-box;
   width: min(94vw, 72rem);

@@ -29,7 +29,7 @@ function Contents({
   effects?: boolean;
   cover?: ReactNode;
 }) {
-  const { ref, revealed, active } = useReveal(reveal);
+  const { ref, revealed, active } = useReveal(reveal || telemetry);
   const id = useId();
   const { blockRef, edgeRef } = useCardGlitch(active);
   const clipPath = frameClips[frame ?? "system"];
@@ -50,7 +50,8 @@ function Contents({
       onPointerMove={effects ? move : undefined}
       ref={ref}
       className="edem-card-content"
-      data-revealed={revealed}
+      data-revealed={reveal && revealed}
+      data-entered={telemetry && revealed ? "true" : undefined}
       data-active={active}
     >
       {cover && (
