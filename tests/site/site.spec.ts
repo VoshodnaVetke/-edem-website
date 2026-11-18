@@ -28,7 +28,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
     has: page.getByRole("heading", { name: "Совет Светочей", exact: true }),
   });
   await expect(council).toBeVisible();
-  await expect(council.getByText("Для опытных игроков")).toBeVisible();
+  await expect(council.getByText("Опытным игрокам")).toBeVisible();
 
   await page.getByRole("link", { name: "Посмотреть проведённые игры" }).click();
   await expect(page).toHaveURL(new RegExp(`${exportedPath("/games")}$`));
@@ -40,22 +40,45 @@ test("the schedule lists the Council and the archive leads to the game galleries
     page.getByRole("heading", { name: "Архив проектов" }),
   ).toHaveCount(0);
   const games = [
-    ["Казнь Огня Вечного", "kazn-ognya-vechnogo", ["300790782", "299694271"]],
-    ["Казино Мефиса", "kazino-mefisa", ["303755489"]],
-    ["Парад технологий", "parad-tehnologiy", ["305437371"]],
-    ["Тени Восточного города", "teni-vostochnogo-goroda", ["308118503"]],
-    ["Ад на земле", "ad-na-zemle", ["309547135"]],
+    [
+      "Казнь Огня Вечного",
+      "kazn-ognya-vechnogo",
+      ["300790782", "299694271"],
+      [4, 2, 4],
+      8,
+    ],
+    ["Казино Мефиса", "kazino-mefisa", ["303755489"], [5, 0, 5], 7],
+    ["Парад технологий", "parad-tehnologiy", ["305437371"], [5, 1, 4], 9],
+    [
+      "Тени Восточного города",
+      "teni-vostochnogo-goroda",
+      ["308118503"],
+      [5, 2, 3],
+      7,
+    ],
+    ["Ад на земле", "ad-na-zemle", ["309547135"], [5, 2, 3], 7],
   ] as const;
   await expect(
     page.getByRole("main").getByRole("heading", { level: 2 }),
   ).toHaveText(games.map(([title]) => title));
-  for (const [title, slug, albumIds] of games) {
+  for (const [title, slug, albumIds, focus, tagCount] of games) {
     const card = page
       .getByRole("main")
       .getByRole("link")
       .filter({
         has: page.getByRole("heading", { name: title, exact: true }),
       });
+    const players = slug === "ad-na-zemle" ? "up-to-20" : "20-to-40";
+    const scores = focus.map(
+      (score, index) =>
+        `${["Социалка", "Боёвка", "Механики"][index]}: ${score} из 5`,
+    );
+    await expect(card.locator("[data-tag-id]")).toHaveCount(tagCount);
+    await expect(card.locator('[data-tag-id="16-plus"]')).toBeVisible();
+    await expect(card.locator(`[data-tag-id="${players}"]`)).toBeVisible();
+    for (const name of scores) {
+      await expect(card.getByRole("img", { name })).toBeVisible();
+    }
     const action = card.getByText("Об игре");
     await expect(action).toBeVisible();
     await expect(action.locator("..")).toHaveCSS("min-height", "52px");
@@ -96,6 +119,14 @@ test("the schedule lists the Council and the archive leads to the game galleries
     await expect(
       page.getByRole("heading", { level: 1, name: title }),
     ).toBeVisible();
+    const tags = page.getByRole("list", { name: "Теги игры" });
+    await expect(tags.locator("[data-tag-id]")).toHaveCount(tagCount);
+    await expect(tags.locator('[data-tag-id="16-plus"]')).toBeVisible();
+    await expect(tags.locator(`[data-tag-id="${players}"]`)).toBeVisible();
+    const focusRegion = page.getByRole("region", { name: "Игровые акценты" });
+    for (const name of scores) {
+      await expect(focusRegion.getByRole("img", { name })).toBeVisible();
+    }
     const photos = page.locator("main .edem-gallery img");
     expect(await photos.count()).toBeGreaterThan(1);
     const photo = photos.first();
@@ -146,7 +177,11 @@ test("Parade shows its taxonomy and game focus on the card and detail page", asy
     "Элита",
     "Корпорации",
     "Корпоративная конкуренция",
+    "Технологическое противостояние",
     "Опытным игрокам",
+    "16+",
+    "20–40 игроков",
+    "Завершена",
   ];
   const scores = ["Социалка: 5 из 5", "Боёвка: 1 из 5", "Механики: 4 из 5"];
   await page.goto(exportedPath("/games"));
@@ -158,7 +193,6 @@ test("Parade shows its taxonomy and game focus on the card and detail page", asy
   for (const name of scores) {
     await expect(paradeCard.getByRole("img", { name })).toBeVisible();
   }
-  await expect(archive.getByRole("img", { name: /из 5$/ })).toHaveCount(3);
 
   await page.goto(exportedPath("/games/parad-tehnologiy"));
   const heading = page.getByRole("heading", {
@@ -166,7 +200,7 @@ test("Parade shows its taxonomy and game focus on the card and detail page", asy
     name: "Парад технологий",
   });
   const tags = page.getByRole("list", { name: "Теги игры" });
-  const summary = page.getByText(/^Изобретатели представляют разработки/);
+  const summary = page.getByText(/^Парад технологий — одно из главных событий/);
   const photo = page.getByRole("img", {
     name: "«Парад технологий», фото 1",
     exact: true,

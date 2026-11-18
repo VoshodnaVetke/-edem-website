@@ -29,6 +29,7 @@
 
 .splitHeader > p {
   margin: 0;
+  white-space: pre-line;
 }
 
 @media (min-width: 48rem) {

@@ -1,16 +1,10 @@
 "use client";
 
-import {
-  GameFocusDisplay,
-  GameTagBadge,
-  Grid,
-  Heading,
-  LinkCard,
-  Text,
-} from "@edem/ui";
+import { GameFocusDisplay, Grid, Heading, LinkCard } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
-import { gameFormat, games, photoPath } from "../../config/past-games";
+import { games, photoPath } from "../../config/past-games";
 import { siteHref } from "../../config/site-href";
+import { GameTagList } from "./GameTagList";
 import styles from "./games.module.css";
 
 export default function GamesPage() {
@@ -33,18 +27,10 @@ export default function GamesPage() {
           >
             <div className={styles.caption}>
               <Heading level={2}>{title}</Heading>
-              {slug === "parad-tehnologiy" && tagIds && focus ? (
-                <div className={styles.paradeMeta}>
-                  <div className={styles.paradeTags} aria-label="Теги игры">
-                    {tagIds.map((id) => (
-                      <GameTagBadge key={id} tag={id} />
-                    ))}
-                  </div>
-                  <GameFocusDisplay focus={focus} />
-                </div>
-              ) : (
-                <Text variant="system">{gameFormat}</Text>
-              )}
+              <div className={styles.gameMeta}>
+                <GameTagList tagIds={tagIds} />
+                <GameFocusDisplay focus={focus} />
+              </div>
             </div>
           </LinkCard>
         ))}

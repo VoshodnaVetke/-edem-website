@@ -39,25 +39,6 @@
   }
 }
 
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.tags li {
-  padding: 0.3rem 0.65rem;
-  border: 1px solid var(--edem-color-outline-sketch);
-  background: var(--edem-color-surface);
-}
-
-.tags p {
-  margin: 0;
-}
-
 .gallery:global(.edem-gallery) {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -79,15 +60,14 @@
   object-fit: cover;
 }
 
-/* Parade pilot only: reusable neon taxonomy and relative game-emphasis bars. */
-.paradeMeta {
+.gameMeta {
   display: grid;
   gap: 0.8rem;
   width: 100%;
   max-width: 30rem;
 }
 
-.paradeTags {
+.gameTags {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -97,18 +77,23 @@
   list-style: none;
 }
 
-.paradeTags :global(.edem-game-tag) {
+.gameTags > li {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.gameTags :global(.edem-game-tag) {
   font-size: 0.68rem;
 }
 
-.paradeMeta :global(.edem-game-focus) {
+.gameMeta :global(.edem-game-focus) {
   width: 100%;
 }
 
-.paradeMeta :global(.edem-game-focus__heading) {
+.gameMeta :global(.edem-game-focus__heading) {
   font-size: 0.76rem;
 }
 
-.paradeFocus {
+.gameFocus {
   width: min(100%, 32rem);
 }
