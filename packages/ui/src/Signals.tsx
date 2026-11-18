@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type HTMLAttributes } from "react";
-import { DividerArtwork } from "./DividerArtwork";
+import { DividerArtwork, dividerVariants } from "./DividerArtwork";
 import { OrbArtwork } from "./OrbArtwork";
 import { cx } from "./utils";
 export interface SignalDividerProps
@@ -7,14 +7,26 @@ export interface SignalDividerProps
   label?: string;
   pulse?: "loop" | "once" | "play" | "none";
   track?: boolean;
+  variant?: (typeof dividerVariants)[number];
+  variationSeed?: string;
 }
 export function SignalDivider({
   label = "EDEN / CHANNEL LINK",
   pulse = "loop",
   track = false,
+  variant = "circuit",
+  variationSeed,
   className,
   ...props
 }: SignalDividerProps) {
+  // The same route and placement produce the same choice in static HTML and in React.
+  let hash = 2166136261;
+  for (const char of variationSeed ?? "") {
+    hash = Math.imul(hash ^ char.charCodeAt(0), 16777619);
+  }
+  const design = variationSeed
+    ? dividerVariants[(hash >>> 0) % dividerVariants.length]
+    : variant;
   const ref = useRef<HTMLDivElement>(null);
   const [seen, setSeen] = useState(false);
   useEffect(() => {
@@ -41,12 +53,13 @@ export function SignalDivider({
     <div
       {...props}
       ref={ref}
+      data-variant={track ? "track" : design}
       data-pulse={pulse === "once" && seen ? "play" : pulse}
       className={cx("edem-vector-divider", className)}
     >
       {label && <div className="edem-vector-divider__label">{label}</div>}
       <div aria-hidden="true">
-        <DividerArtwork track={track} />
+        <DividerArtwork track={track} variant={design} />
       </div>
     </div>
   );

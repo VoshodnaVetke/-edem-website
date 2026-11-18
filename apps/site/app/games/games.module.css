@@ -1,11 +1,12 @@
 .gameCard :global(.edem-card-content__inner) {
   min-block-size: 19rem;
   display: grid;
-  align-content: end;
+  grid-template-rows: auto 1fr;
   justify-items: start;
 }
 
 .caption {
+  align-self: end;
   display: grid;
   gap: 0.4rem;
 }
@@ -31,7 +32,8 @@
   content: "";
   background: linear-gradient(
     to bottom,
-    transparent 28%,
+    rgb(5 7 12 / 70%) 0%,
+    transparent 30%,
     rgb(5 7 12 / 65%) 56%,
     var(--edem-color-background) 82%
   );

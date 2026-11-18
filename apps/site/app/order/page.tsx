@@ -41,6 +41,7 @@ export default function OrderPage() {
         <Grid>
           {formats.map(([name, detail, frame]) => (
             <Card
+              telemetry
               key={name}
               frame={frame}
               className="edem-span--half"

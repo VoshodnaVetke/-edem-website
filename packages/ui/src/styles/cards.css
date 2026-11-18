@@ -278,3 +278,56 @@
     transform: translateY(100%);
   }
 }
+
+.edem-card-telemetry {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(7ch, auto);
+  align-items: center;
+  gap: 0.55rem;
+  inline-size: 100%;
+  margin-block-end: 0.65rem;
+  color: var(--edem-color-text-telemetry);
+  font: 700 0.6875rem/1.25 var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.edem-card-telemetry__signal {
+  block-size: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    currentColor 0 4px,
+    transparent 4px 7px
+  );
+  opacity: 0.58;
+}
+
+.edem-card-telemetry__standby,
+.edem-card-telemetry__active {
+  grid-column: 3;
+  grid-row: 1;
+  text-align: end;
+}
+
+.edem-card-telemetry__active {
+  visibility: hidden;
+  color: var(--edem-color-accent-primary);
+  text-shadow: 0 0 8px currentColor;
+}
+
+.edem-card:focus-within .edem-card-telemetry__standby {
+  visibility: hidden;
+}
+
+.edem-card:focus-within .edem-card-telemetry__active {
+  visibility: visible;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .edem-card:hover .edem-card-telemetry__standby {
+    visibility: hidden;
+  }
+
+  .edem-card:hover .edem-card-telemetry__active {
+    visibility: visible;
+  }
+}

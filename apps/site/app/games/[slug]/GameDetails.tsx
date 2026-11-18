@@ -33,12 +33,13 @@ export function GameDetails({
             className="site-content-divider"
             label=""
             pulse="none"
+            variationSeed={`game.${game.slug}`}
             aria-hidden="true"
           />
           <Heading level={2} id="game-focus">
             Игровые акценты
           </Heading>
-          <GameFocusDisplay focus={game.focus} className={layout.gameFocus} />
+          <GameFocusDisplay focus={game.focus} />
         </section>
         {photoCount > 0 && (
           <section className={layout.stack} aria-labelledby="game-photos">

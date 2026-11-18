@@ -15,6 +15,7 @@ import { cx } from "./utils";
 export interface CardProps extends HTMLAttributes<HTMLElement> {
   frame?: FrameVariant;
   reveal?: boolean;
+  telemetry?: boolean;
   accent?: "cyan" | "violet";
 }
 function Contents({
@@ -23,7 +24,8 @@ function Contents({
   cover,
   reveal = true,
   effects = true,
-}: Pick<CardProps, "frame" | "children" | "reveal"> & {
+  telemetry = false,
+}: Pick<CardProps, "frame" | "children" | "reveal" | "telemetry"> & {
   effects?: boolean;
   cover?: ReactNode;
 }) {
@@ -79,7 +81,17 @@ function Contents({
       <div className="edem-card-glitch" style={{ clipPath }} aria-hidden="true">
         <span ref={blockRef} />
       </div>
-      <div className="edem-card-content__inner">{children}</div>
+      <div className="edem-card-content__inner">
+        {telemetry && (
+          <div className="edem-card-telemetry" aria-hidden="true">
+            <span>{effects ? "EDEN / MODULE" : "EDEN / LINK"}</span>
+            <span className="edem-card-telemetry__signal" />
+            <span className="edem-card-telemetry__standby">STANDBY</span>
+            <span className="edem-card-telemetry__active">ACTIVE</span>
+          </div>
+        )}
+        {children}
+      </div>
     </div>
   );
 }
@@ -88,6 +100,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(function Card(
     frame = "system",
     reveal = true,
     accent = "cyan",
+    telemetry,
     className,
     children,
     ...props
@@ -102,7 +115,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(function Card(
       data-accent={accent}
       className={cx("edem-card", className)}
     >
-      <Contents frame={frame} reveal={reveal}>
+      <Contents frame={frame} reveal={reveal} telemetry={telemetry}>
         {children}
       </Contents>
     </article>
@@ -111,6 +124,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(function Card(
 export interface LinkCardProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   frame?: FrameVariant;
   reveal?: boolean;
+  telemetry?: boolean;
   href: string;
   cover?: ReactNode;
   action?: ReactNode;
@@ -125,6 +139,7 @@ export const LinkCard = forwardRef<HTMLAnchorElement, LinkCardProps>(
       children,
       cover,
       action,
+      telemetry,
       ...props
     },
     ref,
@@ -136,7 +151,13 @@ export const LinkCard = forwardRef<HTMLAnchorElement, LinkCardProps>(
         data-frame={frame}
         className={cx("edem-card", "edem-link-card", className)}
       >
-        <Contents frame={frame} reveal={reveal} effects={false} cover={cover}>
+        <Contents
+          frame={frame}
+          reveal={reveal}
+          effects={false}
+          cover={cover}
+          telemetry={telemetry}
+        >
           {children}
           {action && <LinkAction>{action}</LinkAction>}
         </Contents>

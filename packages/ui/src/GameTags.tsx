@@ -75,7 +75,12 @@ export function GameFocusDisplay({
             style={{ "--edem-tag-neon": meta.color } as NeonStyle}
           >
             <div className="edem-game-focus__heading">
-              <span>{meta.label}</span>
+              <span>
+                <span className="edem-game-focus__code" aria-hidden="true">
+                  {meta.code}
+                </span>
+                {meta.label}
+              </span>
               <span aria-hidden="true">{score}/5</span>
             </div>
             <div

@@ -1,4 +1,27 @@
-export function DividerArtwork({ track = false }: { track?: boolean }) {
+export const dividerVariants = ["circuit", "channel", "scan"] as const;
+type DividerVariant = (typeof dividerVariants)[number];
+
+const alternatives = {
+  channel: {
+    base: "M0 36H128L148 16H432L452 36H748L768 16H1052L1072 36H1200",
+    accent: "M0 42H108L134 16H228M970 16H1066L1092 42H1200",
+    ticks: "M462 29v7m16-7v7m16-7v7m16-7v7m16-7v7m16-7v7m16-7v7m16-7v7",
+  },
+  scan: {
+    base: "M0 36H180L196 22H354L370 36H832L848 22H1004L1020 36H1200",
+    accent: "M0 42H352M391 42H808M848 42H1200",
+    ticks:
+      "M422 19v17m28-17v17m28-17v17m28-17v17m28-17v17m28-17v17m28-17v17m28-17v17m28-17v17m28-17v17m28-17v17m28-17v17m28-17v17m28-17v17",
+  },
+} as const;
+
+export function DividerArtwork({
+  track = false,
+  variant = "circuit",
+}: {
+  track?: boolean;
+  variant?: DividerVariant;
+}) {
   if (track) {
     return (
       <svg preserveAspectRatio="none" role="presentation" viewBox="0 0 1200 52">
@@ -10,6 +33,42 @@ export function DividerArtwork({ track = false }: { track?: boolean }) {
           vectorEffect="non-scaling-stroke"
           pathLength={1}
         />
+      </svg>
+    );
+  }
+  if (variant !== "circuit") {
+    const { base, accent, ticks } = alternatives[variant];
+    return (
+      <svg preserveAspectRatio="none" role="presentation" viewBox="0 0 1200 52">
+        <g fill="none" vectorEffect="non-scaling-stroke">
+          <path
+            d={base}
+            stroke="var(--edem-color-text-telemetry)"
+            strokeWidth="1.6"
+          />
+          <path
+            d={accent}
+            stroke={
+              variant === "channel"
+                ? "var(--edem-color-accent-primary)"
+                : "var(--edem-color-accent-secondary)"
+            }
+            strokeWidth="2"
+          />
+          <path
+            d={ticks}
+            stroke="var(--edem-color-text-telemetry)"
+            strokeWidth="2"
+            opacity=".48"
+          />
+          <path
+            className="edem-vector-divider__pulse"
+            d={base}
+            pathLength={1}
+            stroke="var(--edem-color-accent-primary)"
+            strokeWidth="3"
+          />
+        </g>
       </svg>
     );
   }
