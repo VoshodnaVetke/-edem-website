@@ -31,20 +31,38 @@ test("the schedule lists the Council and past games link to their VK albums", as
 
   await page.getByRole("link", { name: "Посмотреть проведённые игры" }).click();
   await expect(page).toHaveURL(new RegExp(`${exportedPath("/games")}$`));
-  await expect(council).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "Совет Светочей", exact: true }),
+  ).toHaveCount(0);
 
+  await expect(
+    page.getByRole("heading", { name: "Архив проектов" }),
+  ).toHaveCount(0);
   const games = [
-    ["Ад на земле", ["309547135"]],
-    ["Тени Восточного города", ["308118503"]],
-    ["Парад технологий", ["305437371"]],
-    ["Казино Мефиса", ["303755489"]],
-    ["Казнь Огня Вечного", ["300790782", "299694271"]],
+    ["Ад на земле", "ad-na-zemle", ["309547135"]],
+    ["Тени Восточного города", "teni-vostochnogo-goroda", ["308118503"]],
+    ["Парад технологий", "parad-tehnologiy", ["305437371"]],
+    ["Казино Мефиса", "kazino-mefisa", ["303755489"]],
+    ["Казнь Огня Вечного", "kazn-ognya-vechnogo", ["300790782", "299694271"]],
   ] as const;
-  for (const [title, albumIds] of games) {
-    const game = page.getByRole("article").filter({
-      has: page.getByRole("heading", { name: title, exact: true }),
-    });
-    const albumLinks = game.getByRole("link");
+  for (const [title, slug, albumIds] of games) {
+    const card = page
+      .getByRole("main")
+      .getByRole("link")
+      .filter({
+        has: page.getByRole("heading", { name: title, exact: true }),
+      });
+    await expect(card.getByText("Об игре")).toBeVisible();
+    await card.click();
+    await expect(page).toHaveURL(
+      (url) => url.pathname === exportedPath(`/games/${slug}`),
+    );
+    await expect(
+      page.getByRole("heading", { level: 1, name: title }),
+    ).toBeVisible();
+    const albumLinks = page
+      .getByRole("main")
+      .getByRole("link", { name: /в ВК/ });
     await expect(albumLinks).toHaveCount(albumIds.length);
     for (const [index, id] of albumIds.entries()) {
       await expect(albumLinks.nth(index)).toHaveAttribute(
@@ -52,6 +70,7 @@ test("the schedule lists the Council and past games link to their VK albums", as
         `https://vk.ru/album-224149467_${id}`,
       );
     }
+    await page.goBack();
   }
 });
 

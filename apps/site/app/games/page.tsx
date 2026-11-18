@@ -1,113 +1,36 @@
 "use client";
 
-import {
-  ButtonLink,
-  Card,
-  Grid,
-  Heading,
-  Text,
-  type CardProps,
-} from "@edem/ui";
+import { Grid, Heading, LinkCard, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
+import { games } from "../../config/past-games";
 import { siteHref } from "../../config/site-href";
-import styles from "../../styles/page-layout.module.css";
-
-const archive: {
-  title: string;
-  frame: CardProps["frame"];
-  albums: string[];
-  summary?: string;
-}[] = [
-  {
-    title: "Ад на земле",
-    frame: "asym",
-    albums: ["https://vk.ru/album-224149467_309547135"],
-  },
-  {
-    title: "Тени Восточного города",
-    frame: "system",
-    albums: ["https://vk.ru/album-224149467_308118503"],
-  },
-  {
-    title: "Парад технологий",
-    frame: "double",
-    albums: ["https://vk.ru/album-224149467_305437371"],
-    summary:
-      "Изобретатели представляют разработки, а корпорации ищут перспективные проекты и договариваются о сделках. В центре игры — инвестиции, переговоры и соперничество за право заняться новым проектом.",
-  },
-  {
-    title: "Казино Мефиса",
-    frame: "asym",
-    albums: ["https://vk.ru/album-224149467_303755489"],
-  },
-  {
-    title: "Казнь Огня Вечного",
-    frame: "system",
-    albums: [
-      "https://vk.ru/album-224149467_300790782",
-      "https://vk.ru/album-224149467_299694271",
-    ],
-  },
-];
+import styles from "./games.module.css";
 
 export default function GamesPage() {
   return (
-    <PageShell
-      eyebrow="ЭДЕМ / АРХИВ"
-      title="Наши игры"
-      description="Проведённые игры мастерской и ссылки на фотографии в ВК."
-    >
-      <section aria-labelledby="archive">
-        <Heading level={2} id="archive" className={styles.sectionHeading}>
-          Архив проектов
-        </Heading>
-        <Grid>
-          {archive.map(({ title, summary, frame, albums }) => (
-            <Card
-              key={title}
-              frame={frame}
-              className="edem-span--half"
-              reveal={false}
-            >
-              <div className={styles.cardBody}>
+    <PageShell title="Наши игры">
+      <Grid>
+        {games.map(({ slug, title, frame, photos }) => (
+          <LinkCard
+            key={slug}
+            href={siteHref(`/games/${slug}`)}
+            frame={frame}
+            reveal={false}
+            className="edem-span--half"
+          >
+            <div className={photos?.length ? styles.withCover : undefined}>
+              {photos?.[0] && (
+                <img className={styles.cover} src={photos[0].src} alt="" />
+              )}
+              <div className={styles.caption}>
+                <Heading level={2}>{title}</Heading>
                 <Text variant="system">Кабинетная ролевая игра</Text>
-                <Heading level={3}>{title}</Heading>
-                {summary && <Text>{summary}</Text>}
-                <div className={styles.actions}>
-                  {albums.map((href, index) => {
-                    const label =
-                      albums.length === 1
-                        ? "Фото в ВК"
-                        : `Альбом ${index + 1} в ВК`;
-                    return (
-                      <ButtonLink
-                        key={href}
-                        href={href}
-                        size="sm"
-                        aria-label={`${label} — «${title}»`}
-                      >
-                        {label}
-                      </ButtonLink>
-                    );
-                  })}
-                </div>
+                <Text className={styles.action}>Об игре</Text>
               </div>
-            </Card>
-          ))}
-        </Grid>
-      </section>
-
-      <section aria-labelledby="next-game" className={styles.stack}>
-        <Heading level={2} id="next-game">
-          Хотите попасть на следующую игру?
-        </Heading>
-        <Text>
-          Следите за афишей. В анонсах появятся даты и условия записи.
-        </Text>
-        <div className={styles.actions}>
-          <ButtonLink href={siteHref("/events")}>Посмотреть афишу</ButtonLink>
-        </div>
-      </section>
+            </div>
+          </LinkCard>
+        ))}
+      </Grid>
     </PageShell>
   );
 }
