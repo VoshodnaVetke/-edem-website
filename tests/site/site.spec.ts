@@ -109,9 +109,16 @@ test("the schedule lists the Council and the archive leads to the game galleries
     ).toBeVisible();
     const photos = page.locator("main .edem-gallery img");
     expect(await photos.count()).toBeGreaterThan(1);
-    const firstPhotoNumber = slug === "kazino-mefisa" ? "0100" : "0001";
+    const firstPhotoNumber =
+      slug === "kazino-mefisa"
+        ? "0100"
+        : slug === "parad-tehnologiy"
+          ? "0205"
+          : "0001";
     if (slug === "kazino-mefisa") {
       await expect(photos).toHaveCount(142);
+    } else if (slug === "parad-tehnologiy") {
+      await expect(photos).toHaveCount(120);
     }
     const photo = photos.first();
     await expect(photo).toBeVisible();
@@ -249,7 +256,7 @@ test("game photos can be browsed and downloaded from the viewer", async ({
   await thumbnail.click();
   const viewer = page.getByRole("dialog", { name: "Просмотр фотографий" });
   const photo = viewer.getByRole("img");
-  await expect(photo).toHaveAttribute("src", /0001\.webp$/);
+  await expect(photo).toHaveAttribute("src", /0205\.webp$/);
   const previous = viewer.getByRole("button", { name: "Предыдущее фото" });
   const next = viewer.getByRole("button", { name: "Следующее фото" });
   await expect(previous).toHaveText("←");
@@ -264,15 +271,15 @@ test("game photos can be browsed and downloaded from the viewer", async ({
     imageBox.x + imageBox.width * 0.66,
     imageBox.y + imageBox.height * 0.3,
   );
-  await expect(photo).toHaveAttribute("src", /0002\.webp$/);
+  await expect(photo).toHaveAttribute("src", /0179\.webp$/);
   await page.mouse.click(
     imageBox.x + imageBox.width * 0.33,
     imageBox.y + imageBox.height * 0.3,
   );
-  await expect(photo).toHaveAttribute("src", /0001\.webp$/);
+  await expect(photo).toHaveAttribute("src", /0205\.webp$/);
   await page.keyboard.press("ArrowRight");
   await page.keyboard.press("ArrowLeft");
-  await expect(photo).toHaveAttribute("src", /0001\.webp$/);
+  await expect(photo).toHaveAttribute("src", /0205\.webp$/);
   await photo.evaluate((element) => {
     const start = new Touch({ identifier: 1, target: element, clientX: 250 });
     const end = new Touch({ identifier: 1, target: element, clientX: 100 });
@@ -283,7 +290,7 @@ test("game photos can be browsed and downloaded from the viewer", async ({
       new TouchEvent("touchend", { bubbles: true, changedTouches: [end] }),
     );
   });
-  await expect(photo).toHaveAttribute("src", /0002\.webp$/);
+  await expect(photo).toHaveAttribute("src", /0179\.webp$/);
   const [download] = await Promise.all([
     page.waitForEvent("download"),
     viewer.getByRole("link", { name: "Скачать фото", exact: true }).click(),
