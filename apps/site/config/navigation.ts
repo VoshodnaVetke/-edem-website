@@ -1,16 +1,23 @@
 import type { NavigationItem } from "@edem/ui";
+import { siteHref } from "./site-href";
 
 /** Only working, public routes. Future detail pages are intentionally absent. */
-const home: NavigationItem = { label: "Главная", href: "/" };
-const events: NavigationItem = { label: "Афиша", href: "/events" };
-const games: NavigationItem = { label: "Наши игры", href: "/games" };
-const world: NavigationItem = { label: "Вселенная", href: "/world" };
-const wiki: NavigationItem = { label: "Энциклопедия", href: "/wiki" };
-const order: NavigationItem = { label: "Заказать игру", href: "/order" };
-const about: NavigationItem = { label: "О мастерской группе", href: "/about" };
+const home: NavigationItem = { label: "Главная", href: siteHref("/") };
+const events: NavigationItem = { label: "Афиша", href: siteHref("/events") };
+const games: NavigationItem = { label: "Наши игры", href: siteHref("/games") };
+const world: NavigationItem = { label: "Вселенная", href: siteHref("/world") };
+const wiki: NavigationItem = { label: "Энциклопедия", href: siteHref("/wiki") };
+const order: NavigationItem = {
+  label: "Заказать игру",
+  href: siteHref("/order"),
+};
+const about: NavigationItem = {
+  label: "О мастерской группе",
+  href: siteHref("/about"),
+};
 const collaboration: NavigationItem = {
   label: "Сотрудничество",
-  href: "/collaboration",
+  href: siteHref("/collaboration"),
 };
 
 /** Menu and footer use the same canonical list of live public routes. */

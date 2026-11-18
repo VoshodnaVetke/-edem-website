@@ -2,6 +2,7 @@
 
 import { ButtonLink, Heading, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
+import { siteHref } from "../../config/site-href";
 import styles from "../../styles/page-layout.module.css";
 
 export default function AboutPage() {
@@ -18,7 +19,7 @@ export default function AboutPage() {
         Мы разрабатываем игровые сценарии, персонажей и системы, а также
         организуем кабинетные и текстовые ролевые игры.
       </Text>
-      <ButtonLink href="/collaboration">Сотрудничество</ButtonLink>
+      <ButtonLink href={siteHref("/collaboration")}>Сотрудничество</ButtonLink>
     </PageShell>
   );
 }

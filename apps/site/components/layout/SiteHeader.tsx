@@ -7,6 +7,7 @@ import {
   mobileSiteNavigation,
   siteNavigation,
 } from "../../config/navigation";
+import { siteHref } from "../../config/site-href";
 
 /** Single approved Navigation C for desktop, dialogs and fixed mobile tabs. */
 export function SiteHeader() {
@@ -16,11 +17,11 @@ export function SiteHeader() {
     <Navigation
       className="edem-layout"
       brand="ЭДЕМ"
-      brandHref="/"
+      brandHref={siteHref("/")}
       items={siteNavigation}
       desktopItems={desktopSiteNavigation}
       bottomItems={mobileSiteNavigation}
-      currentHref={pathname}
+      currentHref={siteHref(pathname)}
     />
   );
 }
