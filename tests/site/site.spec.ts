@@ -7,12 +7,13 @@ const publicPages = [
   ["/events", "Афиша", "Афиша игр"],
   ["/games", "Наши игры", "Наши игры"],
   ["/world", "Вселенная", "Вселенная «Эдем»"],
-  ["/wiki", "Энциклопедия", "Энциклопедия"],
   ["/order", "Заказать игру", "Заказать игру"],
   ["/collaboration", "Сотрудничество", "Сотрудничество"],
   ["/about", "О мастерской группе", "О мастерской группе"],
+  ["/account", "Личный кабинет", "Личный кабинет"],
   ["/", "Главная", "Миры, в которые можно войти."],
 ] as const;
+const articlePath = "/world/neurochip";
 
 function exportedPath(route: string) {
   return route === "/" ? pagesBasePath + "/" : pagesBasePath + route + "/";
@@ -290,7 +291,7 @@ test("approved footer keeps its content and responsive UI grid", async ({
   );
 });
 
-test("step 5 Figma route shells render actual public pages", async ({
+test("public pages and their internal links resolve", async ({
   page,
   request,
 }) => {
@@ -329,6 +330,51 @@ test("step 5 Figma route shells render actual public pages", async ({
   await expect(page.locator("form")).toHaveCount(0);
   await page.goto(exportedPath("/collaboration"));
   await expect(page.locator("form")).toHaveCount(0);
+});
+
+test("the world article has working contents and related links", async ({
+  page,
+}) => {
+  await page.goto(exportedPath("/world"));
+  await page.getByRole("link", { name: /Читать статью/ }).click();
+  await expect(page).toHaveURL(
+    (url) => url.pathname === exportedPath(articlePath),
+  );
+  await expect(
+    page.getByRole("heading", {
+      name: "Социальный рейтинг и нейрочип",
+      level: 1,
+    }),
+  ).toBeVisible();
+
+  const nav = page.getByRole("navigation", { name: "Основная навигация" });
+  await expect(nav.getByRole("link", { name: "Вселенная" })).toHaveAttribute(
+    "aria-current",
+    "location",
+  );
+  await page.getByRole("button", { name: "Меню" }).click();
+  const menu = page.getByRole("dialog", { name: "Меню" });
+  await expect(menu.getByRole("link", { name: "Главная" })).not.toHaveAttribute(
+    "aria-current",
+  );
+  await page.keyboard.press("Escape");
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const contents = page.getByRole("navigation", { name: "Оглавление статьи" });
+  await contents
+    .getByRole("link", { name: "Как работает социальный рейтинг" })
+    .click();
+  await expect(page).toHaveURL((url) => url.hash === "#rating");
+  await expect(page.getByText("300 баллов", { exact: true })).toBeVisible();
+  await expect(page.getByText("700 баллов", { exact: true })).toBeVisible();
+
+  await page.getByRole("link", { name: "Власть и государство" }).click();
+  await expect(page).toHaveURL(
+    (url) => url.pathname === exportedPath("/world") && url.hash === "#power",
+  );
+  await expect(
+    page.getByRole("heading", { name: "Власть и государство" }),
+  ).toBeVisible();
 });
 
 for (const width of [1440, 390]) {
@@ -402,7 +448,7 @@ test("desktop and mobile navigation use working route destinations", async ({
   for (const [name, href] of [
     ["Афиша", "/events"],
     ["Мир", "/world"],
-    ["Энциклопедия", "/wiki"],
+    ["Игры", "/games"],
   ]) {
     await bottom.getByRole("link", { name }).click();
     expect(new URL(page.url()).pathname).toBe(exportedPath(href));
@@ -413,12 +459,12 @@ test("desktop and mobile navigation use working route destinations", async ({
   }
 });
 
-test("step 5 routes remain responsive without horizontal overflow", async ({
+test("public routes remain responsive without horizontal overflow", async ({
   page,
 }) => {
   for (const width of [320, 390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const [path] of publicPages) {
+    for (const path of [...publicPages.map(([path]) => path), articlePath]) {
       await page.goto(exportedPath(path));
       expect(
         await page.evaluate(
@@ -430,11 +476,9 @@ test("step 5 routes remain responsive without horizontal overflow", async ({
   }
 });
 
-test("unimplemented private routes and details return 404", async ({
-  request,
-}) => {
+test("removed and unavailable routes return 404", async ({ request }) => {
   for (const path of [
-    "/account",
+    "/wiki",
     "/team",
     "/contacts",
     "/games/unpublished",

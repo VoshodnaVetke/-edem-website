@@ -51,12 +51,13 @@ export default function HomePage() {
         <section aria-labelledby="first-visit">
           <LinkCard href={siteHref("/world")} frame="asym">
             <div className={layout.cardBody}>
-              <Heading level={2} id="first-visit" className={styles.cardTitle}>
+              <Heading level={2} id="first-visit">
                 Впервые в Эдеме?
               </Heading>
               <Text>
-                Не нужно знать весь лор, чтобы начать. Познакомьтесь с основами
-                мира.
+                Для первой игры достаточно знать основы мира. Начните с обзора
+                Эдема и узнайте, как социальный рейтинг влияет на повседневную
+                жизнь его граждан.
               </Text>
               <Text variant="system" className={styles.accent}>
                 НАЧАТЬ ЗНАКОМСТВО <span aria-hidden="true">↗</span>
@@ -97,14 +98,20 @@ export default function HomePage() {
           </Heading>
           <Grid>
             <LinkCard href={siteHref("/games")} className="edem-span--half">
-              <Heading level={3} className={styles.cardTitle}>
-                Проведённые игры
-              </Heading>
+              <div className={layout.cardBody}>
+                <Heading level={3}>Проведённые игры</Heading>
+                <Text>
+                  «Парад технологий» и «Совет Светочей» в архиве мастерской.
+                </Text>
+              </div>
             </LinkCard>
             <LinkCard href={siteHref("/about")} className="edem-span--half">
-              <Heading level={3} className={styles.cardTitle}>
-                Наша команда
-              </Heading>
+              <div className={layout.cardBody}>
+                <Heading level={3}>Наша команда</Heading>
+                <Text>
+                  Авторы сценариев, персонажей и правил ролевых игр «Эдема».
+                </Text>
+              </div>
             </LinkCard>
           </Grid>
         </section>

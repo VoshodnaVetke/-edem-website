@@ -32,7 +32,3 @@
 .accent {
   color: var(--edem-color-accent-primary);
 }
-
-.home .cardTitle {
-  margin: 0;
-}

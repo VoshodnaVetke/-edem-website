@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Grid, Heading, Text } from "@edem/ui";
+import { Card, Grid, Heading, LinkCard, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import styles from "../../styles/page-layout.module.css";
 
@@ -9,26 +9,58 @@ export default function CollaborationPage() {
     <PageShell
       eyebrow="ЭДЕМ / СОТРУДНИЧЕСТВО"
       title="Сотрудничество"
-      description="Возможности взаимодействия с авторами игр и организаторами мероприятий."
+      description="Для авторов ролевых игр, мастерских групп и организаторов, которые хотят сделать совместный проект."
     >
-      <Heading level={2} className={styles.sectionHeading}>
-        Направления сотрудничества
-      </Heading>
-      <Grid>
-        <Card className="edem-span--half" reveal={false}>
+      <section aria-labelledby="partnerships">
+        <Heading level={2} id="partnerships" className={styles.sectionHeading}>
+          Варианты сотрудничества
+        </Heading>
+        <Grid>
+          <LinkCard href="#proposal" className="edem-span--half">
+            <div className={styles.cardBody}>
+              <Heading level={3}>Создавайте игры</Heading>
+              <Text>
+                Если у вас есть идея, сценарий или механика, расскажите, на
+                какой стадии работа и в чём хотите объединить усилия.
+              </Text>
+              <Text variant="system">Подготовить предложение об игре</Text>
+            </div>
+          </LinkCard>
+          <LinkCard href="#proposal" className="edem-span--half">
+            <div className={styles.cardBody}>
+              <Heading level={3}>Совместные проекты</Heading>
+              <Text>
+                Для фестивалей, команд и площадок. Если вы ищете партнёров для
+                события, опишите его аудиторию и предполагаемую роль мастерской.
+              </Text>
+              <Text variant="system">
+                Подготовить предложение о партнёрстве
+              </Text>
+            </div>
+          </LinkCard>
+        </Grid>
+      </section>
+
+      <section aria-labelledby="proposal">
+        <Heading level={2} id="proposal" className={styles.sectionHeading}>
+          Обсудим сотрудничество
+        </Heading>
+        <Card frame="asym" reveal={false}>
           <div className={styles.cardBody}>
-            <Heading level={3}>Создание игр</Heading>
-            <Text>Совместная разработка игровых проектов.</Text>
+            <Text>
+              В предложении укажите, кто вы и какой результат хотите получить
+              вместе.
+            </Text>
+            <ul className={styles.steps}>
+              <li>Ваше имя или название команды и удобный способ связи.</li>
+              <li>Краткое описание идеи и то, что уже готово.</li>
+              <li>Что вы готовы взять на себя и какая помощь вам нужна.</li>
+              <li>Ориентировочные сроки и площадку, если они известны.</li>
+            </ul>
+            <Text>Отправка предложений с этой страницы пока недоступна.</Text>
           </div>
         </Card>
-        <Card className="edem-span--half" reveal={false}>
-          <div className={styles.cardBody}>
-            <Heading level={3}>Совместные проекты</Heading>
-            <Text>Сотрудничество с мастерскими группами и организаторами.</Text>
-          </div>
-        </Card>
-      </Grid>
-      <Text className={styles.note}>Форма предложения пока не подключена.</Text>
+      </section>
     </PageShell>
   );
 }

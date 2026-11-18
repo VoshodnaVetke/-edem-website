@@ -17,13 +17,16 @@
   min-inline-size: 0;
 }
 
-.stack > h1,
-.stack > p {
+.stack > :is(h1, h2, h3, p) {
   margin: 0;
 }
 
 .content {
   margin-block-start: clamp(2rem, 5vw, 4rem);
+}
+
+.content > * + section {
+  margin-block-start: var(--edem-site-section-space);
 }
 
 .sectionHeading {
@@ -36,11 +39,35 @@
   gap: var(--edem-card-gap);
 }
 
-.cardBody > h3,
-.cardBody > p {
+.cardBody > :is(h2, h3, p) {
   margin: 0;
 }
 
 .note {
   margin-block: 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--edem-card-gap);
+}
+
+.steps {
+  display: grid;
+  gap: var(--edem-card-gap);
+  margin-block: 0;
+  padding-inline-start: 1.5rem;
+}
+
+.jumpLinks {
+  display: grid;
+  gap: 0.75rem;
+  padding-inline-start: 1.25rem;
+  margin: 0;
+}
+
+.jumpLinks a {
+  color: var(--edem-color-accent-primary);
+  text-underline-offset: 0.2em;
 }
