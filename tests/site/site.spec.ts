@@ -56,6 +56,17 @@ test("the schedule lists the Council and past games link to their VK albums", as
         has: page.getByRole("heading", { name: title, exact: true }),
       });
     await expect(card.getByText("Об игре")).toBeVisible();
+    const cover = card.locator("img");
+    await expect(cover).toHaveAttribute(
+      "src",
+      `${pagesBasePath}/images/games/${slug}.webp`,
+    );
+    expect(
+      await cover.evaluate(async (image: HTMLImageElement) => {
+        await image.decode();
+        return image.naturalWidth;
+      }),
+    ).toBeGreaterThan(0);
     await card.click();
     await expect(page).toHaveURL(
       (url) => url.pathname === exportedPath(`/games/${slug}`),
@@ -63,6 +74,12 @@ test("the schedule lists the Council and past games link to their VK albums", as
     await expect(
       page.getByRole("heading", { level: 1, name: title }),
     ).toBeVisible();
+    const photo = page.getByRole("main").getByRole("img");
+    await expect(photo).toBeVisible();
+    await expect(photo).toHaveAttribute(
+      "src",
+      `${pagesBasePath}/images/games/${slug}.webp`,
+    );
     const albumLinks = page
       .getByRole("main")
       .getByRole("link", { name: /в ВК/ });
