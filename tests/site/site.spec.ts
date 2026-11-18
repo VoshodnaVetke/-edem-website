@@ -111,12 +111,10 @@ test("the schedule lists the Council and the archive leads to the game galleries
     ).toBeVisible();
     const photos = page.locator("main .edem-gallery img");
     expect(await photos.count()).toBeGreaterThan(1);
-    const firstPhotoNumber =
-      ({
-        "kazn-ognya-vechnogo": "0529",
-        "kazino-mefisa": "0100",
-        "parad-tehnologiy": "0205",
-      } as Record<string, string>)[slug] ?? "0001";
+    let firstPhotoNumber = "0001";
+    if (slug === "kazn-ognya-vechnogo") firstPhotoNumber = "0529";
+    if (slug === "kazino-mefisa") firstPhotoNumber = "0100";
+    if (slug === "parad-tehnologiy") firstPhotoNumber = "0205";
     if (slug === "kazino-mefisa") {
       await expect(photos).toHaveCount(141);
       await expect(photos.nth(93)).toHaveAttribute(
