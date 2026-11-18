@@ -1,16 +1,10 @@
 "use client";
 
-import {
-  ButtonLink,
-  Card,
-  GameTagBadge,
-  Heading,
-  SignalDivider,
-  Text,
-} from "@edem/ui";
+import { ButtonLink, Card, Heading, SignalDivider, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import { siteHref } from "../../config/site-href";
 import styles from "../../styles/page-layout.module.css";
+import { GameTagList } from "../games/GameTagList";
 
 export default function EventsPage() {
   return (
@@ -25,10 +19,7 @@ export default function EventsPage() {
         </Heading>
         <Card telemetry frame="asym" reveal={false}>
           <div className={styles.cardBody}>
-            <div className={styles.actions}>
-              <GameTagBadge tag="chamber" />
-              <GameTagBadge tag="experienced" />
-            </div>
+            <GameTagList tagIds={["chamber", "experienced"]} />
             <Heading level={3}>Совет Светочей</Heading>
             <Text>
               Кандидаты участвуют в выборах в Совет Светочей. Игроки обсуждают

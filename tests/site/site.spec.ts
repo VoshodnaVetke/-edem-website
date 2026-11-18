@@ -285,6 +285,11 @@ test("site cards show telemetry and edge-to-edge dividers vary by placement", as
       width === 390 ? "15px" : "30px",
     );
   }
+  await page.goto(exportedPath("/events"));
+  await expect(page.locator(".edem-game-tag").first()).toHaveCSS(
+    "min-height",
+    "15px",
+  );
 });
 
 test("buttons and tags use one continuous closed outline", async ({ page }) => {
