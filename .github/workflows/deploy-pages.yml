@@ -12,11 +12,15 @@ permissions:
 
 concurrency:
   group: github-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      EDEM_SITE_REVISION: ${{ github.sha }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -34,11 +38,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build UI library
-        run: npm run build -w @edem/ui
+      - name: Build UI library and website
+        run: npm run build:site
 
-      - name: Build website
-        run: npm run build -w @edem/site
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify static export
+        run: npm run test:site
 
       - name: Disable Jekyll
         run: touch apps/site/out/.nojekyll
@@ -54,3 +61,10 @@ jobs:
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify published website
+        env:
+          EDEM_SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          test -n "$EDEM_SITE_URL"
+          npm run test:site

@@ -1,25 +1,70 @@
 import { expect, test } from "@playwright/test";
 
 const pagesBasePath = "/-edem-website";
+const expectedRevision = process.env.EDEM_SITE_REVISION;
+
+const publicPages = [
+  ["/events", "Афиша", "Афиша игр"],
+  ["/games", "Наши игры", "Наши игры"],
+  ["/world", "Вселенная", "Вселенная «Эдем»"],
+  ["/wiki", "Энциклопедия", "Энциклопедия"],
+  ["/order", "Заказать игру", "Заказать игру"],
+  ["/collaboration", "Сотрудничество", "Сотрудничество"],
+  ["/about", "О мастерской группе", "О мастерской группе"],
+  ["/", "Главная", "Миры, в которые можно войти."],
+] as const;
 
 function exportedPath(route: string) {
   return route === "/" ? pagesBasePath + "/" : pagesBasePath + route + "/";
 }
 
-test("homepage uses shared typography, colors, header and footer", async ({
+test("homepage serves the expected revision and loads its resources", async ({
   page,
+  request,
 }) => {
-  const stylesheets: string[] = [];
-  const fonts: string[] = [];
-  page.on("response", (response) => {
-    if (!response.ok()) return;
-    const path = new URL(response.url()).pathname;
-    const type = response.request().resourceType();
-    if (type === "stylesheet") stylesheets.push(path);
-    if (type === "font") fonts.push(path);
-  });
+  const home = exportedPath("/");
 
-  await page.goto(exportedPath("/"));
+  if (process.env.EDEM_SITE_URL && expectedRevision) {
+    test.setTimeout(150_000);
+    await expect(async () => {
+      const response = await request.get(home, { timeout: 10_000 });
+      expect(response.status()).toBe(200);
+      const html = await response.text();
+      const revision = html.match(
+        /<meta name="edem-revision" content="([^"]+)"/,
+      )?.[1];
+      expect(revision, "published homepage revision").toBe(expectedRevision);
+    }).toPass({ timeout: 120_000, intervals: [1_000, 3_000, 5_000, 10_000] });
+  }
+
+  const resourceTypes = ["script", "stylesheet", "font", "image"];
+  const loadedTypes = new Set<string>();
+  const errors: string[] = [];
+  page.on("response", (response) => {
+    const type = response.request().resourceType();
+    if (!resourceTypes.includes(type)) return;
+    const path = new URL(response.url()).pathname;
+    if (!response.ok() || !path.startsWith(`${pagesBasePath}/`)) {
+      errors.push(`${type}: ${response.status()} ${path}`);
+    }
+    loadedTypes.add(type);
+  });
+  page.on("requestfailed", (request) => {
+    if (resourceTypes.includes(request.resourceType())) {
+      errors.push(`${request.failure()?.errorText} ${request.url()}`);
+    }
+  });
+  page.on("pageerror", (error) => errors.push(error.message));
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const response = await page.goto(home);
+  expect(response?.status()).toBe(200);
+  if (expectedRevision) {
+    await expect(page.locator('meta[name="edem-revision"]')).toHaveAttribute(
+      "content",
+      expectedRevision,
+    );
+  }
   await expect(page).toHaveTitle("Эдем | Мастерская ролевых игр");
   await expect(
     page.getByRole("heading", { name: "Миры, в которые можно войти." }),
@@ -48,12 +93,8 @@ test("homepage uses shared typography, colors, header and footer", async ({
   expect(theme.token).toBeTruthy();
   expect(theme.layout).toBeTruthy();
 
-  for (const assets of [stylesheets, fonts]) {
-    expect(assets.length).toBeGreaterThan(0);
-    expect(
-      assets.every((path) => path.startsWith(`${pagesBasePath}/_next/`)),
-    ).toBe(true);
-  }
+  expect(errors).toEqual([]);
+  expect(loadedTypes).toEqual(new Set(resourceTypes));
   const artwork = page.locator(".edem-tree__artwork");
   await expect(artwork).toBeVisible();
   expect(
@@ -251,19 +292,10 @@ test("approved footer keeps its content and responsive UI grid", async ({
 
 test("step 5 Figma route shells render actual public pages", async ({
   page,
+  request,
 }) => {
-  const routes = [
-    ["/", "Миры, в которые можно войти."],
-    ["/events", "Афиша игр"],
-    ["/games", "Наши игры"],
-    ["/world", "Вселенная «Эдем»"],
-    ["/wiki", "Энциклопедия"],
-    ["/order", "Заказать игру"],
-    ["/collaboration", "Сотрудничество"],
-    ["/about", "О мастерской группе"],
-  ] as const;
-
-  for (const [path, title] of routes) {
+  const linkedPaths = new Set<string>();
+  for (const [path, , title] of publicPages) {
     const response = await page.goto(exportedPath(path));
     expect(response?.status(), path).toBe(200);
     await expect(page.locator("main#main-content")).toHaveCount(1);
@@ -272,6 +304,25 @@ test("step 5 Figma route shells render actual public pages", async ({
     ).toBeVisible();
     await expect(page.getByRole("contentinfo")).toBeVisible();
     await expect(page.locator("header.edem-navigation")).toHaveCount(1);
+    const internalLinks = await page.locator("a[href]").evaluateAll((anchors) =>
+      anchors
+        .map((anchor) => new URL((anchor as HTMLAnchorElement).href))
+        .filter((url) => url.origin === window.location.origin)
+        .map((url) => url.pathname + url.search),
+    );
+    for (const link of internalLinks) linkedPaths.add(link);
+  }
+
+  const testedRoutes = new Set(publicPages.map(([path]) => exportedPath(path)));
+  for (const path of linkedPaths) {
+    expect(
+      path.startsWith(`${pagesBasePath}/`),
+      `same-origin link: ${path}`,
+    ).toBe(true);
+    if (!testedRoutes.has(path)) {
+      const response = await request.get(path);
+      expect(response.status(), path).toBe(200);
+    }
   }
 
   await page.goto(exportedPath("/order"));
@@ -279,6 +330,40 @@ test("step 5 Figma route shells render actual public pages", async ({
   await page.goto(exportedPath("/collaboration"));
   await expect(page.locator("form")).toHaveCount(0);
 });
+
+for (const width of [1440, 390]) {
+  test.describe(`navigation at ${width}px`, () => {
+    test.use({
+      viewport: { width, height: 844 },
+      hasTouch: width === 390,
+      reducedMotion: "reduce",
+    });
+    test("menu reaches every public page and returns home", async ({
+      page,
+    }) => {
+      await page.goto(exportedPath("/"));
+      for (const [path, label, title] of publicPages) {
+        await page.getByRole("button", { name: "Меню" }).click();
+        const link = page
+          .getByRole("dialog", { name: "Меню" })
+          .getByRole("link", { name: label, exact: true });
+        await expect(link).toHaveAttribute("href", exportedPath(path));
+        await link.click();
+        await expect(page).toHaveURL(
+          (url) => url.pathname === exportedPath(path),
+        );
+        await expect(
+          page.getByRole("heading", { name: title, level: 1 }),
+        ).toBeVisible();
+      }
+      const artwork = page.locator(".edem-tree__artwork");
+      await expect(artwork).toBeVisible();
+      expect(
+        await artwork.evaluate((image: HTMLImageElement) => image.naturalWidth),
+      ).toBeGreaterThan(0);
+    });
+  });
+}
 
 test("desktop and mobile navigation use working route destinations", async ({
   page,
@@ -333,16 +418,7 @@ test("step 5 routes remain responsive without horizontal overflow", async ({
 }) => {
   for (const width of [320, 390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of [
-      "/",
-      "/events",
-      "/games",
-      "/world",
-      "/wiki",
-      "/order",
-      "/collaboration",
-      "/about",
-    ]) {
+    for (const [path] of publicPages) {
       await page.goto(exportedPath(path));
       expect(
         await page.evaluate(
