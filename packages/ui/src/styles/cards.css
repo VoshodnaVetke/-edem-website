@@ -24,7 +24,7 @@
   padding-bottom: 48px;
 }
 .edem-card[data-frame="asym"] .edem-card-content__inner {
-  padding-top: 40px;
+  padding-block: 2.5rem 2.75rem;
   padding-right: 42px;
   padding-left: clamp(30px, 4.25cqi, 54px);
 }
@@ -227,7 +227,7 @@
     padding: 42px 30px 46px;
   }
   .edem-card[data-frame="asym"] .edem-card-content__inner {
-    padding: 38px 30px 42px;
+    padding: 3.25rem 30px 2.625rem;
   }
 }
 @keyframes edem-trace {

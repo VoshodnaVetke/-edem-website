@@ -133,9 +133,17 @@ test("the tree stays behind the page and respects reduced motion", async ({
 test("the first-visit frame leaves clearance around each line of text", async ({
   page,
 }) => {
-  for (const width of [320, 768, 1440]) {
+  for (const [width, fontSize] of [
+    [320, 100],
+    [768, 100],
+    [1440, 100],
+    [320, 200],
+    [390, 200],
+    [1440, 200],
+  ]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(exportedPath("/"));
+    await page.addStyleTag({ content: `html { font-size: ${fontSize}%; }` });
     await page.evaluate(() => document.fonts.ready);
     const card = page
       .getByRole("region", { name: "Впервые в Эдеме?" })
@@ -171,7 +179,10 @@ test("the first-visit frame leaves clearance around each line of text", async ({
       }
       return false;
     });
-    expect(overlaps, `frame clearance at ${width}px`).toBe(false);
+    expect(
+      overlaps,
+      `frame clearance at ${width}px and ${fontSize}% text`,
+    ).toBe(false);
   }
 });
 
