@@ -111,10 +111,14 @@ test("the schedule lists the Council and the archive leads to the game galleries
     ).toBeVisible();
     const photos = page.locator("main .edem-gallery img");
     expect(await photos.count()).toBeGreaterThan(1);
-    let firstPhotoNumber = "0001";
-    if (slug === "kazn-ognya-vechnogo") firstPhotoNumber = "0529";
-    if (slug === "kazino-mefisa") firstPhotoNumber = "0100";
-    if (slug === "parad-tehnologiy") firstPhotoNumber = "0205";
+    const firstPhotoNumber =
+      slug === "kazino-mefisa"
+        ? "0100"
+        : slug === "parad-tehnologiy"
+          ? "0205"
+          : "0001";
+    const expectedPhotoNumber =
+      slug === "kazn-ognya-vechnogo" ? "0529" : firstPhotoNumber;
     if (slug === "kazino-mefisa") {
       await expect(photos).toHaveCount(141);
       await expect(photos.nth(93)).toHaveAttribute(
@@ -123,10 +127,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
       );
     } else if (slug === "kazn-ognya-vechnogo") {
       await expect(photos).toHaveCount(414);
-      await expect(photos.nth(1)).toHaveAttribute(
-        "src",
-        /\/0569-thumb\.webp$/,
-      );
+      await expect(photos.nth(1)).toHaveAttribute("src", /\/0569-thumb\.webp$/);
     } else if (slug === "parad-tehnologiy") {
       await expect(photos).toHaveCount(120);
     }
@@ -134,11 +135,11 @@ test("the schedule lists the Council and the archive leads to the game galleries
     await expect(photo).toBeVisible();
     await expect(photo).toHaveAttribute(
       "src",
-      `${pagesBasePath}/images/games/${slug}/${firstPhotoNumber}-thumb.webp`,
+      `${pagesBasePath}/images/games/${slug}/${expectedPhotoNumber}-thumb.webp`,
     );
     await expect(photo.locator("..")).toHaveAttribute(
       "href",
-      `${pagesBasePath}/images/games/${slug}/${firstPhotoNumber}.webp`,
+      `${pagesBasePath}/images/games/${slug}/${expectedPhotoNumber}.webp`,
     );
     await expect(
       page.locator(
@@ -152,7 +153,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
       }),
     ).toBeGreaterThan(0);
     const full = await request.head(
-      `${pagesBasePath}/images/games/${slug}/${firstPhotoNumber}.webp`,
+      `${pagesBasePath}/images/games/${slug}/${expectedPhotoNumber}.webp`,
     );
     expect(full.status()).toBe(200);
     expect(full.headers()["content-type"]).toContain("image/webp");
