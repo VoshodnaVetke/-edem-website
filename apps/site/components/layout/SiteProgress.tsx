@@ -11,7 +11,6 @@ const routes = new Set([
   siteHref("/world/neurochip"),
   ...games.map(({ slug }) => siteHref(`/games/${slug}`)),
 ]);
-const navigationKey = "edem-next-section";
 
 export function SiteProgress() {
   const track = useRef<HTMLDivElement>(null);
@@ -66,22 +65,10 @@ export function SiteProgress() {
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
-    let destinationPath: string | undefined;
-    try {
-      if (
-        sessionStorage.getItem(navigationKey) ===
-        `${document.referrer} ${location.pathname}`
-      )
-        setPulse(true);
-      sessionStorage.removeItem(navigationKey);
-    } catch {
-      // Native links continue working when browser storage is unavailable.
-    }
     function stopWaiting() {
       clearTimeout(timer);
-      timer = undefined;
-      destinationPath = undefined;
       setWaiting(false);
+      setPulse(false);
     }
     function click(event: MouseEvent) {
       if (
@@ -109,35 +96,25 @@ export function SiteProgress() {
       )
         return;
       stopWaiting();
-      destinationPath = destination.pathname;
+      setPulse(true);
       timer = setTimeout(() => setWaiting(true), 250);
-    }
-    function leavePage() {
-      if (destinationPath) {
-        try {
-          sessionStorage.setItem(
-            navigationKey,
-            `${location.href.split("#")[0]} ${destinationPath}`,
-          );
-        } catch {
-          // The loader does not depend on storage in the outgoing document.
-        }
-      }
-      stopWaiting();
     }
     function cancel(event: KeyboardEvent) {
       if (event.key === "Escape") stopWaiting();
     }
     document.addEventListener("click", click);
     document.addEventListener("keydown", cancel);
-    window.addEventListener("pagehide", leavePage);
-    window.addEventListener("pageshow", stopWaiting);
+    function restore(event: PageTransitionEvent) {
+      if (event.persisted) stopWaiting();
+    }
+    window.addEventListener("pagehide", stopWaiting);
+    window.addEventListener("pageshow", restore);
     return () => {
       clearTimeout(timer);
       document.removeEventListener("click", click);
       document.removeEventListener("keydown", cancel);
-      window.removeEventListener("pagehide", leavePage);
-      window.removeEventListener("pageshow", stopWaiting);
+      window.removeEventListener("pagehide", stopWaiting);
+      window.removeEventListener("pageshow", restore);
     };
   }, []);
 
@@ -147,6 +124,13 @@ export function SiteProgress() {
         ref={fill}
         className="site-progress-fill"
         hidden
+        aria-hidden="true"
+      />
+      <SignalDivider
+        track
+        pulse="play"
+        label=""
+        className="site-progress-boot"
         aria-hidden="true"
       />
       {pulse && (

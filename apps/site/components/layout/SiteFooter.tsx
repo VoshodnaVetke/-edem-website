@@ -9,13 +9,13 @@ export function SiteFooter() {
   const pathname = usePathname();
   return (
     <footer className={styles.footer} aria-label="Подвал сайта">
+      <SignalDivider
+        className="site-content-divider site-content-divider--footer"
+        label="ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА"
+        pulse="once"
+        variationSeed={`footer.${pathname}`}
+      />
       <Layout>
-        <SignalDivider
-          className={styles.divider}
-          label="ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА"
-          pulse="once"
-          variationSeed={`footer.${pathname}`}
-        />
         <Grid>
           <div className={`edem-span--intro ${styles.intro}`}>
             <Text variant="system">ЭДЕМ / МАСТЕРСКАЯ ГРУППА</Text>

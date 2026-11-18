@@ -229,7 +229,7 @@ test("Parade displays its taxonomy and game focus above the gallery", async ({
   }
 });
 
-test("site cards show telemetry and full-width dividers vary by placement", async ({
+test("site cards show telemetry and edge-to-edge dividers vary by placement", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 850 });
@@ -249,12 +249,6 @@ test("site cards show telemetry and full-width dividers vary by placement", asyn
       const design = await divider.getAttribute("data-variant");
       expect(design).toBeTruthy();
       designs.add(design!);
-      const ratio = await divider.evaluate(
-        (element) =>
-          element.getBoundingClientRect().width /
-          element.parentElement!.getBoundingClientRect().width,
-      );
-      expect(ratio).toBeCloseTo(1, 2);
     }
   }
   expect(designs.size).toBe(3);
@@ -269,6 +263,28 @@ test("site cards show telemetry and full-width dividers vary by placement", asyn
   await page.keyboard.press("Shift+Tab");
   await expect(card).toBeFocused();
   await expect(card.locator(".edem-card-telemetry__active")).toBeVisible();
+
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 850 });
+    await page.goto(exportedPath("/games/parad-tehnologiy"));
+    for (const svg of await page.locator(".site-content-divider svg").all()) {
+      const { x, right, height, edge } = await svg.evaluate((element) => {
+        const { x, right, height } = element.getBoundingClientRect();
+        return { x, right, height, edge: document.documentElement.clientWidth };
+      });
+      expect(x).toBeCloseTo(0, 0);
+      expect(right).toBeCloseTo(edge, 0);
+      expect(height).toBeGreaterThanOrEqual(44);
+      await expect(svg.locator("path").first()).toHaveCSS(
+        "stroke-width",
+        "2.4px",
+      );
+    }
+    await expect(page.locator(".edem-game-tag").first()).toHaveCSS(
+      "min-height",
+      width === 390 ? "15px" : "30px",
+    );
+  }
 });
 
 test("buttons and tags use one continuous closed outline", async ({ page }) => {
@@ -369,7 +385,7 @@ test("homepage serves the expected revision and loads its resources", async ({
     }).toPass({ timeout: 120_000, intervals: [1_000, 3_000, 5_000, 10_000] });
   }
 
-  const resourceTypes = ["script", "stylesheet", "font", "image"];
+  const resourceTypes = ["script", "font", "image"];
   const loadedTypes = new Set<string>();
   const errors: string[] = [];
   page.on("response", (response) => {
@@ -403,6 +419,9 @@ test("homepage serves the expected revision and loads its resources", async ({
   ).toBeVisible();
   await expect(page.locator("header.edem-navigation")).toHaveCount(1);
   await expect(page.locator("footer")).toHaveCount(1);
+  expect(
+    await page.locator("head style[data-precedence]").textContent(),
+  ).toContain(".edem-navigation");
 
   const theme = await page.evaluate(async () => {
     await document.fonts.ready;
@@ -440,6 +459,79 @@ test("homepage serves the expected revision and loads its resources", async ({
       return image.naturalWidth;
     }),
   ).toBeGreaterThan(0);
+});
+
+test("missing build assets trigger one fresh request and keep a dark document", async ({
+  page,
+}) => {
+  const path = exportedPath("/events");
+  const documentRequests: URL[] = [];
+  await page.route(
+    (url) => url.pathname === path,
+    async (route) => {
+      if (route.request().isNavigationRequest()) {
+        documentRequests.push(new URL(route.request().url()));
+      }
+      await route.continue();
+    },
+  );
+
+  let missingScript: string | undefined;
+  await page.route(`**${pagesBasePath}/_next/static/**`, async (route) => {
+    const request = route.request();
+    if (request.resourceType() === "script") {
+      missingScript ??= request.url();
+      if (request.url() === missingScript) {
+        await route.fulfill({ status: 404 });
+        return;
+      }
+    }
+    await route.continue();
+  });
+
+  // The first document can be replaced while it is still loading.
+  const initial = await page.goto(path, { waitUntil: "commit" });
+  expect(initial?.status()).toBe(200);
+  await expect.poll(() => documentRequests.length).toBe(2);
+  expect(documentRequests[1].searchParams.has("_edem_retry")).toBe(true);
+  await expect(page).toHaveURL((url) => url.pathname === path && !url.search);
+  await expect(page.locator("html")).toHaveCSS(
+    "background-color",
+    "rgb(5, 7, 12)",
+  );
+  await expect(page.getByRole("heading", { name: "Афиша игр" })).toBeVisible();
+  expect(documentRequests).toHaveLength(2);
+});
+
+test("cold page renders styled content while scripts are still loading", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  let resume!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    resume = resolve;
+  });
+  await page.route(`**${pagesBasePath}/_next/static/**/*.js`, async (route) => {
+    await gate;
+    await route.continue();
+  });
+  try {
+    await page.goto(exportedPath("/events"), { waitUntil: "commit" });
+    const heading = page.getByRole("heading", { name: "Афиша игр" });
+    await expect(heading).toBeVisible();
+    await expect(heading).toHaveCSS("animation-name", "site-content-appear");
+    await expect(page.locator("body")).toHaveCSS(
+      "background-color",
+      "rgb(5, 7, 12)",
+    );
+    await expect(page.locator(".site-progress[data-progress]")).toHaveCount(0);
+  } finally {
+    resume();
+  }
+  await expect(page.locator(".site-progress[data-progress]")).toHaveCount(1);
+  await expect(
+    page.locator('.edem-card-content[data-entered="true"]').first(),
+  ).toHaveCSS("animation-name", "site-content-appear");
 });
 
 test("the tree uses a stable SVG on desktop and mobile from the first frame", async ({
@@ -483,7 +575,7 @@ for (const width of [1440, 390]) {
       (url) => url.pathname === exportedPath("/events"),
     );
     await expect(
-      page.locator('.site-progress-impulse[data-pulse="play"]'),
+      page.locator('.site-progress-boot[data-pulse="play"]'),
     ).toHaveCount(1);
     await expect(
       page.getByRole("status").filter({ hasText: "Загрузка раздела" }),
@@ -581,7 +673,7 @@ test("anchor navigation tracks the current heading and respects reduced motion",
 });
 
 for (const motion of ["no-preference", "reduce"] as const) {
-  test(`only a pending internal navigation shows a loader with motion ${motion}`, async ({
+  test(`immediate signal and pending status respect motion ${motion}`, async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: motion });
@@ -590,11 +682,27 @@ for (const motion of ["no-preference", "reduce"] as const) {
       "data-progress",
       "0",
     );
+    const boot = page.locator(".site-progress-boot");
+    if (motion === "reduce") {
+      await expect(boot).toBeHidden();
+    } else {
+      await expect(boot.locator(".edem-vector-divider__pulse")).toHaveCSS(
+        "animation-name",
+        "edemPulseRun",
+      );
+    }
     // Playwright locators wait for the incoming document during a pending navigation.
     // Observe the visible status in the outgoing document itself.
     await page.evaluate(() => {
       const observer = new MutationObserver(() => {
         const loader = document.querySelector(".site-progress-loader");
+        const pulse = document.querySelector(".site-progress-impulse");
+        if (pulse && !loader) {
+          console.info(
+            "section-pulse-started",
+            getComputedStyle(pulse).display,
+          );
+        }
         const icon = loader?.querySelector("svg");
         if (!loader?.getClientRects().length || !icon) return;
         console.info("section-loader-visible", getComputedStyle(icon).display);
@@ -607,6 +715,11 @@ for (const motion of ["no-preference", "reduce"] as const) {
     const shown = page.waitForEvent("console", {
       predicate: (message) =>
         message.text().startsWith("section-loader-visible"),
+      timeout: 8000,
+    });
+    const started = page.waitForEvent("console", {
+      predicate: (message) =>
+        message.text().startsWith("section-pulse-started"),
       timeout: 8000,
     });
     let resume!: () => void;
@@ -624,6 +737,9 @@ for (const motion of ["no-preference", "reduce"] as const) {
       .first()
       .click();
     try {
+      expect((await started).text()).toBe(
+        `section-pulse-started ${motion === "reduce" ? "none" : "block"}`,
+      );
       const message = await shown;
       expect(message.text()).toBe(
         `section-loader-visible ${motion === "reduce" ? "none" : "block"}`,
