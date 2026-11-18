@@ -2,6 +2,7 @@
 
 import { ButtonLink, Gallery } from "@edem/ui";
 import { useRef, useState } from "react";
+import kazinoMefisaOrder from "../../../config/kazino-mefisa-photo-order.json";
 import layout from "../../../styles/page-layout.module.css";
 import styles from "../games.module.css";
 
@@ -20,8 +21,11 @@ export function GamePhotoGallery({
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLAnchorElement>(null);
   const touchStart = useRef<number | null>(null);
-  const photo = (index: number) =>
-    `${folder}/${String(index).padStart(4, "0")}`;
+  const photo = (index: number) => {
+    const originalIndex =
+      slug === "kazino-mefisa" ? kazinoMefisaOrder[index - 1] : index;
+    return `${folder}/${String(originalIndex).padStart(4, "0")}`;
+  };
   const description = (index: number) => `«${title}», фото ${index}`;
   const move = (step: number) =>
     setNumber((current) => ((current - 1 + step + count) % count) + 1);

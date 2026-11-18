@@ -109,15 +109,19 @@ test("the schedule lists the Council and the archive leads to the game galleries
     ).toBeVisible();
     const photos = page.locator("main .edem-gallery img");
     expect(await photos.count()).toBeGreaterThan(1);
+    const firstPhotoNumber = slug === "kazino-mefisa" ? "0100" : "0001";
+    if (slug === "kazino-mefisa") {
+      await expect(photos).toHaveCount(142);
+    }
     const photo = photos.first();
     await expect(photo).toBeVisible();
     await expect(photo).toHaveAttribute(
       "src",
-      `${pagesBasePath}/images/games/${slug}/0001-thumb.webp`,
+      `${pagesBasePath}/images/games/${slug}/${firstPhotoNumber}-thumb.webp`,
     );
     await expect(photo.locator("..")).toHaveAttribute(
       "href",
-      `${pagesBasePath}/images/games/${slug}/0001.webp`,
+      `${pagesBasePath}/images/games/${slug}/${firstPhotoNumber}.webp`,
     );
     await expect(
       page.locator(
@@ -131,7 +135,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
       }),
     ).toBeGreaterThan(0);
     const full = await request.head(
-      `${pagesBasePath}/images/games/${slug}/0001.webp`,
+      `${pagesBasePath}/images/games/${slug}/${firstPhotoNumber}.webp`,
     );
     expect(full.status()).toBe(200);
     expect(full.headers()["content-type"]).toContain("image/webp");
