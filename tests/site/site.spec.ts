@@ -536,7 +536,7 @@ test("cold page renders styled content while scripts are still loading", async (
   await expect(page.locator(".site-progress[data-progress]")).toHaveCount(1);
   await expect(
     page.locator('.edem-card-content[data-entered="true"]').first(),
-  ).toHaveCSS("animation-name", "site-content-appear");
+  ).toHaveCSS("animation-name", "site-card-appear");
 });
 
 test("the tree uses a stable SVG on desktop and mobile from the first frame", async ({

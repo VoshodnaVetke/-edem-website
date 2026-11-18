@@ -328,7 +328,7 @@ html {
   }
 
   main .edem-card-content[data-entered="true"] {
-    animation: site-content-appear 380ms ease-out backwards;
+    animation: site-card-appear 380ms ease-out backwards;
   }
 }
 
@@ -348,5 +348,11 @@ html {
   to {
     opacity: 1;
     translate: 0 0;
+  }
+}
+
+@keyframes site-card-appear {
+  from {
+    opacity: 0.54;
   }
 }
