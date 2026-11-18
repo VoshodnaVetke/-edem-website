@@ -78,3 +78,45 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
+
+/* Parade pilot only: reusable neon taxonomy and relative game-emphasis bars. */
+.paradeMeta {
+  display: grid;
+  gap: 0.8rem;
+  width: 100%;
+  max-width: 30rem;
+}
+
+.paradeTags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.paradeTags :global(.edem-game-tag) {
+  font-size: 0.68rem;
+}
+
+.paradeMeta :global(.edem-game-focus) {
+  width: 100%;
+}
+
+.paradeMeta :global(.edem-game-focus__heading) {
+  font-size: 0.76rem;
+}
+
+.paradeFocus {
+  display: grid;
+  gap: 0.8rem;
+  width: min(100%, 32rem);
+  padding: 1rem;
+  background: var(--edem-color-surface);
+}
+
+.paradeFocus > p {
+  margin: 0;
+}
