@@ -112,11 +112,13 @@ test("the schedule lists the Council and the archive leads to the game galleries
     const photos = page.locator("main .edem-gallery img");
     expect(await photos.count()).toBeGreaterThan(1);
     const firstPhotoNumber =
-      slug === "kazino-mefisa"
-        ? "0100"
-        : slug === "parad-tehnologiy"
-          ? "0205"
-          : "0001";
+      slug === "kazn-ognya-vechnogo"
+        ? "0529"
+        : slug === "kazino-mefisa"
+          ? "0100"
+          : slug === "parad-tehnologiy"
+            ? "0205"
+            : "0001";
     if (slug === "kazino-mefisa") {
       await expect(photos).toHaveCount(141);
       await expect(photos.nth(93)).toHaveAttribute(
@@ -124,10 +126,10 @@ test("the schedule lists the Council and the archive leads to the game galleries
         /\/0230-thumb\.webp$/,
       );
     } else if (slug === "kazn-ognya-vechnogo") {
-      await expect(photos).toHaveCount(953);
-      await expect(photos.nth(67)).toHaveAttribute(
+      await expect(photos).toHaveCount(414);
+      await expect(photos.nth(1)).toHaveAttribute(
         "src",
-        /\/0071-thumb\.webp$/,
+        /\/0569-thumb\.webp$/,
       );
     } else if (slug === "parad-tehnologiy") {
       await expect(photos).toHaveCount(120);
