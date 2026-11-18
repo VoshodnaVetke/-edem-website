@@ -244,6 +244,7 @@ test("site cards show telemetry and edge-to-edge dividers vary by placement", as
 }) => {
   await page.setViewportSize({ width: 1440, height: 850 });
   const designs = new Set<string>();
+  const footerDesigns = new Set<string>();
   for (const route of [
     ...publicPages.map(([route]) => route),
     "/world/neurochip",
@@ -255,13 +256,25 @@ test("site cards show telemetry and edge-to-edge dividers vary by placement", as
       await cards.count(),
     );
     const divider = page.locator("main .site-content-divider");
+    const footerDivider = page.locator("footer .site-content-divider");
+    const footerDesign = await footerDivider.getAttribute("data-variant");
+    expect(footerDesign).toBeTruthy();
+    footerDesigns.add(footerDesign!);
     if (await divider.count()) {
       const design = await divider.getAttribute("data-variant");
       expect(design).toBeTruthy();
       designs.add(design!);
+      expect(design).not.toBe(footerDesign);
     }
+    const surface = footerDivider.locator(".edem-vector-divider__surface");
+    const edge = footerDivider.locator("svg path").nth(1);
+    await expect(surface).toHaveAttribute(
+      "d",
+      `${await edge.getAttribute("d")}V52H0Z`,
+    );
   }
   expect(designs.size).toBe(3);
+  expect(footerDesigns.size).toBe(3);
   await page.goto(exportedPath("/games"));
   await page.mouse.move(0, 0);
   const card = page.locator("main .edem-link-card").first();
@@ -285,10 +298,9 @@ test("site cards show telemetry and edge-to-edge dividers vary by placement", as
       expect(x).toBeCloseTo(0, 0);
       expect(right).toBeCloseTo(edge, 0);
       expect(height).toBeGreaterThanOrEqual(44);
-      await expect(svg.locator("path").first()).toHaveCSS(
-        "stroke-width",
-        "2.4px",
-      );
+      await expect(
+        svg.locator("path:not(.edem-vector-divider__surface)").first(),
+      ).toHaveCSS("stroke-width", "2.4px");
     }
     await expect(page.locator(".edem-game-tag").first()).toHaveCSS(
       "min-height",
@@ -549,11 +561,11 @@ test("cold page renders styled content while scripts are still loading", async (
   ).toHaveCSS("animation-name", "site-card-appear");
 });
 
-test("the tree uses a stable SVG on desktop and mobile from the first frame", async ({
+test("the tree drifts within the viewport and stays still with reduced motion", async ({
   page,
 }) => {
-  await page.emulateMedia({ reducedMotion: "no-preference" });
   for (const width of [1440, 390]) {
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width, height: 800 });
     await page.goto(exportedPath("/events"));
     const background = page.locator("body > .edem-tree--viewport");
@@ -563,12 +575,29 @@ test("the tree uses a stable SVG on desktop and mobile from the first frame", as
     await expect(artwork).toHaveCSS("transform", "none");
     await expect(background.locator("canvas")).toHaveCount(0);
     const initialBox = await artwork.boundingBox();
+    const header = (await page.locator(".site-header-shell").boundingBox())!;
+    expect(initialBox!.y).toBeGreaterThan(header.y + header.height);
+    expect(initialBox!.x).toBeGreaterThan(0);
+    expect(initialBox!.x + initialBox!.width).toBeLessThan(width);
     await page.evaluate(() =>
       window.scrollTo({ top: innerHeight, behavior: "instant" }),
     );
     await expect.poll(() => artwork.boundingBox()).toEqual(initialBox);
     await page.reload();
     await expect.poll(() => artwork.boundingBox()).toEqual(initialBox);
+
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await expect(artwork).toHaveCSS("animation-name", "edem-tree-drift");
+    const offset = await artwork.evaluate(async (element) => {
+      const [drift] = element.getAnimations();
+      drift.pause();
+      await drift.ready;
+      drift.currentTime = 0;
+      const start = element.getBoundingClientRect().left;
+      drift.currentTime = Number(drift.effect!.getTiming().duration);
+      return element.getBoundingClientRect().left - start;
+    });
+    expect(offset).toBeGreaterThan(3);
   }
 });
 

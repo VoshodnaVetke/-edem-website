@@ -7,6 +7,7 @@ export interface SignalDividerProps
   label?: string;
   pulse?: "loop" | "once" | "play" | "none";
   track?: boolean;
+  fillBelow?: boolean;
   variant?: (typeof dividerVariants)[number];
   variationSeed?: string;
 }
@@ -14,6 +15,7 @@ export function SignalDivider({
   label = "EDEN / CHANNEL LINK",
   pulse = "loop",
   track = false,
+  fillBelow = false,
   variant = "circuit",
   variationSeed,
   className,
@@ -59,7 +61,7 @@ export function SignalDivider({
     >
       {label && <div className="edem-vector-divider__label">{label}</div>}
       <div aria-hidden="true">
-        <DividerArtwork track={track} variant={design} />
+        <DividerArtwork track={track} variant={design} fillBelow={fillBelow} />
       </div>
     </div>
   );
