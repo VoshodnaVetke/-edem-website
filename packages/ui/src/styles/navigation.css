@@ -41,7 +41,7 @@
   align-items: center;
   padding: 0.5rem;
 }
-.edem-navigation a[aria-current="page"] {
+.edem-navigation a:is([aria-current="page"], [aria-current="location"]) {
   color: var(--edem-color-accent-primary);
 }
 .edem-navigation__bottom {
@@ -139,10 +139,12 @@
     block-size: 21px;
     flex: 0 0 auto;
   }
-  .edem-navigation__bottom a[aria-current="page"] {
+  .edem-navigation__bottom
+    a:is([aria-current="page"], [aria-current="location"]) {
     background: rgb(37 244 255 / 7%);
   }
-  .edem-navigation__bottom a[aria-current="page"]::before {
+  .edem-navigation__bottom
+    a:is([aria-current="page"], [aria-current="location"])::before {
     position: absolute;
     inset-block-start: -6px;
     inline-size: 32px;

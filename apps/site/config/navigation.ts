@@ -6,7 +6,10 @@ const home: NavigationItem = { label: "Главная", href: siteHref("/") };
 const events: NavigationItem = { label: "Афиша", href: siteHref("/events") };
 const games: NavigationItem = { label: "Наши игры", href: siteHref("/games") };
 const world: NavigationItem = { label: "Вселенная", href: siteHref("/world") };
-const wiki: NavigationItem = { label: "Энциклопедия", href: siteHref("/wiki") };
+const account: NavigationItem = {
+  label: "Личный кабинет",
+  href: siteHref("/account"),
+};
 const order: NavigationItem = {
   label: "Заказать игру",
   href: siteHref("/order"),
@@ -26,10 +29,10 @@ export const siteNavigation: readonly NavigationItem[] = [
   events,
   games,
   world,
-  wiki,
   order,
   about,
   collaboration,
+  account,
 ];
 
 /** Primary desktop navigation from the Figma UX map. */
@@ -44,5 +47,5 @@ export const desktopSiteNavigation: readonly NavigationItem[] = [
 export const mobileSiteNavigation: readonly NavigationItem[] = [
   { label: "Афиша", href: events.href, icon: "calendar" },
   { label: "Мир", href: world.href, icon: "globe" },
-  { label: "Энциклопедия", href: wiki.href, icon: "book" },
+  { label: "Игры", href: games.href, icon: "book" },
 ];

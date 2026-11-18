@@ -191,14 +191,22 @@ export function Navigation({
   const close = () => setOpen(null);
   const links = (entries: readonly NavigationItem[], mobile = false) =>
     entries.map((item) => {
-      const active =
-        item.href === currentHref ||
-        (item.href !== "/" && currentHref?.startsWith(`${item.href}/`));
+      const sectionPath = item.href.endsWith("/") ? item.href : `${item.href}/`;
+      const inSection =
+        item.href !== "/" &&
+        item.href !== brandHref &&
+        currentHref?.startsWith(sectionPath);
       return (
         <a
           key={item.href}
           href={item.href}
-          aria-current={active ? "page" : undefined}
+          aria-current={
+            item.href === currentHref
+              ? "page"
+              : inSection
+                ? "location"
+                : undefined
+          }
           onClick={close}
         >
           {mobile && item.icon && <BottomIcon icon={item.icon} />}
