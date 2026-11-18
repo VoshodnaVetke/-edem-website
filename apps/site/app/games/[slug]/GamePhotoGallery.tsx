@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, ButtonLink, Gallery } from "@edem/ui";
+import { ButtonLink, Gallery } from "@edem/ui";
 import { useRef, useState } from "react";
 import layout from "../../../styles/page-layout.module.css";
 import styles from "../games.module.css";
@@ -78,16 +78,17 @@ export function GamePhotoGallery({
           <span aria-live="polite">
             {number} / {count}
           </span>
-          <Button softOutline size="sm" onClick={() => dialog.current?.close()}>
-            Закрыть
-          </Button>
+          <button
+            type="button"
+            className={styles.viewerClose}
+            aria-label="Закрыть"
+            onClick={() => dialog.current?.close()}
+          >
+            <span aria-hidden="true">×</span>
+          </button>
         </div>
-        <img
-          key={number}
-          src={`${photo(number)}.webp`}
-          loading="lazy"
-          alt={description(number)}
-          className={styles.viewerPhoto}
+        <div
+          className={styles.viewerStage}
           onTouchStart={(event) => {
             touchStart.current = event.touches[0].clientX;
           }}
@@ -99,32 +100,36 @@ export function GamePhotoGallery({
             const distance =
               event.changedTouches[0].clientX - touchStart.current;
             touchStart.current = null;
-            if (Math.abs(distance) >= 50) move(distance < 0 ? 1 : -1);
+            if (Math.abs(distance) < 50) return;
+            event.preventDefault();
+            move(distance < 0 ? 1 : -1);
           }}
-        />
-        <div className={layout.actions}>
-          <Button
-            softOutline
-            size="sm"
-            variant="icon"
+        >
+          <img
+            key={number}
+            src={`${photo(number)}.webp`}
+            loading="lazy"
+            alt={description(number)}
+            className={styles.viewerPhoto}
+          />
+          <button
+            type="button"
+            className={styles.viewerPrevious}
             aria-label="Предыдущее фото"
             onClick={() => move(-1)}
           >
-            <span className={styles.viewerArrow} aria-hidden="true">
-              ←
-            </span>
-          </Button>
-          <Button
-            softOutline
-            size="sm"
-            variant="icon"
+            <span aria-hidden="true">←</span>
+          </button>
+          <button
+            type="button"
+            className={styles.viewerNext}
             aria-label="Следующее фото"
             onClick={() => move(1)}
           >
-            <span className={styles.viewerArrow} aria-hidden="true">
-              →
-            </span>
-          </Button>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <div className={layout.actions}>
           <ButtonLink
             softOutline
             size="sm"
