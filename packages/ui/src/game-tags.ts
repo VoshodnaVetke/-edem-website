@@ -14,7 +14,12 @@ const C = GAME_TAG_COLORS;
 
 export const GAME_TAGS = {
   format: [
-    { id: "chamber", label: "Кабинетная ролевая игра", color: C.violet },
+    {
+      id: "chamber",
+      label: "Кабинетная ролевая игра",
+      shortLabel: "Кабинетная",
+      color: C.violet,
+    },
     { id: "field", label: "Полигонная ролевая игра", color: C.green },
     { id: "stage", label: "Сценическая ролевая игра", color: C.pink },
     { id: "tabletop", label: "Настольная ролевая игра", color: C.cyan },
@@ -67,7 +72,7 @@ export const GAME_TAGS = {
     { id: "experienced", label: "Опытным игрокам", color: C.violet },
   ],
   attendance: [
-    { id: "moscow", label: "В Москве", color: C.cyan },
+    { id: "moscow", label: "В Москве", shortLabel: "Москва", color: C.cyan },
     { id: "offsite", label: "С выездом", color: C.orange },
     { id: "online", label: "Онлайн", color: C.violet },
   ],
@@ -90,6 +95,7 @@ export type GameTag = {
   readonly id: GameTagId;
   readonly category: GameTagCategory;
   readonly label: string;
+  readonly shortLabel?: string;
   readonly color: string;
 };
 

@@ -3,7 +3,6 @@
   display: grid;
   align-content: end;
   justify-items: start;
-  gap: var(--edem-card-gap);
 }
 
 .caption {
@@ -13,6 +12,10 @@
 
 .caption > :is(h2, p) {
   margin: 0;
+}
+
+.caption > .previewMeta {
+  font-size: 0.625rem;
 }
 
 .cover,
@@ -31,10 +34,10 @@
 .cover::after {
   content: "";
   background: linear-gradient(
-    155deg,
-    rgb(5 7 12 / 70%),
-    rgb(5 7 12 / 56%) 38%,
-    rgb(5 7 12 / 94%) 88%
+    to bottom,
+    transparent 28%,
+    rgb(5 7 12 / 65%) 56%,
+    var(--edem-color-background) 82%
   );
 }
 
@@ -65,13 +68,6 @@
   object-fit: cover;
 }
 
-.gameMeta {
-  display: grid;
-  gap: 0.8rem;
-  width: 100%;
-  max-width: 30rem;
-}
-
 .gameTags {
   display: flex;
   flex-wrap: wrap;
@@ -89,14 +85,6 @@
 
 .gameTags :global(.edem-game-tag) {
   font-size: 0.68rem;
-}
-
-.gameMeta :global(.edem-game-focus) {
-  width: 100%;
-}
-
-.gameMeta :global(.edem-game-focus__heading) {
-  font-size: 0.76rem;
 }
 
 .gameFocus {
