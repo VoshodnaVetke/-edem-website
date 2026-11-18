@@ -46,7 +46,6 @@ export function GameDetails({
       <div className={layout.stack}>
         {game.slug === "parad-tehnologiy" && game.focus && (
           <section className={styles.paradeFocus} aria-label="Игровые акценты">
-            <Text variant="system">Игровые акценты · 10 очков</Text>
             <GameFocusDisplay focus={game.focus} />
           </section>
         )}

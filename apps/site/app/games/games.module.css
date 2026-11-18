@@ -110,13 +110,5 @@
 }
 
 .paradeFocus {
-  display: grid;
-  gap: 0.8rem;
   width: min(100%, 32rem);
-  padding: 1rem;
-  background: var(--edem-color-surface);
-}
-
-.paradeFocus > p {
-  margin: 0;
 }
