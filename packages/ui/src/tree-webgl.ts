@@ -1,7 +1,11 @@
 import * as THREE from "three";
 import { treeUrl } from "./assets/tree-url";
 /** Loaded only for renderer="webgl"; owns and disposes every GPU/DOM resource. */
-export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
+export async function mountTree(
+  mount: HTMLDivElement,
+  signal: AbortSignal,
+  pointerTarget: EventTarget | null,
+) {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
     antialias: true,
@@ -62,14 +66,13 @@ export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
     y = 0,
     tx = 0,
     ty = 0;
-  const parent = mount.parentElement;
   function dispose() {
     if (disposed) return;
     disposed = true;
     cancelAnimationFrame(raf);
     resizeObserver.disconnect();
     document.removeEventListener("visibilitychange", visibility);
-    parent?.removeEventListener("pointermove", pointer);
+    pointerTarget?.removeEventListener("pointermove", pointer);
     geometry.dispose();
     texture.dispose();
     planes.forEach((m) => m.material.dispose());
@@ -97,8 +100,8 @@ export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
       ),
     );
   }
-  function pointer(e: PointerEvent) {
-    if (e.pointerType !== "mouse") return;
+  function pointer(e: Event) {
+    if (!(e instanceof PointerEvent) || e.pointerType !== "mouse") return;
     const r = mount.getBoundingClientRect();
     tx = (e.clientX - r.left) / r.width - 0.5;
     ty = (e.clientY - r.top) / r.height - 0.5;
@@ -135,7 +138,7 @@ export async function mountTree(mount: HTMLDivElement, signal: AbortSignal) {
   mount.dataset.ready = "true";
   resize();
   document.addEventListener("visibilitychange", visibility);
-  parent?.addEventListener("pointermove", pointer);
+  pointerTarget?.addEventListener("pointermove", pointer, { passive: true });
   frame();
   return dispose;
 }

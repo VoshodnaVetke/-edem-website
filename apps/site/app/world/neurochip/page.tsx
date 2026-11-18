@@ -21,7 +21,7 @@ export default function NeurochipArticle() {
     >
       <Grid>
         <nav aria-label="Оглавление статьи" className="edem-span--aside">
-          <Card reveal={false}>
+          <Card frame="double" reveal={false}>
             <div className={styles.cardBody}>
               <Heading level={2}>На этой странице</Heading>
               <ul className={styles.jumpLinks}>
@@ -83,7 +83,7 @@ export default function NeurochipArticle() {
             </section>
           </Reading>
 
-          <Card reveal={false}>
+          <Card frame="asym" reveal={false}>
             <div className={styles.cardBody}>
               <Heading level={2}>Что известно персонажу</Heading>
               <Text>

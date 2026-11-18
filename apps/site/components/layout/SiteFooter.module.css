@@ -1,6 +1,5 @@
 .footer {
   padding-block: var(--edem-site-section-space) 1.5rem;
-  background: var(--edem-color-background);
   color: var(--edem-color-text-primary);
 }
 

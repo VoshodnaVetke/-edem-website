@@ -4,11 +4,6 @@
   padding-block: var(--edem-site-section-space);
 }
 
-.hero {
-  display: grid;
-  gap: clamp(1.5rem, 4vw, 3rem);
-}
-
 .heroTitle {
   text-transform: uppercase;
 }
@@ -22,11 +17,6 @@
 
 .actionArrow {
   font-family: var(--font-mono);
-}
-
-.hero .heroArtwork {
-  min-height: clamp(10.625rem, 18vw, 14rem);
-  background: var(--edem-background-gradient);
 }
 
 .accent {

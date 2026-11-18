@@ -10,9 +10,11 @@ import { cx } from "./utils";
 export interface TreeBackgroundProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
   renderer?: "svg" | "webgl";
+  placement?: "inline" | "viewport";
 }
 export function TreeBackground({
   renderer = "svg",
+  placement = "inline",
   className,
   onPointerMove,
   ...props
@@ -23,12 +25,13 @@ export function TreeBackground({
   useEffect(() => {
     if (renderer !== "webgl" || reduced || !mount.current) return;
     const target = mount.current;
+    const pointerTarget = placement === "viewport" ? window : ref.current;
     const abort = new AbortController();
     let cleanup: (() => void) | undefined;
     void import("./tree-webgl")
       .then(async ({ mountTree }) => {
         if (abort.signal.aborted) return;
-        cleanup = await mountTree(target, abort.signal);
+        cleanup = await mountTree(target, abort.signal, pointerTarget);
         if (abort.signal.aborted) cleanup?.();
       })
       .catch(() => {
@@ -38,7 +41,7 @@ export function TreeBackground({
       abort.abort();
       cleanup?.();
     };
-  }, [renderer, reduced]);
+  }, [renderer, placement, reduced]);
   function move(event: PointerEvent<HTMLDivElement>) {
     onPointerMove?.(event);
     if (
@@ -63,7 +66,11 @@ export function TreeBackground({
       {...props}
       ref={ref}
       aria-hidden="true"
-      className={cx("edem-tree", className)}
+      className={cx(
+        "edem-tree",
+        placement === "viewport" && "edem-tree--viewport",
+        className,
+      )}
       onPointerMove={move}
     >
       <div className="edem-tree__fallback">
