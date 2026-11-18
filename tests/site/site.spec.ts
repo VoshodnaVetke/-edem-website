@@ -55,7 +55,10 @@ test("the schedule lists the Council and past games link to their VK albums", as
       .filter({
         has: page.getByRole("heading", { name: title, exact: true }),
       });
-    await expect(card.getByText("Об игре")).toBeVisible();
+    const action = card.getByText("Об игре");
+    await expect(action).toBeVisible();
+    await expect(action.locator("..")).toHaveCSS("min-height", "52px");
+    await expect(card.getByRole("link")).toHaveCount(0);
     const cover = card.locator("img");
     await expect(cover).toHaveAttribute(
       "src",
@@ -67,7 +70,25 @@ test("the schedule lists the Council and past games link to their VK albums", as
         return image.naturalWidth;
       }),
     ).toBeGreaterThan(0);
-    await card.click();
+    const media = card.locator(".edem-card-media");
+    expect(await media.boundingBox()).toEqual(
+      await card.locator(".edem-frame").boundingBox(),
+    );
+    await expect(media).toHaveCSS("clip-path", /url\(/);
+    if (slug === "kazn-ognya-vechnogo") {
+      await card.press("Tab");
+      await page.keyboard.press("Shift+Tab");
+      await expect(card).toBeFocused();
+      await expect(action.locator("..")).toHaveCSS(
+        "color",
+        await page
+          .locator("body")
+          .evaluate((body) => getComputedStyle(body).backgroundColor),
+      );
+      await card.press("Enter");
+    } else {
+      await action.click();
+    }
     await expect(page).toHaveURL(
       (url) => url.pathname === exportedPath(`/games/${slug}`),
     );

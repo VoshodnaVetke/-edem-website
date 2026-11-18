@@ -1,10 +1,12 @@
 import {
   forwardRef,
+  useId,
   type HTMLAttributes,
   type AnchorHTMLAttributes,
   type ReactNode,
   type PointerEvent,
 } from "react";
+import { LinkAction } from "./Button";
 import { Frame } from "./Sketch";
 import { useReveal } from "./hooks";
 import { frameClips, type FrameVariant } from "./geometry";
@@ -17,10 +19,15 @@ export interface CardProps extends HTMLAttributes<HTMLElement> {
 function Contents({
   frame,
   children,
+  cover,
   reveal = true,
   effects = true,
-}: Pick<CardProps, "frame" | "children" | "reveal"> & { effects?: boolean }) {
+}: Pick<CardProps, "frame" | "children" | "reveal"> & {
+  effects?: boolean;
+  cover?: ReactNode;
+}) {
   const { ref, revealed, active } = useReveal(reveal);
+  const id = useId();
   function move(event: PointerEvent<HTMLDivElement>) {
     if (event.pointerType !== "mouse") return;
     const r = event.currentTarget.getBoundingClientRect();
@@ -41,7 +48,16 @@ function Contents({
       data-revealed={revealed}
       data-active={active}
     >
-      <Frame variant={frame} />
+      {cover && (
+        <div
+          className="edem-card-media"
+          aria-hidden="true"
+          style={{ clipPath: `url("#${id}")` }}
+        >
+          {cover}
+        </div>
+      )}
+      <Frame variant={frame} mediaClipId={cover ? id : undefined} />
       {effects && (
         <div
           className="edem-card-effects"
@@ -87,11 +103,21 @@ export interface LinkCardProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   frame?: FrameVariant;
   reveal?: boolean;
   href: string;
+  cover?: ReactNode;
+  action?: ReactNode;
 }
 /** A whole-card link. Children must not contain nested controls or links. */
 export const LinkCard = forwardRef<HTMLAnchorElement, LinkCardProps>(
   function LinkCard(
-    { frame = "system", reveal = true, className, children, ...props },
+    {
+      frame = "system",
+      reveal = true,
+      className,
+      children,
+      cover,
+      action,
+      ...props
+    },
     ref,
   ) {
     return (
@@ -101,8 +127,9 @@ export const LinkCard = forwardRef<HTMLAnchorElement, LinkCardProps>(
         data-frame={frame}
         className={cx("edem-card", "edem-link-card", className)}
       >
-        <Contents frame={frame} reveal={reveal} effects={false}>
+        <Contents frame={frame} reveal={reveal} effects={false} cover={cover}>
           {children}
+          {action && <LinkAction>{action}</LinkAction>}
         </Contents>
       </a>
     );

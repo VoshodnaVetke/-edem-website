@@ -2,6 +2,7 @@ import {
   forwardRef,
   type ButtonHTMLAttributes,
   type AnchorHTMLAttributes,
+  type ReactNode,
 } from "react";
 import { ControlBorder } from "./Sketch";
 import { cx } from "./utils";
@@ -12,6 +13,15 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   state?: AsyncState;
   /** Controlled persistent toggle. Omit for ordinary action buttons. */
   selected?: boolean;
+}
+// A button face for actions whose interactive element is an enclosing link.
+export function LinkAction({ children }: { children: ReactNode }) {
+  return (
+    <span className="edem-button edem-button--lg edem-link-card__action">
+      <ControlBorder />
+      <span>{children}</span>
+    </span>
+  );
 }
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(

@@ -16,17 +16,19 @@ export default function GamesPage() {
             href={siteHref(`/games/${slug}`)}
             frame={frame}
             reveal={false}
-            className="edem-span--half"
+            className={`edem-span--half ${styles.gameCard}`}
+            action="Об игре"
+            cover={
+              photos?.[0] && (
+                <div className={styles.cover}>
+                  <img src={photos[0].src} alt="" />
+                </div>
+              )
+            }
           >
-            <div className={photos?.length ? styles.withCover : undefined}>
-              {photos?.[0] && (
-                <img className={styles.cover} src={photos[0].src} alt="" />
-              )}
-              <div className={styles.caption}>
-                <Heading level={2}>{title}</Heading>
-                <Text variant="system">Кабинетная ролевая игра</Text>
-                <Text className={styles.action}>Об игре</Text>
-              </div>
+            <div className={styles.caption}>
+              <Heading level={2}>{title}</Heading>
+              <Text variant="system">Кабинетная ролевая игра</Text>
             </div>
           </LinkCard>
         ))}

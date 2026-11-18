@@ -52,7 +52,8 @@
   opacity: 0.45;
   cursor: not-allowed;
 }
-.edem-button:focus-visible:not(:disabled) {
+.edem-button:focus-visible:not(:disabled),
+.edem-link-card:focus-visible .edem-link-card__action {
   outline: none;
   --edem-sketch-ink: var(--edem-color-focus-ring);
   --edem-surface-fill: var(--edem-color-accent-secondary);
@@ -66,7 +67,8 @@
     filter: drop-shadow(0 0 8px rgb(37 244 255 / 18%));
   }
 }
-.edem-button:active:not(:disabled) {
+.edem-button:active:not(:disabled),
+.edem-link-card:active .edem-link-card__action {
   transform: translateY(1px);
 }
 .edem-button__busy {

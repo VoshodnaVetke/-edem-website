@@ -1,44 +1,40 @@
-.caption {
-  position: relative;
+.gameCard :global(.edem-card-content__inner) {
+  min-block-size: 19rem;
   display: grid;
+  align-content: end;
+  justify-items: start;
   gap: var(--edem-card-gap);
+}
+
+.caption {
+  display: grid;
+  gap: 0.4rem;
 }
 
 .caption > :is(h2, p) {
   margin: 0;
 }
 
-.action {
-  color: var(--edem-color-accent-primary);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
-.withCover {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  align-items: end;
-  min-block-size: 15rem;
-  overflow: hidden;
-}
-
-.cover {
+.cover,
+.cover img,
+.cover::after {
   position: absolute;
   inset: 0;
+}
+
+.cover img {
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
-  z-index: -1;
 }
 
-.withCover .caption {
-  padding: 1rem;
-  background: linear-gradient(transparent, rgb(5 7 12 / 95%) 40%);
+.cover::after {
+  content: "";
+  background: linear-gradient(transparent 15%, rgb(5 7 12 / 94%) 77%);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  :global(.edem-link-card):hover .cover {
+  .gameCard:hover .cover img {
     filter: brightness(1.12);
   }
 }
