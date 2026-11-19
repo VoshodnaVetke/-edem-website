@@ -57,16 +57,30 @@
   justify-content: center;
   opacity: var(--edem-tree-viewport-opacity);
 }
-.edem-tree--viewport .edem-tree__artwork {
+.edem-tree--viewport
+  :where(.edem-tree__fallback)
+  > :is(.edem-tree__artwork, .edem-tree__layers) {
   flex: none;
   width: max(185vw, 1300px);
   max-width: none;
   height: auto;
 }
 @media (width < 860px) {
-  .edem-tree--viewport .edem-tree__artwork {
+  .edem-tree--viewport
+    :where(.edem-tree__fallback)
+    > :is(.edem-tree__artwork, .edem-tree__layers) {
     width: 260vw;
   }
+}
+
+.edem-tree__layers {
+  position: relative;
+  isolation: isolate;
+}
+
+.edem-tree__layers .edem-tree__artwork {
+  height: auto;
+  transform: none;
 }
 
 .edem-tree__webgl canvas {
@@ -84,8 +98,38 @@
   .edem-glitch::after {
     animation: edem-glitch-violet 7.4s steps(1, end) infinite;
   }
-  .edem-tree__artwork {
+  .edem-tree__fallback > .edem-tree__artwork {
     animation: edem-tree-drift 37s ease-in-out infinite alternate;
+  }
+
+  @supports (mask-image: linear-gradient(black, transparent)) {
+    .edem-tree__layers::before,
+    .edem-tree__layers::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      mask: var(--edem-tree-mask) center / 100% 100% no-repeat;
+      transform-origin: 50% 30%;
+      animation-duration: 24s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+
+    .edem-tree__layers::before {
+      background: var(--edem-color-accent-secondary);
+      opacity: 0.24;
+      scale: 1.03;
+      animation-name: edem-tree-violet;
+    }
+
+    .edem-tree__layers::after {
+      background: var(--edem-color-accent-primary);
+      opacity: 0.3;
+      scale: 1.018;
+      animation-name: edem-tree-cyan;
+    }
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -101,6 +145,25 @@
     translate: 1% 0.6%;
   }
 }
+
+@keyframes edem-tree-violet {
+  from {
+    translate: -4px 2px;
+  }
+  to {
+    translate: -9px 4px;
+  }
+}
+
+@keyframes edem-tree-cyan {
+  from {
+    translate: 3px -1px;
+  }
+  to {
+    translate: 8px -2px;
+  }
+}
+
 @keyframes edem-glitch-cyan {
   0%,
   16%,

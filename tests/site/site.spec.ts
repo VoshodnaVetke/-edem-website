@@ -566,9 +566,15 @@ test("the tree extends past the top and left edges and respects reduced motion",
     await page.goto(exportedPath("/events"));
     const background = page.locator("body > .edem-tree--viewport");
     const artwork = background.locator(".edem-tree__artwork");
+    const layers = background.locator(".edem-tree__layers");
     await expect(artwork).toBeVisible();
     await expect(artwork).toHaveCSS("animation-name", "none");
-    await expect(artwork).toHaveCSS("mask-image", /76%.*94%/);
+    await expect(layers).toHaveCSS("mask-image", /76%.*94%/);
+    expect(
+      await layers.evaluate(
+        (element) => element.getAnimations({ subtree: true }).length,
+      ),
+    ).toBe(0);
     await expect(background.locator(".edem-tree__fallback")).toHaveCSS(
       "opacity",
       "0.11",
@@ -593,27 +599,44 @@ test("the tree extends past the top and left edges and respects reduced motion",
     await expect.poll(() => artwork.boundingBox()).toEqual(initialBox);
 
     await page.emulateMedia({ reducedMotion: "no-preference" });
-    await expect(artwork).toHaveCSS("animation-name", "site-tree-drift");
-    const drift = await artwork.evaluate(async (element) => {
-      const [drift] = element.getAnimations();
-      drift.pause();
-      await drift.ready;
-      drift.currentTime = 0;
-      const start = element.getBoundingClientRect();
-      const startOpacity = Number(getComputedStyle(element).opacity);
-      drift.currentTime = Number(drift.effect!.getTiming().duration);
-      const end = element.getBoundingClientRect();
-      return {
-        x: start.left - end.left,
-        y: end.top - start.top,
-        endTop: end.top,
-        opacity: Number(getComputedStyle(element).opacity) - startOpacity,
-      };
+    await expect(artwork).toHaveCSS("animation-name", "none");
+    const effect = await layers.evaluate(async (element) => {
+      const animations = element.getAnimations({ subtree: true });
+      await Promise.all(
+        animations.map(async (animation) => {
+          animation.pause();
+          await animation.ready;
+          animation.currentTime = 0;
+        }),
+      );
+      const colors = ["::before", "::after"] as const;
+      const start = colors.map(
+        (layer) => getComputedStyle(element, layer).translate,
+      );
+      for (const animation of animations) {
+        animation.currentTime = Number(animation.effect!.getTiming().duration);
+      }
+      return colors.map((layer, index) => {
+        const style = getComputedStyle(element, layer);
+        return {
+          name: style.animationName,
+          mask: style.maskImage,
+          shift: parseFloat(style.translate) - parseFloat(start[index]),
+        };
+      });
     });
-    expect(drift.x).toBeGreaterThan(10);
-    expect(drift.y).toBeGreaterThan(15);
-    expect(drift.endTop).toBeLessThan(0);
-    expect(drift.opacity).toBeGreaterThan(0.25);
+    const source = await artwork.evaluate(
+      (element: HTMLImageElement) => element.src,
+    );
+    expect(effect.map(({ name }) => name)).toEqual([
+      "edem-tree-violet",
+      "edem-tree-cyan",
+    ]);
+    expect(effect.every(({ mask }) => mask.includes(source))).toBe(true);
+    expect(effect[0].shift).toBeLessThan(0);
+    expect(effect[1].shift).toBeGreaterThan(0);
+    expect(effect.every(({ shift }) => Math.abs(shift) <= 8)).toBe(true);
+    expect(await artwork.boundingBox()).toEqual(initialBox);
   }
 });
 

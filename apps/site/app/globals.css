@@ -87,7 +87,7 @@ body {
   inset-block-start: -2rem;
 }
 
-.site-tree .edem-tree__artwork {
+.site-tree .edem-tree__layers {
   transform: translateX(clamp(-6rem, -6vw, -2rem));
   width: min(calc(112vw + 2.5rem), 186svh);
   mask-image: linear-gradient(to bottom, black 76%, transparent 94%);
@@ -262,10 +262,6 @@ html {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .site-tree .edem-tree__artwork {
-    animation: site-tree-drift 12s ease-in-out infinite alternate;
-  }
-
   @view-transition {
     navigation: auto;
   }
@@ -318,16 +314,5 @@ html {
 @keyframes site-card-appear {
   from {
     opacity: 0.54;
-  }
-}
-
-@keyframes site-tree-drift {
-  from {
-    opacity: 0.72;
-    translate: 0 0;
-  }
-  to {
-    opacity: 1;
-    translate: clamp(-2rem, -2.5vw, -0.75rem) 1.25rem;
   }
 }

@@ -11,10 +11,12 @@ export interface TreeBackgroundProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
   renderer?: "svg" | "webgl";
   placement?: "inline" | "viewport";
+  layered?: boolean;
 }
 export function TreeBackground({
   renderer = "svg",
   placement = "inline",
+  layered = false,
   className,
   onPointerMove,
   ...props
@@ -74,7 +76,7 @@ export function TreeBackground({
       onPointerMove={move}
     >
       <div className="edem-tree__fallback">
-        <TreeArtwork />
+        <TreeArtwork layered={layered && renderer === "svg"} />
       </div>
       <div className="edem-tree__webgl" ref={mount} />
     </div>
