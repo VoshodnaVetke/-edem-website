@@ -11,8 +11,14 @@
   gap: 0.4rem;
 }
 
-.caption > :is(h2, p) {
+.caption > :is(h3, p) {
   margin: 0;
+}
+
+.announcementCover {
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 .cover,
