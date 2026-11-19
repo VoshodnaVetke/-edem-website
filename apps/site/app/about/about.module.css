@@ -108,23 +108,10 @@
   flex-shrink: 0;
   overflow-clip-margin: 6px;
   --format-accent: var(--edem-color-accent-primary);
-  --edem-surface-fill: color-mix(
-    in srgb,
-    var(--format-accent) 15%,
-    var(--edem-color-surface)
-  );
 }
 
 .formatCard[data-accent="violet"] {
   --format-accent: var(--edem-color-accent-secondary);
-}
-
-.formatSlot[data-expanded="true"] .formatCard {
-  --edem-surface-fill: color-mix(
-    in srgb,
-    var(--format-accent) 24%,
-    var(--edem-color-background-top)
-  );
 }
 
 .formatSlot[data-expanded="true"] :global(.edem-frame__border) {
