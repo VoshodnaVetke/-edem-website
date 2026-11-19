@@ -133,7 +133,7 @@ test("the homepage leads to the archive and its game galleries", async ({
       slug === "kazn-ognya-vechnogo" ? "0529" : firstPhotoNumber;
     const curatedPhotoNumber =
       slug === "teni-vostochnogo-goroda"
-        ? "0276"
+        ? "0261"
         : slug === "ad-na-zemle"
           ? "0018"
           : expectedPhotoNumber;
@@ -149,8 +149,8 @@ test("the homepage leads to the archive and its game galleries", async ({
     } else if (slug === "parad-tehnologiy") {
       await expect(photos).toHaveCount(120);
     } else if (slug === "teni-vostochnogo-goroda") {
-      await expect(photos).toHaveCount(155);
-      await expect(photos.nth(1)).toHaveAttribute("src", /\/0185-thumb\.webp$/);
+      await expect(photos).toHaveCount(139);
+      await expect(photos.nth(1)).toHaveAttribute("src", /\/0042-thumb\.webp$/);
     } else if (slug === "ad-na-zemle") {
       await expect(photos).toHaveCount(220);
       await expect(photos.nth(1)).toHaveAttribute("src", /\/0044-thumb\.webp$/);
