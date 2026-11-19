@@ -1136,7 +1136,9 @@ test("workshop formats expand exclusively and the team and contact links fit mob
   await page.goto(exportedPath("/about"));
 
   const formats = page.getByRole("region", { name: "Что мы проводим" });
-  const toggles = formats.getByRole("button");
+  const toggles = formats
+    .getByRole("button")
+    .and(formats.locator("[aria-expanded]"));
   const chamber = page.getByRole("button", {
     name: "Кабинетные ролевые игры",
   });
@@ -1217,6 +1219,36 @@ test("workshop formats expand exclusively and the team and contact links fit mob
     contact.getByRole("link", { name: "Сотрудничество" }),
   ).toHaveAttribute("href", exportedPath("/collaboration"));
   await mobile.close();
+});
+
+test("workshop format autoplay advances in order and can be stopped", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install();
+  await page.goto(exportedPath("/about"));
+
+  const formats = page.getByRole("region", { name: "Что мы проводим" });
+  const stop = formats.getByRole("button", { name: "Остановить автопоказ" });
+  const chamber = formats.getByRole("button", {
+    name: "Кабинетные ролевые игры",
+  });
+  const field = formats.getByRole("button", {
+    name: "Полигонные ролевые игры",
+  });
+
+  await stop.scrollIntoViewIfNeeded();
+  await page.clock.runFor(100);
+  await page.clock.fastForward(10_000);
+  await expect(chamber).toHaveAttribute("aria-expanded", "true");
+  await page.clock.fastForward(10_000);
+  await expect(field).toHaveAttribute("aria-expanded", "true");
+  await stop.click();
+  await expect(
+    formats.getByRole("button", { name: "Включить автопоказ" }),
+  ).toBeVisible();
+  await page.clock.fastForward(20_000);
+  await expect(field).toHaveAttribute("aria-expanded", "true");
 });
 
 test("public pages and their internal links resolve", async ({
