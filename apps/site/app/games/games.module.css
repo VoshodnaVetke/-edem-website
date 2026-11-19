@@ -21,6 +21,26 @@
   object-fit: cover;
 }
 
+.teamCard:global(.edem-card) {
+  --edem-surface-fill: var(--edem-color-background);
+}
+
+.teamPhoto {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  align-self: center;
+}
+
+.teamPhoto img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.teamCopy {
+  align-self: center;
+}
+
 .cover,
 .cover img,
 .cover::after {

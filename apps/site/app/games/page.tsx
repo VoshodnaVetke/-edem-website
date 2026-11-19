@@ -1,6 +1,15 @@
 "use client";
 
-import { ButtonLink, Card, Grid, Heading, LinkCard, Text } from "@edem/ui";
+import {
+  ButtonLink,
+  Card,
+  Frame,
+  Grid,
+  Heading,
+  LinkCard,
+  Text,
+} from "@edem/ui";
+import { useId } from "react";
 import { PageShell } from "../../components/layout/PageShell";
 import deployment from "../../config/deployment.json";
 import { games, photoPath } from "../../config/past-games";
@@ -13,6 +22,8 @@ import styles from "./games.module.css";
 const previewTagIds = ["chamber", "moscow", "16-plus"] as const;
 
 export default function GamesPage() {
+  const teamPhotoClip = useId();
+
   return (
     <PageShell
       title="Истории, которые мы пишем вместе"
@@ -86,14 +97,39 @@ export default function GamesPage() {
       </section>
 
       <section aria-labelledby="games-team">
-        <Heading id="games-team" className={layout.sectionHeading}>
-          За историями стоят люди
-        </Heading>
-        <div className={layout.actions}>
-          <ButtonLink href={siteHref("/about")}>
-            Познакомиться с мастерской группой <span aria-hidden="true">→</span>
-          </ButtonLink>
-        </div>
+        <Card
+          frame="double"
+          className={styles.teamCard}
+          telemetry
+          reveal={false}
+        >
+          <Grid>
+            <div className={`edem-span--half ${styles.teamPhoto}`}>
+              <img
+                src={`${photoPath}/kazn-ognya-vechnogo/0973.webp`}
+                alt="Кадр с игры «Казнь Огня Вечного»"
+                loading="lazy"
+                style={{ clipPath: `url("#${teamPhotoClip}")` }}
+              />
+              <Frame variant="asym" mediaClipId={teamPhotoClip} />
+            </div>
+            <div
+              className={`edem-span--half ${layout.cardBody} ${styles.teamCopy}`}
+            >
+              <Heading id="games-team">За историями стоят люди</Heading>
+              <Text>
+                Мы пишем сценарии, придумываем персонажей и создаём правила, по
+                которым живёт Эдем.
+              </Text>
+              <div className={layout.actions}>
+                <ButtonLink href={siteHref("/about")} size="lg">
+                  Познакомиться с мастерской группой{" "}
+                  <span aria-hidden="true">→</span>
+                </ButtonLink>
+              </div>
+            </div>
+          </Grid>
+        </Card>
       </section>
     </PageShell>
   );
