@@ -9,6 +9,7 @@ interface PageShellProps {
   title: string;
   description?: string;
   titleDetails?: ReactNode;
+  intro?: ReactNode;
   children?: ReactNode;
 }
 
@@ -18,6 +19,7 @@ export function PageShell({
   title,
   description,
   titleDetails,
+  intro,
   children,
 }: PageShellProps) {
   const heading = (
@@ -43,6 +45,7 @@ export function PageShell({
               heading
             )}
             {description && <Text variant="lead">{description}</Text>}
+            {intro}
           </div>
           {children && <div className={styles.content}>{children}</div>}
         </Layout>
