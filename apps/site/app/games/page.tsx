@@ -80,7 +80,9 @@ export default function GamesPage() {
                     src={
                       slug === "parad-tehnologiy"
                         ? `${photoPath}/${slug}/0073.webp`
-                        : `${photoPath}/${slug}.webp`
+                        : slug === "teni-vostochnogo-goroda"
+                          ? `${photoPath}/${slug}/0014.webp`
+                          : `${photoPath}/${slug}.webp`
                     }
                     alt=""
                   />
