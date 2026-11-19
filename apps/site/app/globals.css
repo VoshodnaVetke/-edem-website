@@ -84,12 +84,16 @@ body {
 
 .site-tree.edem-tree--viewport .edem-tree__fallback {
   align-items: flex-start;
-  padding-block-start: max(8rem, 18svh);
+  padding-block-start: max(
+    5.75rem,
+    12svh,
+    calc(var(--site-header-height, 5rem) + 0.625rem)
+  );
 }
 
 .site-tree .edem-tree__artwork {
   transform: translateX(clamp(-4rem, -3.5vw, -1rem));
-  width: min(calc(100vw + 8rem), 170svh);
+  width: min(calc(80vw + 5rem), 140svh);
   mask-image: linear-gradient(to bottom, black 76%, transparent 94%);
 }
 

@@ -560,7 +560,7 @@ test("cold page renders styled content while scripts are still loading", async (
 test("the tree frames its branches and trunk and stays still with reduced motion", async ({
   page,
 }) => {
-  for (const width of [1440, 390]) {
+  for (const width of [1440, 768, 390]) {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width, height: 800 });
     await page.goto(exportedPath("/events"));
@@ -574,11 +574,16 @@ test("the tree frames its branches and trunk and stays still with reduced motion
       "0.11",
     );
     await expect(background.locator("canvas")).toHaveCount(0);
+    await expect(page.locator("html")).toHaveCSS("--site-header-height", /px$/);
     const initialBox = (await artwork.boundingBox())!;
     const header = (await page.locator(".site-header-shell").boundingBox())!;
-    expect(initialBox.y).toBeGreaterThan(header.y + header.height + 40);
+    expect(initialBox.y).toBeGreaterThanOrEqual(header.y + header.height + 9);
+    expect(initialBox.y).toBeLessThan(header.y + header.height + 24);
     expect(initialBox.x + initialBox.width / 2).toBeLessThan(width / 2 - 10);
-    expect(initialBox.width).toBeCloseTo(Math.min(width + 128, 800 * 1.7), 0);
+    expect(initialBox.width).toBeCloseTo(
+      Math.min(width * 0.8 + 80, 800 * 1.4),
+      0,
+    );
     await page.evaluate(() =>
       window.scrollTo({ top: innerHeight, behavior: "instant" }),
     );
