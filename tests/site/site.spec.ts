@@ -4,10 +4,11 @@ import { upcomingGame } from "../../apps/site/config/upcoming-game";
 const pagesBasePath = "/-edem-website";
 const expectedRevision = process.env.EDEM_SITE_REVISION;
 const gamesTitle = "Истории, которые мы пишем вместе";
+const worldTitle = "Добро пожаловать в Эдем.";
 
 const publicPages = [
   ["/games", "Наши игры", gamesTitle],
-  ["/world", "Вселенная", "Вселенная «Эдем»"],
+  ["/world", "Вселенная", worldTitle],
   ["/order", "Заказать игру", "Заказать игру"],
   ["/collaboration", "Сотрудничество", "Сотрудничество"],
   ["/about", "О мастерской группе", "Мастерская группа «Эдем»"],
@@ -273,7 +274,7 @@ test("Parade displays its taxonomy and game focus above the gallery", async ({
   }
 });
 
-test("site cards show telemetry and only the footer uses a decorative divider", async ({
+test("detail cards show telemetry and only the footer uses a decorative divider", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 850 });
@@ -284,7 +285,12 @@ test("site cards show telemetry and only the footer uses a decorative divider", 
     "/games/parad-tehnologiy",
   ]) {
     await page.goto(exportedPath(route));
-    const cards = page.locator("main .edem-card");
+    const cards =
+      route === "/world"
+        ? page
+            .getByRole("region", { name: "Как устроен мир" })
+            .getByRole("article")
+        : page.locator("main .edem-card");
     await expect(cards.locator(".edem-card-telemetry")).toHaveCount(
       await cards.count(),
     );
@@ -547,9 +553,7 @@ test("missing build assets trigger one fresh request and keep a dark document", 
     "background-color",
     "rgb(5, 7, 12)",
   );
-  await expect(
-    page.getByRole("heading", { name: "Вселенная «Эдем»" }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: worldTitle })).toBeVisible();
   expect(documentRequests).toHaveLength(2);
 });
 
@@ -567,7 +571,7 @@ test("cold page renders styled content while scripts are still loading", async (
   });
   try {
     await page.goto(exportedPath("/world"), { waitUntil: "commit" });
-    const heading = page.getByRole("heading", { name: "Вселенная «Эдем»" });
+    const heading = page.getByRole("heading", { name: worldTitle });
     await expect(heading).toBeVisible();
     await expect(heading).toHaveCSS("animation-name", "site-content-appear");
     await expect(page.locator("body")).toHaveCSS(
@@ -1293,6 +1297,64 @@ test("public pages and their internal links resolve", async ({
   await expect(page.locator("form")).toHaveCount(0);
   await page.goto(exportedPath("/collaboration"));
   await expect(page.locator("form")).toHaveCount(0);
+});
+
+test("the world introduction fits on desktop and stacks on mobile", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto(exportedPath("/world"));
+  await page.evaluate(() => document.fonts.ready);
+
+  const introduction = page.getByRole("region", { name: worldTitle });
+  const cards = introduction.getByRole("article");
+  await expect(cards.getByRole("heading", { level: 2 })).toHaveText([
+    "Киберпанк",
+    "Социальный рейтинг",
+    "Адам и вера",
+    "Неидеальный мир",
+  ]);
+  await expect(introduction.getByRole("link")).toHaveCount(0);
+  await expect(introduction.locator(".edem-card-telemetry")).toHaveCount(0);
+  for (const card of await cards.all()) {
+    await expect(card).toBeInViewport({ ratio: 1 });
+    await expect(card.locator(".edem-card-media")).toHaveCSS(
+      "clip-path",
+      /url\(/,
+    );
+    expect(
+      await card.locator("img").evaluate(async (image: HTMLImageElement) => {
+        await image.decode();
+        return image.naturalWidth;
+      }),
+    ).toBeGreaterThan(0);
+  }
+
+  const desktopBoxes = await Promise.all(
+    (await cards.all()).map((card) => card.boundingBox()),
+  );
+  expect(desktopBoxes[0]!.y).toEqual(desktopBoxes[1]!.y);
+  expect(desktopBoxes[2]!.y).toEqual(desktopBoxes[3]!.y);
+  expect(desktopBoxes[0]!.y).toBeLessThan(desktopBoxes[2]!.y);
+
+  await page.setViewportSize({ width: 320, height: 720 });
+  const mobileBoxes = await Promise.all(
+    (await cards.all()).map((card) => card.boundingBox()),
+  );
+  for (const [index, box] of mobileBoxes.entries()) {
+    expect(box!.x).toEqual(mobileBoxes[0]!.x);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(320);
+    if (index > 0) {
+      const previous = mobileBoxes[index - 1]!;
+      expect(box!.y).toBeGreaterThan(previous.y + previous.height);
+    }
+  }
+  await expect(
+    page.getByRole("region", { name: "Как устроен мир" }).getByRole("link", {
+      name: /Читать статью/,
+    }),
+  ).toHaveAttribute("href", exportedPath(articlePath));
 });
 
 test("the world article has working contents and related links", async ({
