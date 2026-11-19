@@ -1,10 +1,12 @@
 import { expect, test } from "@playwright/test";
+import { upcomingGame } from "../../apps/site/config/upcoming-game";
 
 const pagesBasePath = "/-edem-website";
 const expectedRevision = process.env.EDEM_SITE_REVISION;
+const gamesTitle = "Истории, которые мы пишем вместе";
 
 const publicPages = [
-  ["/games", "Наши игры", "Наши игры"],
+  ["/games", "Наши игры", gamesTitle],
   ["/world", "Вселенная", "Вселенная «Эдем»"],
   ["/order", "Заказать игру", "Заказать игру"],
   ["/collaboration", "Сотрудничество", "Сотрудничество"],
@@ -28,6 +30,22 @@ test("the homepage leads to the archive and its game galleries", async ({
     .getByRole("link", { name: "Наши игры", exact: true })
     .click();
   await expect(page).toHaveURL(new RegExp(`${exportedPath("/games")}$`));
+  await expect(
+    page.getByRole("heading", { name: gamesTitle, level: 1 }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Мы создаём мир, его правила и конфликты, но не решаем, чем всё закончится. Здесь каждый персонаж может изменить ход истории, независимо от своего положения, а решения игроков оставляют след в мире и определяют его будущее.",
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: "Ближайшая игра" }),
+  ).toHaveCount(upcomingGame ? 1 : 0);
+  await expect(
+    page
+      .getByRole("region", { name: "За историями стоят люди" })
+      .getByRole("link", { name: "Познакомиться с мастерской группой" }),
+  ).toHaveAttribute("href", exportedPath("/about"));
 
   await expect(
     page.getByRole("heading", { name: "Архив проектов" }),
@@ -44,9 +62,10 @@ test("the homepage leads to the archive and its game galleries", async ({
     ["Тени Восточного города", "teni-vostochnogo-goroda", ["308118503"], 7],
     ["Ад на земле", "ad-na-zemle", ["309547135"], 7],
   ] as const;
-  await expect(
-    page.getByRole("main").getByRole("heading", { level: 2 }),
-  ).toHaveText(games.map(([title]) => title));
+  const past = page.getByRole("region", { name: "Прошедшие игры" });
+  await expect(past.getByRole("heading", { level: 3 })).toHaveText(
+    games.map(([title]) => title),
+  );
   for (const [title, slug, albumIds, tagCount] of games) {
     const card = page
       .getByRole("main")
@@ -660,7 +679,7 @@ for (const width of [1440, 390]) {
     await expect(
       page.getByRole("status").filter({ hasText: "Загрузка раздела" }),
     ).toHaveCount(0);
-    const last = page.getByRole("heading", { level: 2, name: "Ад на земле" });
+    const last = page.getByRole("heading", { level: 3, name: "Ад на земле" });
     await last.evaluate(async (element) => {
       const currentDocument = document as Document & {
         activeViewTransition?: ViewTransition;
