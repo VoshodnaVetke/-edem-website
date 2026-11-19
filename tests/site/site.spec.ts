@@ -97,7 +97,7 @@ test("the homepage leads to the archive and its game galleries", async ({
       slug === "parad-tehnologiy"
         ? `${pagesBasePath}/images/games/${slug}/0073.webp`
         : slug === "teni-vostochnogo-goroda"
-          ? `${pagesBasePath}/images/games/${slug}/0030.webp`
+          ? `${pagesBasePath}/images/games/${slug}/0135.webp`
           : `${pagesBasePath}/images/games/${slug}.webp`,
     );
     expect(
