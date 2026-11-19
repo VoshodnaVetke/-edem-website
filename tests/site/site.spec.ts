@@ -96,7 +96,9 @@ test("the homepage leads to the archive and its game galleries", async ({
       "src",
       slug === "parad-tehnologiy"
         ? `${pagesBasePath}/images/games/${slug}/0073.webp`
-        : `${pagesBasePath}/images/games/${slug}.webp`,
+        : slug === "teni-vostochnogo-goroda"
+          ? `${pagesBasePath}/images/games/${slug}/0014.webp`
+          : `${pagesBasePath}/images/games/${slug}.webp`,
     );
     expect(
       await cover.evaluate(async (image: HTMLImageElement) => {
