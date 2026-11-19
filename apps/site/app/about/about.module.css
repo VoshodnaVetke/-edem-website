@@ -105,6 +105,8 @@
 .formatCard:global(.edem-card) {
   display: flex;
   align-self: stretch;
+  flex-shrink: 0;
+  overflow-clip-margin: 6px;
   --format-accent: var(--edem-color-accent-primary);
   --edem-surface-fill: color-mix(
     in srgb,
@@ -170,12 +172,6 @@
   place-items: center;
   aspect-ratio: 1;
   color: var(--format-accent);
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--format-accent) 32%, transparent),
-    var(--edem-color-background-top)
-  );
-  clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
 }
 
 .formatIcon svg {
@@ -344,7 +340,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .panel:not([hidden]) {
-    animation: panel-open 440ms cubic-bezier(0.35, 0, 0.2, 1) both;
+    animation: panel-open 540ms cubic-bezier(0.4, 0, 0.2, 1) both;
   }
 
   .interference {
@@ -360,7 +356,7 @@
 
 @keyframes panel-open {
   from {
-    transform: translateY(0.5rem);
+    transform: translateY(0.25rem);
     opacity: 0;
   }
 
