@@ -1,14 +1,22 @@
 "use client";
 
-import { Card, Grid, Heading, Text } from "@edem/ui";
-import { useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { Button, Card, Grid, Heading, Text } from "@edem/ui";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import styles from "./about.module.css";
 
 const formats = [
   {
     id: "chamber",
     title: "Кабинетные ролевые игры",
-    symbol: "M4 8h16v10H4zM8 18v3m8-3v3M7 4h4m2 0h4M8 12h8m-6 3h4",
+    symbol:
+      "M3 9h18v6H3zM8 9V7a2 2 0 0 1 4 0v2m0 6v2a2 2 0 0 0 4 0v-2M5 15v4m14-4v4",
     summary: "Интриги, политика, экономика и игровые механики.",
     description: [
       "Наш основной формат для тех, кто любит погружаться в интриги, политику, экономику и сложные игровые механики. Переговоры, союзы и конфликты интересов переплетаются в одну историю, а решения персонажей меняют расстановку сил.",
@@ -18,7 +26,8 @@ const formats = [
   {
     id: "field",
     title: "Полигонные ролевые игры",
-    symbol: "M12 2v5m0 10v5M2 12h5m10 0h5M5 5h14v14H5zM9 12l3-3 3 3-3 3z",
+    symbol:
+      "m2 6 6-3 8 3 6-3v15l-6 3-8-3-6 3zM8 3v15m8-12v15M5 14l5-4 5 3 4-5m-3 0h3v3",
     summary: "Боёвка, тактика и командные задачи.",
     description: [
       "Игры с упором на боёвку, тактику и активные действия: перестрелки, захват точек и противостояние группировок в рамках игрового сюжета.",
@@ -49,6 +58,8 @@ const formats = [
 ] as const;
 
 type FormatId = (typeof formats)[number]["id"];
+const rotationDelay = 9000;
+const motionQuery = "(prefers-reduced-motion: no-preference)";
 const multiColumnQuery = "(min-width: 41rem)";
 
 function subscribeToGrid(change: () => void) {
@@ -64,6 +75,12 @@ export function GameFormats() {
     () => window.matchMedia(multiColumnQuery).matches,
     () => false,
   );
+  const [playing, setPlaying] = useState(true);
+  const [inView, setInView] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [motionAllowed, setMotionAllowed] = useState(false);
+  const group = useRef<HTMLDivElement>(null);
   const cards = useRef(new Map<FormatId, HTMLElement>());
   const previousRects = useRef(new Map<FormatId, DOMRect>());
   const focusedToggle = useRef<HTMLButtonElement | null>(null);
@@ -73,15 +90,47 @@ export function GameFormats() {
     ? [active, ...formats.filter(({ id }) => id !== active.id)]
     : formats;
 
-  function toggle(id: FormatId, button: HTMLButtonElement) {
-    focusedToggle.current = document.activeElement === button ? button : null;
+  const open = useCallback((id: FormatId | null) => {
     previousRects.current.clear();
-    if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+    if (window.matchMedia(motionQuery).matches) {
       for (const [key, card] of cards.current) {
         previousRects.current.set(key, card.getBoundingClientRect());
       }
     }
-    setOpenId(openId === id ? null : id);
+    setOpenId(id);
+  }, []);
+
+  useEffect(() => {
+    const preference = window.matchMedia(motionQuery);
+    const sync = () => setMotionAllowed(preference.matches);
+    sync();
+    preference.addEventListener("change", sync);
+    return () => preference.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    const element = group.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setInView(entry.isIntersecting);
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!playing || !motionAllowed || !inView || hovered || focused) return;
+    const timeout = window.setTimeout(() => {
+      const index = formats.findIndex(({ id }) => id === openId);
+      open(formats[(index + 1) % formats.length].id);
+    }, rotationDelay);
+    return () => window.clearTimeout(timeout);
+  }, [playing, motionAllowed, inView, hovered, focused, open, openId]);
+
+  function toggle(id: FormatId, button: HTMLButtonElement) {
+    setPlaying(false);
+    focusedToggle.current = document.activeElement === button ? button : null;
+    open(openId === id ? null : id);
   }
 
   useLayoutEffect(() => {
@@ -101,27 +150,14 @@ export function GameFormats() {
       if (!widthChanged && Math.abs(x) < 1 && Math.abs(y) < 1) continue;
 
       const start = `translate(${x}px, ${y}px)`;
-      // Compact cards crossing a row break slide out to the right and enter from the left.
-      const keyframes =
-        multiColumn && openId && !widthChanged && y < -1
-          ? [
-              { transform: start, opacity: 1 },
-              {
-                transform: `translate(${x + 12}px, ${y}px)`,
-                opacity: 0,
-                offset: 0.4,
-              },
-              { transform: "translateX(-12px)", opacity: 0, offset: 0.55 },
-              { transform: "none", opacity: 1 },
-            ]
-          : [
-              { transform: start, inlineSize: `${from.width}px` },
-              { transform: "none", inlineSize: `${to.width}px` },
-            ];
+      const keyframes = [
+        { transform: start, inlineSize: `${from.width}px` },
+        { transform: "none", inlineSize: `${to.width}px` },
+      ];
       animations.push(
         card.animate(keyframes, {
-          duration: 340,
-          easing: "cubic-bezier(0.2, 0.75, 0.25, 1)",
+          duration: 660,
+          easing: "cubic-bezier(0.35, 0, 0.2, 1)",
         }),
       );
     }
@@ -130,70 +166,84 @@ export function GameFormats() {
   }, [multiColumn, openId]);
 
   return (
-    <Grid className={styles.formats}>
-      {ordered.map(({ id, title, symbol, summary, description }) => {
-        const expanded = openId === id;
-        const label = `format-${id}`;
-        return (
-          <div key={id} className={styles.formatSlot} data-expanded={expanded}>
-            <Card
-              ref={(card) => {
-                if (card) cards.current.set(id, card);
-                else cards.current.delete(id);
-              }}
-              className={styles.formatCard}
-              telemetry
+    <div ref={group}>
+      {motionAllowed && (
+        <div className={styles.rotation}>
+          <Button size="sm" onClick={() => setPlaying(!playing)}>
+            {playing ? "Остановить автопоказ" : "Включить автопоказ"}
+          </Button>
+        </div>
+      )}
+      <Grid
+        className={styles.formats}
+        onPointerEnter={(event) => {
+          if (event.pointerType === "mouse") setHovered(true);
+        }}
+        onPointerLeave={() => setHovered(false)}
+        onFocus={() => setFocused(true)}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget))
+            setFocused(false);
+        }}
+      >
+        {ordered.map(({ id, title, symbol, summary, description }) => {
+          const expanded = openId === id;
+          const label = `format-${id}`;
+          return (
+            <div
+              key={id}
+              className={styles.formatSlot}
+              data-expanded={expanded}
             >
-              <Heading level={3} className={styles.formatHeading}>
-                <button
-                  type="button"
-                  className={styles.toggle}
-                  id={`${label}-toggle`}
-                  aria-expanded={expanded}
-                  aria-controls={`${label}-panel`}
-                  aria-labelledby={label}
-                  aria-describedby={`${label}-summary`}
-                  onClick={(event) => toggle(id, event.currentTarget)}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                    aria-hidden="true"
-                  >
-                    <path d={symbol} />
-                  </svg>
-                  <span id={label}>{title}</span>
-                  <svg
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className={styles.indicator}
-                    aria-hidden="true"
-                  >
-                    <path d="M3 8h10" />
-                    <path d="M8 3v10" className={styles.indicatorVertical} />
-                  </svg>
-                </button>
-              </Heading>
-              <Text id={`${label}-summary`} className={styles.summary}>
-                {summary}
-              </Text>
-              <div
-                id={`${label}-panel`}
-                hidden={!expanded}
-                className={styles.panel}
+              <Card
+                ref={(card) => {
+                  if (card) cards.current.set(id, card);
+                  else cards.current.delete(id);
+                }}
+                className={styles.formatCard}
+                accent={id === "field" || id === "ball" ? "violet" : "cyan"}
+                telemetry
               >
-                {description.map((paragraph) => (
-                  <Text key={paragraph}>{paragraph}</Text>
-                ))}
-              </div>
-            </Card>
-          </div>
-        );
-      })}
-    </Grid>
+                <Heading level={3} className={styles.formatHeading}>
+                  <button
+                    type="button"
+                    className={styles.toggle}
+                    id={`${label}-toggle`}
+                    aria-expanded={expanded}
+                    aria-controls={`${label}-panel`}
+                    aria-labelledby={label}
+                    aria-describedby={`${label}-summary`}
+                    onClick={(event) => toggle(id, event.currentTarget)}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      aria-hidden="true"
+                    >
+                      <path d={symbol} />
+                    </svg>
+                    <span id={label}>{title}</span>
+                  </button>
+                </Heading>
+                <Text id={`${label}-summary`} className={styles.summary}>
+                  {summary}
+                </Text>
+                <div
+                  id={`${label}-panel`}
+                  hidden={!expanded}
+                  className={styles.panel}
+                >
+                  {description.map((paragraph) => (
+                    <Text key={paragraph}>{paragraph}</Text>
+                  ))}
+                </div>
+              </Card>
+            </div>
+          );
+        })}
+      </Grid>
+    </div>
   );
 }
