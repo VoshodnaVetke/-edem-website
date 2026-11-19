@@ -12,6 +12,39 @@
   background: var(--edem-divider-surface);
 }
 
+.divider:global(.edem-vector-divider) {
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 0;
+  padding: 0;
+  opacity: 1;
+  overflow: clip;
+}
+
+.divider:global(.edem-vector-divider) svg {
+  height: clamp(2.75rem, 5vw, 4.5rem);
+}
+
+.divider svg path:not(:global(.edem-vector-divider__surface)) {
+  stroke-width: 2.4px;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 3px rgb(37 244 255 / 24%));
+}
+
+.divider:global(.edem-vector-divider) svg :global(.edem-vector-divider__pulse) {
+  stroke-width: 3.4px;
+}
+
+.divider :global(.edem-vector-divider__label) {
+  margin: 0;
+  padding-block: 0 clamp(1rem, 3vw, 2rem);
+  padding-inline-start: max(
+    var(--edem-layout-padding),
+    calc((100% - var(--edem-layout-max)) / 2 + var(--edem-layout-padding))
+  );
+  background: var(--edem-divider-surface);
+}
+
 .intro,
 .navigation {
   display: grid;

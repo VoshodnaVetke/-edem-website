@@ -1,16 +1,7 @@
 "use client";
 
-import {
-  ButtonLink,
-  Grid,
-  Heading,
-  Layout,
-  LinkCard,
-  SignalDivider,
-  Text,
-} from "@edem/ui";
+import { ButtonLink, Grid, Heading, Layout, LinkCard, Text } from "@edem/ui";
 import { siteHref } from "../config/site-href";
-import { siteDividers } from "../config/site-dividers";
 import layout from "../styles/page-layout.module.css";
 import styles from "./home.module.css";
 
@@ -49,13 +40,6 @@ export default function HomePage() {
         </section>
 
         <section aria-labelledby="first-visit">
-          <SignalDivider
-            className="site-content-divider"
-            label=""
-            pulse="none"
-            variant={siteDividers("/").content}
-            aria-hidden="true"
-          />
           <LinkCard telemetry href={siteHref("/world")} frame="asym">
             <div className={layout.cardBody}>
               <Heading level={2} id="first-visit">

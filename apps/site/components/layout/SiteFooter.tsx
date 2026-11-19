@@ -3,20 +3,20 @@
 import { Grid, Heading, Layout, SignalDivider, Text } from "@edem/ui";
 import { usePathname } from "next/navigation";
 import { siteNavigation } from "../../config/navigation";
-import { siteDividers } from "../../config/site-dividers";
+import { siteFooterDivider } from "../../config/site-dividers";
 import styles from "./SiteFooter.module.css";
 
 export function SiteFooter() {
   const pathname = usePathname();
-  const { footer } = siteDividers(pathname);
+  const variant = siteFooterDivider(pathname);
   return (
     <footer className={styles.footer} aria-label="Подвал сайта">
       <SignalDivider
-        className="site-content-divider site-content-divider--footer"
+        className={styles.divider}
         label="ЭДЕМ / СВЯЗЬ УСТАНОВЛЕНА"
         pulse="once"
-        variant={footer}
-        variationSeed={footer ? undefined : `footer.${pathname}`}
+        variant={variant}
+        variationSeed={variant ? undefined : `footer.${pathname}`}
         fillBelow
       />
       <div className={styles.body}>
