@@ -557,7 +557,7 @@ test("cold page renders styled content while scripts are still loading", async (
   ).toHaveCSS("animation-name", "site-card-appear");
 });
 
-test("the tree frames its branches and trunk and stays still with reduced motion", async ({
+test("the tree extends past the top and left edges and respects reduced motion", async ({
   page,
 }) => {
   for (const width of [1440, 768, 390]) {
@@ -574,10 +574,8 @@ test("the tree frames its branches and trunk and stays still with reduced motion
       "0.11",
     );
     await expect(background.locator("canvas")).toHaveCount(0);
-    await expect(page.locator("html")).toHaveCSS("--site-header-height", /px$/);
     const initialBox = (await artwork.boundingBox())!;
-    const header = (await page.locator(".site-header-shell").boundingBox())!;
-    expect(initialBox.y).toBeCloseTo(Math.max(32, header.height - 48), 0);
+    expect(initialBox.y).toBeCloseTo(-32, 0);
     expect(initialBox.x).toBeLessThan(0);
     expect(initialBox.x).toBeGreaterThan(-width * 0.25);
     expect(initialBox.x + initialBox.width / 2).toBeLessThanOrEqual(
@@ -608,11 +606,13 @@ test("the tree frames its branches and trunk and stays still with reduced motion
       return {
         x: start.left - end.left,
         y: end.top - start.top,
+        endTop: end.top,
         opacity: Number(getComputedStyle(element).opacity) - startOpacity,
       };
     });
     expect(drift.x).toBeGreaterThan(10);
     expect(drift.y).toBeGreaterThan(15);
+    expect(drift.endTop).toBeLessThan(0);
     expect(drift.opacity).toBeGreaterThan(0.25);
   }
 });

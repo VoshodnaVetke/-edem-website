@@ -84,7 +84,7 @@ body {
 
 .site-tree.edem-tree--viewport .edem-tree__fallback {
   align-items: flex-start;
-  padding-block-start: max(2rem, calc(var(--site-header-height, 5rem) - 3rem));
+  inset-block-start: -2rem;
 }
 
 .site-tree .edem-tree__artwork {
