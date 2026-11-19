@@ -17,6 +17,7 @@ export interface CardProps extends HTMLAttributes<HTMLElement> {
   reveal?: boolean;
   telemetry?: boolean;
   accent?: "cyan" | "violet";
+  cover?: ReactNode;
 }
 function Contents({
   frame,
@@ -25,9 +26,8 @@ function Contents({
   reveal = true,
   effects = true,
   telemetry = false,
-}: Pick<CardProps, "frame" | "children" | "reveal" | "telemetry"> & {
+}: Pick<CardProps, "frame" | "children" | "cover" | "reveal" | "telemetry"> & {
   effects?: boolean;
-  cover?: ReactNode;
 }) {
   const { ref, revealed, active } = useReveal(reveal || telemetry);
   const id = useId();
@@ -102,6 +102,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(function Card(
     reveal = true,
     accent = "cyan",
     telemetry,
+    cover,
     className,
     children,
     ...props
@@ -116,7 +117,12 @@ export const Card = forwardRef<HTMLElement, CardProps>(function Card(
       data-accent={accent}
       className={cx("edem-card", className)}
     >
-      <Contents frame={frame} reveal={reveal} telemetry={telemetry}>
+      <Contents
+        frame={frame}
+        reveal={reveal}
+        telemetry={telemetry}
+        cover={cover}
+      >
         {children}
       </Contents>
     </article>
