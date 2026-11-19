@@ -557,7 +557,7 @@ test("cold page renders styled content while scripts are still loading", async (
   ).toHaveCSS("animation-name", "site-card-appear");
 });
 
-test("the tree frames its upper branches and stays still with reduced motion", async ({
+test("the tree frames its branches and trunk and stays still with reduced motion", async ({
   page,
 }) => {
   for (const width of [1440, 390]) {
@@ -568,7 +568,7 @@ test("the tree frames its upper branches and stays still with reduced motion", a
     const artwork = background.locator(".edem-tree__artwork");
     await expect(artwork).toBeVisible();
     await expect(artwork).toHaveCSS("animation-name", "none");
-    await expect(artwork).toHaveCSS("mask-image", /linear-gradient/);
+    await expect(artwork).toHaveCSS("mask-image", /76%.*94%/);
     await expect(background.locator(".edem-tree__fallback")).toHaveCSS(
       "opacity",
       "0.11",
@@ -578,7 +578,7 @@ test("the tree frames its upper branches and stays still with reduced motion", a
     const header = (await page.locator(".site-header-shell").boundingBox())!;
     expect(initialBox.y).toBeGreaterThan(header.y + header.height + 40);
     expect(initialBox.x + initialBox.width / 2).toBeLessThan(width / 2 - 10);
-    expect(initialBox.width).toBeCloseTo(Math.min(width * 1.92, 800 * 2.38), 0);
+    expect(initialBox.width).toBeCloseTo(Math.min(width + 128, 800 * 1.7), 0);
     await page.evaluate(() =>
       window.scrollTo({ top: innerHeight, behavior: "instant" }),
     );
