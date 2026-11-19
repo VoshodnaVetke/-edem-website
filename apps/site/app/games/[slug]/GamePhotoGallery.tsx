@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import kazinoMefisaOrder from "../../../config/kazino-mefisa-photo-order.json";
 import kaznOgnyaVechnogoOrder from "../../../config/kazn-ognya-vechnogo-photo-order.json";
 import paradTehnologiyOrder from "../../../config/parad-tehnologiy-photo-order.json";
+import teniVostochnogoGorodaOrder from "../../../config/teni-vostochnogo-goroda-photo-order.json";
 import layout from "../../../styles/page-layout.module.css";
 import styles from "../games.module.css";
 
@@ -12,6 +13,7 @@ const photoOrders: Partial<Record<string, number[]>> = {
   "kazino-mefisa": kazinoMefisaOrder,
   "kazn-ognya-vechnogo": kaznOgnyaVechnogoOrder,
   "parad-tehnologiy": paradTehnologiyOrder,
+  "teni-vostochnogo-goroda": teniVostochnogoGorodaOrder,
 };
 
 export function GamePhotoGallery({
