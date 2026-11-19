@@ -111,7 +111,10 @@
       z-index: -1;
       mask: var(--edem-tree-mask) center / 100% 100% no-repeat;
       transform-origin: 50% 30%;
-      animation: 24s ease-in-out infinite alternate;
+      animation-duration: 24s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
     }
 
     .edem-tree__layers::before {
