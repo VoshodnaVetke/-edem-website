@@ -577,11 +577,12 @@ test("the tree frames its branches and trunk and stays still with reduced motion
     await expect(page.locator("html")).toHaveCSS("--site-header-height", /px$/);
     const initialBox = (await artwork.boundingBox())!;
     const header = (await page.locator(".site-header-shell").boundingBox())!;
-    expect(initialBox.y).toBeGreaterThanOrEqual(header.y + header.height + 9);
-    expect(initialBox.y).toBeLessThan(header.y + header.height + 24);
+    expect(initialBox.y).toBeCloseTo(Math.max(60, header.height - 20), 0);
+    expect(initialBox.x).toBeLessThan(0);
+    expect(initialBox.x).toBeGreaterThan(-width * 0.15);
     expect(initialBox.x + initialBox.width / 2).toBeLessThan(width / 2 - 10);
     expect(initialBox.width).toBeCloseTo(
-      Math.min(width * 0.8 + 80, 800 * 1.4),
+      Math.min(width * 1.04 + 40, 800 * 1.68),
       0,
     );
     await page.evaluate(() =>
