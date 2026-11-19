@@ -119,6 +119,8 @@ test("the schedule lists the Council and the archive leads to the game galleries
           : "0001";
     const expectedPhotoNumber =
       slug === "kazn-ognya-vechnogo" ? "0529" : firstPhotoNumber;
+    const curatedPhotoNumber =
+      slug === "teni-vostochnogo-goroda" ? "0276" : expectedPhotoNumber;
     if (slug === "kazino-mefisa") {
       await expect(photos).toHaveCount(141);
       await expect(photos.nth(93)).toHaveAttribute(
@@ -130,16 +132,19 @@ test("the schedule lists the Council and the archive leads to the game galleries
       await expect(photos.nth(1)).toHaveAttribute("src", /\/0569-thumb\.webp$/);
     } else if (slug === "parad-tehnologiy") {
       await expect(photos).toHaveCount(120);
+    } else if (slug === "teni-vostochnogo-goroda") {
+      await expect(photos).toHaveCount(155);
+      await expect(photos.nth(1)).toHaveAttribute("src", /\/0185-thumb\.webp$/);
     }
     const photo = photos.first();
     await expect(photo).toBeVisible();
     await expect(photo).toHaveAttribute(
       "src",
-      `${pagesBasePath}/images/games/${slug}/${expectedPhotoNumber}-thumb.webp`,
+      `${pagesBasePath}/images/games/${slug}/${curatedPhotoNumber}-thumb.webp`,
     );
     await expect(photo.locator("..")).toHaveAttribute(
       "href",
-      `${pagesBasePath}/images/games/${slug}/${expectedPhotoNumber}.webp`,
+      `${pagesBasePath}/images/games/${slug}/${curatedPhotoNumber}.webp`,
     );
     await expect(
       page.locator(
@@ -153,7 +158,7 @@ test("the schedule lists the Council and the archive leads to the game galleries
       }),
     ).toBeGreaterThan(0);
     const full = await request.head(
-      `${pagesBasePath}/images/games/${slug}/${expectedPhotoNumber}.webp`,
+      `${pagesBasePath}/images/games/${slug}/${curatedPhotoNumber}.webp`,
     );
     expect(full.status()).toBe(200);
     expect(full.headers()["content-type"]).toContain("image/webp");
