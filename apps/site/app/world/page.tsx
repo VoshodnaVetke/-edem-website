@@ -1,10 +1,9 @@
 "use client";
 
-import { Card, Grid, Heading, LinkCard, SignalDivider, Text } from "@edem/ui";
+import { Card, Grid, Heading, LinkCard, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import { SiteSectionRail } from "../../components/layout/SiteSectionRail";
 import { siteHref } from "../../config/site-href";
-import { siteDividers } from "../../config/site-dividers";
 import styles from "../../styles/page-layout.module.css";
 
 const topics = [
@@ -68,13 +67,6 @@ export default function WorldPage() {
     >
       <section aria-labelledby="first-reading">
         <SiteSectionRail sections={sections} />
-        <SignalDivider
-          className="site-content-divider"
-          label=""
-          pulse="none"
-          variant={siteDividers("/world").content}
-          aria-hidden="true"
-        />
         <LinkCard telemetry href={siteHref("/world/neurochip")} frame="asym">
           <div className={styles.cardBody}>
             <Heading level={2} id="first-reading">

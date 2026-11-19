@@ -1,9 +1,8 @@
 "use client";
 
-import { ButtonLink, Card, Heading, SignalDivider, Text } from "@edem/ui";
+import { ButtonLink, Card, Heading, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import { siteHref } from "../../config/site-href";
-import { siteDividers } from "../../config/site-dividers";
 import styles from "../../styles/page-layout.module.css";
 import { GameTagList } from "../games/GameTagList";
 
@@ -33,13 +32,6 @@ export default function EventsPage() {
       </section>
 
       <section aria-labelledby="choose" className={styles.stack}>
-        <SignalDivider
-          className="site-content-divider site-content-divider--muted"
-          label=""
-          pulse="none"
-          variant={siteDividers("/events").content}
-          aria-hidden="true"
-        />
         <Heading level={2} id="choose">
           Как выбрать игру
         </Heading>

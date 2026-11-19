@@ -238,11 +238,10 @@ test("Parade displays its taxonomy and game focus above the gallery", async ({
   }
 });
 
-test("site cards show telemetry and edge-to-edge dividers vary by placement", async ({
+test("site cards show telemetry and only the footer uses a decorative divider", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 850 });
-  const designs = new Set<string>();
   const footerDesigns = new Set<string>();
   for (const route of [
     ...publicPages.map(([route]) => route),
@@ -254,17 +253,12 @@ test("site cards show telemetry and edge-to-edge dividers vary by placement", as
     await expect(cards.locator(".edem-card-telemetry")).toHaveCount(
       await cards.count(),
     );
-    const divider = page.locator("main .site-content-divider");
-    const footerDivider = page.locator("footer .site-content-divider");
+    await expect(page.locator("main .edem-vector-divider")).toHaveCount(0);
+    const footerDivider = page.locator("footer .edem-vector-divider");
+    await expect(footerDivider).toHaveCount(1);
     const footerDesign = await footerDivider.getAttribute("data-variant");
     expect(footerDesign).toBeTruthy();
     footerDesigns.add(footerDesign!);
-    if (await divider.count()) {
-      const design = await divider.getAttribute("data-variant");
-      expect(design).toBeTruthy();
-      designs.add(design!);
-      expect(design).not.toBe(footerDesign);
-    }
     const surface = footerDivider.locator(".edem-vector-divider__surface");
     const edge = footerDivider.locator("svg path").nth(1);
     await expect(surface).toHaveAttribute(
@@ -272,7 +266,6 @@ test("site cards show telemetry and edge-to-edge dividers vary by placement", as
       `${await edge.getAttribute("d")}V52H0Z`,
     );
   }
-  expect(designs.size).toBe(3);
   expect(footerDesigns.size).toBe(3);
   await page.goto(exportedPath("/games"));
   await page.mouse.move(0, 0);
@@ -289,18 +282,17 @@ test("site cards show telemetry and edge-to-edge dividers vary by placement", as
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 850 });
     await page.goto(exportedPath("/games/parad-tehnologiy"));
-    for (const svg of await page.locator(".site-content-divider svg").all()) {
-      const { x, right, height, edge } = await svg.evaluate((element) => {
-        const { x, right, height } = element.getBoundingClientRect();
-        return { x, right, height, edge: document.documentElement.clientWidth };
-      });
-      expect(x).toBeCloseTo(0, 0);
-      expect(right).toBeCloseTo(edge, 0);
-      expect(height).toBeGreaterThanOrEqual(44);
-      await expect(
-        svg.locator("path:not(.edem-vector-divider__surface)").first(),
-      ).toHaveCSS("stroke-width", "2.4px");
-    }
+    const svg = page.locator("footer .edem-vector-divider svg");
+    const { x, right, height, edge } = await svg.evaluate((element) => {
+      const { x, right, height } = element.getBoundingClientRect();
+      return { x, right, height, edge: document.documentElement.clientWidth };
+    });
+    expect(x).toBeCloseTo(0, 0);
+    expect(right).toBeCloseTo(edge, 0);
+    expect(height).toBeGreaterThanOrEqual(44);
+    await expect(
+      svg.locator("path:not(.edem-vector-divider__surface)").first(),
+    ).toHaveCSS("stroke-width", "2.4px");
     await expect(page.locator(".edem-game-tag").first()).toHaveCSS(
       "min-height",
       width === 390 ? "15px" : "30px",
@@ -560,7 +552,7 @@ test("cold page renders styled content while scripts are still loading", async (
   ).toHaveCSS("animation-name", "site-card-appear");
 });
 
-test("the tree drifts within the viewport and stays still with reduced motion", async ({
+test("the tree frames its upper branches and stays still with reduced motion", async ({
   page,
 }) => {
   for (const width of [1440, 390]) {
@@ -571,13 +563,17 @@ test("the tree drifts within the viewport and stays still with reduced motion", 
     const artwork = background.locator(".edem-tree__artwork");
     await expect(artwork).toBeVisible();
     await expect(artwork).toHaveCSS("animation-name", "none");
-    await expect(artwork).toHaveCSS("transform", "none");
+    await expect(artwork).toHaveCSS("mask-image", /linear-gradient/);
+    await expect(background.locator(".edem-tree__fallback")).toHaveCSS(
+      "opacity",
+      "0.11",
+    );
     await expect(background.locator("canvas")).toHaveCount(0);
-    const initialBox = await artwork.boundingBox();
+    const initialBox = (await artwork.boundingBox())!;
     const header = (await page.locator(".site-header-shell").boundingBox())!;
-    expect(initialBox!.y).toBeGreaterThan(header.y + header.height);
-    expect(initialBox!.x).toBeGreaterThan(0);
-    expect(initialBox!.x + initialBox!.width).toBeLessThan(width);
+    expect(initialBox.y).toBeGreaterThan(header.y + header.height + 40);
+    expect(initialBox.x + initialBox.width / 2).toBeLessThan(width / 2 - 10);
+    expect(initialBox.width).toBeCloseTo(Math.min(width * 1.92, 800 * 2.38), 0);
     await page.evaluate(() =>
       window.scrollTo({ top: innerHeight, behavior: "instant" }),
     );
@@ -586,17 +582,25 @@ test("the tree drifts within the viewport and stays still with reduced motion", 
     await expect.poll(() => artwork.boundingBox()).toEqual(initialBox);
 
     await page.emulateMedia({ reducedMotion: "no-preference" });
-    await expect(artwork).toHaveCSS("animation-name", "edem-tree-drift");
-    const offset = await artwork.evaluate(async (element) => {
+    await expect(artwork).toHaveCSS("animation-name", "site-tree-drift");
+    const drift = await artwork.evaluate(async (element) => {
       const [drift] = element.getAnimations();
       drift.pause();
       await drift.ready;
       drift.currentTime = 0;
-      const start = element.getBoundingClientRect().left;
+      const start = element.getBoundingClientRect();
+      const startOpacity = Number(getComputedStyle(element).opacity);
       drift.currentTime = Number(drift.effect!.getTiming().duration);
-      return element.getBoundingClientRect().left - start;
+      const end = element.getBoundingClientRect();
+      return {
+        x: start.left - end.left,
+        y: end.top - start.top,
+        opacity: Number(getComputedStyle(element).opacity) - startOpacity,
+      };
     });
-    expect(offset).toBeGreaterThan(3);
+    expect(drift.x).toBeGreaterThan(10);
+    expect(drift.y).toBeGreaterThan(15);
+    expect(drift.opacity).toBeGreaterThan(0.25);
   }
 });
 
