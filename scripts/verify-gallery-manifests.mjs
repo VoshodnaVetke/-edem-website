@@ -10,6 +10,7 @@ const counts = JSON.parse(
 for (const [slug, originalCount] of [
   ["kazino-mefisa", 293],
   ["parad-tehnologiy", 217],
+  ["teni-vostochnogo-goroda", 276],
 ]) {
   const order = JSON.parse(
     readFileSync(path.join(configDir, `${slug}-photo-order.json`), "utf8"),
