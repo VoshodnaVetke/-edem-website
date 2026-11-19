@@ -76,7 +76,7 @@ const search = async (
 <Navigation
   brand="ЭДЕМ"
   items={[{ label: "Игры", href: "/games" }]}
-  bottomItems={[{ label: "Афиша", href: "/events" }]}
+  bottomItems={[{ label: "Игры", href: "/games" }]}
   account={{ label: "Кабинет", href: "/account" }}
   currentHref="/games"
   onSearch={search}
@@ -128,7 +128,7 @@ DATA LOSS содержит тонкие чередующиеся сегмент�
 
 ### Нижняя мобильная навигация
 
-При ширине до 650 CSS px `Navigation` закрепляет `bottomItems` по нижнему краю viewport с учётом `env(safe-area-inset-bottom)`. Высота без safe area — `--edem-navigation-bottom-height` из общих токенов. Приложение резервирует эту высоту после содержимого. В `apps/site` в панели доступны «Афиша», «Мир» и «Игры».
+При ширине до 650 CSS px `Navigation` закрепляет `bottomItems` по нижнему краю viewport с учётом `env(safe-area-inset-bottom)`. Высота без safe area — `--edem-navigation-bottom-height` из общих токенов. Приложение резервирует эту высоту после содержимого. В `apps/site` в панели доступны «Мир» и «Игры».
 
 ### Навигация C после шага 5
 
@@ -136,8 +136,8 @@ DATA LOSS содержит тонкие чередующиеся сегмент�
 на desktop, не убирая остальные `items` из раскрываемого меню.
 `NavigationItem.icon?: "calendar" | "globe" | "book"` отображает
 соответствующий SVG в нижней мобильной панели. Иконки декоративные,
-доступное имя вкладки по-прежнему текстовое. На сайте реальные ссылки
-мобильных вкладок — `/events`, `/world`, `/games`.
+доступное имя вкладки по-прежнему текстовое. На сайте мобильные вкладки
+ведут на `/world` и `/games`.
 
 ## Игровые теги и шкалы (спецификация v1.3)
 

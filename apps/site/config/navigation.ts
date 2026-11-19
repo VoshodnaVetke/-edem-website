@@ -3,7 +3,6 @@ import { siteHref } from "./site-href";
 
 /** Only working, public routes. Future detail pages are intentionally absent. */
 const home: NavigationItem = { label: "Главная", href: siteHref("/") };
-const events: NavigationItem = { label: "Афиша", href: siteHref("/events") };
 const games: NavigationItem = { label: "Наши игры", href: siteHref("/games") };
 const world: NavigationItem = { label: "Вселенная", href: siteHref("/world") };
 const account: NavigationItem = {
@@ -26,7 +25,6 @@ const collaboration: NavigationItem = {
 /** Menu and footer use the same canonical list of live public routes. */
 export const siteNavigation: readonly NavigationItem[] = [
   home,
-  events,
   games,
   world,
   order,
@@ -37,15 +35,13 @@ export const siteNavigation: readonly NavigationItem[] = [
 
 /** Primary desktop navigation from the Figma UX map. */
 export const desktopSiteNavigation: readonly NavigationItem[] = [
-  events,
   games,
   world,
   about,
 ];
 
-/** Approved Navigation C v1.2: three fixed mobile destinations. */
+/** Fixed mobile destinations for Navigation C. */
 export const mobileSiteNavigation: readonly NavigationItem[] = [
-  { label: "Афиша", href: events.href, icon: "calendar" },
   { label: "Мир", href: world.href, icon: "globe" },
   { label: "Игры", href: games.href, icon: "book" },
 ];

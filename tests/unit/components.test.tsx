@@ -53,16 +53,16 @@ describe("public React contracts", () => {
     render(
       <>
         <ButtonLink href="/games">Архив</ButtonLink>
-        <LinkCard href="/events">Афиша</LinkCard>
+        <LinkCard href="/games">Наши игры</LinkCard>
       </>,
     );
     expect(screen.getByRole("link", { name: "Архив" })).toHaveAttribute(
       "href",
       "/games",
     );
-    expect(screen.getByRole("link", { name: "Афиша" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Наши игры" })).toHaveAttribute(
       "href",
-      "/events",
+      "/games",
     );
   });
   it("associates labels, description and error without discarding host descriptions", () => {
