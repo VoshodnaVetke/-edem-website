@@ -58,7 +58,8 @@ const formats = [
 ] as const;
 
 type FormatId = (typeof formats)[number]["id"];
-const rotationDelay = 9000;
+const initialDelay = 250;
+const rotationDelay = 4500;
 const motionQuery = "(prefers-reduced-motion: no-preference)";
 const multiColumnQuery = "(min-width: 41rem)";
 
@@ -77,7 +78,6 @@ export function GameFormats() {
   );
   const [playing, setPlaying] = useState(true);
   const [inView, setInView] = useState(false);
-  const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [motionAllowed, setMotionAllowed] = useState(false);
   const group = useRef<HTMLDivElement>(null);
@@ -110,7 +110,7 @@ export function GameFormats() {
 
   useEffect(() => {
     const element = group.current;
-    if (!element) return;
+    if (!element || !("IntersectionObserver" in window)) return;
     const observer = new IntersectionObserver(([entry]) => {
       setInView(entry.isIntersecting);
     });
@@ -119,13 +119,16 @@ export function GameFormats() {
   }, []);
 
   useEffect(() => {
-    if (!playing || !motionAllowed || !inView || hovered || focused) return;
-    const timeout = window.setTimeout(() => {
-      const index = formats.findIndex(({ id }) => id === openId);
-      open(formats[(index + 1) % formats.length].id);
-    }, rotationDelay);
+    if (!playing || !motionAllowed || !inView || focused) return;
+    const timeout = window.setTimeout(
+      () => {
+        const index = formats.findIndex(({ id }) => id === openId);
+        open(formats[(index + 1) % formats.length].id);
+      },
+      openId === null ? initialDelay : rotationDelay,
+    );
     return () => window.clearTimeout(timeout);
-  }, [playing, motionAllowed, inView, hovered, focused, open, openId]);
+  }, [playing, motionAllowed, inView, focused, open, openId]);
 
   function toggle(id: FormatId, button: HTMLButtonElement) {
     setPlaying(false);
@@ -156,7 +159,7 @@ export function GameFormats() {
       ];
       animations.push(
         card.animate(keyframes, {
-          duration: 660,
+          duration: 440,
           easing: "cubic-bezier(0.35, 0, 0.2, 1)",
         }),
       );
@@ -167,19 +170,23 @@ export function GameFormats() {
 
   return (
     <div ref={group}>
-      {motionAllowed && (
-        <div className={styles.rotation}>
-          <Button size="sm" onClick={() => setPlaying(!playing)}>
-            {playing ? "Остановить автопоказ" : "Включить автопоказ"}
+      <div className={styles.formatToolbar}>
+        <Heading id="about-formats" className={styles.sectionTitle}>
+          Что мы проводим
+        </Heading>
+        {motionAllowed && (
+          <Button
+            className={styles.rotation}
+            size="sm"
+            selected={playing}
+            onClick={() => setPlaying((current) => !current)}
+          >
+            Автопоказ
           </Button>
-        </div>
-      )}
+        )}
+      </div>
       <Grid
         className={styles.formats}
-        onPointerEnter={(event) => {
-          if (event.pointerType === "mouse") setHovered(true);
-        }}
-        onPointerLeave={() => setHovered(false)}
         onFocus={() => setFocused(true)}
         onBlur={(event) => {
           if (!event.currentTarget.contains(event.relatedTarget))
@@ -215,15 +222,17 @@ export function GameFormats() {
                     aria-describedby={`${label}-summary`}
                     onClick={(event) => toggle(id, event.currentTarget)}
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.4"
-                      aria-hidden="true"
-                    >
-                      <path d={symbol} />
-                    </svg>
+                    <span className={styles.formatIcon} aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.4"
+                        aria-hidden="true"
+                      >
+                        <path d={symbol} />
+                      </svg>
+                    </span>
                     <span id={label}>{title}</span>
                   </button>
                 </Heading>
