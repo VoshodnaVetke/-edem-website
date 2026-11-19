@@ -47,6 +47,7 @@ export default function AboutPage() {
   return (
     <PageShell
       title="Мастерская группа «Эдем»"
+      headerClassName={styles.hero}
       intro={
         <Reading className={styles.intro}>
           <Text variant="lead">
@@ -63,14 +64,11 @@ export default function AboutPage() {
       }
     >
       <section aria-labelledby="about-formats">
-        <Heading id="about-formats" className={layout.sectionHeading}>
-          Что мы проводим
-        </Heading>
         <GameFormats />
       </section>
 
       <section aria-labelledby="about-team">
-        <Heading id="about-team" className={layout.sectionHeading}>
+        <Heading id="about-team" className={styles.sectionTitle}>
           Наша команда
         </Heading>
         <div className={layout.stack}>
@@ -120,8 +118,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section aria-labelledby="about-contact">
-        <Heading id="about-contact" className={layout.sectionHeading}>
+      <section className={styles.contact} aria-labelledby="about-contact">
+        <Heading id="about-contact" className={styles.sectionTitle}>
           Создадим игру вместе
         </Heading>
         <div className={layout.actions}>

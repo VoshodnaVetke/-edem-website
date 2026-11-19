@@ -1,3 +1,50 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  border-inline-start: 2px solid var(--edem-color-accent-primary);
+  border-block-end: 1px solid
+    color-mix(in srgb, var(--edem-color-accent-primary) 35%, transparent);
+  background:
+    radial-gradient(
+      ellipse at 90% 10%,
+      color-mix(in srgb, var(--edem-color-accent-secondary) 21%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      114deg,
+      var(--edem-color-background-top) 40%,
+      var(--edem-color-surface)
+    );
+}
+
+.hero::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 31px,
+      var(--edem-color-accent-primary) 31px 32px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 31px,
+      var(--edem-color-accent-primary) 31px 32px
+    );
+  mask-image: linear-gradient(115deg, transparent 40%, black);
+  opacity: 0.12;
+  pointer-events: none;
+  content: "";
+}
+
+.hero h1 {
+  max-inline-size: 19ch;
+  text-wrap: balance;
+  text-shadow: 0 0 1.6rem var(--edem-color-ambient-cyan);
+}
+
 .intro {
   display: grid;
   gap: 0.75rem;
@@ -10,10 +57,27 @@
   margin: 0;
 }
 
-.rotation {
+.sectionTitle {
+  margin: 0 0 1.5rem;
+  padding-inline-start: 0.875rem;
+  border-inline-start: 2px solid var(--edem-color-accent-primary);
+}
+
+.formatToolbar {
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.875rem;
   margin-block-end: var(--edem-card-gap);
+}
+
+.formatToolbar .sectionTitle {
+  margin-block-end: 0;
+}
+
+.rotation > span {
+  white-space: nowrap;
 }
 
 .formats:global(.edem-layout-grid) {
@@ -44,13 +108,28 @@
   --format-accent: var(--edem-color-accent-primary);
   --edem-surface-fill: color-mix(
     in srgb,
-    var(--format-accent) 12%,
+    var(--format-accent) 15%,
     var(--edem-color-surface)
   );
 }
 
 .formatCard[data-accent="violet"] {
   --format-accent: var(--edem-color-accent-secondary);
+}
+
+.formatSlot[data-expanded="true"] .formatCard {
+  --edem-surface-fill: color-mix(
+    in srgb,
+    var(--format-accent) 24%,
+    var(--edem-color-background-top)
+  );
+}
+
+.formatSlot[data-expanded="true"] :global(.edem-frame__border) {
+  color: var(--format-accent);
+  filter: drop-shadow(
+    0 0 0.275rem color-mix(in srgb, var(--format-accent) 68%, transparent)
+  );
 }
 
 .formatCard :global(.edem-card-content) {
@@ -72,9 +151,9 @@
 
 .toggle {
   display: grid;
-  grid-template-columns: 2.25rem minmax(0, 1fr);
+  grid-template-columns: clamp(2.75rem, 10cqi, 3.5rem) minmax(0, 1fr);
   gap: 0.875rem;
-  align-items: start;
+  align-items: center;
   inline-size: 100%;
   min-block-size: 2.75rem;
   padding: 0;
@@ -86,11 +165,22 @@
   cursor: pointer;
 }
 
-.toggle svg {
-  display: block;
-  inline-size: 100%;
-  margin-block-start: 0.25rem;
+.formatIcon {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
   color: var(--format-accent);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--format-accent) 32%, transparent),
+    var(--edem-color-background-top)
+  );
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
+}
+
+.formatIcon svg {
+  inline-size: 58%;
+  filter: drop-shadow(0 0 0.3rem currentColor);
 }
 
 .toggle[aria-expanded="false"]::after {
@@ -113,7 +203,10 @@
   display: grid;
   gap: 0.75rem;
   max-inline-size: 66ch;
-  margin-block-start: 1rem;
+  margin-block-start: 1.25rem;
+  padding-block-start: 1rem;
+  border-block-start: 1px solid
+    color-mix(in srgb, var(--format-accent) 54%, transparent);
 }
 
 .member :global(.edem-card-content) {
@@ -142,7 +235,18 @@
 
 .portrait {
   min-block-size: clamp(5rem, 10cqi, 7rem);
-  color: var(--edem-color-text-telemetry);
+  color: var(--edem-color-accent-primary);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 7px,
+      var(--edem-color-ambient-cyan) 7px 8px
+    ),
+    radial-gradient(
+      ellipse at 50% 50%,
+      var(--edem-color-ambient-cyan),
+      transparent 70%
+    );
 }
 
 .portrait svg,
@@ -223,9 +327,24 @@
   content: "";
 }
 
+.contact {
+  padding: clamp(1.25rem, 4vw, 2.75rem);
+  border-block-start: 1px solid
+    color-mix(in srgb, var(--edem-color-accent-secondary) 58%, transparent);
+  background: linear-gradient(
+    110deg,
+    var(--edem-color-background-top),
+    color-mix(
+      in srgb,
+      var(--edem-color-accent-secondary) 16%,
+      var(--edem-color-surface)
+    )
+  );
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .panel:not([hidden]) {
-    animation: panel-open 660ms cubic-bezier(0.35, 0, 0.2, 1) both;
+    animation: panel-open 440ms cubic-bezier(0.35, 0, 0.2, 1) both;
   }
 
   .interference {

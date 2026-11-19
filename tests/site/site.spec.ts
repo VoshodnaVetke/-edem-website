@@ -1229,7 +1229,7 @@ test("workshop format autoplay advances in order and can be stopped", async ({
   await page.goto(exportedPath("/about"));
 
   const formats = page.getByRole("region", { name: "Что мы проводим" });
-  const stop = formats.getByRole("button", { name: "Остановить автопоказ" });
+  const autoplay = formats.getByRole("button", { name: "Автопоказ" });
   const chamber = formats.getByRole("button", {
     name: "Кабинетные ролевые игры",
   });
@@ -1237,17 +1237,19 @@ test("workshop format autoplay advances in order and can be stopped", async ({
     name: "Полигонные ролевые игры",
   });
 
-  await stop.scrollIntoViewIfNeeded();
-  await page.clock.runFor(100);
-  await page.clock.fastForward(10_000);
+  await autoplay.scrollIntoViewIfNeeded();
+  await expect(autoplay).toHaveAttribute("aria-pressed", "true");
+  await page.clock.runFor(800);
   await expect(chamber).toHaveAttribute("aria-expanded", "true");
-  await page.clock.fastForward(10_000);
+
+  await chamber.hover();
+  await page.clock.fastForward(5_000);
   await expect(field).toHaveAttribute("aria-expanded", "true");
-  await stop.click();
-  await expect(
-    formats.getByRole("button", { name: "Включить автопоказ" }),
-  ).toBeVisible();
-  await page.clock.fastForward(20_000);
+  await expect(autoplay).toHaveAttribute("aria-pressed", "true");
+
+  await autoplay.click();
+  await expect(autoplay).toHaveAttribute("aria-pressed", "false");
+  await page.clock.fastForward(10_000);
   await expect(field).toHaveAttribute("aria-expanded", "true");
 });
 
