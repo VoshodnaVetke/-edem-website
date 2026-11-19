@@ -89,8 +89,8 @@ body {
 
 .site-tree .edem-tree__artwork {
   transform: translateX(clamp(-4rem, -3.5vw, -1rem));
-  width: min(192vw, 238svh);
-  mask-image: linear-gradient(to bottom, black 52%, transparent 68%);
+  width: min(calc(100vw + 8rem), 170svh);
+  mask-image: linear-gradient(to bottom, black 76%, transparent 94%);
 }
 
 html {
