@@ -389,7 +389,7 @@ test("game photos can be browsed and downloaded from the viewer", async ({
   await expect(thumbnail).toBeFocused();
 });
 
-test("homepage serves the expected revision and loads its resources", async ({
+test("homepage serves the revision and resources @pages-smoke", async ({
   page,
   request,
 }) => {
@@ -483,6 +483,23 @@ test("homepage serves the expected revision and loads its resources", async ({
     }),
   ).toBeGreaterThan(0);
 });
+
+test(
+  "Pages serves an internal route under the repository prefix",
+  { tag: "@pages-smoke" },
+  async ({ page }) => {
+    const archive = exportedPath("/games");
+    const response = await page.goto(archive);
+
+    expect(response?.status()).toBe(200);
+    await expect(page).toHaveURL(new RegExp(`${archive}$`));
+    await expect(
+      page
+        .getByRole("main")
+        .getByRole("heading", { level: 1, name: "Наши игры" }),
+    ).toBeVisible();
+  },
+);
 
 test("missing build assets trigger one fresh request and keep a dark document", async ({
   page,
