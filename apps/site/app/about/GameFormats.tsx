@@ -60,6 +60,10 @@ const formats = [
 type FormatId = (typeof formats)[number]["id"];
 const initialDelay = 250;
 const rotationDelay = 4500;
+const layoutMotion = {
+  duration: 580,
+  easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+};
 const motionQuery = "(prefers-reduced-motion: no-preference)";
 const multiColumnQuery = "(min-width: 41rem)";
 
@@ -82,6 +86,7 @@ export function GameFormats() {
   const [motionAllowed, setMotionAllowed] = useState(false);
   const group = useRef<HTMLDivElement>(null);
   const cards = useRef(new Map<FormatId, HTMLElement>());
+  const previousGroupHeight = useRef<number | undefined>(undefined);
   const previousRects = useRef(new Map<FormatId, DOMRect>());
   const focusedToggle = useRef<HTMLButtonElement | null>(null);
 
@@ -92,7 +97,10 @@ export function GameFormats() {
 
   const open = useCallback((id: FormatId | null) => {
     previousRects.current.clear();
+    previousGroupHeight.current = undefined;
     if (window.matchMedia(motionQuery).matches) {
+      previousGroupHeight.current =
+        group.current?.getBoundingClientRect().height;
       for (const [key, card] of cards.current) {
         previousRects.current.set(key, card.getBoundingClientRect());
       }
@@ -141,27 +149,56 @@ export function GameFormats() {
     focusedToggle.current?.focus({ preventScroll: true });
     focusedToggle.current = null;
 
-    const animations: Animation[] = [];
-    for (const [id, card] of cards.current) {
-      const from = previousRects.current.get(id);
-      if (!from) continue;
+    const container = group.current;
+    const fromHeight = previousGroupHeight.current;
+    const toHeight = container?.getBoundingClientRect().height;
+    previousGroupHeight.current = undefined;
 
-      const to = card.getBoundingClientRect();
+    // Read the new layout before starting any animations that change its size.
+    const cardsToMove = [...cards.current].flatMap(([id, card]) => {
+      const from = previousRects.current.get(id);
+      return from ? [{ card, from, to: card.getBoundingClientRect() }] : [];
+    });
+    const animations: Animation[] = [];
+    for (const { card, from, to } of cardsToMove) {
       const x = from.left - to.left;
       const y = from.top - to.top;
       const widthChanged = Math.abs(from.width - to.width) > 1;
-      if (!widthChanged && Math.abs(x) < 1 && Math.abs(y) < 1) continue;
+      const heightChanged = Math.abs(from.height - to.height) > 1;
+      if (!widthChanged && !heightChanged && Math.abs(x) < 1 && Math.abs(y) < 1)
+        continue;
 
-      const start = `translate(${x}px, ${y}px)`;
-      const keyframes = [
-        { transform: start, inlineSize: `${from.width}px` },
-        { transform: "none", inlineSize: `${to.width}px` },
-      ];
       animations.push(
-        card.animate(keyframes, {
-          duration: 440,
-          easing: "cubic-bezier(0.35, 0, 0.2, 1)",
-        }),
+        card.animate(
+          [
+            {
+              transform: `translate(${x}px, ${y}px)`,
+              inlineSize: `${from.width}px`,
+              blockSize: `${from.height}px`,
+              overflow: "clip",
+            },
+            {
+              transform: "none",
+              inlineSize: `${to.width}px`,
+              blockSize: `${to.height}px`,
+              overflow: "clip",
+            },
+          ],
+          layoutMotion,
+        ),
+      );
+    }
+    if (
+      container &&
+      fromHeight !== undefined &&
+      toHeight !== undefined &&
+      Math.abs(fromHeight - toHeight) > 1
+    ) {
+      animations.push(
+        container.animate(
+          { blockSize: [`${fromHeight}px`, `${toHeight}px`] },
+          layoutMotion,
+        ),
       );
     }
     previousRects.current.clear();
