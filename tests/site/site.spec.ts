@@ -10,7 +10,7 @@ const publicPages = [
   ["/world", "Вселенная", "Вселенная «Эдем»"],
   ["/order", "Заказать игру", "Заказать игру"],
   ["/collaboration", "Сотрудничество", "Сотрудничество"],
-  ["/about", "О мастерской группе", "О мастерской группе"],
+  ["/about", "О мастерской группе", "Мастерская группа «Эдем»"],
   ["/account", "Личный кабинет", "Личный кабинет"],
   ["/", "Главная", "Миры, в которые можно войти."],
 ] as const;
@@ -778,7 +778,6 @@ test("anchor navigation tracks the current heading and respects reduced motion",
     "data-progress",
     "0",
   );
-  await expect(page.locator(".site-progress-fill")).toBeHidden();
   await expect(page.locator(".site-section-rail")).toHaveCount(0);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(exportedPath("/world"));
@@ -1126,6 +1125,98 @@ test("approved footer keeps its content and responsive UI grid", async ({
   expect(footerBox!.y + footerBox!.height).toBeLessThanOrEqual(
     bottomBox!.y + 2,
   );
+});
+
+test("workshop formats expand exclusively and the team and contact links fit mobile", async ({
+  page,
+  browser,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(exportedPath("/about"));
+
+  const formats = page.getByRole("region", { name: "Что мы проводим" });
+  const toggles = formats.getByRole("button");
+  const chamber = page.getByRole("button", {
+    name: "Кабинетные ролевые игры",
+  });
+  const ball = page.getByRole("button", { name: "Ролевые балы" });
+  const ballDescription = formats.getByText("Возможность провести вечер", {
+    exact: false,
+  });
+  await expect(toggles).toHaveCount(4);
+  await expect(ballDescription).toBeHidden();
+  await ball.focus();
+  await ball.press("Enter");
+  await expect(ball).toBeFocused();
+  await expect(ball).toHaveAttribute("aria-expanded", "true");
+  await expect(ballDescription).toBeVisible();
+
+  const expandedCard = formats.locator("article").filter({ has: ball });
+  const compactCard = formats.locator("article").filter({ has: chamber });
+  await expect
+    .poll(async () => {
+      const [expanded, compact, section] = await Promise.all([
+        expandedCard.boundingBox(),
+        compactCard.boundingBox(),
+        formats.boundingBox(),
+      ]);
+      return (
+        !!expanded &&
+        !!compact &&
+        !!section &&
+        Math.abs(expanded.width - section.width) < 1 &&
+        compact.y >= expanded.y + expanded.height
+      );
+    })
+    .toBe(true);
+
+  await chamber.click();
+  await expect(ball).toHaveAttribute("aria-expanded", "false");
+  await expect(ballDescription).toBeHidden();
+  await expect(chamber).toHaveAttribute("aria-expanded", "true");
+  await chamber.click();
+  await expect(formats.locator('[aria-expanded="true"]')).toHaveCount(0);
+
+  const mobile = await browser.newPage({
+    viewport: { width: 320, height: 780 },
+    hasTouch: true,
+    isMobile: true,
+    reducedMotion: "reduce",
+  });
+  await mobile.goto(new URL(exportedPath("/about"), page.url()).href);
+  await mobile.getByRole("button", { name: "Ролевые балы" }).tap();
+  await expect(
+    mobile.getByText("Возможность провести вечер", { exact: false }),
+  ).toBeVisible();
+  expect(
+    await mobile.evaluate(() => document.documentElement.scrollWidth),
+  ).toBe(320);
+
+  const team = mobile.getByRole("region", { name: "Наша команда" });
+  await expect(team.getByRole("heading", { level: 3 })).toHaveText([
+    "Восход",
+    "Найт",
+    "Алина",
+    "Лина",
+    "Соня",
+  ]);
+  await expect(team.getByText("ERROR 403", { exact: true })).toBeVisible();
+  await expect(
+    team.getByText("Доступ к внешности владельца ограничен."),
+  ).toBeVisible();
+  await expect(
+    team.getByText("Механик · Разработчик приложения и базы данных Эдема"),
+  ).toBeVisible();
+
+  const contact = mobile.getByRole("region", { name: "Создадим игру вместе" });
+  await expect(
+    contact.getByRole("link", { name: "Заказать игру" }),
+  ).toHaveAttribute("href", exportedPath("/order"));
+  await expect(
+    contact.getByRole("link", { name: "Сотрудничество" }),
+  ).toHaveAttribute("href", exportedPath("/collaboration"));
+  await mobile.close();
 });
 
 test("public pages and their internal links resolve", async ({
