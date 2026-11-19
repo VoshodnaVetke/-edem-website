@@ -115,6 +115,11 @@
   gap: clamp(0.75rem, 3cqi, 2rem);
 }
 
+.member :global(.edem-card-telemetry) {
+  grid-column: 1 / -1;
+  margin-block-end: 0;
+}
+
 .portrait,
 .restrictedPortrait {
   display: grid;

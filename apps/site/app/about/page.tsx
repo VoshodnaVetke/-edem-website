@@ -78,6 +78,7 @@ export default function AboutPage() {
             <Card
               key={name}
               className={styles.member}
+              telemetry
               accent={restricted ? "violet" : "cyan"}
             >
               {restricted ? (

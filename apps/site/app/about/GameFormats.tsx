@@ -142,6 +142,7 @@ export function GameFormats() {
                 else cards.current.delete(id);
               }}
               className={styles.formatCard}
+              telemetry
             >
               <Heading level={3} className={styles.formatHeading}>
                 <button
