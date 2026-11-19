@@ -113,7 +113,11 @@ test("the homepage leads to the archive and its game galleries", async ({
     const expectedPhotoNumber =
       slug === "kazn-ognya-vechnogo" ? "0529" : firstPhotoNumber;
     const curatedPhotoNumber =
-      slug === "teni-vostochnogo-goroda" ? "0276" : expectedPhotoNumber;
+      slug === "teni-vostochnogo-goroda"
+        ? "0276"
+        : slug === "ad-na-zemle"
+          ? "0018"
+          : expectedPhotoNumber;
     if (slug === "kazino-mefisa") {
       await expect(photos).toHaveCount(141);
       await expect(photos.nth(93)).toHaveAttribute(
@@ -128,6 +132,9 @@ test("the homepage leads to the archive and its game galleries", async ({
     } else if (slug === "teni-vostochnogo-goroda") {
       await expect(photos).toHaveCount(155);
       await expect(photos.nth(1)).toHaveAttribute("src", /\/0185-thumb\.webp$/);
+    } else if (slug === "ad-na-zemle") {
+      await expect(photos).toHaveCount(220);
+      await expect(photos.nth(1)).toHaveAttribute("src", /\/0044-thumb\.webp$/);
     }
     const photo = photos.first();
     await expect(photo).toBeVisible();
