@@ -29,8 +29,8 @@ export default function HomePage() {
                   ↗
                 </span>
               </ButtonLink>
-              <ButtonLink href={siteHref("/events")}>
-                Ближайшие игры{" "}
+              <ButtonLink href={siteHref("/games")}>
+                Наши игры{" "}
                 <span className={styles.actionArrow} aria-hidden="true">
                   →
                 </span>
@@ -61,35 +61,15 @@ export default function HomePage() {
           <Heading level={2} id="participate" className={layout.sectionHeading}>
             Станьте частью истории
           </Heading>
-          <Grid>
-            <LinkCard
-              telemetry
-              href={siteHref("/events")}
-              className="edem-span--half"
-            >
-              <div className={layout.cardBody}>
-                <Heading level={3}>Ближайшие игры</Heading>
-                <Text>«Совет Светочей» — для опытных игроков.</Text>
-                <Text variant="system" className={styles.accent}>
-                  К АФИШЕ <span aria-hidden="true">↗</span>
-                </Text>
-              </div>
-            </LinkCard>
-            <LinkCard
-              telemetry
-              href={siteHref("/order")}
-              frame="double"
-              className="edem-span--half"
-            >
-              <div className={layout.cardBody}>
-                <Heading level={3}>Игра под заказ</Heading>
-                <Text>Ролевое событие под ваш запрос.</Text>
-                <Text variant="system" className={styles.accent}>
-                  ПОДРОБНЕЕ О ЗАКАЗЕ <span aria-hidden="true">↗</span>
-                </Text>
-              </div>
-            </LinkCard>
-          </Grid>
+          <LinkCard telemetry href={siteHref("/order")} frame="double">
+            <div className={layout.cardBody}>
+              <Heading level={3}>Игра под заказ</Heading>
+              <Text>Ролевое событие под ваш запрос.</Text>
+              <Text variant="system" className={styles.accent}>
+                ПОДРОБНЕЕ О ЗАКАЗЕ <span aria-hidden="true">↗</span>
+              </Text>
+            </div>
+          </LinkCard>
         </section>
 
         <section aria-labelledby="people">

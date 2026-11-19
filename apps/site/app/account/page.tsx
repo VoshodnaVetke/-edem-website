@@ -17,7 +17,7 @@ export default function AccountPage() {
     <PageShell
       eyebrow="ЭДЕМ / УЧАСТНИК"
       title="Личный кабинет"
-      description="Ваши игры, персонажи и личные заметки. Вход в кабинет пока недоступен, а афиша и архив открыты всем."
+      description="Ваши игры, персонажи и личные заметки. Вход в кабинет пока недоступен. Архив игр открыт всем."
     >
       <nav aria-label="Разделы кабинета" className={styles.actions}>
         {sections.map(([id, label]) => (
@@ -33,14 +33,11 @@ export default function AccountPage() {
         </Heading>
         <Card telemetry frame="double" reveal={false}>
           <div className={styles.cardBody}>
-            <Heading level={3}>Ближайшая игра</Heading>
+            <Heading level={3}>Заявки и участие</Heading>
             <Text>
-              Анонсы и способы записи доступны в афише. Для просмотра личных
-              заявок и статусов участия потребуется вход в кабинет.
+              Для просмотра личных заявок и статусов участия потребуется вход в
+              кабинет.
             </Text>
-            <div className={styles.actions}>
-              <ButtonLink href={siteHref("/events")}>Открыть афишу</ButtonLink>
-            </div>
           </div>
         </Card>
       </section>

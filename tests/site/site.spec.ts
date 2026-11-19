@@ -4,7 +4,6 @@ const pagesBasePath = "/-edem-website";
 const expectedRevision = process.env.EDEM_SITE_REVISION;
 
 const publicPages = [
-  ["/events", "Афиша", "Афиша игр"],
   ["/games", "Наши игры", "Наши игры"],
   ["/world", "Вселенная", "Вселенная «Эдем»"],
   ["/order", "Заказать игру", "Заказать игру"],
@@ -19,22 +18,16 @@ function exportedPath(route: string) {
   return route === "/" ? pagesBasePath + "/" : pagesBasePath + route + "/";
 }
 
-test("the schedule lists the Council and the archive leads to the game galleries", async ({
+test("the homepage leads to the archive and its game galleries", async ({
   page,
   request,
 }) => {
-  await page.goto(exportedPath("/events"));
-  const council = page.getByRole("article").filter({
-    has: page.getByRole("heading", { name: "Совет Светочей", exact: true }),
-  });
-  await expect(council).toBeVisible();
-  await expect(council.getByText("Опытным игрокам")).toBeVisible();
-
-  await page.getByRole("link", { name: "Посмотреть проведённые игры" }).click();
+  await page.goto(exportedPath("/"));
+  await page
+    .getByRole("main")
+    .getByRole("link", { name: "Наши игры", exact: true })
+    .click();
   await expect(page).toHaveURL(new RegExp(`${exportedPath("/games")}$`));
-  await expect(
-    page.getByRole("heading", { name: "Совет Светочей", exact: true }),
-  ).toHaveCount(0);
 
   await expect(
     page.getByRole("heading", { name: "Архив проектов" }),
@@ -303,15 +296,10 @@ test("site cards show telemetry and only the footer uses a decorative divider", 
       width === 390 ? "15px" : "30px",
     );
   }
-  await page.goto(exportedPath("/events"));
-  await expect(page.locator(".edem-game-tag").first()).toHaveCSS(
-    "min-height",
-    "15px",
-  );
 });
 
 test("buttons and tags use one continuous closed outline", async ({ page }) => {
-  for (const route of ["/", "/events", "/games", "/games/parad-tehnologiy"]) {
+  for (const route of ["/", "/world", "/games", "/games/parad-tehnologiy"]) {
     await page.goto(exportedPath(route));
     const plates = page.locator(
       ".edem-button > .edem-sketch-plate, .edem-game-tag > .edem-sketch-plate",
@@ -487,7 +475,7 @@ test("homepage serves the expected revision and loads its resources", async ({
 test("missing build assets trigger one fresh request and keep a dark document", async ({
   page,
 }) => {
-  const path = exportedPath("/events");
+  const path = exportedPath("/world");
   const documentRequests: URL[] = [];
   await page.route(
     (url) => url.pathname === path,
@@ -522,7 +510,9 @@ test("missing build assets trigger one fresh request and keep a dark document", 
     "background-color",
     "rgb(5, 7, 12)",
   );
-  await expect(page.getByRole("heading", { name: "Афиша игр" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Вселенная «Эдем»" }),
+  ).toBeVisible();
   expect(documentRequests).toHaveLength(2);
 });
 
@@ -539,8 +529,8 @@ test("cold page renders styled content while scripts are still loading", async (
     await route.continue();
   });
   try {
-    await page.goto(exportedPath("/events"), { waitUntil: "commit" });
-    const heading = page.getByRole("heading", { name: "Афиша игр" });
+    await page.goto(exportedPath("/world"), { waitUntil: "commit" });
+    const heading = page.getByRole("heading", { name: "Вселенная «Эдем»" });
     await expect(heading).toBeVisible();
     await expect(heading).toHaveCSS("animation-name", "site-content-appear");
     await expect(page.locator("body")).toHaveCSS(
@@ -563,7 +553,7 @@ test("the tree extends past the top and left edges and respects reduced motion",
   for (const width of [1440, 768, 390]) {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width, height: 800 });
-    await page.goto(exportedPath("/events"));
+    await page.goto(exportedPath("/world"));
     const background = page.locator("body > .edem-tree--viewport");
     const artwork = background.locator(".edem-tree__artwork");
     const layers = background.locator(".edem-tree__layers");
@@ -651,11 +641,11 @@ for (const width of [1440, 390]) {
     await expect(progress).toHaveAttribute("data-progress", "0");
     await expect(page.locator(".site-progress-impulse")).toHaveCount(0);
     await page
-      .getByRole("link", { name: /Ближайшие игры/ })
-      .first()
+      .getByRole("main")
+      .getByRole("link", { name: "Наши игры", exact: true })
       .click();
     await expect(page).toHaveURL(
-      (url) => url.pathname === exportedPath("/events"),
+      (url) => url.pathname === exportedPath("/games"),
     );
     await expect(
       page.locator('.site-progress-boot[data-pulse="play"]'),
@@ -663,12 +653,6 @@ for (const width of [1440, 390]) {
     await expect(
       page.getByRole("status").filter({ hasText: "Загрузка раздела" }),
     ).toHaveCount(0);
-    await page
-      .getByRole("link", { name: "Посмотреть проведённые игры" })
-      .click();
-    await expect(page).toHaveURL(
-      (url) => url.pathname === exportedPath("/games"),
-    );
     const last = page.getByRole("heading", { level: 2, name: "Ад на земле" });
     await last.evaluate(async (element) => {
       const currentDocument = document as Document & {
@@ -752,7 +736,7 @@ test("anchor navigation tracks the current heading and respects reduced motion",
     await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
   }
   await page.setViewportSize({ width: 1600, height: 1800 });
-  await page.goto(exportedPath("/events"));
+  await page.goto(exportedPath("/about"));
   await expect(page.locator(".site-progress")).toHaveAttribute(
     "data-progress",
     "0",
@@ -818,15 +802,15 @@ for (const motion of ["no-preference", "reduce"] as const) {
     const gate = new Promise<void>((resolve) => {
       resume = resolve;
     });
-    const waitForEvents = (url: URL) =>
-      url.pathname === exportedPath("/events");
-    await page.route(waitForEvents, async (route) => {
+    const waitForArchive = (url: URL) =>
+      url.pathname === exportedPath("/games");
+    await page.route(waitForArchive, async (route) => {
       await gate;
       await route.continue();
     });
     const click = page
-      .getByRole("link", { name: /Ближайшие игры/ })
-      .first()
+      .getByRole("main")
+      .getByRole("link", { name: "Наши игры", exact: true })
       .click();
     try {
       expect((await started).text()).toBe(
@@ -841,10 +825,10 @@ for (const motion of ["no-preference", "reduce"] as const) {
       await click;
     }
     await expect(page).toHaveURL(
-      (url) => url.pathname === exportedPath("/events"),
+      (url) => url.pathname === exportedPath("/games"),
     );
     await expect(page.locator(".site-progress-loader")).toHaveCount(0);
-    await page.unroute(waitForEvents);
+    await page.unroute(waitForArchive);
     await page.reload();
     await expect(page.locator(".site-progress")).toHaveAttribute(
       "data-progress",
@@ -926,9 +910,8 @@ test("homepage sections lead to the published routes", async ({
 
   const destinations = [
     ["Миры, в которые можно войти.", "Открыть мир Эдема", "/world"],
-    ["Миры, в которые можно войти.", "Ближайшие игры", "/events"],
+    ["Миры, в которые можно войти.", "Наши игры", "/games"],
     ["Впервые в Эдеме?", /Начать знакомство/i, "/world"],
-    ["Станьте частью истории", /К афише/i, "/events"],
     ["Станьте частью истории", /Подробнее о заказе/i, "/order"],
     ["За историями стоят люди", "Проведённые игры", "/games"],
     ["За историями стоят люди", "Наша команда", "/about"],
@@ -1013,6 +996,9 @@ test("only implemented pages appear in site navigation", async ({ page }) => {
   ).toHaveAttribute("href", exportedPath("/"));
   await expect(page.getByRole("button", { name: "Поиск" })).toHaveCount(0);
   await expect(page.locator(`a[href^="${pagesBasePath}/demo/"]`)).toHaveCount(
+    0,
+  );
+  await expect(page.locator(`a[href^="${pagesBasePath}/events/"]`)).toHaveCount(
     0,
   );
 });
@@ -1233,9 +1219,8 @@ test("desktop and mobile navigation use working route destinations", async ({
   await page.goto(exportedPath("/"));
 
   const desktop = page.getByRole("navigation", { name: "Основная навигация" });
-  await expect(desktop.getByRole("link")).toHaveCount(4);
+  await expect(desktop.getByRole("link")).toHaveCount(3);
   for (const [name, href] of [
-    ["Афиша", "/events"],
     ["Наши игры", "/games"],
     ["Вселенная", "/world"],
     ["О мастерской группе", "/about"],
@@ -1258,10 +1243,9 @@ test("desktop and mobile navigation use working route destinations", async ({
 
   await page.setViewportSize({ width: 390, height: 844 });
   const bottom = page.getByRole("navigation", { name: "Быстрая навигация" });
-  await expect(bottom.getByRole("link")).toHaveCount(3);
-  await expect(bottom.locator("svg")).toHaveCount(3);
+  await expect(bottom.getByRole("link")).toHaveCount(2);
+  await expect(bottom.locator("svg")).toHaveCount(2);
   for (const [name, href] of [
-    ["Афиша", "/events"],
     ["Мир", "/world"],
     ["Игры", "/games"],
   ]) {
@@ -1297,6 +1281,7 @@ test("removed and unavailable routes return 404", async ({ request }) => {
     "/team",
     "/contacts",
     "/games/unpublished",
+    "/events",
     "/events/unpublished",
     "/wiki/unpublished",
   ]) {

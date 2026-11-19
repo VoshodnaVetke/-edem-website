@@ -1,7 +1,7 @@
 import { games } from "./past-games";
 
 const variants = ["circuit", "channel", "scan"] as const;
-const leadingSections = ["/", "/world", "/events"];
+const leadingSections = ["/", "/world"];
 
 export function siteFooterDivider(pathname: string) {
   const path = pathname.replace(/\/$/, "") || "/";
