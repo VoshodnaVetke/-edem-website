@@ -1,0 +1,4 @@
+.logo {
+  inline-size: auto;
+  block-size: clamp(2.75rem, 4vw, 3rem);
+}
