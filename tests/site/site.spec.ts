@@ -41,11 +41,20 @@ test("the homepage leads to the archive and its game galleries", async ({
   await expect(
     page.getByRole("region", { name: "Ближайшая игра" }),
   ).toHaveCount(upcomingGame ? 1 : 0);
-  await expect(
-    page
-      .getByRole("region", { name: "За историями стоят люди" })
-      .getByRole("link", { name: "Познакомиться с мастерской группой" }),
-  ).toHaveAttribute("href", exportedPath("/about"));
+  const team = page.getByRole("region", { name: "За историями стоят люди" });
+  const teamLink = team.getByRole("link", {
+    name: "Познакомиться с мастерской группой",
+  });
+  await expect(teamLink).toHaveAttribute("href", exportedPath("/about"));
+  await expect(teamLink).toHaveClass(/edem-button--lg/);
+  const teamPhoto = team.getByRole("img", {
+    name: "Кадр с игры «Казнь Огня Вечного»",
+  });
+  await expect(teamPhoto).toHaveAttribute(
+    "src",
+    `${pagesBasePath}/images/games/kazn-ognya-vechnogo/0973.webp`,
+  );
+  await expect(teamPhoto).toHaveCSS("clip-path", /url\(/);
 
   await expect(
     page.getByRole("heading", { name: "Архив проектов" }),
