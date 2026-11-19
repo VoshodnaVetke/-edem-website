@@ -85,15 +85,14 @@ body {
 .site-tree.edem-tree--viewport .edem-tree__fallback {
   align-items: flex-start;
   padding-block-start: max(
-    5.75rem,
-    12svh,
-    calc(var(--site-header-height, 5rem) + 0.625rem)
+    3.75rem,
+    calc(var(--site-header-height, 5rem) - 1.25rem)
   );
 }
 
 .site-tree .edem-tree__artwork {
   transform: translateX(clamp(-4rem, -3.5vw, -1rem));
-  width: min(calc(80vw + 5rem), 140svh);
+  width: min(calc(104vw + 2.5rem), 168svh);
   mask-image: linear-gradient(to bottom, black 76%, transparent 94%);
 }
 
