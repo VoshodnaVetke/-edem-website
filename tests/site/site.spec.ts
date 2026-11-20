@@ -1508,9 +1508,40 @@ test("world topic lists link to published articles and serve empty topics", asyn
     .boundingBox())!;
   expect(row.width).toBeCloseTo(heading.width, 0);
 
+  await main.getByRole("link", { name: "Высший Путь", exact: true }).click();
+  await expect(main.getByRole("heading", { level: 1 })).toHaveText(
+    "Высший Путь",
+  );
+  await expect(
+    main.getByRole("heading", { name: "Предание о Звёздном Дитя" }),
+  ).toBeVisible();
+  await main.getByRole("link", { name: "истории Эдема", exact: true }).click();
+  await expect(main.getByRole("heading", { level: 1 })).toHaveText(
+    "История мира до Адама",
+  );
+  await main.getByRole("link", { name: "Высшего Пути", exact: true }).click();
+  await expect(page).toHaveURL(
+    (url) =>
+      url.pathname === exportedPath("/world/higher-path") &&
+      url.hash === "#star-child",
+  );
+  await main
+    .getByRole("link", {
+      name: "Государственное устройство Эдема",
+      exact: true,
+    })
+    .click();
+  await expect(
+    main.getByRole("link", { name: "Высший Путь", exact: true }),
+  ).toHaveAttribute("href", exportedPath("/world/higher-path"));
+
+  await page.goto(exportedPath("/world/topics/history"));
+  await expect(
+    main.getByRole("link", { name: "История мира до Адама", exact: true }),
+  ).toHaveAttribute("href", exportedPath("/world/history-before-adam"));
+
   for (const [slug, title] of [
     ["geography", "Мир и география"],
-    ["history", "История"],
     ["corporations", "Корпорации"],
     ["stories", "Организации и группировки"],
   ]) {
@@ -1616,9 +1647,15 @@ test("desktop and mobile navigation use working route destinations", async ({
 test("public routes remain responsive without horizontal overflow", async ({
   page,
 }) => {
+  const routes = [
+    ...publicPages.map(([path]) => path),
+    articlePath,
+    "/world/higher-path",
+    "/world/history-before-adam",
+  ];
   for (const width of [320, 390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of [...publicPages.map(([path]) => path), articlePath]) {
+    for (const path of routes) {
       await page.goto(exportedPath(path));
       expect(
         await page.evaluate(
