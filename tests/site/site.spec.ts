@@ -1233,11 +1233,11 @@ test("workshop formats expand exclusively and the team and contact links fit mob
   }
   const alinaPortrait = team
     .locator("article")
-    .filter({ has: mobile.getByRole("heading", { level: 3, name: "Алина" }) })
+    .filter({ has: mobile.getByRole("heading", { level: 3, name: "Алина", exact: true }) })
     .locator("img");
   const linaPortrait = team
     .locator("article")
-    .filter({ has: mobile.getByRole("heading", { level: 3, name: "Лина" }) })
+    .filter({ has: mobile.getByRole("heading", { level: 3, name: "Лина", exact: true }) })
     .locator("img");
   await expect(alinaPortrait).toHaveCSS("object-position", "50% 32%");
   await expect(linaPortrait).toHaveCSS("object-position", "50% 41%");
