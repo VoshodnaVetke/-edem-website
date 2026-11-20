@@ -448,11 +448,11 @@
 
 .cardGlitchBlocks,
 .cardGlitchOffset {
-  inset: 0;
   display: block;
 }
 
 .cardGlitchBlocks {
+  inset: 0;
   background:
     linear-gradient(
         90deg,
