@@ -74,7 +74,7 @@ const team: readonly TeamMember[] = [
   },
   {
     name: "Соня",
-    role: "Механик · Разработчик приложения и базы данных Эдема",
+    role: "Разработчик приложения, базы данных и экономики Эдема",
     restricted: true,
     story: {
       type: "dialogue",
