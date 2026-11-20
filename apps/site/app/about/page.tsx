@@ -1,6 +1,6 @@
 "use client";
 
-import { ButtonLink, Card, GlitchText, Heading, Reading, Text } from "@edem/ui";
+import { ButtonLink, Card, Frame, GlitchText, Heading, Reading, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import deployment from "../../config/deployment.json";
 import { siteHref } from "../../config/site-href";
@@ -74,7 +74,7 @@ const team: readonly TeamMember[] = [
   },
   {
     name: "Соня",
-    role: "Механик · Разработчик приложения и базы данных Эдема",
+    role: "Разработчик приложения, базы данных и экономики Эдема",
     restricted: true,
     story: {
       type: "dialogue",
@@ -221,6 +221,7 @@ export default function AboutPage() {
                     <Text variant="system">
                       Доступ к внешности владельца ограничен.
                     </Text>
+                    <Frame variant="asym" />
                   </div>
                 ) : (
                   <div className={styles.portrait} aria-hidden="true">
@@ -238,6 +239,7 @@ export default function AboutPage() {
                     ) : (
                       <PortraitSymbol />
                     )}
+                    <Frame variant="asym" />
                   </div>
                 )}
                 <div className={styles.profile}>
