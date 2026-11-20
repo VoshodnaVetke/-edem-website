@@ -1,3 +1,43 @@
+.gameCard:global(.edem-link-card):focus-visible :global(.edem-frame__border) {
+  color: var(--edem-color-accent-secondary);
+  filter: drop-shadow(0 0 0.5rem var(--edem-color-accent-secondary));
+}
+
+.gameCard:focus-visible .cover::before {
+  opacity: 1;
+}
+
+.gameCard:focus-visible .caption h3 {
+  color: var(--edem-color-accent-secondary);
+  text-shadow: 0 0 0.75rem var(--edem-color-accent-secondary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gameCard:global(.edem-link-card):hover :global(.edem-frame__border) {
+    color: var(--edem-color-accent-secondary);
+    filter: drop-shadow(0 0 0.5rem var(--edem-color-accent-secondary));
+  }
+
+  .gameCard:hover .cover::before {
+    opacity: 1;
+  }
+
+  .gameCard:hover .caption h3 {
+    color: var(--edem-color-accent-secondary);
+    text-shadow: 0 0 0.75rem var(--edem-color-accent-secondary);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cover::before,
+  .gameCard .caption h3 {
+    transition:
+      opacity 320ms ease,
+      color 320ms ease,
+      text-shadow 320ms ease;
+  }
+}
+
 .gameCard :global(.edem-card-content__inner) {
   min-block-size: 19rem;
   display: grid;
@@ -43,6 +83,7 @@
 
 .cover,
 .cover img,
+.cover::before,
 .cover::after {
   position: absolute;
   inset: 0;
@@ -54,7 +95,20 @@
   object-fit: cover;
 }
 
+.cover::before {
+  z-index: 1;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--edem-color-accent-secondary) 18%, transparent),
+    color-mix(in srgb, var(--edem-color-accent-secondary) 36%, transparent)
+  );
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+}
+
 .cover::after {
+  z-index: 2;
   content: "";
   background: linear-gradient(
     to bottom,

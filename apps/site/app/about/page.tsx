@@ -8,44 +8,133 @@ import layout from "../../styles/page-layout.module.css";
 import { GameFormats } from "./GameFormats";
 import styles from "./about.module.css";
 
+type TeamStory =
+  | { type: "single"; text: string }
+  | {
+      type: "dialogue";
+      lines: readonly { speaker: string; text: string }[];
+    }
+  | { type: "epitaph"; text: string };
+
 interface TeamMember {
   name: string;
   role: string;
+  roleNote?: string;
   portrait?: string;
   portraitPosition?: string;
-  quote?: string;
+  story: TeamStory;
   restricted?: boolean;
+  vkHref?: string;
 }
 
 const team: readonly TeamMember[] = [
   {
-    name: "Восход",
-    role: "ГМ · Госпожа с Помпей",
-    portrait: "/images/games/kazino-mefisa/0136-thumb.webp",
-  },
-  {
     name: "Найт",
     role: "Квентовик · Журналист",
+    roleNote: "10% МГ",
     portrait: "/images/games/kazino-mefisa/0141-thumb.webp",
+    story: {
+      type: "dialogue",
+      lines: [
+        {
+          speaker: "Восход",
+          text: "Дело в том, что перед игрой вымерло 90% МГ.",
+        },
+        { speaker: "Найт", text: "Я не умер…" },
+        { speaker: "Восход", text: "Ну так вот, все кроме тебя." },
+        { speaker: "Найт", text: "Я 10%? 🥲" },
+      ],
+    },
   },
   {
     name: "Алина",
     role: "Продюсер",
     portrait: "/images/games/parad-tehnologiy/0064-thumb.webp",
     portraitPosition: "center 26%",
+    story: {
+      type: "dialogue",
+      lines: [
+        { speaker: "Восход", text: "Это пиздец, мы отменяем игру." },
+        {
+          speaker: "Алина",
+          text: "Мы не отменяем игру, я уже волосы накрутила!",
+        },
+      ],
+    },
   },
   {
     name: "Лина",
     role: "Художник",
     portrait: "/images/games/kazn-ognya-vechnogo/0587-thumb.webp",
     portraitPosition: "center 36%",
+    story: {
+      type: "single",
+      text: "Давайте без доведения до самоубийства, у нас всё ещё игра 16+.",
+    },
   },
   {
     name: "Соня",
     role: "Механик · Разработчик приложения и базы данных Эдема",
     restricted: true,
+    story: {
+      type: "dialogue",
+      lines: [
+        { speaker: "Соня", text: "Что такое дефляция?" },
+        {
+          speaker: "Найт",
+          text: "БЛЯТЬ СОНЯЯЯЯ ЗА ЧТО ТЫ ТАК НЕНАВИДИШЬ ЭТО МГ И ЭТИХ ИГРОКОВ???????????????????????????????????????????",
+        },
+      ],
+    },
+  },
+  {
+    name: "Восход",
+    role: "ГМ · Госпожа с Помпей",
+    portrait: "/images/games/kazino-mefisa/0136-thumb.webp",
+    story: { type: "epitaph", text: "САША ЕК" },
+    vkHref: "https://vk.ru/alyapyatnitskaya",
   },
 ];
+
+function MemberStory({ story }: { story: TeamStory }) {
+  if (story.type === "epitaph") {
+    return (
+      <div className={styles.epitaph}>
+        <span>{story.text}</span>
+      </div>
+    );
+  }
+
+  return (
+    <blockquote className={styles.story}>
+      {story.type === "single" ? (
+        <p className={styles.storySingle}>{story.text}</p>
+      ) : (
+        story.lines.map(({ speaker, text }, index) => (
+          <p
+            key={`${speaker}-${index}`}
+            className={`${styles.storyLine} ${index === story.lines.length - 1 ? styles.storyPunchline : ""}`}
+          >
+            <strong>{speaker}:</strong> {text}
+          </p>
+        ))
+      )}
+    </blockquote>
+  );
+}
+
+function VkIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.71 13.95h-1.36c-.51 0-.66-.41-1.58-1.32-.8-.78-1.15-.88-1.35-.88-.27 0-.35.08-.35.46v1.23c0 .33-.11.53-.98.53-1.44 0-3.05-.87-4.17-2.49-1.69-2.36-2.15-4.13-2.15-4.49 0-.2.08-.38.47-.38h1.36c.35 0 .48.15.61.51.67 1.94 1.79 3.63 2.25 3.63.17 0 .25-.08.25-.5v-1.95c-.05-.89-.52-.96-.52-1.27 0-.15.13-.3.34-.3h2.14c.29 0 .38.15.38.49v2.63c0 .29.13.38.2.38.17 0 .32-.09.64-.41.98-1.1 1.69-2.79 1.69-2.79.09-.2.25-.38.6-.38h1.36c.41 0 .49.21.41.49-.17.8-1.83 3.13-1.83 3.13-.15.24-.2.34 0 .6.15.2.62.61.94.99.58.65 1.03 1.2 1.15 1.57.12.38-.08.57-.48.57z" />
+    </svg>
+  );
+}
 
 function PortraitSymbol() {
   return (
@@ -90,14 +179,24 @@ export default function AboutPage() {
         <Heading id="about-team" className={styles.sectionTitle}>
           Наша команда
         </Heading>
-        <div className={layout.stack}>
+        <div className={`${layout.stack} ${styles.teamList}`}>
           {team.map(
-            ({ name, role, portrait, portraitPosition, quote, restricted }) => (
+            ({
+              name,
+              role,
+              roleNote,
+              portrait,
+              portraitPosition,
+              story,
+              restricted,
+              vkHref,
+            }) => (
               <Card
                 key={name}
                 className={`${styles.member} ${restricted ? styles.restrictedMember : ""}`}
                 telemetry
-                accent={restricted ? "violet" : "cyan"}
+                frame="asym"
+                accent="violet"
               >
                 {restricted && (
                   <>
@@ -143,11 +242,24 @@ export default function AboutPage() {
                 )}
                 <div className={styles.profile}>
                   <Heading level={3}>{name}</Heading>
-                  <Text>{role}</Text>
-                  {quote && (
-                    <blockquote className={styles.quote}>
-                      <Text>{quote}</Text>
-                    </blockquote>
+                  <div className={styles.roleLine}>
+                    <Text>{role}</Text>
+                    {roleNote && (
+                      <span className={styles.roleNote}>{roleNote}</span>
+                    )}
+                  </div>
+                  <MemberStory story={story} />
+                  {vkHref && (
+                    <a
+                      className={styles.vkLink}
+                      href={vkHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Саша Пятницкая во ВКонтакте (новая вкладка)"
+                    >
+                      <VkIcon />
+                      <span>Саша Пятницкая</span>
+                    </a>
                   )}
                 </div>
               </Card>
