@@ -82,6 +82,13 @@
   --world-card-image-height: clamp(7.75rem, 19vw, 10rem);
 }
 
+.impression:is(
+  [data-artwork="cyberpunk-expo"],
+  [data-artwork="social-stratification"]
+) {
+  --world-card-image-height: 56.25cqi;
+}
+
 .impression :global(.edem-card-content) {
   display: flex;
   inline-size: 100%;
@@ -123,8 +130,8 @@
   object-fit: cover;
 }
 
-.artwork[data-artwork="neighborhood"] img {
-  object-position: center 54%;
+.impression[data-artwork="social-stratification"] .artwork img {
+  object-position: 72% center;
 }
 
 .citizenProfile {
@@ -174,7 +181,7 @@
 }
 
 .topic[data-placement="panorama"] {
-  --topic-art-height: clamp(10rem, 24vw, 17rem);
+  --topic-art-height: clamp(10rem, 50cqi, 34rem);
 }
 
 .topic[data-placement="compact"] {
@@ -207,14 +214,12 @@
 .topicArt {
   position: absolute;
   inset: 0 0 auto;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
   block-size: var(--topic-art-height);
   background: var(--edem-color-background-top);
 }
 
 .topicArt img {
+  display: block;
   min-block-size: 0;
   inline-size: 100%;
   block-size: 100%;
@@ -223,10 +228,7 @@
 
 .topicArt img[data-artwork="rally"] {
   object-position: center top;
-}
-
-.topicArt img[data-artwork="pompeii"] {
-  object-position: center 33%;
+  padding-block-start: 0.75rem;
 }
 
 .topicCopy {
