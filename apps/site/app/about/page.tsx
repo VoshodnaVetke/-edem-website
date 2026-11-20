@@ -125,7 +125,12 @@ function MemberStory({ story }: { story: TeamStory }) {
 
 function VkIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.71 13.95h-1.36c-.51 0-.66-.41-1.58-1.32-.8-.78-1.15-.88-1.35-.88-.27 0-.35.08-.35.46v1.23c0 .33-.11.53-.98.53-1.44 0-3.05-.87-4.17-2.49-1.69-2.36-2.15-4.13-2.15-4.49 0-.2.08-.38.47-.38h1.36c.35 0 .48.15.61.51.67 1.94 1.79 3.63 2.25 3.63.17 0 .25-.08.25-.5v-1.95c-.05-.89-.52-.96-.52-1.27 0-.15.13-.3.34-.3h2.14c.29 0 .38.15.38.49v2.63c0 .29.13.38.2.38.17 0 .32-.09.64-.41.98-1.1 1.69-2.79 1.69-2.79.09-.2.25-.38.6-.38h1.36c.41 0 .49.21.41.49-.17.8-1.83 3.13-1.83 3.13-.15.24-.2.34 0 .6.15.2.62.61.94.99.58.65 1.03 1.2 1.15 1.57.12.38-.08.57-.48.57z" />
     </svg>
   );
@@ -176,7 +181,16 @@ export default function AboutPage() {
         </Heading>
         <div className={`${layout.stack} ${styles.teamList}`}>
           {team.map(
-            ({ name, role, roleNote, portrait, portraitPosition, story, restricted, vkHref }) => (
+            ({
+              name,
+              role,
+              roleNote,
+              portrait,
+              portraitPosition,
+              story,
+              restricted,
+              vkHref,
+            }) => (
               <Card
                 key={name}
                 className={`${styles.member} ${restricted ? styles.restrictedMember : ""}`}
@@ -230,7 +244,9 @@ export default function AboutPage() {
                   <Heading level={3}>{name}</Heading>
                   <div className={styles.roleLine}>
                     <Text>{role}</Text>
-                    {roleNote && <span className={styles.roleNote}>{roleNote}</span>}
+                    {roleNote && (
+                      <span className={styles.roleNote}>{roleNote}</span>
+                    )}
                   </div>
                   <MemberStory story={story} />
                   {vkHref && (

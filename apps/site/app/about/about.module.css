@@ -163,7 +163,8 @@
   .formatCard:hover :global(.edem-card-effects__scan) {
     background: linear-gradient(
       transparent 45%,
-      color-mix(in srgb, var(--edem-color-accent-secondary) 24%, transparent) 50%,
+      color-mix(in srgb, var(--edem-color-accent-secondary) 24%, transparent)
+        50%,
       transparent 55%
     );
   }
@@ -199,7 +200,8 @@
   padding: clamp(1.5rem, 8cqi, 2.75rem);
 }
 
-.member:global(.edem-card[data-frame="asym"]) :global(.edem-card-content__inner) {
+.member:global(.edem-card[data-frame="asym"])
+  :global(.edem-card-content__inner) {
   padding: clamp(1.5rem, 3cqi, 2.5rem) clamp(2rem, 5cqi, 4rem);
 }
 
@@ -319,7 +321,8 @@
 .member :global(.edem-frame__border) {
   color: var(--edem-color-accent-secondary);
   filter: drop-shadow(
-    0 0 0.18rem color-mix(in srgb, var(--edem-color-accent-secondary) 25%, transparent)
+    0 0 0.18rem
+      color-mix(in srgb, var(--edem-color-accent-secondary) 25%, transparent)
   );
 }
 
@@ -433,7 +436,8 @@
   letter-spacing: 0.07em;
   text-shadow:
     0 2px 0 var(--edem-color-background),
-    0 0 1.25rem color-mix(in srgb, var(--edem-color-accent-secondary) 35%, transparent);
+    0 0 1.25rem
+      color-mix(in srgb, var(--edem-color-accent-secondary) 35%, transparent);
 }
 
 .vkLink {
