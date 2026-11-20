@@ -1,6 +1,14 @@
 "use client";
 
-import { ButtonLink, Card, Frame, GlitchText, Heading, Reading, Text } from "@edem/ui";
+import {
+  ButtonLink,
+  Card,
+  Frame,
+  GlitchText,
+  Heading,
+  Reading,
+  Text,
+} from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
 import deployment from "../../config/deployment.json";
 import { siteHref } from "../../config/site-href";
