@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Card, Grid, Heading, Text } from "@edem/ui";
+import deployment from "../../config/deployment.json";
 import {
   useCallback,
   useEffect,
@@ -15,8 +16,7 @@ const formats = [
   {
     id: "chamber",
     title: "Кабинетные ролевые игры",
-    symbol:
-      "M3 9h18v6H3zM8 9V7a2 2 0 0 1 4 0v2m0 6v2a2 2 0 0 0 4 0v-2M5 15v4m14-4v4",
+    icon: "chamber",
     summary: "Интриги, политика, экономика и игровые механики.",
     description: [
       "Наш основной формат для тех, кто любит погружаться в интриги, политику, экономику и сложные игровые механики. Переговоры, союзы и конфликты интересов переплетаются в одну историю, а решения персонажей меняют расстановку сил.",
@@ -26,8 +26,7 @@ const formats = [
   {
     id: "field",
     title: "Полигонные ролевые игры",
-    symbol:
-      "m2 6 6-3 8 3 6-3v15l-6 3-8-3-6 3zM8 3v15m8-12v15M5 14l5-4 5 3 4-5m-3 0h3v3",
+    icon: "field",
     summary: "Боёвка, тактика и командные задачи.",
     description: [
       "Игры с упором на боёвку, тактику и активные действия: перестрелки, захват точек и противостояние группировок в рамках игрового сюжета.",
@@ -37,7 +36,7 @@ const formats = [
   {
     id: "tabletop",
     title: "Настольные ролевые игры (НРИ)",
-    symbol: "m12 2 9 5v10l-9 5-9-5V7zM3 7l9 15 9-15H3l9-5 9 5M3 17h18",
+    icon: "tabletop",
     summary: "Приключения и развитие персонажей.",
     description: [
       "Приключения с ведущим в духе D&D, где можно глубже раскрыть своего персонажа, исследовать мир и прожить собственную историю.",
@@ -47,8 +46,7 @@ const formats = [
   {
     id: "ball",
     title: "Ролевые балы",
-    symbol:
-      "M12 2c0 6 4 10 10 10-6 0-10 4-10 10 0-6-4-10-10-10 6 0 10-4 10-10zM19 3v4m-2-2h4",
+    icon: "ball",
     summary: "Танцы, общение и атмосфера.",
     description: [
       "Возможность провести вечер в образе своего персонажа: потанцевать, пообщаться, сделать красивые фотографии и погрузиться в атмосферу игрового мира.",
@@ -230,7 +228,7 @@ export function GameFormats() {
             setFocused(false);
         }}
       >
-        {ordered.map(({ id, title, symbol, summary, description }) => {
+        {ordered.map(({ id, title, icon, summary, description }) => {
           const expanded = openId === id;
           const label = `format-${id}`;
           return (
@@ -260,15 +258,20 @@ export function GameFormats() {
                     onClick={(event) => toggle(id, event.currentTarget)}
                   >
                     <span className={styles.formatIcon} aria-hidden="true">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.4"
-                        aria-hidden="true"
-                      >
-                        <path d={symbol} />
-                      </svg>
+                      <picture>
+                        <source
+                          media="(prefers-reduced-motion: reduce)"
+                          srcSet={`${deployment.basePath}/images/about/${icon}.png`}
+                        />
+                        <img
+                          src={`${deployment.basePath}/images/about/${icon}.gif`}
+                          alt=""
+                          width={80}
+                          height={80}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </picture>
                     </span>
                     <span id={label}>{title}</span>
                   </button>
