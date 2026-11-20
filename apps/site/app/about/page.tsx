@@ -18,10 +18,28 @@ interface TeamMember {
 }
 
 const team: readonly TeamMember[] = [
-  { name: "Восход", role: "ГМ · Госпожа с Помпей", portrait: "/images/games/kazino-mefisa/0136-thumb.webp" },
-  { name: "Найт", role: "Квентовик · Журналист", portrait: "/images/games/kazino-mefisa/0141-thumb.webp" },
-  { name: "Алина", role: "Продюсер", portrait: "/images/games/parad-tehnologiy/0064-thumb.webp", portraitPosition: "center 26%" },
-  { name: "Лина", role: "Художник", portrait: "/images/games/kazn-ognya-vechnogo/0587-thumb.webp", portraitPosition: "center 36%" },
+  {
+    name: "Восход",
+    role: "ГМ · Госпожа с Помпей",
+    portrait: "/images/games/kazino-mefisa/0136-thumb.webp",
+  },
+  {
+    name: "Найт",
+    role: "Квентовик · Журналист",
+    portrait: "/images/games/kazino-mefisa/0141-thumb.webp",
+  },
+  {
+    name: "Алина",
+    role: "Продюсер",
+    portrait: "/images/games/parad-tehnologiy/0064-thumb.webp",
+    portraitPosition: "center 26%",
+  },
+  {
+    name: "Лина",
+    role: "Художник",
+    portrait: "/images/games/kazn-ognya-vechnogo/0587-thumb.webp",
+    portraitPosition: "center 36%",
+  },
   {
     name: "Соня",
     role: "Механик · Разработчик приложения и базы данных Эдема",
@@ -105,7 +123,11 @@ export default function AboutPage() {
                       src={`${deployment.basePath}${portrait}`}
                       alt=""
                       loading="lazy"
-                      style={portraitPosition ? { objectPosition: portraitPosition } : undefined}
+                      style={
+                        portraitPosition
+                          ? { objectPosition: portraitPosition }
+                          : undefined
+                      }
                     />
                   ) : (
                     <PortraitSymbol />
