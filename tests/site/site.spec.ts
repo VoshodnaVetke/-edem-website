@@ -1536,7 +1536,9 @@ test("world articles link to approved content and planned pages", async ({
     })
     .click();
   await expect(
-    main.getByRole("link", { name: "Высший Путь", exact: true }),
+    main
+      .getByRole("region", { name: "Верховный понтифик Адам", exact: true })
+      .getByRole("link", { name: "Высший Путь", exact: true }),
   ).toHaveAttribute("href", exportedPath("/world/higher-path"));
 
   await page.goto(exportedPath("/world/topics/history"));
