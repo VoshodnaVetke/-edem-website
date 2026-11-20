@@ -1315,6 +1315,10 @@ test("the world introduction fits on desktop and stacks on mobile", async ({
     "Адам и вера",
     "Социальное расслоение",
   ]);
+  await expect(cards.nth(0).locator("img")).toHaveAttribute(
+    "src",
+    `${pagesBasePath}/images/world/cyberpunk-expo.webp`,
+  );
   await expect(cards.nth(3).locator("img")).toHaveAttribute(
     "src",
     `${pagesBasePath}/images/world/social-stratification.webp`,

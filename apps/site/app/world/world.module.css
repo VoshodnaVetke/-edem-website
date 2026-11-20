@@ -82,7 +82,10 @@
   --world-card-image-height: clamp(7.75rem, 19vw, 10rem);
 }
 
-.impression[data-artwork="social-stratification"] {
+.impression:is(
+  [data-artwork="cyberpunk-expo"],
+  [data-artwork="social-stratification"]
+) {
   --world-card-image-height: 56.25cqi;
 }
 
@@ -125,10 +128,6 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
-}
-
-.impression[data-artwork="neighborhood"] .artwork img {
-  object-position: center 54%;
 }
 
 .impression[data-artwork="social-stratification"] .artwork img {

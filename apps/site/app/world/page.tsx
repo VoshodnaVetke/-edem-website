@@ -12,7 +12,7 @@ import styles from "./world.module.css";
 
 const firstImpressions = [
   {
-    image: "neighborhood",
+    image: "cyberpunk-expo",
     topic: "corporations",
     title: "Киберпанк",
     description: "Импланты. Нейрочипы. Корпорации. Технологии будущего.",
