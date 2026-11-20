@@ -17,10 +17,10 @@ interface TeamMember {
 }
 
 const team: readonly TeamMember[] = [
-  { name: "Восход", role: "ГМ · Госпожа с Помпей" },
-  { name: "Найт", role: "Квентовик · Журналист" },
-  { name: "Алина", role: "Продюсер" },
-  { name: "Лина", role: "Художник" },
+  { name: "Восход", role: "ГМ · Госпожа с Помпей", portrait: "/images/games/kazino-mefisa/0136-thumb.webp" },
+  { name: "Найт", role: "Квентовик · Журналист", portrait: "/images/games/kazino-mefisa/0141-thumb.webp" },
+  { name: "Алина", role: "Продюсер", portrait: "/images/games/parad-tehnologiy/0064-thumb.webp" },
+  { name: "Лина", role: "Художник", portrait: "/images/games/kazn-ognya-vechnogo/0587-thumb.webp" },
   {
     name: "Соня",
     role: "Механик · Разработчик приложения и базы данных Эдема",
@@ -75,10 +75,16 @@ export default function AboutPage() {
           {team.map(({ name, role, portrait, quote, restricted }) => (
             <Card
               key={name}
-              className={styles.member}
+              className={`${styles.member} ${restricted ? styles.restrictedMember : ""}`}
               telemetry
               accent={restricted ? "violet" : "cyan"}
             >
+              {restricted && (
+                <>
+                  <span className={styles.cardGlitchBlocks} aria-hidden="true" />
+                  <span className={styles.cardGlitchOffset} aria-hidden="true" />
+                </>
+              )}
               {restricted ? (
                 <div className={styles.restrictedPortrait}>
                   <span className={styles.interference} aria-hidden="true">
