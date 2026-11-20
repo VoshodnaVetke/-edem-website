@@ -1223,8 +1223,34 @@ test("workshop formats expand exclusively and the team and contact links fit mob
     team.getByText("Доступ к внешности владельца ограничен."),
   ).toBeVisible();
   await expect(
-    team.getByText("Механик · Разработчик приложения и базы данных Эдема"),
+    team.getByText("Разработчик приложения, базы данных и экономики Эдема"),
   ).toBeVisible();
+
+  const clippedPortraits = await team.locator("article img").evaluateAll((photos) =>
+    photos.length === 4 &&
+    photos.every((photo) => {
+      const backing = photo.parentElement;
+      const card = photo.closest("article");
+      if (!backing || !card) return false;
+      const portraitBounds = backing.getBoundingClientRect();
+      const imageBounds = photo.getBoundingClientRect();
+      const cardBounds = card.getBoundingClientRect();
+      return (
+        getComputedStyle(backing).clipPath.startsWith("polygon(") &&
+        getComputedStyle(photo).clipPath.startsWith("polygon(") &&
+        getComputedStyle(backing).overflow === "hidden" &&
+        portraitBounds.left >= cardBounds.left &&
+        portraitBounds.right <= cardBounds.right &&
+        portraitBounds.top >= cardBounds.top &&
+        portraitBounds.bottom <= cardBounds.bottom &&
+        imageBounds.left >= portraitBounds.left &&
+        imageBounds.right <= portraitBounds.right &&
+        imageBounds.top >= portraitBounds.top &&
+        imageBounds.bottom <= portraitBounds.bottom
+      );
+    }),
+  );
+  expect(clippedPortraits).toBe(true);
 
   const contact = mobile.getByRole("region", { name: "Создадим игру вместе" });
   await expect(
