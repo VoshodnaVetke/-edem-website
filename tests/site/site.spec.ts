@@ -1244,7 +1244,7 @@ test("workshop formats expand exclusively and the team and contact links fit mob
         photoRect.bottom <= cardRect.bottom,
     };
   });
-  expect(photoFrame?.clip).toMatch(/^polygon\\(/);
+  expect(photoFrame?.clip?.startsWith("polygon(")).toBe(true);
   expect(photoFrame?.overflow).toBe("clip");
   expect(photoFrame?.contained).toBe(true);
 
