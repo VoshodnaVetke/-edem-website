@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  ButtonLink,
-  Card,
-  Grid,
-  Heading,
-  Layout,
-  SystemOrb,
-  Text,
-} from "@edem/ui";
+import { ButtonLink, Card, Grid, Heading, Layout, Text } from "@edem/ui";
 import { SiteSectionRail } from "../../components/layout/SiteSectionRail";
 import deployment from "../../config/deployment.json";
 import {
@@ -59,25 +51,13 @@ export default function WorldPage() {
                   aria-labelledby={slug}
                   reveal={false}
                   cover={
-                    <div
-                      className={styles.artwork}
-                      data-artwork={artwork ?? "history"}
-                    >
-                      {artwork ? (
-                        <img
-                          src={`${deployment.basePath}/images/world/${artwork}.webp`}
-                          alt=""
-                          loading={index === 0 ? "eager" : "lazy"}
-                          decoding="async"
-                        />
-                      ) : (
-                        <SystemOrb
-                          label=""
-                          code=""
-                          active={false}
-                          className={styles.historyOrb}
-                        />
-                      )}
+                    <div className={styles.artwork} data-artwork={artwork}>
+                      <img
+                        src={`${deployment.basePath}/images/world/${artwork}.webp`}
+                        alt=""
+                        loading={index === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                      />
                     </div>
                   }
                 >

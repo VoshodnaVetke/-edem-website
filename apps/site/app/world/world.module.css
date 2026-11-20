@@ -98,43 +98,16 @@
   object-fit: cover;
 }
 
-.artwork[data-artwork="faith"] img {
-  object-position: center 62%;
+.artwork[data-artwork="cathedral-statue"] img {
+  object-position: center 42%;
 }
 
-.artwork[data-artwork="outskirts"] img {
-  object-position: center 25%;
+.artwork[data-artwork="corporate-atrium"] img {
+  object-position: center 35%;
 }
 
-.artwork[data-artwork="cyberpunk-expo"] img {
-  object-position: center 24%;
-}
-
-.artwork[data-artwork="pompeii-uprising"] img {
-  object-position: center 16%;
-}
-
-.artwork[data-artwork="history"] {
-  background:
-    radial-gradient(
-      ellipse at center,
-      var(--edem-color-ambient-cyan),
-      transparent 72%
-    ),
-    var(--edem-color-background-top);
-}
-
-.historyOrb:global(.edem-system-orb) {
-  justify-content: center;
-  inline-size: 100%;
-  block-size: 100%;
-  margin: 0;
-}
-
-.historyOrb svg {
-  display: block;
-  inline-size: clamp(5rem, 18cqi, 7rem);
-  block-size: auto;
+.artwork[data-artwork="freedom-rally"] img {
+  object-position: center 35%;
 }
 
 .cardCopy {

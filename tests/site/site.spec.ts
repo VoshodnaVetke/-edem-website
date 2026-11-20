@@ -1320,26 +1320,26 @@ test("the world overview introduces six encyclopedia sections", async ({
   const directory = page.getByRole("region", { name: "Разделы энциклопедии" });
   const cards = directory.getByRole("article");
   const expected = [
-    ["power", "Государство и общество", "Во славу Адама!", "faith"],
-    ["geography", "Мир и география", "От небоскрёбов до пустошей", "outskirts"],
-    ["history", "История", "Мир после конца света", null],
+    ["power", "Государство и общество", "Во славу Адама!", "cathedral-statue"],
+    [
+      "geography",
+      "Мир и география",
+      "От небоскрёбов до пустошей",
+      "city-to-wasteland",
+    ],
+    ["history", "История", "Мир после конца света", "wasteland-traveler"],
     [
       "technology",
       "Наука и технологии",
-      "Будущее на каждом шагу",
-      "civic-profile",
+      "Будущее внутри нас",
+      "cybernetic-arm",
     ],
-    [
-      "corporations",
-      "Корпорации",
-      "У будущего есть владельцы",
-      "cyberpunk-expo",
-    ],
+    ["corporations", "Корпорации", "Хозяева будущего", "corporate-atrium"],
     [
       "stories",
       "Организации и группировки",
-      "Не все согласны с правилами",
-      "pompeii-uprising",
+      "Несогласные с порядком",
+      "freedom-rally",
     ],
   ] as const;
   await expect(page.getByRole("main").getByRole("article")).toHaveCount(6);
@@ -1363,23 +1363,17 @@ test("the world overview introduces six encyclopedia sections", async ({
       exportedPath(`/world/topics/${slug}`),
     );
     await card.scrollIntoViewIfNeeded();
-    if (artwork) {
-      const image = card.locator("img");
-      await expect(image).toHaveAttribute(
-        "src",
-        `${pagesBasePath}/images/world/${artwork}.webp`,
-      );
-      expect(
-        await image.evaluate(async (element: HTMLImageElement) => {
-          await element.decode();
-          return element.naturalWidth;
-        }),
-      ).toBeGreaterThan(0);
-    } else {
-      await expect(
-        card.locator(".edem-system-orb[data-active='false']"),
-      ).toBeVisible();
-    }
+    const image = card.locator("img");
+    await expect(image).toHaveAttribute(
+      "src",
+      `${pagesBasePath}/images/world/${artwork}.webp`,
+    );
+    expect(
+      await image.evaluate(async (element: HTMLImageElement) => {
+        await element.decode();
+        return element.naturalWidth;
+      }),
+    ).toBeGreaterThan(0);
   }
 });
 
@@ -1508,13 +1502,22 @@ test("world articles link to approved content and planned pages", async ({
     "href",
     exportedPath("/world/government"),
   );
-  const row = (await article.boundingBox())!;
+  const row = (await article.locator("xpath=ancestor::li").boundingBox())!;
   const heading = (await main
     .getByRole("heading", { level: 1 })
     .boundingBox())!;
   expect(row.width).toBeCloseTo(heading.width, 0);
 
-  await main.getByRole("link", { name: "Высший Путь", exact: true }).click();
+  const thumbnail = main
+    .getByRole("link", { name: "Высший Путь", exact: true })
+    .locator("xpath=ancestor::li")
+    .locator("img");
+  await thumbnail.scrollIntoViewIfNeeded();
+  const imageBounds = (await thumbnail.boundingBox())!;
+  await page.mouse.click(
+    imageBounds.x + imageBounds.width / 2,
+    imageBounds.y + imageBounds.height / 2,
+  );
   await expect(main.getByRole("heading", { level: 1 })).toHaveText(
     "Высший Путь",
   );
@@ -1599,8 +1602,26 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
           exact: true,
         });
         await expect(entryLink).toHaveAttribute("href", path);
-        const state = entry.status === "planned" ? "В подготовке" : "";
-        await expect(entryLink).toHaveAccessibleDescription(state);
+        const card = entryLink.locator("xpath=ancestor::li");
+        await expect(
+          card.getByRole("heading", {
+            level: 2,
+            name: entry.title,
+            exact: true,
+          }),
+        ).toBeVisible();
+        await expect(card.locator("img")).toHaveAttribute(
+          "src",
+          `${pagesBasePath}/images/world/article-thumbnails/${group.slug}.webp`,
+        );
+        const description =
+          entry.status === "published"
+            ? entry.summary.join(" ")
+            : "Статья в разработке";
+        await expect(entryLink).toHaveAccessibleDescription(description);
+        await expect(card.locator("p")).toHaveCount(
+          entry.status === "published" ? 2 : 1,
+        );
 
         const response = await request.get(path);
         expect(response.status(), path).toBe(200);

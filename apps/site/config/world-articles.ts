@@ -7,7 +7,7 @@ export const worldArticleGroups = [
     heading: "Во славу Адама!",
     description:
       "Эдемом правит Верховный понтифик Адам. Социальный рейтинг определяет права и возможности каждого гражданина.",
-    artwork: "faith",
+    artwork: "cathedral-statue",
   },
   {
     slug: "geography",
@@ -15,7 +15,7 @@ export const worldArticleGroups = [
     heading: "От небоскрёбов до пустошей",
     description:
       "Западный, Восточный и Северный города образуют Эдем. За их пределами лежат пустоши и другие государства.",
-    artwork: "outskirts",
+    artwork: "city-to-wasteland",
   },
   {
     slug: "history",
@@ -23,31 +23,31 @@ export const worldArticleGroups = [
     heading: "Мир после конца света",
     description:
       "Ядерная война разрушила прежнюю цивилизацию. Первый Адам объединил выживших и основал Эдем.",
-    artwork: null,
+    artwork: "wasteland-traveler",
   },
   {
     slug: "technology",
     title: "Наука и технологии",
-    heading: "Будущее на каждом шагу",
+    heading: "Будущее внутри нас",
     description:
       "Нейрочипы, импланты, искусственный интеллект и невероятные изобретения. В Эдеме высокие технологии давно стали частью повседневной жизни.",
-    artwork: "civic-profile",
+    artwork: "cybernetic-arm",
   },
   {
     slug: "corporations",
     title: "Корпорации",
-    heading: "У будущего есть владельцы",
+    heading: "Хозяева будущего",
     description:
       "InnovatX, Holland Industries и Enigma создают технологии будущего и соперничают за влияние.",
-    artwork: "cyberpunk-expo",
+    artwork: "corporate-atrium",
   },
   {
     slug: "stories",
     title: "Организации и группировки",
-    heading: "Не все согласны с правилами",
+    heading: "Несогласные с порядком",
     description:
       "Преступные группировки, независимые организации и тайные объединения ведут собственную игру.",
-    artwork: "pompeii-uprising",
+    artwork: "freedom-rally",
   },
 ] as const;
 
@@ -62,7 +62,8 @@ type WorldArticle = {
   topic: WorldArticleTopic;
   related: readonly string[];
 } & (
-  | { status: "planned" | "published" }
+  | { status: "planned" }
+  | { status: "published"; summary: readonly [string, string] }
   | { status: "merged"; target: { slug: string; section: string } }
 );
 
@@ -71,12 +72,20 @@ export const worldArticleRegistry = {
     title: "Государственное устройство Эдема",
     topic: "power",
     status: "published",
+    summary: [
+      "Кто управляет Эдемом и как распределены полномочия Адама, Совета Светочей и государственных отделов.",
+      "Как устроено местное самоуправление и какую роль играют суды и Расследовательный отдел.",
+    ],
     related: ["beacons", "higher-path", "justice", "neurochip"],
   },
   neurochip: {
     title: "Социальный рейтинг и нейрочип",
     topic: "power",
     status: "published",
+    summary: [
+      "Как граждане получают и теряют баллы социального рейтинга и какую роль в этом играет нейрочип.",
+      "Какие права, льготы и лицензии зависят от рейтинга и как обжаловать взыскание.",
+    ],
     related: [
       "beacons",
       "licenses",
@@ -90,6 +99,10 @@ export const worldArticleRegistry = {
     title: "Высший Путь",
     topic: "power",
     status: "published",
+    summary: [
+      "Государственная религия Эдема связывает духовное развитие с наукой и технологиями.",
+      "В статье собраны семь заповедей, учение о Светочах и предание о Первом Адаме.",
+    ],
     related: [
       "beacons",
       "government",
@@ -102,12 +115,20 @@ export const worldArticleRegistry = {
     title: "Светочи",
     topic: "power",
     status: "published",
+    summary: [
+      "Как социальный рейтинг связан со статусом Светоча и как Адам присваивает этот статус.",
+      "Какие должности занимают Светочи и что означает Право Светоча.",
+    ],
     related: ["government", "neurochip", "higher-path"],
   },
   licenses: {
     title: "Лицензии",
     topic: "power",
     status: "published",
+    summary: [
+      "Как цифровые разрешения связаны с нейрочипом, социальным рейтингом и доступом к технике.",
+      "Как Эдем ввёл транспортные лицензии и распространил систему на электронные устройства.",
+    ],
     related: [
       "neurochip",
       "science-and-technology",
@@ -130,6 +151,10 @@ export const worldArticleRegistry = {
     title: "Правосудие и исправительная система",
     topic: "power",
     status: "published",
+    summary: [
+      "Как работают суды и следствие, за что назначают штрафы и списывают баллы.",
+      "Как оспорить взыскание и в каких случаях граждан направляют в УВБ.",
+    ],
     related: [
       "government",
       "neurochip",
@@ -347,6 +372,10 @@ export const worldArticleRegistry = {
     title: "История мира до Адама",
     topic: "history",
     status: "published",
+    summary: [
+      "Как официальная история Эдема описывает пандемию и ядерную войну.",
+      "Как общины выживали после войны и как Первый Адам начал объединять их.",
+    ],
     related: [
       "founding-of-edem",
       "history-of-edem",
