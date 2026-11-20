@@ -1,9 +1,10 @@
 "use client";
 
-import { Card, Grid, Heading, Reading, Text, ButtonLink } from "@edem/ui";
+import { Card, Grid, Heading, Reading, ButtonLink } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
 import styles from "../../../styles/page-layout.module.css";
+import { RelatedWorldArticles } from "../RelatedWorldArticles";
 
 const contents = [
   ["principles", "Принципы системы"],
@@ -13,7 +14,7 @@ const contents = [
   ["rights", "Политические права"],
   ["beacons", "Светочи"],
   ["appeal", "Изменение рейтинга и обжалование"],
-  ["related", "Связанные темы"],
+  ["related", "Связанные статьи"],
 ] as const;
 
 export default function NeurochipArticle() {
@@ -266,22 +267,12 @@ export default function NeurochipArticle() {
             </section>
           </Reading>
 
-          <section aria-labelledby="related" className={styles.stack}>
-            <Heading level={2} id="related">
-              Связанные темы
-            </Heading>
-            <Text>
-              Свод правонарушений Эдема. Правосудие и исправительная система.
-              Лицензии. Светочи.{" "}
-              <a href={siteHref("/world/higher-path")}>Высший Путь</a>.
-            </Text>
-            <div className={styles.actions}>
-              <ButtonLink href={siteHref("/world") + "#power"}>
-                Государство и власть
-              </ButtonLink>
-              <ButtonLink href={siteHref("/world")}>К обзору мира</ButtonLink>
-            </div>
-          </section>
+          <RelatedWorldArticles slug="neurochip">
+            <ButtonLink href={siteHref("/world") + "#power"}>
+              Государство и власть
+            </ButtonLink>
+            <ButtonLink href={siteHref("/world")}>К обзору мира</ButtonLink>
+          </RelatedWorldArticles>
         </article>
       </Grid>
     </PageShell>

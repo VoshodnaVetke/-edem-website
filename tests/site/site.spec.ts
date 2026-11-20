@@ -1,5 +1,9 @@
 import { expect, test } from "@playwright/test";
 import { upcomingGame } from "../../apps/site/config/upcoming-game";
+import {
+  worldArticleEntries,
+  worldArticleGroups,
+} from "../../apps/site/config/world-articles";
 
 const pagesBasePath = "/-edem-website";
 const expectedRevision = process.env.EDEM_SITE_REVISION;
@@ -1441,10 +1445,10 @@ test("the world article has working contents and related links", async ({
 }) => {
   await page.goto(exportedPath("/world"));
   await page
-    .getByRole("link", { name: "Читать статьи — Наука и технологии" })
+    .getByRole("link", { name: "Читать статьи — Государство и общество" })
     .click();
   await expect(page).toHaveURL(
-    (url) => url.pathname === exportedPath("/world/topics/technology"),
+    (url) => url.pathname === exportedPath("/world/topics/power"),
   );
   await page
     .getByRole("link", { name: "Социальный рейтинг и нейрочип", exact: true })
@@ -1487,7 +1491,7 @@ test("the world article has working contents and related links", async ({
   ).toBeVisible();
 });
 
-test("world topic lists link to published articles and serve empty topics", async ({
+test("world articles link to approved content and planned pages", async ({
   page,
 }) => {
   await page.goto(exportedPath("/world"));
@@ -1540,20 +1544,20 @@ test("world topic lists link to published articles and serve empty topics", asyn
     main.getByRole("link", { name: "История мира до Адама", exact: true }),
   ).toHaveAttribute("href", exportedPath("/world/history-before-adam"));
 
-  for (const [slug, title] of [
-    ["geography", "Мир и география"],
-    ["corporations", "Корпорации"],
-    ["stories", "Организации и группировки"],
-  ]) {
-    await page.goto(exportedPath(`/world/topics/${slug}`));
-    await expect(
-      main.getByRole("heading", { name: title, level: 1 }),
-    ).toBeVisible();
-    await expect(
-      main.getByText("Статьи этого раздела в подготовке.", { exact: true }),
-    ).toBeVisible();
-    await expect(main.getByRole("list")).toHaveCount(0);
-  }
+  await page.goto(exportedPath("/world/higher-path"));
+  await main.getByRole("link", { name: "Хищниками", exact: true }).click();
+  await expect(main.getByRole("heading", { level: 1 })).toHaveText(
+    "Криминальные организации Эдема",
+  );
+  await expect(
+    main.getByText("Статья в подготовке.", { exact: true }),
+  ).toBeVisible();
+  await main
+    .getByRole("link", { name: "К списку статей", exact: true })
+    .click();
+  await expect(main.getByRole("heading", { level: 1 })).toHaveText(
+    "Организации и группировки",
+  );
 
   await page.goto(exportedPath("/world/topics/daily-life"));
   await expect(
@@ -1562,6 +1566,52 @@ test("world topic lists link to published articles and serve empty topics", asyn
       exact: true,
     }),
   ).toHaveAttribute("href", exportedPath(articlePath));
+});
+
+test("all 33 encyclopedia entries have permanent routes and topic listings", async ({
+  page,
+  request,
+}) => {
+  expect(worldArticleEntries).toHaveLength(33);
+
+  for (const group of worldArticleGroups) {
+    const topicPath = exportedPath(`/world/topics/${group.slug}`);
+    expect((await page.goto(topicPath))?.status()).toBe(200);
+    const main = page.getByRole("main");
+    const entries = worldArticleEntries.filter(
+      (entry) => entry.topic === group.slug,
+    );
+    await expect(main.getByRole("heading", { level: 1 })).toHaveText(
+      group.title,
+    );
+    const links = main.getByRole("list").getByRole("link");
+    await expect(links).toHaveCount(entries.length);
+
+    await Promise.all(
+      entries.map(async (entry) => {
+        const path = exportedPath(`/world/${entry.slug}`);
+        const entryLink = main.getByRole("link", {
+          name: entry.title,
+          exact: true,
+        });
+        await expect(entryLink).toHaveAttribute("href", path);
+        const state = entry.status === "planned" ? "В подготовке" : "";
+        await expect(entryLink).toHaveAccessibleDescription(state);
+
+        const response = await request.get(path);
+        expect(response.status(), path).toBe(200);
+        const html = await response.text();
+        expect(html.includes("Статья в подготовке."), path).toBe(
+          entry.status === "planned",
+        );
+        for (const related of entry.related) {
+          expect(html, path).toContain(
+            `href="${exportedPath(`/world/${related}`)}"`,
+          );
+        }
+      }),
+    );
+  }
 });
 
 for (const width of [1440, 390]) {
@@ -1676,6 +1726,7 @@ test("removed and unavailable routes return 404", async ({ request }) => {
     "/events",
     "/events/unpublished",
     "/wiki/unpublished",
+    "/world/unregistered-article",
   ]) {
     const response = await request.get(exportedPath(path));
     expect(response.status(), path).toBe(404);

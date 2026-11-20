@@ -8,7 +8,10 @@
 
 .article {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
   min-block-size: 3rem;
   padding: 0.625rem 1rem;
   border: 1px solid var(--edem-color-text-metadata);
@@ -17,6 +20,12 @@
   font-family: var(--font-display);
   font-weight: var(--edem-font-weight-display);
   text-decoration: none;
+}
+
+.status {
+  color: var(--edem-color-text-metadata);
+  font: var(--edem-font-weight-body) var(--edem-type-system-size) /
+    var(--edem-type-system-leading) var(--font-mono);
 }
 
 .article:focus-visible {

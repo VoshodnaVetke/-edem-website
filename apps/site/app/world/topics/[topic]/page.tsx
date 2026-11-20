@@ -1,7 +1,11 @@
 import { notFound } from "next/navigation";
 import { PageShell } from "../../../../components/layout/PageShell";
 import { siteHref } from "../../../../config/site-href";
-import { worldArticleGroups } from "../../../../config/world-articles";
+import {
+  worldArticleEntries,
+  worldArticleGroups,
+  worldArticleHref,
+} from "../../../../config/world-articles";
 import styles from "./articles.module.css";
 
 export const dynamicParams = false;
@@ -24,28 +28,39 @@ export default async function WorldArticlesPage({
   const currentTopic = topic === legacyTopic ? "technology" : topic;
   const group = worldArticleGroups.find(({ slug }) => slug === currentTopic);
   if (!group) notFound();
+  const articles = worldArticleEntries.filter((article) =>
+    topic === legacyTopic
+      ? article.slug === "neurochip"
+      : article.topic === group.slug,
+  );
 
   return (
-    <PageShell
-      eyebrow="СТАТЬИ ВСЕЛЕННОЙ"
-      title={group.title}
-      description={
-        group.articles.length === 0
-          ? "Статьи этого раздела в подготовке."
-          : undefined
-      }
-    >
-      {group.articles.length > 0 && (
-        <ul className={styles.articles} role="list">
-          {group.articles.map(({ path, title }) => (
-            <li key={path}>
-              <a className={styles.article} href={siteHref(path)}>
-                {title}
+    <PageShell eyebrow="СТАТЬИ ВСЕЛЕННОЙ" title={group.title}>
+      <ul className={styles.articles} role="list">
+        {articles.map(({ slug, title, status }) => {
+          const pendingId = status === "planned" ? `${slug}-status` : undefined;
+          return (
+            <li key={slug}>
+              <a
+                className={styles.article}
+                href={worldArticleHref(slug)}
+                aria-describedby={pendingId}
+              >
+                <span>{title}</span>
+                {pendingId && (
+                  <span
+                    id={pendingId}
+                    className={styles.status}
+                    aria-hidden="true"
+                  >
+                    В подготовке
+                  </span>
+                )}
               </a>
             </li>
-          ))}
-        </ul>
-      )}
+          );
+        })}
+      </ul>
       <a className={styles.back} href={siteHref("/world")}>
         К обзору мира
       </a>
