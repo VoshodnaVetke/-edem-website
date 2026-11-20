@@ -1,0 +1,27 @@
+.chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  margin-block: 1.5rem;
+}
+.step {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.35rem;
+  padding: 1rem 0.75rem;
+  border: 1px solid var(--edem-color-accent-primary);
+  border-radius: 0.8rem;
+  background: var(--edem-color-surface-primary, transparent);
+  min-width: 0;
+}
+.step strong { font-size: clamp(0.8rem, 2vw, 1.05rem); }
+.step span { font-size: 0.85rem; }
+.step:not(:last-child)::after {
+  content: "↓";
+  position: absolute;
+  top: calc(100% + 0.12rem);
+  font-size: 1.1rem;
+}
