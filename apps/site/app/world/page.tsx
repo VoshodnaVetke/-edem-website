@@ -32,7 +32,7 @@ const firstImpressions = [
       "Верховный понтифик. Государственная религия. Власть, основанная на вере и контроле.",
   },
   {
-    image: "pompeii",
+    image: "social-stratification",
     topic: "daily-life",
     title: "Социальное расслоение",
     description:
@@ -46,7 +46,7 @@ interface WorldTopic {
   placement: "leading" | "trailing" | "panorama" | "compact";
   title: string;
   description: string;
-  images: readonly string[];
+  image: string;
 }
 
 const topics: readonly WorldTopic[] = [
@@ -57,7 +57,7 @@ const topics: readonly WorldTopic[] = [
     title: "Во славу Адама",
     description:
       "Эдемом правит Верховный понтифик Адам. Его власть объединяет государство и религию, а Совет светочей помогает управлять обществом. Для одних Адам — символ стабильности и процветания. Для других — воплощение системы, которая контролирует слишком многое.",
-    images: ["faith"],
+    image: "faith",
   },
   {
     id: "daily-life",
@@ -66,7 +66,7 @@ const topics: readonly WorldTopic[] = [
     title: "Жизнь под контролем",
     description:
       "В Эдеме порядок поддерживают не только полиция и законы. Каждый гражданин обладает социальным рейтингом, а нейрочипы связывают людей с государственной системой. Высокий рейтинг открывает новые возможности, низкий может ограничить привычные права. И практически каждое действие может иметь последствия.",
-    images: ["civic-profile"],
+    image: "civic-profile",
   },
   {
     id: "geography",
@@ -75,7 +75,7 @@ const topics: readonly WorldTopic[] = [
     title: "За пределами идеального города",
     description:
       "За сияющими фасадами Эдема скрывается совсем другая жизнь. В Помпеях действуют криминальные группировки, борющиеся за влияние и территории. А за пределами государства существуют другие города, страны и общества со своими законами, порядками и интересами.",
-    images: ["city-center", "pompeii"],
+    image: "outskirts",
   },
   {
     id: "corporations",
@@ -84,7 +84,7 @@ const topics: readonly WorldTopic[] = [
     title: "Будущее принадлежит не только государству",
     description:
       "Технологии определяют жизнь Эдема, но далеко не все разработки принадлежат государству. Крупные корпорации создают новые устройства, конкурируют за влияние и преследуют собственные интересы. Иногда их решения способны изменить жизнь общества не меньше, чем решения самого Адама.",
-    images: ["laboratory"],
+    image: "laboratory",
   },
   {
     id: "stories",
@@ -93,7 +93,7 @@ const topics: readonly WorldTopic[] = [
     title: "Не все согласны с правилами",
     description:
       "Эдем стремится поддерживать порядок, но интересы государства, корпораций, криминальных организаций и обычных граждан далеко не всегда совпадают. Здесь заключают союзы, борются за власть, нарушают законы и пытаются изменить существующую систему. И не каждый конфликт делит участников на правых и виноватых.",
-    images: ["rally"],
+    image: "rally",
   },
 ];
 
@@ -136,8 +136,9 @@ export default function WorldPage() {
               <Card
                 key={image}
                 className={`edem-span--half ${styles.impression}`}
+                data-artwork={image}
                 cover={
-                  <div className={styles.artwork} data-artwork={image}>
+                  <div className={styles.artwork}>
                     <img
                       src={`${deployment.basePath}/images/world/${image}.webp`}
                       alt=""
@@ -184,7 +185,7 @@ export default function WorldPage() {
           </div>
           <Grid className={styles.topicGrid}>
             {topics.map(
-              ({ id, title, description, frame, placement, images }) => (
+              ({ id, title, description, frame, placement, image }) => (
                 <Card
                   telemetry
                   key={id}
@@ -194,16 +195,13 @@ export default function WorldPage() {
                   aria-labelledby={id}
                   cover={
                     <div className={styles.topicArt}>
-                      {images.map((image) => (
-                        <img
-                          key={image}
-                          src={`${deployment.basePath}/images/world/${image}.webp`}
-                          data-artwork={image}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      ))}
+                      <img
+                        src={`${deployment.basePath}/images/world/${image}.webp`}
+                        data-artwork={image}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </div>
                   }
                 >

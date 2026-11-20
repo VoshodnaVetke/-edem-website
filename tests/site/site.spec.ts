@@ -1315,6 +1315,10 @@ test("the world introduction fits on desktop and stacks on mobile", async ({
     "Адам и вера",
     "Социальное расслоение",
   ]);
+  await expect(cards.nth(3).locator("img")).toHaveAttribute(
+    "src",
+    `${pagesBasePath}/images/world/social-stratification.webp`,
+  );
   const readingLinks = introduction.getByRole("link", {
     name: "Читать статьи",
   });
@@ -1404,18 +1408,22 @@ test("the five world topics use varied layouts and show their illustrations", as
   expect(desktopBoxes[0]!.width).toBeGreaterThan(desktopBoxes[3]!.width);
   expect(desktopBoxes[3]!.y).toBe(desktopBoxes[4]!.y);
 
-  for (const [index, card] of (await cards.all()).entries()) {
+  await expect(cards.nth(2).locator("img")).toHaveAttribute(
+    "src",
+    `${pagesBasePath}/images/world/outskirts.webp`,
+  );
+  await expect(cards.nth(4).locator("img")).toHaveAttribute(
+    "src",
+    `${pagesBasePath}/images/world/rally.webp`,
+  );
+  for (const card of await cards.all()) {
     await card.scrollIntoViewIfNeeded();
-    const images = card.locator("img");
-    await expect(images).toHaveCount(index === 2 ? 2 : 1);
-    for (const image of await images.all()) {
-      expect(
-        await image.evaluate(async (element: HTMLImageElement) => {
-          await element.decode();
-          return element.naturalWidth;
-        }),
-      ).toBeGreaterThan(0);
-    }
+    expect(
+      await card.locator("img").evaluate(async (image: HTMLImageElement) => {
+        await image.decode();
+        return image.naturalWidth;
+      }),
+    ).toBeGreaterThan(0);
   }
 
   await page.setViewportSize({ width: 390, height: 844 });
