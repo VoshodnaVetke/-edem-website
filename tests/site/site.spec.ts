@@ -1252,9 +1252,9 @@ test("workshop formats expand exclusively and the team and contact links fit mob
     ["Алина", "33%"],
     ["Лина", "43%"],
   ]) {
-    const card = team.locator("article").filter({
-      has: team.getByRole("heading", { name }),
-    });
+    const card = team
+      .getByRole("heading", { name, exact: true })
+      .locator("xpath=ancestor::article[1]");
     const photo = card.locator("img");
     await expect(photo).toHaveCSS("position", "absolute");
     await expect(photo).toHaveCSS("object-position", new RegExp(position));
