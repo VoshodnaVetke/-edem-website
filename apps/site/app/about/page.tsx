@@ -12,15 +12,34 @@ interface TeamMember {
   name: string;
   role: string;
   portrait?: string;
+  portraitPosition?: string;
   quote?: string;
   restricted?: boolean;
 }
 
 const team: readonly TeamMember[] = [
-  { name: "Восход", role: "ГМ · Госпожа с Помпей" },
-  { name: "Найт", role: "Квентовик · Журналист" },
-  { name: "Алина", role: "Продюсер" },
-  { name: "Лина", role: "Художник" },
+  {
+    name: "Восход",
+    role: "ГМ · Госпожа с Помпей",
+    portrait: "/images/games/kazino-mefisa/0136-thumb.webp",
+  },
+  {
+    name: "Найт",
+    role: "Квентовик · Журналист",
+    portrait: "/images/games/kazino-mefisa/0141-thumb.webp",
+  },
+  {
+    name: "Алина",
+    role: "Продюсер",
+    portrait: "/images/games/parad-tehnologiy/0064-thumb.webp",
+    portraitPosition: "center 26%",
+  },
+  {
+    name: "Лина",
+    role: "Художник",
+    portrait: "/images/games/kazn-ognya-vechnogo/0587-thumb.webp",
+    portraitPosition: "center 36%",
+  },
   {
     name: "Соня",
     role: "Механик · Разработчик приложения и базы данных Эдема",
@@ -72,49 +91,68 @@ export default function AboutPage() {
           Наша команда
         </Heading>
         <div className={layout.stack}>
-          {team.map(({ name, role, portrait, quote, restricted }) => (
-            <Card
-              key={name}
-              className={styles.member}
-              telemetry
-              accent={restricted ? "violet" : "cyan"}
-            >
-              {restricted ? (
-                <div className={styles.restrictedPortrait}>
-                  <span className={styles.interference} aria-hidden="true">
-                    <PortraitSymbol />
-                  </span>
-                  <GlitchText className={styles.errorCode}>
-                    ERROR 403
-                  </GlitchText>
-                  <Text variant="system">
-                    Доступ к внешности владельца ограничен.
-                  </Text>
-                </div>
-              ) : (
-                <div className={styles.portrait} aria-hidden="true">
-                  {portrait ? (
-                    <img
-                      src={`${deployment.basePath}${portrait}`}
-                      alt=""
-                      loading="lazy"
+          {team.map(
+            ({ name, role, portrait, portraitPosition, quote, restricted }) => (
+              <Card
+                key={name}
+                className={`${styles.member} ${restricted ? styles.restrictedMember : ""}`}
+                telemetry
+                accent={restricted ? "violet" : "cyan"}
+              >
+                {restricted && (
+                  <>
+                    <span
+                      className={styles.cardGlitchBlocks}
+                      aria-hidden="true"
                     />
-                  ) : (
-                    <PortraitSymbol />
+                    <span
+                      className={styles.cardGlitchOffset}
+                      aria-hidden="true"
+                    />
+                  </>
+                )}
+                {restricted ? (
+                  <div className={styles.restrictedPortrait}>
+                    <span className={styles.interference} aria-hidden="true">
+                      <PortraitSymbol />
+                    </span>
+                    <GlitchText className={styles.errorCode}>
+                      ERROR 403
+                    </GlitchText>
+                    <Text variant="system">
+                      Доступ к внешности владельца ограничен.
+                    </Text>
+                  </div>
+                ) : (
+                  <div className={styles.portrait} aria-hidden="true">
+                    {portrait ? (
+                      <img
+                        src={`${deployment.basePath}${portrait}`}
+                        alt=""
+                        loading="lazy"
+                        style={
+                          portraitPosition
+                            ? { objectPosition: portraitPosition }
+                            : undefined
+                        }
+                      />
+                    ) : (
+                      <PortraitSymbol />
+                    )}
+                  </div>
+                )}
+                <div className={styles.profile}>
+                  <Heading level={3}>{name}</Heading>
+                  <Text>{role}</Text>
+                  {quote && (
+                    <blockquote className={styles.quote}>
+                      <Text>{quote}</Text>
+                    </blockquote>
                   )}
                 </div>
-              )}
-              <div className={styles.profile}>
-                <Heading level={3}>{name}</Heading>
-                <Text>{role}</Text>
-                {quote && (
-                  <blockquote className={styles.quote}>
-                    <Text>{quote}</Text>
-                  </blockquote>
-                )}
-              </div>
-            </Card>
-          ))}
+              </Card>
+            ),
+          )}
         </div>
       </section>
 
