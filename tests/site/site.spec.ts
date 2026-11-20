@@ -1248,6 +1248,21 @@ test("workshop formats expand exclusively and the team and contact links fit mob
   expect(photoFrame?.overflow).toBe("clip");
   expect(photoFrame?.contained).toBe(true);
 
+  for (const [name, position] of [
+    ["Алина", "33%"],
+    ["Лина", "43%"],
+  ]) {
+    const card = team.locator("article").filter({
+      has: team.getByRole("heading", { name }),
+    });
+    const photo = card.locator("img");
+    await expect(photo).toHaveCSS("position", "absolute");
+    await expect(photo).toHaveCSS("object-position", new RegExp(position));
+    const media = photo.locator("xpath=..");
+    await expect(media).toHaveCSS("overflow", "clip");
+    await expect(media).toHaveCSS("clip-path", /^polygon\\(/);
+  }
+
   const contact = mobile.getByRole("region", { name: "Создадим игру вместе" });
   await expect(
     contact.getByRole("link", { name: "Заказать игру" }),
