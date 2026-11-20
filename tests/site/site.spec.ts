@@ -1572,7 +1572,7 @@ test("world articles link to approved content and planned pages", async ({
   ).toHaveAttribute("href", exportedPath(articlePath));
 });
 
-test("all 33 encyclopedia entries have permanent routes and topic listings", async ({
+test("encyclopedia articles have permanent routes and topic listings", async ({
   page,
   request,
 }) => {
@@ -1583,7 +1583,7 @@ test("all 33 encyclopedia entries have permanent routes and topic listings", asy
     expect((await page.goto(topicPath))?.status()).toBe(200);
     const main = page.getByRole("main");
     const entries = worldArticleEntries.filter(
-      (entry) => entry.topic === group.slug,
+      (entry) => entry.topic === group.slug && entry.status !== "merged",
     );
     await expect(main.getByRole("heading", { level: 1 })).toHaveText(
       group.title,
@@ -1617,6 +1617,27 @@ test("all 33 encyclopedia entries have permanent routes and topic listings", asy
       }),
     );
   }
+});
+
+test.describe("merged encyclopedia entries", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("the former offences address opens the correct section of the justice article", async ({
+    page,
+  }) => {
+    await page.goto(exportedPath("/world/offences"));
+    await expect(page).toHaveURL(
+      (url) =>
+        url.pathname === exportedPath("/world/justice") &&
+        url.hash === "#offences",
+    );
+    await expect(
+      page.getByRole("heading", {
+        name: "Правонарушения и взыскания",
+        exact: true,
+      }),
+    ).toBeInViewport();
+  });
 });
 
 for (const width of [1440, 390]) {

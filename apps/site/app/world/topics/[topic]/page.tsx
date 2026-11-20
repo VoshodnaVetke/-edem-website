@@ -28,10 +28,12 @@ export default async function WorldArticlesPage({
   const currentTopic = topic === legacyTopic ? "technology" : topic;
   const group = worldArticleGroups.find(({ slug }) => slug === currentTopic);
   if (!group) notFound();
-  const articles = worldArticleEntries.filter((article) =>
-    topic === legacyTopic
-      ? article.slug === "neurochip"
-      : article.topic === group.slug,
+  const articles = worldArticleEntries.filter(
+    (article) =>
+      article.status !== "merged" &&
+      (topic === legacyTopic
+        ? article.slug === "neurochip"
+        : article.topic === group.slug),
   );
 
   return (
