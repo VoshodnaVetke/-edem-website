@@ -115,7 +115,7 @@ test("the homepage leads to the archive and its game galleries", async ({
     expect(await media.boundingBox()).toEqual(
       await card.locator(".edem-frame").boundingBox(),
     );
-    await expect(media).toHaveCSS("clip-path", /url\(/);
+    await expect(media).toHaveCSS("clip-path", /^polygon/);
     if (slug === "kazn-ognya-vechnogo") {
       await card.press("Tab");
       await page.keyboard.press("Shift+Tab");
