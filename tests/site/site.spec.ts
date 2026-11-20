@@ -1261,6 +1261,11 @@ test("workshop formats expand exclusively and the team and contact links fit mob
     const media = photo.locator("xpath=..");
     await expect(media).toHaveCSS("overflow", "clip");
     await expect(media).toHaveCSS("clip-path", /^polygon/);
+    const portrait = media.locator("xpath=..");
+    await expect(portrait.locator(".edem-frame")).toHaveCSS(
+      "transform",
+      "none",
+    );
   }
 
   const contact = mobile.getByRole("region", { name: "Создадим игру вместе" });
