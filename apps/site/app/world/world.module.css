@@ -226,7 +226,7 @@
   object-fit: cover;
 }
 
-.topicArt img[data-artwork="rally"] {
+.topicArt img[data-artwork="pompeii-uprising"] {
   object-position: center top;
   padding-block-start: 0.75rem;
 }

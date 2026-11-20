@@ -1418,7 +1418,7 @@ test("the five world topics use varied layouts and show their illustrations", as
   );
   await expect(cards.nth(4).locator("img")).toHaveAttribute(
     "src",
-    `${pagesBasePath}/images/world/rally.webp`,
+    `${pagesBasePath}/images/world/pompeii-uprising.webp`,
   );
   for (const card of await cards.all()) {
     await card.scrollIntoViewIfNeeded();
