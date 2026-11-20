@@ -389,6 +389,12 @@
   }
 }
 
+.formatIcon picture {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
 .formatIcon img {
   display: block;
   inline-size: 100%;
