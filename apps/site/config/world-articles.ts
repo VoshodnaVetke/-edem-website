@@ -171,7 +171,11 @@ export const worldArticleRegistry = {
   "world-geography": {
     title: "География мира",
     topic: "geography",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Три города Эдема, от Головного офиса Западного города до закрытого Севера.",
+      "Что известно о Нейтральных землях, соседнем Скеосе и далёком острове Атланта.",
+    ],
     related: [
       "western-city",
       "eastern-city",
