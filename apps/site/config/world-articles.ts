@@ -10,6 +10,7 @@ export const worldArticleGroups = [
     artwork: "faith",
     articles: [
       { path: "/world/government", title: "Государственное устройство Эдема" },
+      { path: "/world/higher-path", title: "Высший Путь" },
     ],
   },
   {
@@ -28,7 +29,12 @@ export const worldArticleGroups = [
     description:
       "Ядерная война разрушила прежнюю цивилизацию. Первый Адам объединил выживших и основал Эдем.",
     artwork: null,
-    articles: [],
+    articles: [
+      {
+        path: "/world/history-before-adam",
+        title: "История мира до Адама",
+      },
+    ],
   },
   {
     slug: "technology",

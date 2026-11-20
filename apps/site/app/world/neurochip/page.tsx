@@ -272,7 +272,8 @@ export default function NeurochipArticle() {
             </Heading>
             <Text>
               Свод правонарушений Эдема. Правосудие и исправительная система.
-              Лицензии. Светочи. Высший Путь.
+              Лицензии. Светочи.{" "}
+              <a href={siteHref("/world/higher-path")}>Высший Путь</a>.
             </Text>
             <div className={styles.actions}>
               <ButtonLink href={siteHref("/world") + "#power"}>
