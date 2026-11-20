@@ -100,13 +100,13 @@ export const worldArticleRegistry = {
   beacons: {
     title: "Светочи",
     topic: "power",
-    status: "planned",
+    status: "published",
     related: ["government", "neurochip", "higher-path"],
   },
   licenses: {
     title: "Лицензии",
     topic: "power",
-    status: "planned",
+    status: "published",
     related: [
       "neurochip",
       "science-and-technology",
