@@ -52,7 +52,6 @@
 
 .intro > p,
 .profile > :is(h3, p),
-.quote > p,
 .panel > p {
   margin: 0;
 }
@@ -110,6 +109,44 @@
   --format-accent: var(--edem-color-accent-primary);
 }
 
+.formatCard:focus-within {
+  --format-accent: var(--edem-color-accent-secondary);
+}
+
+.formatCard:focus-within :global(.edem-frame__border) {
+  color: var(--edem-color-accent-secondary);
+  filter: drop-shadow(0 0 0.45rem var(--edem-color-accent-secondary));
+}
+
+.formatCard:focus-within .formatHeading {
+  color: var(--edem-color-accent-secondary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .formatCard:hover {
+    --format-accent: var(--edem-color-accent-secondary);
+  }
+
+  .formatCard:hover :global(.edem-frame__border) {
+    color: var(--edem-color-accent-secondary);
+    filter: drop-shadow(0 0 0.45rem var(--edem-color-accent-secondary));
+  }
+
+  .formatCard:hover .formatHeading {
+    color: var(--edem-color-accent-secondary);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .formatCard :global(.edem-frame__border),
+  .formatHeading,
+  .formatIcon img {
+    transition:
+      color 300ms ease,
+      filter 350ms ease;
+  }
+}
+
 .formatCard[data-accent="violet"] {
   --format-accent: var(--edem-color-accent-secondary);
 }
@@ -130,8 +167,8 @@
   padding: clamp(1.5rem, 8cqi, 2.75rem);
 }
 
-.member :global(.edem-card-content__inner) {
-  padding: clamp(1.125rem, 2.2cqi, 1.625rem);
+.member:global(.edem-card[data-frame="asym"]) :global(.edem-card-content__inner) {
+  padding: clamp(1.5rem, 3cqi, 2.5rem) clamp(2rem, 5cqi, 4rem);
 }
 
 .formatHeading {
@@ -243,16 +280,162 @@
   object-fit: cover;
 }
 
-.profile {
-  display: grid;
-  gap: 0.375rem;
+.teamList {
+  padding-inline: clamp(0.625rem, 2.75vw, 3.25rem);
 }
 
-.quote {
-  margin: 0.5rem 0 0;
-  padding-inline-start: 0.875rem;
-  border-inline-start: 1px solid var(--edem-color-accent-primary);
+.member :global(.edem-frame__border) {
+  color: var(--edem-color-accent-secondary);
+  filter: drop-shadow(
+    0 0 0.18rem color-mix(in srgb, var(--edem-color-accent-secondary) 25%, transparent)
+  );
+}
+
+.member :global(.edem-frame__border path) {
+  stroke-width: 1.15;
+}
+
+.member :global(.edem-frame__inner) {
+  color: var(--edem-color-accent-secondary);
+  opacity: 0.28;
+}
+
+.member:nth-child(3n + 2) :global(.edem-frame) {
+  transform: scaleX(-1);
+}
+
+.member:nth-child(3n + 3) :global(.edem-frame) {
+  transform: rotate(180deg);
+}
+
+.profile {
+  display: grid;
+  gap: 0.5rem;
+  min-inline-size: 0;
+  align-self: stretch;
+  align-content: center;
+}
+
+.roleLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.roleLine p {
+  margin: 0;
+}
+
+.roleNote {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--edem-color-accent-secondary);
+  color: var(--edem-color-accent-secondary);
+  font: 700 0.75rem/1.4 var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.story {
+  min-inline-size: 0;
+  margin: clamp(0.7rem, 1.5cqi, 1.1rem) 0 0;
+  padding-inline-start: clamp(0.75rem, 2cqi, 1.25rem);
+  border-inline-start: 1px solid
+    color-mix(in srgb, var(--edem-color-accent-secondary) 75%, transparent);
+  color: var(--edem-color-text-primary);
+  font-family: "Segoe Print", "Comic Sans MS", "Bradley Hand", cursive;
+  overflow-wrap: anywhere;
+}
+
+.story p {
+  margin: 0;
+}
+
+.storyLine {
+  font-size: clamp(1rem, 1.6cqi, 1.4rem);
+  line-height: 1.5;
+}
+
+.storyLine + .storyLine {
+  margin-block-start: 0.625rem;
+}
+
+.storyLine strong {
+  color: var(--edem-color-accent-secondary);
+  font-family: var(--font-body);
+  font-size: 0.85em;
+  font-weight: 700;
+}
+
+.storySingle {
+  font-size: clamp(1.25rem, 2.6cqi, 2rem);
+  line-height: 1.45;
+}
+
+.storyPunchline {
+  color: var(--edem-color-text-heading);
+  font-size: clamp(1.15rem, 2cqi, 1.7rem);
+  text-shadow: 0 0 1.15rem var(--edem-color-ambient-violet);
+}
+
+.restrictedMember .storyPunchline {
+  font-size: clamp(1rem, 1.7cqi, 1.35rem);
+}
+
+.epitaph {
+  display: grid;
+  place-items: center;
+  margin-block: clamp(0.75rem, 2cqi, 1.5rem);
+  padding-block: clamp(0.75rem, 2cqi, 1.5rem);
+  border-block: 1px solid
+    color-mix(in srgb, var(--edem-color-accent-secondary) 58%, transparent);
+  text-align: center;
+}
+
+.epitaph span {
+  color: var(--edem-color-text-heading);
+  font-family: "Old English Text MT", "Cloister Black", Georgia, serif;
+  font-size: clamp(2.4rem, 6cqi, 4.75rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.07em;
+  text-shadow:
+    0 2px 0 var(--edem-color-background),
+    0 0 1.25rem color-mix(in srgb, var(--edem-color-accent-secondary) 35%, transparent);
+}
+
+.vkLink {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  align-self: end;
+  gap: 0.45rem;
+  margin-block-start: clamp(0.75rem, 2cqi, 1.5rem);
   color: var(--edem-color-text-secondary);
+  font: 600 0.875rem/1.3 var(--font-body);
+  text-decoration: none;
+  text-underline-offset: 0.2em;
+}
+
+.vkLink svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  flex: none;
+  color: var(--edem-color-accent-secondary);
+}
+
+.vkLink:is(:hover, :focus-visible) {
+  color: var(--edem-color-accent-secondary);
+  text-decoration: underline;
+  text-shadow: 0 0 0.6rem var(--edem-color-accent-secondary);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vkLink {
+    transition:
+      color 220ms ease,
+      text-shadow 220ms ease;
+  }
 }
 
 .restrictedPortrait {
