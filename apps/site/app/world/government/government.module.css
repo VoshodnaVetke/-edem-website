@@ -17,8 +17,12 @@
   background: var(--edem-color-surface-primary, transparent);
   min-width: 0;
 }
-.step strong { font-size: clamp(0.8rem, 2vw, 1.05rem); }
-.step span { font-size: 0.85rem; }
+.step strong {
+  font-size: clamp(0.8rem, 2vw, 1.05rem);
+}
+.step span {
+  font-size: 0.85rem;
+}
 .step:not(:last-child)::after {
   content: "↓";
   position: absolute;

@@ -1444,14 +1444,12 @@ test("the world article has working contents and related links", async ({
 
   await page.setViewportSize({ width: 390, height: 844 });
   const contents = page.getByRole("navigation", { name: "Оглавление статьи" });
-  await contents
-    .getByRole("link", { name: "Как работает социальный рейтинг" })
-    .click();
-  await expect(page).toHaveURL((url) => url.hash === "#rating");
+  await contents.getByRole("link", { name: "Политические права" }).click();
+  await expect(page).toHaveURL((url) => url.hash === "#rights");
   await expect(page.getByText("300 баллов", { exact: true })).toBeVisible();
   await expect(page.getByText("700 баллов", { exact: true })).toBeVisible();
 
-  await page.getByRole("link", { name: "Власть и государство" }).click();
+  await page.getByRole("link", { name: "Государство и власть" }).click();
   await expect(page).toHaveURL(
     (url) => url.pathname === exportedPath("/world") && url.hash === "#power",
   );
