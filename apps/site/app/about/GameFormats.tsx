@@ -258,14 +258,20 @@ export function GameFormats() {
                     onClick={(event) => toggle(id, event.currentTarget)}
                   >
                     <span className={styles.formatIcon} aria-hidden="true">
-                      <img
-                        src={`${deployment.basePath}/images/about/${icon}.gif`}
-                        alt=""
-                        width={80}
-                        height={80}
-                        loading="lazy"
-                        decoding="async"
-                      />
+                      <picture>
+                        <source
+                          media="(prefers-reduced-motion: reduce)"
+                          srcSet={`${deployment.basePath}/images/about/${icon}.png`}
+                        />
+                        <img
+                          src={`${deployment.basePath}/images/about/${icon}.gif`}
+                          alt=""
+                          width={80}
+                          height={80}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </picture>
                     </span>
                     <span id={label}>{title}</span>
                   </button>
