@@ -1,9 +1,11 @@
 "use client";
 
-import { ButtonLink, Heading, Reading } from "@edem/ui";
+import { Heading, Reading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
+import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
+import { RelatedWorldArticles } from "../RelatedWorldArticles";
 
 export default function HigherPathArticle() {
   return (
@@ -67,10 +69,13 @@ export default function HigherPathArticle() {
               положение известно как Право Светоча.
             </p>
             <p>
-              В официальной речи <strong>Хищниками</strong> называют тех, кого
-              считают противниками Высшего Пути и обвиняют в распространении
-              ереси или смуты. Это обозначение употреблялось и в отношении
-              участников восстаний.
+              В официальной речи{" "}
+              <a href={worldArticleHref("criminal-organizations")}>
+                <strong>Хищниками</strong>
+              </a>{" "}
+              называют тех, кого считают противниками Высшего Пути и обвиняют в
+              распространении ереси или смуты. Это обозначение употреблялось и в
+              отношении участников восстаний.
             </p>
           </section>
 
@@ -154,19 +159,7 @@ export default function HigherPathArticle() {
           </section>
         </Reading>
 
-        <section aria-labelledby="related" className={styles.stack}>
-          <Heading level={2} id="related">
-            Связанные статьи
-          </Heading>
-          <div className={styles.actions}>
-            <ButtonLink href={siteHref("/world/government")}>
-              Государственное устройство Эдема
-            </ButtonLink>
-            <ButtonLink href={siteHref("/world/history-before-adam")}>
-              История мира до Адама
-            </ButtonLink>
-          </div>
-        </section>
+        <RelatedWorldArticles slug="higher-path" />
       </article>
     </PageShell>
   );

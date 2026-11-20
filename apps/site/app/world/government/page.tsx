@@ -3,7 +3,9 @@
 import { ButtonLink, Card, Grid, Heading, Reading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
+import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
+import { RelatedWorldArticles } from "../RelatedWorldArticles";
 import diagram from "./government.module.css";
 
 const contents = [
@@ -277,32 +279,30 @@ export default function GovernmentArticle() {
               </p>
               <p>
                 Для исправления правонарушителей в Эдеме действуют{" "}
-                <strong>
+                <a href={worldArticleHref("rehabilitation-institutions")}>
                   учреждения по восстановлению благонадёжности (УВБ)
-                </strong>
+                </a>
                 , предназначенные для их исправления и возвращения к полноценной
                 общественной жизни.
               </p>
               <p>
-                Подробности работы правоохранительных органов, судебных процедур
-                и видов наказаний изложены в материалах «Правосудие и
-                исправительная система Эдема» и «Свод правонарушений Эдема».
-                Отдельные страницы для этих материалов находятся в подготовке.
+                Материалы о работе правоохранительных органов, судебных
+                процедурах и видах наказаний готовятся для статей{" "}
+                <a href={worldArticleHref("justice")}>
+                  «Правосудие и исправительная система»
+                </a>{" "}
+                и{" "}
+                <a href={worldArticleHref("offences")}>
+                  «Свод правонарушений Эдема»
+                </a>
+                .
               </p>
             </section>
           </Reading>
 
-          <section aria-labelledby="related" className={styles.stack}>
-            <Heading level={2} id="related">
-              Связанные статьи
-            </Heading>
-            <div className={styles.actions}>
-              <ButtonLink href={siteHref("/world/neurochip")}>
-                Социальный рейтинг и нейрочип
-              </ButtonLink>
-              <ButtonLink href={siteHref("/world")}>К обзору мира</ButtonLink>
-            </div>
-          </section>
+          <RelatedWorldArticles slug="government">
+            <ButtonLink href={siteHref("/world")}>К обзору мира</ButtonLink>
+          </RelatedWorldArticles>
         </article>
       </Grid>
     </PageShell>

@@ -1,9 +1,10 @@
 "use client";
 
-import { ButtonLink, Heading, Reading } from "@edem/ui";
+import { Heading, Reading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
 import styles from "../../../styles/page-layout.module.css";
+import { RelatedWorldArticles } from "../RelatedWorldArticles";
 
 export default function HistoryBeforeAdamArticle() {
   return (
@@ -66,19 +67,7 @@ export default function HistoryBeforeAdamArticle() {
           </section>
         </Reading>
 
-        <section aria-labelledby="related" className={styles.stack}>
-          <Heading level={2} id="related">
-            Связанные статьи
-          </Heading>
-          <div className={styles.actions}>
-            <ButtonLink href={siteHref("/world/higher-path")}>
-              Высший Путь
-            </ButtonLink>
-            <ButtonLink href={siteHref("/world/government")}>
-              Государственное устройство Эдема
-            </ButtonLink>
-          </div>
-        </section>
+        <RelatedWorldArticles slug="history-before-adam" />
       </article>
     </PageShell>
   );

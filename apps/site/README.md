@@ -36,6 +36,12 @@ EDEM_SITE_URL=https://voshodnavetke.github.io/-edem-website/ npm run test:site
 
 Переменная `EDEM_SITE_REVISION` задаёт ожидаемый SHA коммита. В GitHub Actions тот же SHA добавляется в HTML при сборке.
 
+## Статьи энциклопедии
+
+Названия, разделы, адреса и связи статей берутся из `config/world-articles.ts`. Записи со статусом `planned` собираются на постоянных адресах `/world/<slug>/` и показывают пометку «Статья в подготовке».
+
+После утверждения текста добавьте `app/world/<slug>/page.tsx` и смените статус той же записи на `published`. Списки и связанные материалы продолжат использовать прежний адрес.
+
 ## Общая компоновка и доступность (шаг 3)
 
 - `app/layout.tsx` однократно импортирует `@edem/ui/styles.css`, `@edem/ui/fonts.css` и локальный `app/globals.css`.
