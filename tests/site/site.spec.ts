@@ -1231,14 +1231,8 @@ test("workshop formats expand exclusively and the team and contact links fit mob
   for (let index = 0; index < 4; index++) {
     await expect(portraits.nth(index)).toHaveCSS("position", "absolute");
   }
-  const alinaPortrait = team
-    .locator("article")
-    .filter({ has: mobile.getByRole("heading", { level: 3, name: "Алина", exact: true }) })
-    .locator("img");
-  const linaPortrait = team
-    .locator("article")
-    .filter({ has: mobile.getByRole("heading", { level: 3, name: "Лина", exact: true }) })
-    .locator("img");
+  const alinaPortrait = portraits.nth(1);
+  const linaPortrait = portraits.nth(2);
   await expect(alinaPortrait).toHaveCSS("object-position", "50% 32%");
   await expect(linaPortrait).toHaveCSS("object-position", "50% 41%");
 
