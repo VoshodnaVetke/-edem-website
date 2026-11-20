@@ -188,7 +188,11 @@ export const worldArticleRegistry = {
   "western-city": {
     title: "Западный город",
     topic: "geography",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Как устроены районы Западного города и на чём по нему ездят.",
+      "Как живут в Помпеях и почему туда приезжают даже граждане с высоким рейтингом.",
+    ],
     related: [
       "pompeii",
       "world-geography",
@@ -199,7 +203,11 @@ export const worldArticleRegistry = {
   "eastern-city": {
     title: "Восточный город",
     topic: "geography",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Как наследие довоенной Азии сохранилось в архитектуре и уличной моде.",
+      "Что известно о картеле «Мьянма» из городской хроники.",
+    ],
     related: [
       "world-geography",
       "myanmar",
