@@ -386,11 +386,15 @@
   opacity: 0.28;
 }
 
-.member:nth-child(3n + 2) :global(.edem-frame) {
+.member:nth-child(3n + 2)
+  > :global(.edem-card-content)
+  > :global(.edem-frame) {
   transform: scaleX(-1);
 }
 
-.member:nth-child(3n + 3) :global(.edem-frame) {
+.member:nth-child(3n + 3)
+  > :global(.edem-card-content)
+  > :global(.edem-frame) {
   transform: rotate(180deg);
 }
 
