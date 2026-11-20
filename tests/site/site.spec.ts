@@ -1223,8 +1223,30 @@ test("workshop formats expand exclusively and the team and contact links fit mob
     team.getByText("Доступ к внешности владельца ограничен."),
   ).toBeVisible();
   await expect(
-    team.getByText("Механик · Разработчик приложения и базы данных Эдема"),
+    team.getByText("Разработчик приложения, базы данных и экономики Эдема"),
   ).toBeVisible();
+
+  const firstPhoto = team.locator("article img").first();
+  await expect(firstPhoto).toBeVisible();
+  const photoFrame = await firstPhoto.evaluate((image) => {
+    const frame = image.parentElement;
+    const card = image.closest("article");
+    if (!frame || !card) return null;
+    const photoRect = frame.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    return {
+      clip: getComputedStyle(frame).clipPath,
+      overflow: getComputedStyle(frame).overflow,
+      contained:
+        photoRect.left >= cardRect.left &&
+        photoRect.right <= cardRect.right &&
+        photoRect.top >= cardRect.top &&
+        photoRect.bottom <= cardRect.bottom,
+    };
+  });
+  expect(photoFrame?.clip).toMatch(/^polygon\\(/);
+  expect(photoFrame?.overflow).toBe("clip");
+  expect(photoFrame?.contained).toBe(true);
 
   const contact = mobile.getByRole("region", { name: "Создадим игру вместе" });
   await expect(
@@ -1259,6 +1281,8 @@ test("workshop format autoplay advances in order and can be stopped", async ({
 
   await chamber.hover();
   await page.clock.fastForward(5_000);
+  await expect(chamber).toHaveAttribute("aria-expanded", "true");
+  await page.clock.fastForward(4_250);
   await expect(field).toHaveAttribute("aria-expanded", "true");
   await expect(autoplay).toHaveAttribute("aria-pressed", "true");
 
