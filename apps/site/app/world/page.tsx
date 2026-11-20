@@ -12,27 +12,27 @@ import styles from "./world.module.css";
 
 const firstImpressions = [
   {
-    id: "cyberpunk",
+    image: "neighborhood",
     topic: "corporations",
     title: "Киберпанк",
     description: "Импланты. Нейрочипы. Корпорации. Технологии будущего.",
   },
   {
-    id: "rating",
+    image: "civic-profile",
     topic: "daily-life",
     title: "Социальный рейтинг",
     description:
       "Твоя репутация измеряется баллами. И от них зависит твоё место в обществе.",
   },
   {
-    id: "faith",
+    image: "faith",
     topic: "power",
     title: "Адам и вера",
     description:
       "Верховный понтифик. Государственная религия. Власть, основанная на вере и контроле.",
   },
   {
-    id: "conflict",
+    image: "pompeii",
     topic: "daily-life",
     title: "Социальное расслоение",
     description:
@@ -66,7 +66,7 @@ const topics: readonly WorldTopic[] = [
     title: "Жизнь под контролем",
     description:
       "В Эдеме порядок поддерживают не только полиция и законы. Каждый гражданин обладает социальным рейтингом, а нейрочипы связывают людей с государственной системой. Высокий рейтинг открывает новые возможности, низкий может ограничить привычные права. И практически каждое действие может иметь последствия.",
-    images: ["rating"],
+    images: ["civic-profile"],
   },
   {
     id: "geography",
@@ -75,7 +75,7 @@ const topics: readonly WorldTopic[] = [
     title: "За пределами идеального города",
     description:
       "За сияющими фасадами Эдема скрывается совсем другая жизнь. В Помпеях действуют криминальные группировки, борющиеся за влияние и территории. А за пределами государства существуют другие города, страны и общества со своими законами, порядками и интересами.",
-    images: ["cyberpunk", "conflict"],
+    images: ["city-center", "pompeii"],
   },
   {
     id: "corporations",
@@ -93,7 +93,7 @@ const topics: readonly WorldTopic[] = [
     title: "Не все согласны с правилами",
     description:
       "Эдем стремится поддерживать порядок, но интересы государства, корпораций, криминальных организаций и обычных граждан далеко не всегда совпадают. Здесь заключают союзы, борются за власть, нарушают законы и пытаются изменить существующую систему. И не каждый конфликт делит участников на правых и виноватых.",
-    images: ["district"],
+    images: ["rally"],
   },
 ];
 
@@ -132,18 +132,18 @@ export default function WorldPage() {
           </div>
 
           <Grid className={styles.impressions}>
-            {firstImpressions.map(({ id, title, description, topic }) => (
+            {firstImpressions.map(({ image, title, description, topic }) => (
               <Card
-                key={id}
+                key={image}
                 className={`edem-span--half ${styles.impression}`}
                 cover={
-                  <div className={styles.artwork} data-topic={id}>
+                  <div className={styles.artwork} data-artwork={image}>
                     <img
-                      src={`${deployment.basePath}/images/world/${id}.webp`}
+                      src={`${deployment.basePath}/images/world/${image}.webp`}
                       alt=""
                       decoding="async"
                     />
-                    {id === "rating" && (
+                    {image === "civic-profile" && (
                       <div className={styles.citizenProfile}>
                         ПРОФИЛЬ ГРАЖДАНИНА
                         <span />
@@ -198,6 +198,7 @@ export default function WorldPage() {
                         <img
                           key={image}
                           src={`${deployment.basePath}/images/world/${image}.webp`}
+                          data-artwork={image}
                           alt=""
                           loading="lazy"
                           decoding="async"

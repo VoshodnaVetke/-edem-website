@@ -123,12 +123,8 @@
   object-fit: cover;
 }
 
-.artwork[data-topic="cyberpunk"] img {
+.artwork[data-artwork="neighborhood"] img {
   object-position: center 54%;
-}
-
-.artwork[data-topic="rating"] img {
-  object-position: center 42%;
 }
 
 .citizenProfile {
@@ -181,6 +177,10 @@
   --topic-art-height: clamp(10rem, 24vw, 17rem);
 }
 
+.topic[data-placement="compact"] {
+  --topic-art-height: clamp(10.25rem, 54cqi, 19rem);
+}
+
 .topic :global(.edem-card-content) {
   display: flex;
   inline-size: 100%;
@@ -221,8 +221,12 @@
   object-fit: cover;
 }
 
-.topic[data-placement="trailing"] .topicArt img {
-  object-position: center 42%;
+.topicArt img[data-artwork="rally"] {
+  object-position: center top;
+}
+
+.topicArt img[data-artwork="pompeii"] {
+  object-position: center 33%;
 }
 
 .topicCopy {
