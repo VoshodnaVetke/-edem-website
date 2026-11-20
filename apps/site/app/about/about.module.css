@@ -321,6 +321,24 @@
   aspect-ratio: 4 / 3;
   min-block-size: 0;
   color: var(--edem-color-accent-primary);
+}
+
+.portraitMedia {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  /* The photo and its underlay stop *inside* the irregular purple stroke. */
+  clip-path: polygon(
+    3% 14.5%,
+    10% 4.5%,
+    65.5% 4.5%,
+    69% 8.5%,
+    96.5% 8.5%,
+    96.5% 77.5%,
+    89.5% 95%,
+    3% 95%
+  );
+  background-color: var(--edem-color-surface);
   background-image:
     repeating-linear-gradient(
       0deg,
@@ -334,12 +352,14 @@
     );
 }
 
-.portrait > svg:first-child,
+.portraitMedia > svg,
 .interference svg {
   inline-size: clamp(2rem, 10cqi, 3.25rem);
 }
 
-.portrait img {
+.portraitMedia img {
+  position: absolute;
+  inset: 0;
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
@@ -366,11 +386,11 @@
   opacity: 0.28;
 }
 
-.member:nth-child(3n + 2) :global(.edem-frame) {
+.member:nth-child(3n + 2) > :global(.edem-card-content) > :global(.edem-frame) {
   transform: scaleX(-1);
 }
 
-.member:nth-child(3n + 3) :global(.edem-frame) {
+.member:nth-child(3n + 3) > :global(.edem-card-content) > :global(.edem-frame) {
   transform: rotate(180deg);
 }
 

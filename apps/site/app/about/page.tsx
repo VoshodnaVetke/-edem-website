@@ -58,7 +58,7 @@ const team: readonly TeamMember[] = [
     name: "Алина",
     role: "Продюсер",
     portrait: "/images/games/parad-tehnologiy/0064-thumb.webp",
-    portraitPosition: "center 26%",
+    portraitPosition: "center 33%",
     story: {
       type: "dialogue",
       lines: [
@@ -74,7 +74,7 @@ const team: readonly TeamMember[] = [
     name: "Лина",
     role: "Художник",
     portrait: "/images/games/kazn-ognya-vechnogo/0587-thumb.webp",
-    portraitPosition: "center 36%",
+    portraitPosition: "center 43%",
     story: {
       type: "single",
       text: "Давайте без доведения до самоубийства, у нас всё ещё игра 16+.",
@@ -233,20 +233,22 @@ export default function AboutPage() {
                   </div>
                 ) : (
                   <div className={styles.portrait} aria-hidden="true">
-                    {portrait ? (
-                      <img
-                        src={`${deployment.basePath}${portrait}`}
-                        alt=""
-                        loading="lazy"
-                        style={
-                          portraitPosition
-                            ? { objectPosition: portraitPosition }
-                            : undefined
-                        }
-                      />
-                    ) : (
-                      <PortraitSymbol />
-                    )}
+                    <div className={styles.portraitMedia}>
+                      {portrait ? (
+                        <img
+                          src={`${deployment.basePath}${portrait}`}
+                          alt=""
+                          loading="lazy"
+                          style={
+                            portraitPosition
+                              ? { objectPosition: portraitPosition }
+                              : undefined
+                          }
+                        />
+                      ) : (
+                        <PortraitSymbol />
+                      )}
+                    </div>
                     <Frame variant="asym" />
                   </div>
                 )}
