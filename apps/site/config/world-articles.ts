@@ -60,9 +60,11 @@ export function worldArticlesHref(topic: WorldArticleTopic): string {
 type WorldArticle = {
   title: string;
   topic: WorldArticleTopic;
-  status: "planned" | "published";
   related: readonly string[];
-};
+} & (
+  | { status: "planned" | "published" }
+  | { status: "merged"; target: { slug: string; section: string } }
+);
 
 export const worldArticleRegistry = {
   government: {
@@ -78,7 +80,6 @@ export const worldArticleRegistry = {
     related: [
       "beacons",
       "licenses",
-      "offences",
       "science-and-technology",
       "government",
       "justice",
@@ -116,7 +117,8 @@ export const worldArticleRegistry = {
   offences: {
     title: "Свод правонарушений Эдема",
     topic: "power",
-    status: "planned",
+    status: "merged",
+    target: { slug: "justice", section: "offences" },
     related: [
       "justice",
       "neurochip",
@@ -127,19 +129,19 @@ export const worldArticleRegistry = {
   justice: {
     title: "Правосудие и исправительная система",
     topic: "power",
-    status: "planned",
+    status: "published",
     related: [
       "government",
-      "offences",
-      "rehabilitation-institutions",
       "neurochip",
+      "licenses",
+      "rehabilitation-institutions",
     ],
   },
   "rehabilitation-institutions": {
     title: "Учреждения по восстановлению благонадёжности",
     topic: "power",
     status: "planned",
-    related: ["justice", "offences", "northern-city", "neurochip"],
+    related: ["justice", "northern-city", "neurochip"],
   },
   "world-geography": {
     title: "География мира",
@@ -387,5 +389,11 @@ export const worldArticleEntries = (
 ).map((slug) => ({ slug, ...worldArticleRegistry[slug] }));
 
 export function worldArticleHref(slug: WorldArticleSlug): string {
+  const article = worldArticleRegistry[slug];
+  if (article.status === "merged") {
+    return (
+      siteHref(`/world/${article.target.slug}`) + `#${article.target.section}`
+    );
+  }
   return siteHref(`/world/${slug}`);
 }
