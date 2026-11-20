@@ -18,6 +18,7 @@
     "build:site": "npm run build -w @edem/ui && npm run build -w @edem/site",
     "start:site": "npm run start -w @edem/site",
     "test:site": "playwright test -c playwright.site.config.ts",
+    "test:site:smoke": "npm run test:site -- --grep @pages-smoke",
     "merge:site": "node scripts/merge-site-pr.mjs"
   },
   "devDependencies": {
