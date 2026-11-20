@@ -228,7 +228,11 @@ export const worldArticleRegistry = {
   pompeii: {
     title: "Помпеи",
     topic: "geography",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Почему в бедный район Западного города приезжают за покупками и развлечениями.",
+      "Что рассказывали о казино Мефиса и «Борделе Мокси» городские газеты.",
+    ],
     related: [
       "western-city",
       "criminal-organizations",
