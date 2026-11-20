@@ -1342,8 +1342,11 @@ test("the world overview introduces six encyclopedia sections", async ({
   await expect(cards.getByRole("heading", { level: 3 })).toHaveText(
     expected.map(([, , title]) => title),
   );
-  await expect(cards.nth(0)).toBeInViewport({ ratio: 1 });
-  await expect(cards.nth(2)).toBeInViewport({ ratio: 1 });
+  for (const index of [0, 1]) {
+    await expect(cards.nth(index).getByRole("heading")).toBeInViewport({
+      ratio: 1,
+    });
+  }
 
   for (const [index, [slug, category, , artwork]] of expected.entries()) {
     const card = cards.nth(index);
@@ -1376,7 +1379,7 @@ test("the world overview introduces six encyclopedia sections", async ({
   }
 });
 
-test("world cards have three, two and one columns with aligned actions", async ({
+test("world cards have prominent artwork and aligned actions across two or one columns", async ({
   page,
 }) => {
   await page.goto(exportedPath("/world"));
@@ -1384,9 +1387,11 @@ test("world cards have three, two and one columns with aligned actions", async (
     .getByRole("region", { name: "Разделы энциклопедии" })
     .getByRole("article");
   for (const [width, columns] of [
-    [1280, 3],
-    [1199, 2],
+    [1440, 2],
+    [1280, 2],
     [768, 2],
+    [651, 2],
+    [650, 1],
     [390, 1],
     [320, 1],
   ]) {
@@ -1396,7 +1401,15 @@ test("world cards have three, two and one columns with aligned actions", async (
       elements.map((card) => {
         const { x, y, height } = card.getBoundingClientRect();
         const link = card.querySelector("a")!.getBoundingClientRect();
-        return { x, y, height, actionBottom: link.bottom };
+        const artwork = card.querySelector("[data-artwork]")!;
+        return {
+          x,
+          y,
+          height,
+          actionBottom: link.bottom,
+          actionHeight: link.height,
+          artworkHeight: artwork.getBoundingClientRect().height,
+        };
       }),
     );
     expect(
@@ -1408,6 +1421,10 @@ test("world cards have three, two and one columns with aligned actions", async (
       expect(current.y).toBe(row.y);
       expect(current.height).toBeCloseTo(row.height, 0);
       expect(current.actionBottom).toBeCloseTo(row.actionBottom, 0);
+      expect(current.actionHeight).toBeGreaterThanOrEqual(44);
+      expect(current.artworkHeight).toBeGreaterThanOrEqual(
+        width >= 1280 ? 200 : 120,
+      );
       if (index % columns === 0 && index > 0) {
         expect(current.x).toBe(boxes[0].x);
         const previous = boxes[index - columns];

@@ -52,7 +52,7 @@ export default function WorldPage() {
           </Heading>
           <Grid className={styles.directory}>
             {worldArticleGroups.map(
-              ({ slug, title, heading, description, artwork }) => (
+              ({ slug, title, heading, description, artwork }, index) => (
                 <Card
                   key={slug}
                   className={styles.topic}
@@ -67,7 +67,7 @@ export default function WorldPage() {
                         <img
                           src={`${deployment.basePath}/images/world/${artwork}.webp`}
                           alt=""
-                          loading="lazy"
+                          loading={index === 0 ? "eager" : "lazy"}
                           decoding="async"
                         />
                       ) : (
@@ -95,7 +95,7 @@ export default function WorldPage() {
                       href={worldArticlesHref(slug)}
                       aria-label={`Читать статьи — ${title}`}
                     >
-                      Читать статьи
+                      Читать статьи <span aria-hidden="true">→</span>
                     </ButtonLink>
                   </div>
                 </Card>
