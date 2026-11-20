@@ -285,14 +285,9 @@ test("detail cards show telemetry and only the footer uses a decorative divider"
     "/games/parad-tehnologiy",
   ]) {
     await page.goto(exportedPath(route));
-    const cards =
-      route === "/world"
-        ? page
-            .getByRole("region", { name: "Загляни глубже" })
-            .getByRole("article")
-        : page.locator("main .edem-card");
+    const cards = page.locator("main .edem-card");
     await expect(cards.locator(".edem-card-telemetry")).toHaveCount(
-      await cards.count(),
+      route === "/world" ? 0 : await cards.count(),
     );
     await expect(page.locator("main .edem-vector-divider")).toHaveCount(0);
     const footerDivider = page.locator("footer .edem-vector-divider");
@@ -578,14 +573,19 @@ test("cold page renders styled content while scripts are still loading", async (
       "background-color",
       "rgb(5, 7, 12)",
     );
+    const articles = page.getByRole("link", {
+      name: "Читать статьи — Государство и общество",
+    });
+    await expect(articles).toBeVisible();
+    await expect(articles).toHaveAttribute(
+      "href",
+      exportedPath("/world/topics/power"),
+    );
     await expect(page.locator(".site-progress[data-progress]")).toHaveCount(0);
   } finally {
     resume();
   }
   await expect(page.locator(".site-progress[data-progress]")).toHaveCount(1);
-  await expect(
-    page.locator('.edem-card-content[data-entered="true"]').first(),
-  ).toHaveCSS("animation-name", "site-card-appear");
 });
 
 test("the tree extends past the top and left edges and respects reduced motion", async ({
@@ -757,7 +757,7 @@ test("anchor navigation tracks the current heading and respects reduced motion",
   await page.setViewportSize({ width: 1600, height: 860 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const [route, label, id] of [
-    ["/world", "Загляни глубже", "world-topics"],
+    ["/world", "Разделы энциклопедии", "world-topics"],
     ["/games/parad-tehnologiy", "Фотографии", "game-photos"],
   ]) {
     await page.goto(exportedPath(route));
@@ -1299,146 +1299,123 @@ test("public pages and their internal links resolve", async ({
   await expect(page.locator("form")).toHaveCount(0);
 });
 
-test("the world introduction fits on desktop and stacks on mobile", async ({
+test("the world overview introduces six encyclopedia sections", async ({
   page,
 }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto(exportedPath("/world"));
   await page.evaluate(() => document.fonts.ready);
 
-  const introduction = page.getByRole("region", { name: worldTitle });
-  const cards = introduction.getByRole("article");
-  await expect(cards.getByRole("heading", { level: 2 })).toHaveText([
-    "Киберпанк",
-    "Социальный рейтинг",
-    "Адам и вера",
-    "Социальное расслоение",
-  ]);
-  await expect(cards.nth(0).locator("img")).toHaveAttribute(
-    "src",
-    `${pagesBasePath}/images/world/cyberpunk-expo.webp`,
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(worldTitle);
+  await expect(
+    page.getByText(
+      "Мир будущего. Высокие технологии. Социальный рейтинг. Религия, ставшая властью.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  const directory = page.getByRole("region", { name: "Разделы энциклопедии" });
+  const cards = directory.getByRole("article");
+  const expected = [
+    ["power", "Государство и общество", "Во славу Адама!", "faith"],
+    ["geography", "Мир и география", "От небоскрёбов до пустошей", "outskirts"],
+    ["history", "История", "Мир после конца света", null],
+    [
+      "technology",
+      "Наука и технологии",
+      "Будущее на каждом шагу",
+      "civic-profile",
+    ],
+    [
+      "corporations",
+      "Корпорации",
+      "У будущего есть владельцы",
+      "cyberpunk-expo",
+    ],
+    [
+      "stories",
+      "Организации и группировки",
+      "Не все согласны с правилами",
+      "pompeii-uprising",
+    ],
+  ] as const;
+  await expect(page.getByRole("main").getByRole("article")).toHaveCount(6);
+  await expect(cards.getByRole("heading", { level: 3 })).toHaveText(
+    expected.map(([, , title]) => title),
   );
-  await expect(cards.nth(3).locator("img")).toHaveAttribute(
-    "src",
-    `${pagesBasePath}/images/world/social-stratification.webp`,
-  );
-  const readingLinks = introduction.getByRole("link", {
-    name: "Читать статьи",
-  });
-  await expect(readingLinks).toHaveCount(4);
-  const targets = ["corporations", "daily-life", "power", "daily-life"];
-  for (const [index, target] of targets.entries()) {
-    const link = cards.nth(index).getByRole("link", { name: "Читать статьи" });
+  await expect(cards.nth(0)).toBeInViewport({ ratio: 1 });
+  await expect(cards.nth(2)).toBeInViewport({ ratio: 1 });
+
+  for (const [index, [slug, category, , artwork]] of expected.entries()) {
+    const card = cards.nth(index);
+    await expect(card.getByText(category, { exact: true })).toBeVisible();
+    const link = card.getByRole("link", {
+      name: `Читать статьи — ${category}`,
+    });
     await expect(link).toHaveAttribute(
       "href",
-      exportedPath(`/world/topics/${target}`),
+      exportedPath(`/world/topics/${slug}`),
     );
-    await expect(link).toBeInViewport({ ratio: 1 });
-  }
-  await expect(introduction.locator(".edem-card-telemetry")).toHaveCount(0);
-  for (const card of await cards.all()) {
-    await expect(card).toBeInViewport({ ratio: 1 });
-    await expect(card.locator(".edem-card-media")).toHaveCSS(
-      "clip-path",
-      /url\(/,
-    );
-    expect(
-      await card.locator("img").evaluate(async (image: HTMLImageElement) => {
-        await image.decode();
-        return image.naturalWidth;
-      }),
-    ).toBeGreaterThan(0);
-  }
-
-  const desktopBoxes = await Promise.all(
-    (await cards.all()).map((card) => card.boundingBox()),
-  );
-  expect(desktopBoxes[0]!.y).toEqual(desktopBoxes[1]!.y);
-  expect(desktopBoxes[2]!.y).toEqual(desktopBoxes[3]!.y);
-  expect(desktopBoxes[0]!.y).toBeLessThan(desktopBoxes[2]!.y);
-
-  await page.setViewportSize({ width: 320, height: 720 });
-  const mobileBoxes = await Promise.all(
-    (await cards.all()).map((card) => card.boundingBox()),
-  );
-  for (const [index, box] of mobileBoxes.entries()) {
-    expect(box!.x).toEqual(mobileBoxes[0]!.x);
-    expect(box!.x + box!.width).toBeLessThanOrEqual(320);
-    if (index > 0) {
-      const previous = mobileBoxes[index - 1]!;
-      expect(box!.y).toBeGreaterThan(previous.y + previous.height);
+    await card.scrollIntoViewIfNeeded();
+    if (artwork) {
+      const image = card.locator("img");
+      await expect(image).toHaveAttribute(
+        "src",
+        `${pagesBasePath}/images/world/${artwork}.webp`,
+      );
+      expect(
+        await image.evaluate(async (element: HTMLImageElement) => {
+          await element.decode();
+          return element.naturalWidth;
+        }),
+      ).toBeGreaterThan(0);
+    } else {
+      await expect(
+        card.locator(".edem-system-orb[data-active='false']"),
+      ).toBeVisible();
     }
   }
-  await introduction
-    .getByRole("link", { name: "Читать статьи — Социальный рейтинг" })
-    .click();
-  await expect(page).toHaveURL(
-    (url) => url.pathname === exportedPath("/world/topics/daily-life"),
-  );
 });
 
-test("the five world topics use varied layouts and show their illustrations", async ({
+test("world cards have three, two and one columns with aligned actions", async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(exportedPath("/world"));
-
-  const topics = page.getByRole("region", { name: "Загляни глубже" });
-  const cards = topics.getByRole("article");
-  await expect(cards.getByRole("heading", { level: 3 })).toHaveText([
-    "Во славу Адама",
-    "Жизнь под контролем",
-    "За пределами идеального города",
-    "Будущее принадлежит не только государству",
-    "Не все согласны с правилами",
-  ]);
-  await expect(page.locator("#knowledge")).toHaveCount(0);
-  const topicIds = [
-    "power",
-    "daily-life",
-    "geography",
-    "corporations",
-    "stories",
-  ];
-  for (const [index, topic] of topicIds.entries()) {
-    await expect(
-      cards.nth(index).getByRole("link", { name: "Читать статьи" }),
-    ).toHaveAttribute("href", exportedPath(`/world/topics/${topic}`));
-  }
-  const desktopBoxes = await Promise.all(
-    (await cards.all()).map((card) => card.boundingBox()),
-  );
-  expect(desktopBoxes[0]!.width).toBeGreaterThan(desktopBoxes[3]!.width);
-  expect(desktopBoxes[3]!.y).toBe(desktopBoxes[4]!.y);
-
-  await expect(cards.nth(2).locator("img")).toHaveAttribute(
-    "src",
-    `${pagesBasePath}/images/world/outskirts.webp`,
-  );
-  await expect(cards.nth(4).locator("img")).toHaveAttribute(
-    "src",
-    `${pagesBasePath}/images/world/pompeii-uprising.webp`,
-  );
-  for (const card of await cards.all()) {
-    await card.scrollIntoViewIfNeeded();
-    expect(
-      await card.locator("img").evaluate(async (image: HTMLImageElement) => {
-        await image.decode();
-        return image.naturalWidth;
+  const cards = page
+    .getByRole("region", { name: "Разделы энциклопедии" })
+    .getByRole("article");
+  for (const [width, columns] of [
+    [1280, 3],
+    [1199, 2],
+    [768, 2],
+    [390, 1],
+    [320, 1],
+  ]) {
+    await page.setViewportSize({ width, height: 840 });
+    await page.evaluate(() => document.fonts.ready);
+    const boxes = await cards.evaluateAll((elements) =>
+      elements.map((card) => {
+        const { x, y, height } = card.getBoundingClientRect();
+        const link = card.querySelector("a")!.getBoundingClientRect();
+        return { x, y, height, actionBottom: link.bottom };
       }),
-    ).toBeGreaterThan(0);
-  }
-
-  await page.setViewportSize({ width: 390, height: 844 });
-  const mobileBoxes = await Promise.all(
-    (await cards.all()).map((card) => card.boundingBox()),
-  );
-  for (let index = 1; index < mobileBoxes.length; index++) {
-    const previous = mobileBoxes[index - 1]!;
-    const current = mobileBoxes[index]!;
-    expect(current.x).toBe(previous.x);
-    expect(current.y).toBeGreaterThan(previous.y + previous.height);
+    );
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth),
+    ).toBeLessThanOrEqual(width);
+    for (let index = 0; index < boxes.length; index++) {
+      const current = boxes[index];
+      const row = boxes[index - (index % columns)];
+      expect(current.y).toBe(row.y);
+      expect(current.height).toBeCloseTo(row.height, 0);
+      expect(current.actionBottom).toBeCloseTo(row.actionBottom, 0);
+      if (index % columns === 0 && index > 0) {
+        expect(current.x).toBe(boxes[0].x);
+        const previous = boxes[index - columns];
+        expect(current.y).toBeGreaterThan(previous.y + previous.height);
+      } else if (index % columns > 0) {
+        expect(current.x).toBeGreaterThan(boxes[index - 1].x);
+      }
+    }
   }
 });
 
@@ -1447,10 +1424,10 @@ test("the world article has working contents and related links", async ({
 }) => {
   await page.goto(exportedPath("/world"));
   await page
-    .getByRole("link", { name: "Читать статьи — Жизнь под контролем" })
+    .getByRole("link", { name: "Читать статьи — Наука и технологии" })
     .click();
   await expect(page).toHaveURL(
-    (url) => url.pathname === exportedPath("/world/topics/daily-life"),
+    (url) => url.pathname === exportedPath("/world/topics/technology"),
   );
   await page
     .getByRole("link", { name: "Социальный рейтинг и нейрочип", exact: true })
@@ -1489,7 +1466,7 @@ test("the world article has working contents and related links", async ({
     (url) => url.pathname === exportedPath("/world") && url.hash === "#power",
   );
   await expect(
-    page.getByRole("heading", { name: "Во славу Адама" }),
+    page.getByRole("heading", { name: "Во славу Адама!" }),
   ).toBeVisible();
 });
 
@@ -1498,7 +1475,7 @@ test("world topic lists link to published articles and serve empty topics", asyn
 }) => {
   await page.goto(exportedPath("/world"));
   await page
-    .getByRole("link", { name: "Читать статьи — Во славу Адама" })
+    .getByRole("link", { name: "Читать статьи — Государство и общество" })
     .click();
   const main = page.getByRole("main");
   const article = main.getByRole("link", {
@@ -1515,16 +1492,28 @@ test("world topic lists link to published articles and serve empty topics", asyn
   expect(row.width).toBeCloseTo(heading.width, 0);
 
   for (const [slug, title] of [
-    ["geography", "Города и территории"],
-    ["corporations", "Корпорации и технологии"],
-    ["stories", "Конфликты и противостояния"],
+    ["geography", "Мир и география"],
+    ["history", "История"],
+    ["corporations", "Корпорации"],
+    ["stories", "Организации и группировки"],
   ]) {
     await page.goto(exportedPath(`/world/topics/${slug}`));
     await expect(
       main.getByRole("heading", { name: title, level: 1 }),
     ).toBeVisible();
+    await expect(
+      main.getByText("Статьи этого раздела в подготовке.", { exact: true }),
+    ).toBeVisible();
     await expect(main.getByRole("list")).toHaveCount(0);
   }
+
+  await page.goto(exportedPath("/world/topics/daily-life"));
+  await expect(
+    main.getByRole("link", {
+      name: "Социальный рейтинг и нейрочип",
+      exact: true,
+    }),
+  ).toHaveAttribute("href", exportedPath(articlePath));
 });
 
 for (const width of [1440, 390]) {
