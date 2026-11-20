@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Grid, Heading, Layout, Text } from "@edem/ui";
+import { ButtonLink, Card, Grid, Heading, Layout, Text } from "@edem/ui";
 import { SiteSectionRail } from "../../components/layout/SiteSectionRail";
 import deployment from "../../config/deployment.json";
 import { siteHref } from "../../config/site-href";
@@ -10,24 +10,28 @@ import styles from "./world.module.css";
 const firstImpressions = [
   {
     id: "cyberpunk",
+    topic: "corporations",
     title: "Киберпанк",
     description: "Импланты. Нейрочипы. Корпорации. Технологии будущего.",
   },
   {
     id: "rating",
+    topic: "daily-life",
     title: "Социальный рейтинг",
     description:
       "Твоя репутация измеряется баллами. И от них зависит твоё место в обществе.",
   },
   {
     id: "faith",
+    topic: "power",
     title: "Адам и вера",
     description:
       "Верховный понтифик. Государственная религия. Власть, основанная на вере и контроле.",
   },
   {
     id: "conflict",
-    title: "Неидеальный мир",
+    topic: "stories",
+    title: "Социальное расслоение",
     description:
       "Криминальные группировки. Борьба за влияние. Люди, не согласные с системой.",
   },
@@ -36,72 +40,67 @@ const firstImpressions = [
 interface WorldTopic {
   id: string;
   frame: "double" | "system" | "asym";
+  placement: "leading" | "trailing" | "panorama" | "compact";
   title: string;
   description: string;
-  link?: { path: string; label: string; id?: string };
+  images: readonly string[];
+  articles?: readonly { path: string; title: string }[];
 }
 
 const topics: readonly WorldTopic[] = [
   {
-    id: "history",
-    frame: "double",
-    title: "После катастрофы",
-    description:
-      "После Ядерной войны большие участки суши стали радиоактивной пустошью. Города и другие крупные центры оказались разделены обширными малонаселёнными территориями.",
-  },
-  {
     id: "power",
-    frame: "system",
-    title: "Власть и государство",
+    frame: "asym",
+    placement: "leading",
+    title: "Во славу Адама",
     description:
-      "Во главе Эдема стоит Верховный понтифик Адам. Государственная религия связана с властью, которая обещает гражданам порядок и процветание.",
+      "Эдемом правит Верховный понтифик Адам. Его власть объединяет государство и религию, а Совет светочей помогает управлять обществом. Для одних Адам — символ стабильности и процветания. Для других — воплощение системы, которая контролирует слишком многое.",
+    images: ["faith"],
   },
   {
     id: "daily-life",
-    frame: "asym",
-    title: "Повседневная жизнь",
+    frame: "system",
+    placement: "trailing",
+    title: "Жизнь под контролем",
     description:
-      "Нейрочип удостоверяет личность гражданина, а социальный рейтинг влияет на его права и разрешения.",
-    link: {
-      id: "first-reading",
-      path: "/world/neurochip",
-      label: "Читать статью «Социальный рейтинг и нейрочип»",
-    },
+      "В Эдеме порядок поддерживают не только полиция и законы. Каждый гражданин обладает социальным рейтингом, а нейрочипы связывают людей с государственной системой. Высокий рейтинг открывает новые возможности, низкий может ограничить привычные права. И практически каждое действие может иметь последствия.",
+    images: ["rating"],
+    articles: [
+      { path: "/world/neurochip", title: "Социальный рейтинг и нейрочип" },
+    ],
   },
   {
     id: "geography",
     frame: "system",
-    title: "Города и пустошь",
+    placement: "panorama",
+    title: "За пределами идеального города",
     description:
-      "Эдем объединяет Западный, Восточный и Северный города-территории. В пустоши за пределами городов есть дороги, промышленные объекты и небольшие поселения.",
+      "За сияющими фасадами Эдема скрывается совсем другая жизнь. В Помпеях действуют криминальные группировки, борющиеся за влияние и территории. А за пределами государства существуют другие города, страны и общества со своими законами, порядками и интересами.",
+    images: ["cyberpunk", "conflict"],
   },
   {
     id: "corporations",
-    frame: "asym",
-    title: "Корпорации",
+    frame: "system",
+    placement: "compact",
+    title: "Будущее принадлежит не только государству",
     description:
-      "Крупнейшие компании развивают технологии и конкурируют за проекты. На «Параде технологий» изобретатели представляют свои разработки, а корпорации ищут, во что вложиться.",
-    link: {
-      path: "/games/parad-tehnologiy",
-      label: "О «Параде технологий»",
-    },
+      "Технологии определяют жизнь Эдема, но далеко не все разработки принадлежат государству. Крупные корпорации создают новые устройства, конкурируют за влияние и преследуют собственные интересы. Иногда их решения способны изменить жизнь общества не меньше, чем решения самого Адама.",
+    images: ["laboratory"],
   },
   {
     id: "stories",
-    frame: "double",
-    title: "Борьба за влияние",
+    frame: "system",
+    placement: "compact",
+    title: "Не все согласны с правилами",
     description:
-      "В Помпеях пересекаются интересы государства, преступных группировок и людей, которые хотят жить по своим правилам.",
-    link: {
-      path: "/games/kazn-ognya-vechnogo",
-      label: "О Помпеях в «Казни Огня Вечного»",
-    },
+      "Эдем стремится поддерживать порядок, но интересы государства, корпораций, криминальных организаций и обычных граждан далеко не всегда совпадают. Здесь заключают союзы, борются за власть, нарушают законы и пытаются изменить существующую систему. И не каждый конфликт делит участников на правых и виноватых.",
+    images: ["district"],
   },
 ];
 
 const sections = [
   { id: "page-title", label: "Вселенная Эдем" },
-  { id: "world-topics", label: "Как устроен мир" },
+  { id: "world-topics", label: "Загляни глубже" },
   { id: "knowledge", label: "О знаниях и спойлерах" },
 ] as const;
 
@@ -135,71 +134,112 @@ export default function WorldPage() {
           </div>
 
           <Grid className={styles.impressions}>
-            {firstImpressions.map(({ id, title, description }) => (
-              <Card
+            {firstImpressions.map(({ id, title, description, topic }) => (
+              <div
                 key={id}
-                className={`edem-span--half ${styles.impression}`}
-                cover={
-                  <div className={styles.artwork} data-topic={id}>
-                    <img
-                      src={`${deployment.basePath}/images/world/${id}.webp`}
-                      alt=""
-                      decoding="async"
-                    />
-                    {id === "rating" && (
-                      <div className={styles.citizenProfile}>
-                        ПРОФИЛЬ ГРАЖДАНИНА
-                        <span />
-                      </div>
-                    )}
-                  </div>
-                }
+                className={`edem-span--half ${styles.impressionSlot}`}
               >
-                <div className={styles.cardCopy}>
-                  <Heading level={2} className={styles.cardTitle}>
-                    {title}
-                  </Heading>
-                  <Text>{description}</Text>
-                </div>
-              </Card>
+                <Card
+                  className={styles.impression}
+                  cover={
+                    <div className={styles.artwork} data-topic={id}>
+                      <img
+                        src={`${deployment.basePath}/images/world/${id}.webp`}
+                        alt=""
+                        decoding="async"
+                      />
+                      {id === "rating" && (
+                        <div className={styles.citizenProfile}>
+                          ПРОФИЛЬ ГРАЖДАНИНА
+                          <span />
+                        </div>
+                      )}
+                    </div>
+                  }
+                >
+                  <div className={styles.cardCopy}>
+                    <Heading level={2} className={styles.cardTitle}>
+                      {title}
+                    </Heading>
+                    <Text>{description}</Text>
+                  </div>
+                </Card>
+                <ButtonLink
+                  size="sm"
+                  href={`#${topic}`}
+                  aria-label={`Читать статьи — ${title}`}
+                >
+                  Читать статьи
+                </ButtonLink>
+              </div>
             ))}
           </Grid>
         </section>
 
         <section className={layout.section} aria-labelledby="world-topics">
-          <Heading
-            level={2}
-            id="world-topics"
-            className={layout.sectionHeading}
-          >
-            Как устроен мир
-          </Heading>
-          <Grid>
-            {topics.map(({ id, title, description, frame, link }) => (
-              <Card
-                telemetry
-                key={id}
-                frame={frame}
-                className="edem-span--third"
-                reveal={false}
-              >
-                <div className={layout.cardBody}>
-                  <Heading level={3} id={id}>
-                    {title}
-                  </Heading>
-                  <Text>{description}</Text>
-                  {link && (
-                    <a
-                      id={link.id}
-                      href={siteHref(link.path)}
-                      className={styles.topicLink}
-                    >
-                      {link.label}
-                    </a>
-                  )}
-                </div>
-              </Card>
-            ))}
+          <div className={`${layout.stack} ${styles.topicIntro}`}>
+            <Heading level={2} id="world-topics">
+              Загляни глубже
+            </Heading>
+            <Text variant="lead">
+              За блестящими фасадами Эдема скрывается мир, в котором технологии,
+              вера, власть и человеческие амбиции тесно переплетены. Узнай, как
+              он устроен.
+            </Text>
+          </div>
+          <Grid className={styles.topicGrid}>
+            {topics.map(
+              ({
+                id,
+                title,
+                description,
+                frame,
+                placement,
+                images,
+                articles,
+              }) => (
+                <Card
+                  telemetry
+                  key={id}
+                  frame={frame}
+                  className={`edem-span--${placement === "compact" ? "half" : "full"} ${styles.topic}`}
+                  data-placement={placement}
+                  aria-labelledby={id}
+                  cover={
+                    <div className={styles.topicArt}>
+                      {images.map((image) => (
+                        <img
+                          key={image}
+                          src={`${deployment.basePath}/images/world/${image}.webp`}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ))}
+                    </div>
+                  }
+                >
+                  <div className={`${layout.cardBody} ${styles.topicCopy}`}>
+                    <Heading level={3} id={id}>
+                      {title}
+                    </Heading>
+                    <Text>{description}</Text>
+                    {articles && (
+                      <ul
+                        className={styles.topicLinks}
+                        id={id === "daily-life" ? "first-reading" : undefined}
+                      >
+                        {articles.map(({ path, title }) => (
+                          <li key={path}>
+                            <a href={siteHref(path)}>{title}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </Card>
+              ),
+            )}
           </Grid>
         </section>
 

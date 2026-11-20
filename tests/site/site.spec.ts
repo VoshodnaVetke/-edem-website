@@ -288,7 +288,7 @@ test("detail cards show telemetry and only the footer uses a decorative divider"
     const cards =
       route === "/world"
         ? page
-            .getByRole("region", { name: "Как устроен мир" })
+            .getByRole("region", { name: "Загляни глубже" })
             .getByRole("article")
         : page.locator("main .edem-card");
     await expect(cards.locator(".edem-card-telemetry")).toHaveCount(
@@ -757,7 +757,7 @@ test("anchor navigation tracks the current heading and respects reduced motion",
   await page.setViewportSize({ width: 1600, height: 860 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const [route, label, id] of [
-    ["/world", "Как устроен мир", "world-topics"],
+    ["/world", "Загляни глубже", "world-topics"],
     ["/games/parad-tehnologiy", "Фотографии", "game-photos"],
   ]) {
     await page.goto(exportedPath(route));
@@ -1313,9 +1313,19 @@ test("the world introduction fits on desktop and stacks on mobile", async ({
     "Киберпанк",
     "Социальный рейтинг",
     "Адам и вера",
-    "Неидеальный мир",
+    "Социальное расслоение",
   ]);
-  await expect(introduction.getByRole("link")).toHaveCount(0);
+  const readingLinks = introduction.getByRole("link", {
+    name: "Читать статьи",
+  });
+  await expect(readingLinks).toHaveCount(4);
+  const targets = ["corporations", "daily-life", "power", "stories"];
+  for (const [index, target] of targets.entries()) {
+    const link = readingLinks.nth(index);
+    await expect(link).toHaveAttribute("href", `#${target}`);
+    await expect(link).toBeInViewport({ ratio: 1 });
+    await expect(page.locator(`#${target}`)).toHaveCount(1);
+  }
   await expect(introduction.locator(".edem-card-telemetry")).toHaveCount(0);
   for (const card of await cards.all()) {
     await expect(card).toBeInViewport({ ratio: 1 });
@@ -1350,18 +1360,66 @@ test("the world introduction fits on desktop and stacks on mobile", async ({
       expect(box!.y).toBeGreaterThan(previous.y + previous.height);
     }
   }
-  await expect(
-    page.getByRole("region", { name: "Как устроен мир" }).getByRole("link", {
-      name: /Читать статью/,
-    }),
-  ).toHaveAttribute("href", exportedPath(articlePath));
+  await introduction
+    .getByRole("link", { name: "Читать статьи — Социальный рейтинг" })
+    .click();
+  await expect(page).toHaveURL((url) => url.hash === "#daily-life");
+});
+
+test("the five world topics use varied layouts and show their illustrations", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(exportedPath("/world"));
+
+  const topics = page.getByRole("region", { name: "Загляни глубже" });
+  const cards = topics.getByRole("article");
+  await expect(cards.getByRole("heading", { level: 3 })).toHaveText([
+    "Во славу Адама",
+    "Жизнь под контролем",
+    "За пределами идеального города",
+    "Будущее принадлежит не только государству",
+    "Не все согласны с правилами",
+  ]);
+  const desktopBoxes = await Promise.all(
+    (await cards.all()).map((card) => card.boundingBox()),
+  );
+  expect(desktopBoxes[0]!.width).toBeGreaterThan(desktopBoxes[3]!.width);
+  expect(desktopBoxes[3]!.y).toBe(desktopBoxes[4]!.y);
+
+  for (const [index, card] of (await cards.all()).entries()) {
+    await card.scrollIntoViewIfNeeded();
+    const images = card.locator("img");
+    await expect(images).toHaveCount(index === 2 ? 2 : 1);
+    for (const image of await images.all()) {
+      expect(
+        await image.evaluate(async (element: HTMLImageElement) => {
+          await element.decode();
+          return element.naturalWidth;
+        }),
+      ).toBeGreaterThan(0);
+    }
+  }
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileBoxes = await Promise.all(
+    (await cards.all()).map((card) => card.boundingBox()),
+  );
+  for (let index = 1; index < mobileBoxes.length; index++) {
+    const previous = mobileBoxes[index - 1]!;
+    const current = mobileBoxes[index]!;
+    expect(current.x).toBe(previous.x);
+    expect(current.y).toBeGreaterThan(previous.y + previous.height);
+  }
 });
 
 test("the world article has working contents and related links", async ({
   page,
 }) => {
   await page.goto(exportedPath("/world"));
-  await page.getByRole("link", { name: /Читать статью/ }).click();
+  await page
+    .getByRole("link", { name: "Социальный рейтинг и нейрочип", exact: true })
+    .click();
   await expect(page).toHaveURL(
     (url) => url.pathname === exportedPath(articlePath),
   );
@@ -1398,7 +1456,7 @@ test("the world article has working contents and related links", async ({
     (url) => url.pathname === exportedPath("/world") && url.hash === "#power",
   );
   await expect(
-    page.getByRole("heading", { name: "Власть и государство" }),
+    page.getByRole("heading", { name: "Во славу Адама" }),
   ).toBeVisible();
 });
 
