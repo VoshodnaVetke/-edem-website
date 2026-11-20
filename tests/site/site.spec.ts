@@ -1440,7 +1440,7 @@ test("world cards have prominent artwork and aligned actions across two or one c
   }
 });
 
-test("the world article has working contents and related links", async ({
+test("the world article keeps direct section links and related links", async ({
   page,
 }) => {
   await page.goto(exportedPath("/world"));
@@ -1476,9 +1476,11 @@ test("the world article has working contents and related links", async ({
   await page.keyboard.press("Escape");
 
   await page.setViewportSize({ width: 390, height: 844 });
-  const contents = page.getByRole("navigation", { name: "Оглавление статьи" });
-  await contents.getByRole("link", { name: "Политические права" }).click();
+  await page.goto(exportedPath(articlePath) + "#rights");
   await expect(page).toHaveURL((url) => url.hash === "#rights");
+  await expect(
+    page.getByRole("heading", { name: "Политические права" }),
+  ).toBeInViewport();
   await expect(page.getByText("300 баллов", { exact: true })).toBeVisible();
   await expect(page.getByText("700 баллов", { exact: true })).toBeVisible();
 
@@ -1603,6 +1605,7 @@ test("all 33 encyclopedia entries have permanent routes and topic listings", asy
         const response = await request.get(path);
         expect(response.status(), path).toBe(200);
         const html = await response.text();
+        expect(html, path).not.toContain("На этой странице");
         expect(html.includes("Статья в подготовке."), path).toBe(
           entry.status === "planned",
         );
@@ -1701,9 +1704,9 @@ test("public routes remain responsive without horizontal overflow", async ({
 }) => {
   const routes = [
     ...publicPages.map(([path]) => path),
-    articlePath,
-    "/world/higher-path",
-    "/world/history-before-adam",
+    ...worldArticleEntries
+      .filter(({ status }) => status === "published")
+      .map(({ slug }) => `/world/${slug}`),
   ];
   for (const width of [320, 390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
