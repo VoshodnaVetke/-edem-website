@@ -288,8 +288,17 @@
 }
 
 .portrait {
-  min-block-size: clamp(5rem, 10cqi, 7rem);
+  position: relative;
+  display: block;
+  align-self: center;
+  justify-self: stretch;
+  min-inline-size: 0;
+  min-block-size: 0;
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
   color: var(--edem-color-accent-primary);
+  background-color: var(--edem-color-accent-secondary);
   background-image:
     repeating-linear-gradient(
       0deg,
@@ -301,6 +310,22 @@
       var(--edem-color-ambient-cyan),
       transparent 70%
     );
+  /* The photo and its underpaint share one irregular, fully clipped silhouette. */
+  clip-path: polygon(
+    5% 0,
+    29% 1%,
+    63% 0,
+    93% 1%,
+    100% 11%,
+    99% 46%,
+    100% 88%,
+    94% 100%,
+    58% 99%,
+    23% 100%,
+    1% 97%,
+    0 73%,
+    1% 18%
+  );
 }
 
 .portrait svg,
@@ -309,9 +334,39 @@
 }
 
 .portrait img {
-  inline-size: 100%;
-  aspect-ratio: 4 / 3;
+  position: absolute;
+  inset: 2px;
+  inline-size: calc(100% - 4px);
+  block-size: calc(100% - 4px);
   object-fit: cover;
+  clip-path: polygon(
+    5% 0,
+    27% 1%,
+    66% 0,
+    93% 1%,
+    100% 11%,
+    99% 45%,
+    100% 88%,
+    94% 100%,
+    58% 99%,
+    25% 100%,
+    1% 97%,
+    0 73%,
+    1% 18%
+  );
+}
+
+@container edem-card (max-width: 28rem) {
+  .member :global(.edem-card-content__inner) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .portrait,
+  .restrictedPortrait {
+    inline-size: min(100%, 12rem);
+    justify-self: start;
+    align-self: start;
+  }
 }
 
 .teamList {
