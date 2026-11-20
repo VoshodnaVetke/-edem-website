@@ -1,3 +1,5 @@
+"use client";
+
 import { ButtonLink, Heading, Reading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
