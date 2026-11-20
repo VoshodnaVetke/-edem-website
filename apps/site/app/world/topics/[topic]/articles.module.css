@@ -1,0 +1,35 @@
+.articles {
+  display: grid;
+  gap: var(--edem-card-gap);
+  padding: 0;
+  margin: 0 0 1.5rem;
+  list-style: none;
+}
+
+.article {
+  display: flex;
+  align-items: center;
+  min-block-size: 3rem;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--edem-color-text-metadata);
+  background: var(--edem-color-surface);
+  color: var(--edem-color-text-heading);
+  font-family: var(--font-display);
+  font-weight: var(--edem-font-weight-display);
+  text-decoration: none;
+}
+
+.article:focus-visible {
+  border-color: var(--edem-color-accent-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .article:hover {
+    border-color: var(--edem-color-accent-primary);
+  }
+}
+
+.back {
+  color: var(--edem-color-accent-primary);
+  text-underline-offset: 0.2em;
+}

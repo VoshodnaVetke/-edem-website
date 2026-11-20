@@ -3,34 +3,37 @@
 import { ButtonLink, Card, Grid, Heading, Layout, Text } from "@edem/ui";
 import { SiteSectionRail } from "../../components/layout/SiteSectionRail";
 import deployment from "../../config/deployment.json";
-import { siteHref } from "../../config/site-href";
+import {
+  worldArticlesHref,
+  type WorldArticleTopic,
+} from "../../config/world-articles";
 import layout from "../../styles/page-layout.module.css";
 import styles from "./world.module.css";
 
 const firstImpressions = [
   {
-    id: "cyberpunk",
+    image: "neighborhood",
     topic: "corporations",
     title: "Киберпанк",
     description: "Импланты. Нейрочипы. Корпорации. Технологии будущего.",
   },
   {
-    id: "rating",
+    image: "civic-profile",
     topic: "daily-life",
     title: "Социальный рейтинг",
     description:
       "Твоя репутация измеряется баллами. И от них зависит твоё место в обществе.",
   },
   {
-    id: "faith",
+    image: "faith",
     topic: "power",
     title: "Адам и вера",
     description:
       "Верховный понтифик. Государственная религия. Власть, основанная на вере и контроле.",
   },
   {
-    id: "conflict",
-    topic: "stories",
+    image: "pompeii",
+    topic: "daily-life",
     title: "Социальное расслоение",
     description:
       "Криминальные группировки. Борьба за влияние. Люди, не согласные с системой.",
@@ -38,13 +41,12 @@ const firstImpressions = [
 ] as const;
 
 interface WorldTopic {
-  id: string;
+  id: WorldArticleTopic;
   frame: "double" | "system" | "asym";
   placement: "leading" | "trailing" | "panorama" | "compact";
   title: string;
   description: string;
   images: readonly string[];
-  articles?: readonly { path: string; title: string }[];
 }
 
 const topics: readonly WorldTopic[] = [
@@ -56,9 +58,6 @@ const topics: readonly WorldTopic[] = [
     description:
       "Эдемом правит Верховный понтифик Адам. Его власть объединяет государство и религию, а Совет светочей помогает управлять обществом. Для одних Адам — символ стабильности и процветания. Для других — воплощение системы, которая контролирует слишком многое.",
     images: ["faith"],
-    articles: [
-      { path: "/world/government", title: "Государственное устройство Эдема" },
-    ],
   },
   {
     id: "daily-life",
@@ -67,10 +66,7 @@ const topics: readonly WorldTopic[] = [
     title: "Жизнь под контролем",
     description:
       "В Эдеме порядок поддерживают не только полиция и законы. Каждый гражданин обладает социальным рейтингом, а нейрочипы связывают людей с государственной системой. Высокий рейтинг открывает новые возможности, низкий может ограничить привычные права. И практически каждое действие может иметь последствия.",
-    images: ["rating"],
-    articles: [
-      { path: "/world/neurochip", title: "Социальный рейтинг и нейрочип" },
-    ],
+    images: ["civic-profile"],
   },
   {
     id: "geography",
@@ -79,7 +75,7 @@ const topics: readonly WorldTopic[] = [
     title: "За пределами идеального города",
     description:
       "За сияющими фасадами Эдема скрывается совсем другая жизнь. В Помпеях действуют криминальные группировки, борющиеся за влияние и территории. А за пределами государства существуют другие города, страны и общества со своими законами, порядками и интересами.",
-    images: ["cyberpunk", "conflict"],
+    images: ["city-center", "pompeii"],
   },
   {
     id: "corporations",
@@ -97,14 +93,13 @@ const topics: readonly WorldTopic[] = [
     title: "Не все согласны с правилами",
     description:
       "Эдем стремится поддерживать порядок, но интересы государства, корпораций, криминальных организаций и обычных граждан далеко не всегда совпадают. Здесь заключают союзы, борются за власть, нарушают законы и пытаются изменить существующую систему. И не каждый конфликт делит участников на правых и виноватых.",
-    images: ["district"],
+    images: ["rally"],
   },
 ];
 
 const sections = [
   { id: "page-title", label: "Вселенная Эдем" },
   { id: "world-topics", label: "Загляни глубже" },
-  { id: "knowledge", label: "О знаниях и спойлерах" },
 ] as const;
 
 export default function WorldPage() {
@@ -137,44 +132,41 @@ export default function WorldPage() {
           </div>
 
           <Grid className={styles.impressions}>
-            {firstImpressions.map(({ id, title, description, topic }) => (
-              <div
-                key={id}
-                className={`edem-span--half ${styles.impressionSlot}`}
-              >
-                <Card
-                  className={styles.impression}
-                  cover={
-                    <div className={styles.artwork} data-topic={id}>
-                      <img
-                        src={`${deployment.basePath}/images/world/${id}.webp`}
-                        alt=""
-                        decoding="async"
-                      />
-                      {id === "rating" && (
-                        <div className={styles.citizenProfile}>
-                          ПРОФИЛЬ ГРАЖДАНИНА
-                          <span />
-                        </div>
-                      )}
-                    </div>
-                  }
-                >
-                  <div className={styles.cardCopy}>
-                    <Heading level={2} className={styles.cardTitle}>
-                      {title}
-                    </Heading>
-                    <Text>{description}</Text>
+            {firstImpressions.map(({ image, title, description, topic }) => (
+              <Card
+                key={image}
+                className={`edem-span--half ${styles.impression}`}
+                cover={
+                  <div className={styles.artwork} data-artwork={image}>
+                    <img
+                      src={`${deployment.basePath}/images/world/${image}.webp`}
+                      alt=""
+                      decoding="async"
+                    />
+                    {image === "civic-profile" && (
+                      <div className={styles.citizenProfile}>
+                        ПРОФИЛЬ ГРАЖДАНИНА
+                        <span />
+                      </div>
+                    )}
                   </div>
-                </Card>
-                <ButtonLink
-                  size="sm"
-                  href={`#${topic}`}
-                  aria-label={`Читать статьи — ${title}`}
-                >
-                  Читать статьи
-                </ButtonLink>
-              </div>
+                }
+              >
+                <div className={styles.cardCopy}>
+                  <Heading level={2} className={styles.cardTitle}>
+                    {title}
+                  </Heading>
+                  <Text>{description}</Text>
+                  <ButtonLink
+                    className={styles.readArticles}
+                    size="sm"
+                    href={worldArticlesHref(topic)}
+                    aria-label={`Читать статьи — ${title}`}
+                  >
+                    Читать статьи
+                  </ButtonLink>
+                </div>
+              </Card>
             ))}
           </Grid>
         </section>
@@ -192,15 +184,7 @@ export default function WorldPage() {
           </div>
           <Grid className={styles.topicGrid}>
             {topics.map(
-              ({
-                id,
-                title,
-                description,
-                frame,
-                placement,
-                images,
-                articles,
-              }) => (
+              ({ id, title, description, frame, placement, images }) => (
                 <Card
                   telemetry
                   key={id}
@@ -214,6 +198,7 @@ export default function WorldPage() {
                         <img
                           key={image}
                           src={`${deployment.basePath}/images/world/${image}.webp`}
+                          data-artwork={image}
                           alt=""
                           loading="lazy"
                           decoding="async"
@@ -227,37 +212,20 @@ export default function WorldPage() {
                       {title}
                     </Heading>
                     <Text>{description}</Text>
-                    {articles && (
-                      <ul
-                        className={styles.topicLinks}
-                        id={id === "daily-life" ? "first-reading" : undefined}
-                      >
-                        {articles.map(({ path, title }) => (
-                          <li key={path}>
-                            <a href={siteHref(path)}>{title}</a>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <ButtonLink
+                      className={styles.readArticles}
+                      size="sm"
+                      id={id === "daily-life" ? "first-reading" : undefined}
+                      href={worldArticlesHref(id)}
+                      aria-label={`Читать статьи — ${title}`}
+                    >
+                      Читать статьи
+                    </ButtonLink>
                   </div>
                 </Card>
               ),
             )}
           </Grid>
-        </section>
-
-        <section
-          aria-labelledby="knowledge"
-          className={`${layout.stack} ${styles.knowledge}`}
-        >
-          <Heading level={2} id="knowledge">
-            О знаниях и спойлерах
-          </Heading>
-          <Text>
-            Сведения, которые вы прочитали как игрок, могут быть неизвестны
-            вашему персонажу. На игре ориентируйтесь на его материалы и
-            договорённости с организаторами.
-          </Text>
         </section>
       </Layout>
     </main>
