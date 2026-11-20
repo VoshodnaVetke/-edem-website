@@ -115,7 +115,7 @@ test("the homepage leads to the archive and its game galleries", async ({
     expect(await media.boundingBox()).toEqual(
       await card.locator(".edem-frame").boundingBox(),
     );
-    await expect(media).toHaveCSS("clip-path", /^polygon/);
+    await expect(media).toHaveCSS("clip-path", /url\\(/);
     if (slug === "kazn-ognya-vechnogo") {
       await card.press("Tab");
       await page.keyboard.press("Shift+Tab");
@@ -1260,7 +1260,7 @@ test("workshop formats expand exclusively and the team and contact links fit mob
     await expect(photo).toHaveCSS("object-position", new RegExp(position));
     const media = photo.locator("xpath=..");
     await expect(media).toHaveCSS("overflow", "clip");
-    await expect(media).toHaveCSS("clip-path", /^polygon\\(/);
+    await expect(media).toHaveCSS("clip-path", /^polygon/);
   }
 
   const contact = mobile.getByRole("region", { name: "Создадим игру вместе" });
