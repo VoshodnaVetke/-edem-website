@@ -58,7 +58,7 @@ const team: readonly TeamMember[] = [
     name: "Алина",
     role: "Продюсер",
     portrait: "/images/games/parad-tehnologiy/0064-thumb.webp",
-    portraitPosition: "center 26%",
+    portraitPosition: "center 32%",
     story: {
       type: "dialogue",
       lines: [
@@ -74,7 +74,7 @@ const team: readonly TeamMember[] = [
     name: "Лина",
     role: "Художник",
     portrait: "/images/games/kazn-ognya-vechnogo/0587-thumb.webp",
-    portraitPosition: "center 36%",
+    portraitPosition: "center 41%",
     story: {
       type: "single",
       text: "Давайте без доведения до самоубийства, у нас всё ещё игра 16+.",
