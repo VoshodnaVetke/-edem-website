@@ -1213,7 +1213,9 @@ test("workshop formats expand exclusively and the team and contact links fit mob
   ]);
   await expect(team.getByText("10% МГ", { exact: true })).toBeVisible();
   await expect(
-    team.getByRole("link", { name: "Саша Пятницкая во ВКонтакте (новая вкладка)" }),
+    team.getByRole("link", {
+      name: "Саша Пятницкая во ВКонтакте (новая вкладка)",
+    }),
   ).toHaveAttribute("href", "https://vk.ru/alyapyatnitskaya");
   await expect(team.getByText("САША ЕК", { exact: true })).toBeVisible();
   await expect(team.getByText("ERROR 403", { exact: true })).toBeVisible();
