@@ -270,13 +270,21 @@ export const worldArticleRegistry = {
   atlanta: {
     title: "Атланта",
     topic: "geography",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Далёкий остров, который упоминается в географических описаниях Эдема.",
+      "Что известно об Атланте и почему о её жителях пока можно только догадываться.",
+    ],
     related: ["world-geography", "history-before-adam", "skeos"],
   },
   "science-and-technology": {
     title: "Наука и технологии Эдема",
     topic: "technology",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Как нейрочипы, лицензии и автоматизация входят в повседневную жизнь.",
+      "Где показывают новые разработки и как кибернетические протезы применяют в клиниках.",
+    ],
     related: ["cybernetics-and-implants", "corporations", "licenses", "skeos"],
   },
   "cybernetics-and-implants": {
