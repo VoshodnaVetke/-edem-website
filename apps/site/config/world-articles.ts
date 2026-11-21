@@ -255,7 +255,11 @@ export const worldArticleRegistry = {
   skeos: {
     title: "Скеос",
     topic: "geography",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Как корпорации управляют Федерацией и какую роль играет генетический паспорт.",
+      "Как живут женщины в Скеосе и на каких условиях граждане страны въезжают в Эдем.",
+    ],
     related: [
       "world-geography",
       "neutral-lands",
