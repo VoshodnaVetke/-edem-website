@@ -49,14 +49,6 @@ export const worldArticleGroups = [
       "Преступные группировки, независимые организации и тайные объединения ведут собственную игру.",
     artwork: "freedom-rally",
   },
-  {
-    slug: "locations",
-    title: "Локации",
-    heading: "Заведения Помпей",
-    description: "Казино Мефиса и «Бордель Мокси» в Помпеях.",
-    artwork: "pompeii",
-    thumbnail: "geography",
-  },
 ] as const;
 
 export type WorldArticleTopic = (typeof worldArticleGroups)[number]["slug"];
@@ -250,6 +242,18 @@ export const worldArticleRegistry = {
       "freedom",
     ],
   },
+  "mephisto-casino": {
+    title: "Казино Мефиса",
+    topic: "geography",
+    status: "planned",
+    related: ["pompeii", "moxi-brothel", "modern-chronology"],
+  },
+  "moxi-brothel": {
+    title: "Бордель Мокси",
+    topic: "geography",
+    status: "planned",
+    related: ["pompeii", "mephisto-casino"],
+  },
   "neutral-lands": {
     title: "Нейтральные земли",
     topic: "geography",
@@ -384,18 +388,6 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "planned",
     related: ["criminal-organizations", "pompeii", "modern-chronology"],
-  },
-  "mephisto-casino": {
-    title: "Казино Мефиса",
-    topic: "locations",
-    status: "planned",
-    related: ["pompeii", "moxi-brothel", "modern-chronology"],
-  },
-  "moxi-brothel": {
-    title: "Бордель Мокси",
-    topic: "locations",
-    status: "planned",
-    related: ["pompeii", "mephisto-casino"],
   },
   "technology-triumph-cult": {
     title: "Культ Триумфа Технологий",

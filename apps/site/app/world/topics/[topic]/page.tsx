@@ -6,6 +6,7 @@ import {
   worldArticleEntries,
   worldArticleGroups,
   worldArticleHref,
+  worldArticlesHref,
 } from "../../../../config/world-articles";
 import styles from "./articles.module.css";
 
@@ -17,6 +18,7 @@ export function generateStaticParams() {
   return [
     ...worldArticleGroups.map(({ slug }) => ({ topic: slug })),
     { topic: legacyTopic },
+    { topic: "locations" },
   ];
 }
 
@@ -26,6 +28,18 @@ export default async function WorldArticlesPage({
   params: Promise<{ topic: string }>;
 }) {
   const { topic } = await params;
+  if (topic === "locations") {
+    const destination = worldArticlesHref("geography");
+    return (
+      <>
+        <meta httpEquiv="refresh" content={`0;url=${destination}`} />
+        <PageShell eyebrow="СТАТЬИ ВСЕЛЕННОЙ" title="Мир и география">
+          <a href={destination}>К списку статей</a>
+        </PageShell>
+      </>
+    );
+  }
+
   const currentTopic = topic === legacyTopic ? "technology" : topic;
   const group = worldArticleGroups.find(({ slug }) => slug === currentTopic);
   if (!group) notFound();
@@ -36,8 +50,7 @@ export default async function WorldArticlesPage({
         ? article.slug === "neurochip"
         : article.topic === group.slug),
   );
-  const thumbnailName = "thumbnail" in group ? group.thumbnail : group.slug;
-  const thumbnail = `${deployment.basePath}/images/world/article-thumbnails/${thumbnailName}.webp`;
+  const thumbnail = `${deployment.basePath}/images/world/article-thumbnails/${group.slug}.webp`;
 
   return (
     <PageShell eyebrow="СТАТЬИ ВСЕЛЕННОЙ" title={group.title}>
