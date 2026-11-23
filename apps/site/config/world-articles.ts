@@ -302,7 +302,11 @@ export const worldArticleRegistry = {
   corporations: {
     title: "Корпорации Эдема",
     topic: "corporations",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Что выпускают InnovatX, Holland Industries и Enigma и за что покупатели выбирают каждую марку.",
+      "О чём спорят Морган и Холланд и как соперничество корпораций выглядит на гоночной трассе.",
+    ],
     related: [
       "innovatx",
       "holland-industries",

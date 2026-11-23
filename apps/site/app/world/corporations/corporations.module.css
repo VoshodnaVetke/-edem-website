@@ -1,0 +1,13 @@
+.quote {
+  margin: 1rem 0;
+  padding-inline-start: 1rem;
+  border-inline-start: 1px solid var(--edem-color-text-metadata);
+}
+
+.quote blockquote {
+  margin: 0;
+}
+
+.quote figcaption {
+  color: var(--edem-color-text-secondary);
+}
