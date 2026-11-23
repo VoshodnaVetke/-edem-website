@@ -279,6 +279,29 @@
   margin-block-end: 0;
 }
 
+/* On phones the media leads each team card; the profile follows below it. */
+@media (max-width: 40.625rem) {
+  .member :global(.edem-card-content__inner) {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+    gap: 0.875rem;
+  }
+
+  .member .portrait,
+  .member .restrictedPortrait {
+    justify-self: center;
+    inline-size: min(100%, 21rem);
+  }
+
+  .member .restrictedPortrait {
+    aspect-ratio: 4 / 3;
+  }
+
+  .member .profile {
+    grid-column: 1;
+  }
+}
+
 .portrait,
 .restrictedPortrait {
   position: relative;
