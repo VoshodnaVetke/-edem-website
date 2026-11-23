@@ -36,7 +36,8 @@ export default async function WorldArticlesPage({
         ? article.slug === "neurochip"
         : article.topic === group.slug),
   );
-  const thumbnail = `${deployment.basePath}/images/world/article-thumbnails/${group.slug}.webp`;
+  const thumbnailName = "thumbnail" in group ? group.thumbnail : group.slug;
+  const thumbnail = `${deployment.basePath}/images/world/article-thumbnails/${thumbnailName}.webp`;
 
   return (
     <PageShell eyebrow="СТАТЬИ ВСЕЛЕННОЙ" title={group.title}>
