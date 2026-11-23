@@ -49,6 +49,14 @@ export const worldArticleGroups = [
       "Преступные группировки, независимые организации и тайные объединения ведут собственную игру.",
     artwork: "freedom-rally",
   },
+  {
+    slug: "locations",
+    title: "Локации",
+    heading: "Заведения Помпей",
+    description: "Казино Мефиса и «Бордель Мокси» в Помпеях.",
+    artwork: "pompeii",
+    thumbnail: "geography",
+  },
 ] as const;
 
 export type WorldArticleTopic = (typeof worldArticleGroups)[number]["slug"];
@@ -238,6 +246,7 @@ export const worldArticleRegistry = {
       "criminal-organizations",
       "myanmar",
       "mephisto-casino",
+      "moxi-brothel",
       "freedom",
     ],
   },
@@ -318,7 +327,11 @@ export const worldArticleRegistry = {
   innovatx: {
     title: "InnovatX",
     topic: "corporations",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Как Винсент Морган основал InnovatX и почему после исчезновения Кэвина компанию возглавил Дэвид.",
+      "Чем известна техника InnovatX и как семья Морган оказалась в центре внимания Эдема.",
+    ],
     related: ["corporations", "holland-industries", "corporate-races"],
   },
   "holland-industries": {
@@ -353,13 +366,7 @@ export const worldArticleRegistry = {
     title: "Криминальные организации Эдема",
     topic: "stories",
     status: "planned",
-    related: [
-      "pompeii",
-      "myanmar",
-      "freedom",
-      "mephisto-casino",
-      "technology-triumph-cult",
-    ],
+    related: ["pompeii", "myanmar", "freedom", "technology-triumph-cult"],
   },
   myanmar: {
     title: "Мьянма",
@@ -380,9 +387,15 @@ export const worldArticleRegistry = {
   },
   "mephisto-casino": {
     title: "Казино Мефиса",
-    topic: "stories",
+    topic: "locations",
     status: "planned",
-    related: ["pompeii", "criminal-organizations", "modern-chronology"],
+    related: ["pompeii", "moxi-brothel", "modern-chronology"],
+  },
+  "moxi-brothel": {
+    title: "Бордель Мокси",
+    topic: "locations",
+    status: "planned",
+    related: ["pompeii", "mephisto-casino"],
   },
   "technology-triumph-cult": {
     title: "Культ Триумфа Технологий",

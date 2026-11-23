@@ -1354,7 +1354,7 @@ test("public pages and their internal links resolve", async ({
   await expect(page.locator("form")).toHaveCount(0);
 });
 
-test("the world overview introduces six encyclopedia sections", async ({
+test("the world overview introduces seven encyclopedia sections", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
@@ -1392,8 +1392,9 @@ test("the world overview introduces six encyclopedia sections", async ({
       "Несогласные с порядком",
       "freedom-rally",
     ],
+    ["locations", "Локации", "Заведения Помпей", "pompeii"],
   ] as const;
-  await expect(page.getByRole("main").getByRole("article")).toHaveCount(6);
+  await expect(page.getByRole("main").getByRole("article")).toHaveCount(7);
   await expect(cards.getByRole("heading", { level: 3 })).toHaveText(
     expected.map(([, , title]) => title),
   );
@@ -1630,10 +1631,11 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
   page,
   request,
 }) => {
-  expect(worldArticleEntries).toHaveLength(33);
+  expect(worldArticleEntries).toHaveLength(34);
 
   for (const group of worldArticleGroups) {
     const topicPath = exportedPath(`/world/topics/${group.slug}`);
+    const thumbnailName = "thumbnail" in group ? group.thumbnail : group.slug;
     expect((await page.goto(topicPath))?.status()).toBe(200);
     const main = page.getByRole("main");
     const entries = worldArticleEntries.filter(
@@ -1663,7 +1665,7 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
         ).toBeVisible();
         await expect(card.locator("img")).toHaveAttribute(
           "src",
-          `${pagesBasePath}/images/world/article-thumbnails/${group.slug}.webp`,
+          `${pagesBasePath}/images/world/article-thumbnails/${thumbnailName}.webp`,
         );
         const description =
           entry.status === "published"
