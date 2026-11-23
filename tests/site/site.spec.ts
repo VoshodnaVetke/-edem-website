@@ -1226,6 +1226,36 @@ test("workshop formats expand exclusively and the team and contact links fit mob
     team.getByText("Разработчик приложения, базы данных и экономики Эдема"),
   ).toBeVisible();
 
+  // Every team card is media-first on phones, including Sonya's placeholder.
+  for (const width of [320, 390]) {
+    await mobile.setViewportSize({ width, height: 780 });
+    for (const [index, name] of [
+      "Найт",
+      "Алина",
+      "Лина",
+      "Соня",
+      "Восход",
+    ].entries()) {
+      const card = team.locator("article").nth(index);
+      const profile = card
+        .getByRole("heading", { level: 3, name, exact: true })
+        .locator("xpath=..");
+      const media =
+        name === "Соня"
+          ? card.getByText("ERROR 403", { exact: true }).locator("xpath=..")
+          : card.locator("img").locator("xpath=../..");
+      const mediaBox = await media.boundingBox();
+      const profileBox = await profile.boundingBox();
+      expect(mediaBox, `${name}: media at ${width}px`).not.toBeNull();
+      expect(profileBox, `${name}: profile at ${width}px`).not.toBeNull();
+      expect(mediaBox!.y + mediaBox!.height).toBeLessThanOrEqual(
+        profileBox!.y + 2,
+      );
+      expect(mediaBox!.width).toBeGreaterThan(profileBox!.width * 0.7);
+    }
+  }
+  await mobile.setViewportSize({ width: 320, height: 780 });
+
   const firstPhoto = team.locator("article img").first();
   await expect(firstPhoto).toBeVisible();
   const photoFrame = await firstPhoto.evaluate((image) => {
