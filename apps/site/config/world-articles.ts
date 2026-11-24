@@ -239,7 +239,7 @@ export const worldArticleRegistry = {
     status: "published",
     summary: [
       "Почему в бедный район Западного города приезжают за покупками и развлечениями.",
-      "Что рассказывали о казино Мефиса и «Борделе Мокси» городские газеты.",
+      "Как казино Мефиса вошло в состав «Борделя Мокси» и что писали о дне рождения его владелицы.",
     ],
     related: [
       "western-city",
@@ -253,7 +253,11 @@ export const worldArticleRegistry = {
   "mephisto-casino": {
     title: "Казино Мефиса",
     topic: "geography",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Почему казино в Помпеях привлекало гостей из обеспеченных кварталов.",
+      "Откуда взялись слухи об исчезновениях и как казино перешло к Мокси.",
+    ],
     related: ["pompeii", "moxi-brothel", "modern-chronology"],
   },
   "moxi-brothel": {
