@@ -42,8 +42,12 @@ export default function WorldGeographyArticle() {
               .
             </p>
             <p>
-              <strong>Западный город.</strong> Здесь находится Головной офис
-              Эдема, центральный государственный комплекс. В том же городе —{" "}
+              <strong>Западный город.</strong> Здесь находится{" "}
+              <a href={worldArticleHref("western-city") + "#head-office"}>
+                Головной офис Эдема
+              </a>
+              . В главной башне комплекса живёт Адам, а вокруг площади
+              расположены здания государственных ведомств. В том же городе —{" "}
               <a href={worldArticleHref("pompeii")}>Помпеи</a>, бедный район,
               полностью захваченный{" "}
               <a href={worldArticleHref("criminal-organizations")}>

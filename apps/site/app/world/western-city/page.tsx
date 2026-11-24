@@ -25,6 +25,25 @@ export default function WesternCityArticle() {
     >
       <article aria-labelledby="page-title" className={styles.stack}>
         <Reading>
+          <section aria-labelledby="head-office">
+            <Heading level={2} id="head-office">
+              Главная башня Эдема
+            </Heading>
+            <p>
+              Главная башня Головного офиса расширяется книзу, как пирамида. На
+              верхнем этаже живёт Адам. Ниже государство отводит квартиры{" "}
+              <a href={worldArticleHref("beacons") + "#privileges"}>Светочам</a>
+              . Под жилыми этажами размещаются отделы Эдема. Чем важнее
+              ведомство, тем выше его кабинеты. Нижние уровни занимают
+              министерства и другие государственные учреждения.
+            </p>
+            <p>
+              У подножия башни раскинулась большая площадь. Вокруг неё стоят
+              отдельные здания министерств и государственных отделов. Башня,
+              площадь и ведомственные здания образуют самый охраняемый комплекс
+              в Эдеме.
+            </p>
+          </section>
           <section aria-labelledby="district-ratings">
             <Heading level={2} id="district-ratings">
               Районы и их рейтинг
