@@ -263,8 +263,12 @@ export const worldArticleRegistry = {
   "moxi-brothel": {
     title: "Бордель Мокси",
     topic: "geography",
-    status: "planned",
-    related: ["pompeii", "mephisto-casino"],
+    status: "published",
+    summary: [
+      "Как Мокси сделала своё заведение одним из самых известных в Помпеях.",
+      "Чем закончился рейд на её дне рождения и что о нём написали «Эдем 24» и «Град».",
+    ],
+    related: ["pompeii", "mephisto-casino", "freedom", "lobos-libres"],
   },
   "neutral-lands": {
     title: "Нейтральные земли",
