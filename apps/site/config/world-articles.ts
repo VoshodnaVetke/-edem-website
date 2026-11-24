@@ -165,7 +165,11 @@ export const worldArticleRegistry = {
   "rehabilitation-institutions": {
     title: "Учреждения по восстановлению благонадёжности",
     topic: "power",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Кого направляют в УВБ, как выбирают учреждение и почему условия курса зависят от района.",
+      "Что даёт полис расширенной реабилитации и как гражданин набирает 100 баллов для освобождения.",
+    ],
     related: ["justice", "northern-city", "neurochip"],
   },
   "world-geography": {
