@@ -356,7 +356,11 @@ export const worldArticleRegistry = {
   enigma: {
     title: "Enigma",
     topic: "corporations",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Как три небольших производителя объединились и создали корпорацию, способную соперничать с InnovatX и Holland Industries.",
+      "За что покупатели ценят технику Enigma и кто руководит корпорацией.",
+    ],
     related: ["corporations", "corporate-races"],
   },
   "corporate-races": {
