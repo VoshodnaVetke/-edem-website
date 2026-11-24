@@ -390,6 +390,7 @@ export const worldArticleRegistry = {
       "pompeii",
       "myanmar",
       "freedom",
+      "organization-v",
       "white-swan",
       "technology-triumph-cult",
     ],
@@ -418,6 +419,16 @@ export const worldArticleRegistry = {
       "После ареста Теодора Рейдена группировку возглавила Роза. Она проникла на Парад технологий, а позже освободила Вампира из тюрьмы Северного города.",
     ],
     related: ["criminal-organizations", "pompeii", "modern-chronology"],
+  },
+  "organization-v": {
+    title: "Организация V",
+    topic: "stories",
+    status: "published",
+    summary: [
+      "Власти Эдема признали V террористической организацией в 2214 году. С ней связывают подпольную сеть, где появилось разоблачение проекта «Апостолы».",
+      "Имя Фантома связывают с подложными цифровыми профилями, а V обвиняют в сбое рейтинговой системы перед Парадом технологий.",
+    ],
+    related: ["criminal-organizations", "freedom", "skeos", "neurochip"],
   },
   "technology-triumph-cult": {
     title: "Культ Триумфа Технологий",
