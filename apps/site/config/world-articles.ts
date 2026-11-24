@@ -445,7 +445,7 @@ export const worldArticleRegistry = {
     ],
   },
   "lobos-libres": {
-    title: "Lobos Liberes",
+    title: "Lobus Liberos",
     topic: "stories",
     status: "published",
     summary: [

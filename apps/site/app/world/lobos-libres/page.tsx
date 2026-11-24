@@ -10,12 +10,12 @@ export default function LobosLiberesArticle() {
   return (
     <PageShell
       eyebrow="ВСЕЛЕННАЯ / ОРГАНИЗАЦИИ И ГРУППИРОВКИ"
-      title="Lobos Liberes"
+      title="Lobus Liberos"
     >
       <article aria-labelledby="page-title" className={styles.stack}>
         <Reading>
           <p>
-            Lobos Liberes — панк-группа, которую создали музыкант К-рок и
+            Lobus Liberos — панк-группа, которую создали музыкант К-рок и
             Мелисса Морган, дочь главы{" "}
             <a href={worldArticleHref("innovatx")}>InnovatX</a>. Группа пела о
             свободе, спорила с порядком Адама и требовала покончить с властью
@@ -44,7 +44,7 @@ export default function LobosLiberesArticle() {
               О чём они пели
             </Heading>
             <p>
-              В песнях Lobos Liberes звучала мысль, что человек вправе сам
+              В песнях Lobus Liberos звучала мысль, что человек вправе сам
               решать, как ему жить. Группа призывала отказываться от правил,
               навязанных обществом, и открыто выступала против действующей
               власти. Эти темы перекликались с лозунгами{" "}
