@@ -35,7 +35,8 @@ export default function LobosLiberesArticle() {
               <a href={worldArticleHref("technology-triumph-cult")}>
                 Культа Триумфа Технологий
               </a>
-              . Где Мелисса познакомилась с этой&#x20;
+              . Где Мелисса познакомилась с остальными участниками группы,
+              неизвестно.
             </p>
           </section>
           <section aria-labelledby="songs">
