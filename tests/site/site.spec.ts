@@ -1672,7 +1672,7 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
   page,
   request,
 }) => {
-  expect(worldArticleEntries).toHaveLength(35);
+  expect(worldArticleEntries).toHaveLength(36);
 
   for (const group of worldArticleGroups) {
     const topicPath = exportedPath(`/world/topics/${group.slug}`);
