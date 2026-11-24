@@ -366,7 +366,11 @@ export const worldArticleRegistry = {
   "corporate-races": {
     title: "Корпоративные гонки",
     topic: "corporations",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Зачем корпорации выводят болиды на трассу и как частные команды ищут здесь спонсоров и контракты.",
+      "Кто соперничает за первое место и чем отличаются машины InnovatX, Enigma и Holland Industries.",
+    ],
     related: [
       "innovatx",
       "holland-industries",
