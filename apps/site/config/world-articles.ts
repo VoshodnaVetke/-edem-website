@@ -412,7 +412,11 @@ export const worldArticleRegistry = {
   freedom: {
     title: "Свобода",
     topic: "stories",
-    status: "planned",
+    status: "published",
+    summary: [
+      "«Свобода» выросла в рабочих кварталах Западного города. Она добивается свержения власти Адама и отмены социального рейтинга, а её опорой остаются Помпеи.",
+      "После ареста Теодора Рейдена группировку возглавила Роза. Она проникла на Парад технологий, а позже освободила Вампира из тюрьмы Северного города.",
+    ],
     related: ["criminal-organizations", "pompeii", "modern-chronology"],
   },
   "technology-triumph-cult": {
