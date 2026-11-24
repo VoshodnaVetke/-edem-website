@@ -433,7 +433,11 @@ export const worldArticleRegistry = {
   "technology-triumph-cult": {
     title: "Культ Триумфа Технологий",
     topic: "stories",
-    status: "planned",
+    status: "published",
+    summary: [
+      "В Помпеях Культ изготавливал и устанавливал импланты. Его основательница по прозвищу Светоч видела в этой работе путь к Великой эволюции.",
+      "На Параде технологий Адам одобрил работу Культа. Контракт с InnovatX позволил наладить промышленный выпуск его имплантов.",
+    ],
     related: [
       "criminal-organizations",
       "science-and-technology",
