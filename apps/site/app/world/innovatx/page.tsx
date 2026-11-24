@@ -81,7 +81,7 @@ export default function InnovatXArticle() {
             </p>
             <p>
               Мелисса Морган выступала с панк-группой{" "}
-              <a href={worldArticleHref("lobos-libres")}>Lobos Liberes</a>,
+              <a href={worldArticleHref("lobos-libres")}>Lobus Liberos</a>,
               которая впоследствии распалась. Мелисса открыто критикует власть,
               и эта тема звучала в песнях группы. По слухам, Мелисса даже
               поддерживает преступную группировку «Свобода».
