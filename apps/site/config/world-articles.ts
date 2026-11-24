@@ -222,7 +222,11 @@ export const worldArticleRegistry = {
   "northern-city": {
     title: "Северный город",
     topic: "geography",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Что известно о рудниках, заводах и закрытых научных программах на крайнем севере Эдема.",
+      "Почему отправку на север считают почти смертным приговором и кто первым бежал из Северного города.",
+    ],
     related: [
       "world-geography",
       "rehabilitation-institutions",
