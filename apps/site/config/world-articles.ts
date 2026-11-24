@@ -341,7 +341,11 @@ export const worldArticleRegistry = {
   "holland-industries": {
     title: "Holland Industries",
     topic: "corporations",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Чем крупнейшая корпорация Эдема заслужила репутацию надёжного производителя, от бытовой техники до космических кораблей.",
+      "Как Холланды основали компанию и почему отставка Ричарда и исчезновение Сэма привлекли внимание прессы.",
+    ],
     related: [
       "corporations",
       "innovatx",
