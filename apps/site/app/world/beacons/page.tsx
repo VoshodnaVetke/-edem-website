@@ -2,6 +2,7 @@
 
 import { Heading, Reading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
+import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
 
@@ -71,6 +72,24 @@ export default function BeaconsArticle() {
               выдающихся достижений и вклада в общее благо. В религиозном учении
               Светочи считаются одними из наиболее близких к идеалу
               сверхчеловека, поэтому им доверяют руководить другими.
+            </p>
+            <p>
+              Государство предоставляет Светочам служебные квартиры в{" "}
+              <a href={worldArticleHref("western-city") + "#head-office"}>
+                главной башне Эдема
+              </a>
+              , на этажах под резиденцией Адама. Квартиры остаются в
+              государственной собственности.
+            </p>
+            <p>
+              Если Светоч совершает убийство, его лишают звания и положенных
+              Светочам привилегий. Государство может забрать жильё или другое
+              имущество, выделенное за заслуги во временное пользование. В УВБ
+              бывшего Светоча направляют, если после{" "}
+              <a href={worldArticleHref("neurochip") + "#criminal-rating"}>
+                рейтингового взыскания
+              </a>{" "}
+              его рейтинг оказался ниже нуля.
             </p>
           </section>
         </Reading>
