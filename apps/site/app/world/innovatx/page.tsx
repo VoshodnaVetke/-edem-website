@@ -2,6 +2,7 @@
 
 import { Heading, Reading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
+import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
 
@@ -80,10 +81,10 @@ export default function InnovatXArticle() {
             </p>
             <p>
               Мелисса Морган выступала с панк-группой{" "}
-              <strong>Lobos Liberes</strong>, которая впоследствии распалась.
-              Мелисса открыто критикует власть, и эта тема звучала в песнях
-              группы. По слухам, Мелисса даже поддерживает преступную
-              группировку «Свобода».
+              <a href={worldArticleHref("lobos-libres")}>Lobos Liberes</a>,
+              которая впоследствии распалась. Мелисса открыто критикует власть,
+              и эта тема звучала в песнях группы. По слухам, Мелисса даже
+              поддерживает преступную группировку «Свобода».
             </p>
           </section>
         </Reading>

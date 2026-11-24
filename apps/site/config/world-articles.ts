@@ -445,9 +445,13 @@ export const worldArticleRegistry = {
     ],
   },
   "lobos-libres": {
-    title: "Lobos Libres",
+    title: "Lobos Liberes",
     topic: "stories",
-    status: "planned",
+    status: "published",
+    summary: [
+      "К-рок и Мелисса Морган собрали панк-группу, которая пела о свободе и выступала против власти Адама и корпораций.",
+      "После задержания К-рока и Честейн Олдвуд группа распалась. Мелисса и Страж продолжили выступать дуэтом.",
+    ],
     related: ["criminal-organizations", "freedom", "modern-chronology"],
   },
   "history-before-adam": {
