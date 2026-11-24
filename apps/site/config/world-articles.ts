@@ -303,7 +303,11 @@ export const worldArticleRegistry = {
   "cybernetics-and-implants": {
     title: "Кибернетика и импланты",
     topic: "technology",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Какие импланты используют в Эдеме, как работает кибердека и от чего защищает «Интралёд».",
+      "Что известно о киберпсихозе и как импланты из помпейских мастерских дошли до серийного производства.",
+    ],
     related: [
       "neurochip",
       "science-and-technology",
