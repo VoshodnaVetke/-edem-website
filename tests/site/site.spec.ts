@@ -1643,16 +1643,21 @@ test("world articles link to approved content and planned pages", async ({
   await main
     .getByRole("link", { name: "Наркокартель «Мьянма»", exact: true })
     .click();
-  await expect(main.getByRole("heading", { level: 1 })).toHaveText("Мьянма");
-  await expect(
-    main.getByText("Статья в подготовке.", { exact: true }),
-  ).toBeVisible();
-  await main
-    .getByRole("link", { name: "К списку статей", exact: true })
-    .click();
   await expect(main.getByRole("heading", { level: 1 })).toHaveText(
-    "Организации и группировки",
+    "Наркокартель «Мьянма»",
   );
+  await expect(
+    main.getByRole("heading", { name: "От любви до борьбы за власть" }),
+  ).toBeVisible();
+  await expect(main.getByRole("link", { name: "Помпей" })).toHaveAttribute(
+    "href",
+    exportedPath("/world/pompeii"),
+  );
+
+  await page.goto(exportedPath("/world/topics/stories"));
+  await expect(
+    main.getByRole("link", { name: "Мьянма", exact: true }),
+  ).toHaveAttribute("href", exportedPath("/world/myanmar"));
 
   await page.goto(exportedPath("/world/topics/daily-life"));
   await expect(
