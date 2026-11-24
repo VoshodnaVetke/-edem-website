@@ -265,7 +265,11 @@ export const worldArticleRegistry = {
   "neutral-lands": {
     title: "Нейтральные земли",
     topic: "geography",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Как выживают независимые общины среди заражённых земель между Эдемом и Скеосом.",
+      "Кто контролирует дороги и месторождения и почему очистка земли даёт корпорациям влияние.",
+    ],
     related: [
       "world-geography",
       "skeos",
