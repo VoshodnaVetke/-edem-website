@@ -1638,6 +1638,13 @@ test("world articles link to approved content and planned pages", async ({
     "Криминальные организации Эдема",
   );
   await expect(
+    main.getByRole("link", { name: "революцию «Белый лебедь»", exact: true }),
+  ).toHaveAttribute("href", exportedPath("/world/white-swan"));
+  await main
+    .getByRole("link", { name: "Наркокартель «Мьянма»", exact: true })
+    .click();
+  await expect(main.getByRole("heading", { level: 1 })).toHaveText("Мьянма");
+  await expect(
     main.getByText("Статья в подготовке.", { exact: true }),
   ).toBeVisible();
   await main
@@ -1660,7 +1667,7 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
   page,
   request,
 }) => {
-  expect(worldArticleEntries).toHaveLength(34);
+  expect(worldArticleEntries).toHaveLength(35);
 
   for (const group of worldArticleGroups) {
     const topicPath = exportedPath(`/world/topics/${group.slug}`);

@@ -381,8 +381,18 @@ export const worldArticleRegistry = {
   "criminal-organizations": {
     title: "Криминальные организации Эдема",
     topic: "stories",
-    status: "planned",
-    related: ["pompeii", "myanmar", "freedom", "technology-triumph-cult"],
+    status: "published",
+    summary: [
+      "Кого в Эдеме называют Хищниками и почему «Мьянма» и «Свобода» борются за влияние в Помпеях.",
+      "Чем занимается картель, чего добивается «Свобода» и что известно об организации V.",
+    ],
+    related: [
+      "pompeii",
+      "myanmar",
+      "freedom",
+      "white-swan",
+      "technology-triumph-cult",
+    ],
   },
   myanmar: {
     title: "Мьянма",
@@ -445,6 +455,12 @@ export const worldArticleRegistry = {
     topic: "history",
     status: "planned",
     related: ["founding-of-edem", "higher-path", "modern-chronology"],
+  },
+  "white-swan": {
+    title: "Революция «Белый лебедь»",
+    topic: "history",
+    status: "planned",
+    related: ["modern-chronology", "freedom", "criminal-organizations"],
   },
   "modern-chronology": {
     title: "Хронология современных событий",
