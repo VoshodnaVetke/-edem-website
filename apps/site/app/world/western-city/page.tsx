@@ -85,10 +85,9 @@ export default function WesternCityArticle() {
             <p>
               А ещё сюда приезжают развлечься, и среди гостей бывают люди, чей
               рейтинг намного выше нуля. Здесь находится{" "}
-              <a href={worldArticleHref("moxi-brothel")}>«Бордель Мокси»</a>, а
-              когда-то работало и{" "}
-              <a href={worldArticleHref("mephisto-casino")}>казино Мефиса</a>,
-              которого, к сожалению, больше нет.
+              <a href={worldArticleHref("moxi-brothel")}>«Бордель Мокси»</a>, в
+              состав которого вошло{" "}
+              <a href={worldArticleHref("mephisto-casino")}>казино Мефиса</a>.
             </p>
           </section>
         </Reading>
