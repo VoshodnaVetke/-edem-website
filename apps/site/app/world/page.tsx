@@ -8,6 +8,11 @@ import {
   worldArticlesHref,
 } from "../../config/world-articles";
 import layout from "../../styles/page-layout.module.css";
+import {
+  followWithReturnPosition,
+  useRestoreScrollPosition,
+  worldOverviewParam,
+} from "./article-list-state";
 import styles from "./world.module.css";
 
 const sections = [
@@ -16,6 +21,8 @@ const sections = [
 ] as const;
 
 export default function WorldPage() {
+  useRestoreScrollPosition();
+
   return (
     <main id="main-content" tabIndex={-1} className={layout.page}>
       <SiteSectionRail sections={sections} />
@@ -73,6 +80,9 @@ export default function WorldPage() {
                       className={styles.readArticles}
                       size="sm"
                       href={worldArticlesHref(slug)}
+                      onClick={(event) =>
+                        followWithReturnPosition(event, worldOverviewParam)
+                      }
                       aria-label={`Читать статьи — ${title}`}
                     >
                       Читать статьи <span aria-hidden="true">→</span>
