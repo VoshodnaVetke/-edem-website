@@ -5,13 +5,11 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
-import { WorldArticleIllustration } from "../WorldArticleIllustration";
 
 export default function InnovatXArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ" title="InnovatX">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <WorldArticleIllustration slug="innovatx" />
         <Reading>
           <p>
             InnovatX появилась в 2100-х, когда Эдем ещё восстанавливался после

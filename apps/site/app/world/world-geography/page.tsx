@@ -5,7 +5,6 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
-import { WorldArticleIllustration } from "../WorldArticleIllustration";
 
 export default function WorldGeographyArticle() {
   return (
@@ -26,7 +25,6 @@ export default function WorldGeographyArticle() {
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <WorldArticleIllustration slug="world-geography" />
         <Reading>
           <section aria-labelledby="edem-territory">
             <Heading level={2} id="edem-territory">
