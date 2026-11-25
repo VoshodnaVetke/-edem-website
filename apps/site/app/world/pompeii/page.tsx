@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleIllustration } from "../WorldArticleIllustration";
 
 export default function PompeiiArticle() {
   return (
@@ -28,6 +29,7 @@ export default function PompeiiArticle() {
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>
+        <WorldArticleIllustration slug="pompeii" />
         <Reading>
           <section aria-labelledby="market">
             <Heading level={2} id="market">

@@ -4,11 +4,13 @@ import { Heading, Reading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleIllustration } from "../WorldArticleIllustration";
 
 export default function EnigmaArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ" title="Enigma">
       <article aria-labelledby="page-title" className={styles.stack}>
+        <WorldArticleIllustration slug="enigma" />
         <Reading>
           <p>
             «Ричарду и Дэвиду пора бояться?» — такой вопрос «Град» вынес в
