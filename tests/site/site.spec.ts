@@ -1569,6 +1569,53 @@ test("the world article keeps direct section links and related links", async ({
   ).toBeVisible();
 });
 
+test("mobile article navigation restores the topic list after sequential reading", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const topicPath = exportedPath("/world/topics/power");
+  const articles = worldArticleEntries.filter(
+    (entry) => entry.topic === "power" && entry.status !== "merged",
+  );
+  const current = articles[articles.length - 2];
+  const next = articles[articles.length - 1];
+  await page.goto(topicPath + "?view=reading");
+  const article = page.getByRole("link", { name: current.title, exact: true });
+  await page.evaluate(() => document.fonts.ready.then(() => undefined));
+  await article.evaluate((link) =>
+    link.scrollIntoView({ block: "center", behavior: "instant" }),
+  );
+  const position = await page.evaluate(() => window.scrollY);
+  expect(position).toBeGreaterThan(0);
+  await article.click();
+
+  const footer = page.getByRole("navigation", { name: "Навигация по статьям" });
+  const nextLink = footer.getByRole("link", { name: /Следующая статья/ });
+  await expect(nextLink).toContainText(next.title);
+  await expect(nextLink).toHaveAttribute("href", /articleList=/);
+  await nextLink.click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(next.title);
+
+  const previous = footer.getByRole("link", { name: "Предыдущая статья" });
+  await expect(previous).toHaveAttribute(
+    "href",
+    new RegExp(`/world/${current.slug}/\\?articleList=`),
+  );
+  const back = page
+    .getByRole("navigation", { name: "Раздел статьи" })
+    .getByRole("link");
+  await back.click();
+  await expect(page).toHaveURL(topicPath + "?view=reading");
+  await expect
+    .poll(() =>
+      page.evaluate((top) => Math.abs(window.scrollY - top), position),
+    )
+    .toBeLessThanOrEqual(2);
+
+  await page.goto(exportedPath(`/world/${next.slug}`));
+  await expect(back).toHaveAttribute("href", topicPath);
+});
+
 test("world articles link to approved content and planned pages", async ({
   page,
 }) => {

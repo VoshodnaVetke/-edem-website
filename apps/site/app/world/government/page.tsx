@@ -1,11 +1,11 @@
 "use client";
 
 import { ButtonLink, Heading, Reading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import diagram from "./government.module.css";
 
 const levels = [
@@ -24,7 +24,8 @@ const levels = [
 
 export default function GovernmentArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="government"
       eyebrow="ВСЕЛЕННАЯ / ГОСУДАРСТВО"
       title="Государственное устройство Эдема"
       description="Эдем — одно из крупнейших государств современного мира, объединившее высокие технологии, развитую систему управления и духовные идеалы Высшего Пути. Во главе государства стоит Верховный понтифик Адам."
@@ -262,10 +263,10 @@ export default function GovernmentArticle() {
           </section>
         </Reading>
 
-        <RelatedWorldArticles slug="government">
+        <WorldArticleFooter slug="government">
           <ButtonLink href={siteHref("/world")}>К обзору мира</ButtonLink>
-        </RelatedWorldArticles>
+        </WorldArticleFooter>
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

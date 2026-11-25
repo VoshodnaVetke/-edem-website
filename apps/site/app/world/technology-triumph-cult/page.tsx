@@ -1,16 +1,17 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function TechnologyTriumphCultArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="technology-triumph-cult"
       eyebrow="ВСЕЛЕННАЯ / ОРГАНИЗАЦИИ И ГРУППИРОВКИ"
       title="Культ Триумфа Технологий"
     >
@@ -122,8 +123,8 @@ export default function TechnologyTriumphCultArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="technology-triumph-cult" />
+        <WorldArticleFooter slug="technology-triumph-cult" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

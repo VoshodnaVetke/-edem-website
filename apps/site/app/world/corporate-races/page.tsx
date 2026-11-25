@@ -1,15 +1,19 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 import articleStyles from "../corporations/corporations.module.css";
 
 export default function CorporateRacesArticle() {
   return (
-    <PageShell eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ" title="Корпоративные гонки">
+    <WorldArticleShell
+      slug="corporate-races"
+      eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ"
+      title="Корпоративные гонки"
+    >
       <article aria-labelledby="page-title" className={styles.stack}>
         <WorldArticleReading slug="corporate-races">
           <p>
@@ -112,8 +116,8 @@ export default function CorporateRacesArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="corporate-races" />
+        <WorldArticleFooter slug="corporate-races" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

@@ -1,15 +1,16 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function MyanmarArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="myanmar"
       eyebrow="ВСЕЛЕННАЯ / ОРГАНИЗАЦИИ И ГРУППИРОВКИ"
       title="Наркокартель «Мьянма»"
     >
@@ -87,8 +88,8 @@ export default function MyanmarArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="myanmar" />
+        <WorldArticleFooter slug="myanmar" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

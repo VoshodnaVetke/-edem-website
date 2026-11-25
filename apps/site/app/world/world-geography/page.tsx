@@ -1,15 +1,16 @@
 "use client";
 
 import { Heading, Reading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function WorldGeographyArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="world-geography"
       eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
       title="География мира"
       intro={
@@ -135,8 +136,8 @@ export default function WorldGeographyArticle() {
           </section>
         </Reading>
 
-        <RelatedWorldArticles slug="world-geography" />
+        <WorldArticleFooter slug="world-geography" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

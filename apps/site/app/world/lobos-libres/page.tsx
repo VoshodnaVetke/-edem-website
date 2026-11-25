@@ -1,15 +1,16 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function LobosLiberesArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="lobos-libres"
       eyebrow="ВСЕЛЕННАЯ / ОРГАНИЗАЦИИ И ГРУППИРОВКИ"
       title="Lobus Liberos"
     >
@@ -68,8 +69,8 @@ export default function LobosLiberesArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="lobos-libres" />
+        <WorldArticleFooter slug="lobos-libres" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

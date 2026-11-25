@@ -1,15 +1,16 @@
 "use client";
 
 import { Heading, Reading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function SkeosArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="skeos"
       eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
       title="Скеос"
       intro={
@@ -94,8 +95,8 @@ export default function SkeosArticle() {
           </section>
         </Reading>
 
-        <RelatedWorldArticles slug="skeos" />
+        <WorldArticleFooter slug="skeos" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

@@ -1,16 +1,17 @@
 "use client";
 
 import { ButtonLink, Heading, Reading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function NeurochipArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="neurochip"
       eyebrow="ВСЕЛЕННАЯ / ОБЩЕСТВО"
       title="Социальный рейтинг и нейрочип"
       intro={
@@ -277,13 +278,13 @@ export default function NeurochipArticle() {
           </section>
         </Reading>
 
-        <RelatedWorldArticles slug="neurochip">
+        <WorldArticleFooter slug="neurochip">
           <ButtonLink href={siteHref("/world") + "#power"}>
             Государство и власть
           </ButtonLink>
           <ButtonLink href={siteHref("/world")}>К обзору мира</ButtonLink>
-        </RelatedWorldArticles>
+        </WorldArticleFooter>
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

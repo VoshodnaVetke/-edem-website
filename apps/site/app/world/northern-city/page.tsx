@@ -1,15 +1,19 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function NorthernCityArticle() {
   return (
-    <PageShell eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ" title="Северный город">
+    <WorldArticleShell
+      slug="northern-city"
+      eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
+      title="Северный город"
+    >
       <article aria-labelledby="page-title" className={styles.stack}>
         <WorldArticleReading slug="northern-city">
           <p>
@@ -94,8 +98,8 @@ export default function NorthernCityArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="northern-city" />
+        <WorldArticleFooter slug="northern-city" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

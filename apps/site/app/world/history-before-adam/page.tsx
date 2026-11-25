@@ -1,16 +1,17 @@
 "use client";
 
 import { Heading, Reading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 import articleStyles from "../corporations/corporations.module.css";
 
 export default function HistoryBeforeAdamArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="history-before-adam"
       eyebrow="ВСЕЛЕННАЯ / ИСТОРИЯ"
       title="История мира до Адама"
       intro={
@@ -155,8 +156,8 @@ export default function HistoryBeforeAdamArticle() {
           </section>
         </Reading>
 
-        <RelatedWorldArticles slug="history-before-adam" />
+        <WorldArticleFooter slug="history-before-adam" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

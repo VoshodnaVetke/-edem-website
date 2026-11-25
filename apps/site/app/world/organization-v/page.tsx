@@ -1,16 +1,17 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function OrganizationVArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="organization-v"
       eyebrow="ВСЕЛЕННАЯ / ОРГАНИЗАЦИИ И ГРУППИРОВКИ"
       title="Организация V"
     >
@@ -130,8 +131,8 @@ export default function OrganizationVArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="organization-v" />
+        <WorldArticleFooter slug="organization-v" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }
