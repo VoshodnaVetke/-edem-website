@@ -1,16 +1,17 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function NeutralLandsArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ" title="Нейтральные земли">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="neutral-lands">
           <p>
             Между <a href={worldArticleHref("world-geography")}>Эдемом</a> и{" "}
             <a href={worldArticleHref("skeos")}>Скеосом</a> лежат Нейтральные
@@ -129,7 +130,7 @@ export default function NeutralLandsArticle() {
               того, кто способен вернуть заражённую землю в обиход.
             </p>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="neutral-lands" />
       </article>

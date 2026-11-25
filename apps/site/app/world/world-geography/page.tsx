@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function WorldGeographyArticle() {
   return (
@@ -12,7 +13,7 @@ export default function WorldGeographyArticle() {
       eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
       title="География мира"
       intro={
-        <Reading>
+        <WorldArticleReading slug="world-geography">
           <p>
             После{" "}
             <a href={worldArticleHref("history-before-adam")}>Ядерной войны</a>{" "}
@@ -21,7 +22,7 @@ export default function WorldGeographyArticle() {
             пространствами. Эдем занимает три соседние территории, а между ним и
             Скеосом лежат Нейтральные земли.
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

@@ -6,6 +6,7 @@ import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function HigherPathArticle() {
   return (
@@ -13,7 +14,7 @@ export default function HigherPathArticle() {
       eyebrow="ВСЕЛЕННАЯ / ГОСУДАРСТВО И ОБЩЕСТВО"
       title="Высший Путь"
       intro={
-        <Reading>
+        <WorldArticleReading slug="higher-path">
           <p>
             Высший Путь — государственная религия Эдема. Согласно её учению,
             Вселенная предназначила человечеству духовное, научное и
@@ -21,7 +22,7 @@ export default function HigherPathArticle() {
             становление сверхчеловечества и освоение Галактики. Верховный
             понтифик Адам возглавляет религию и государство.
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

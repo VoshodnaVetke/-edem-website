@@ -1,10 +1,11 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function CriminalOrganizationsArticle() {
   return (
@@ -13,7 +14,7 @@ export default function CriminalOrganizationsArticle() {
       title="Криминальные организации Эдема"
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="criminal-organizations">
           <p>
             В Эдеме назвать кого-то Хищником — тяжёлое обвинение. В учении
             Высшего Пути за этим словом стоят ересь и смута. Так называют тех, в
@@ -89,7 +90,7 @@ export default function CriminalOrganizationsArticle() {
             значение. Тот, кто контролирует улицу, устанавливает правила для
             местного рынка и заведений.
           </p>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="criminal-organizations" />
       </article>

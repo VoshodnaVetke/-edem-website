@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function EasternCityArticle() {
   return (
@@ -12,7 +13,7 @@ export default function EasternCityArticle() {
       eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
       title="Восточный город"
       intro={
-        <Reading>
+        <WorldArticleReading slug="eastern-city">
           <p>
             В Восточном городе ещё можно увидеть, что осталось от довоенной
             Азии. Здесь сохранились старые здания, статуи и памятники, а
@@ -21,7 +22,7 @@ export default function EasternCityArticle() {
             <a href={worldArticleHref("western-city")}>Западный город</a>, и
             заселён плотнее.
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

@@ -1,10 +1,11 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function LobosLiberesArticle() {
   return (
@@ -13,7 +14,7 @@ export default function LobosLiberesArticle() {
       title="Lobus Liberos"
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="lobos-libres">
           <p>
             Lobus Liberos — панк-группа, которую создали музыкант К-рок и
             Мелисса Морган, дочь главы{" "}
@@ -65,7 +66,7 @@ export default function LobosLiberesArticle() {
               Мелисса и Страж, уже дуэтом.
             </p>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="lobos-libres" />
       </article>

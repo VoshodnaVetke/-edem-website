@@ -1,0 +1,45 @@
+.frame {
+  --folder-shape: polygon(0 0, 38% 0, 48% 13%, 100% 13%, 100% 100%, 0 100%);
+  position: relative;
+  background: var(--edem-color-outline-sketch);
+  clip-path: var(--folder-shape);
+}
+
+.frame img {
+  clip-path: var(--folder-shape);
+}
+
+.thumbnail {
+  aspect-ratio: 3 / 2;
+}
+
+.thumbnail img {
+  position: absolute;
+  inset: 2px;
+  inline-size: calc(100% - 4px);
+  block-size: calc(100% - 4px);
+  object-fit: cover;
+}
+
+.reading {
+  display: flow-root;
+}
+
+.illustration {
+  margin: 0 0 1em;
+  padding: 2px;
+}
+
+.illustration img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+@media (min-width: 48rem) {
+  .illustration {
+    float: inline-start;
+    inline-size: 40%;
+    margin-inline-end: clamp(1rem, 2.5vw, 1.5rem);
+  }
+}

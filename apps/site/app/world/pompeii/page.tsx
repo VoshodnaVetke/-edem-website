@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function PompeiiArticle() {
   return (
@@ -12,7 +13,7 @@ export default function PompeiiArticle() {
       eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
       title="Помпеи"
       intro={
-        <Reading>
+        <WorldArticleReading slug="pompeii">
           <p>
             В Помпеях неоновые вывески горят среди полуразрушенных домов. Это
             бедный район{" "}
@@ -24,7 +25,7 @@ export default function PompeiiArticle() {
             . Люди тут живут в нищете, если, конечно, не состоят в одной из
             банд.
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

@@ -1,11 +1,12 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function CyberneticsAndImplantsArticle() {
   return (
@@ -14,7 +15,7 @@ export default function CyberneticsAndImplantsArticle() {
       title="Кибернетика и импланты"
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="cybernetics-and-implants">
           <p>
             Удачный протез может вернуть человеку возможность ходить, а его
             создателю — дать имя в профессии. В Эдеме, где хорошие клиники и
@@ -208,7 +209,7 @@ export default function CyberneticsAndImplantsArticle() {
               выпускают серийно.
             </p>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="cybernetics-and-implants" />
       </article>

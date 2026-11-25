@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 import articleStyles from "../corporations/corporations.module.css";
 
 export default function HistoryBeforeAdamArticle() {
@@ -13,7 +14,7 @@ export default function HistoryBeforeAdamArticle() {
       eyebrow="ВСЕЛЕННАЯ / ИСТОРИЯ"
       title="История мира до Адама"
       intro={
-        <Reading>
+        <WorldArticleReading slug="history-before-adam">
           <p>
             До возникновения Эдема человечество было разделено на независимые
             государства, отличавшиеся языками, религиями, политическими
@@ -21,7 +22,7 @@ export default function HistoryBeforeAdamArticle() {
             предшествовали глобальному кризису, который завершился разрушением
             прежнего мирового порядка.
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

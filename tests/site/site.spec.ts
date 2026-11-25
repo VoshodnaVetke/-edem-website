@@ -1728,8 +1728,10 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
         const response = await request.get(path);
         expect(response.status(), path).toBe(200);
         const html = await response.text();
-        expect(html, path).not.toContain(
-          `src="${pagesBasePath}/images/world/articles/`,
+        const illustrationSources =
+          html.match(/src="[^"]*\/images\/world\/articles\/[^"]+"/g) ?? [];
+        expect(illustrationSources, path).toEqual(
+          "thumbnail" in entry ? [`src="${thumbnail}"`] : [],
         );
         expect(html, path).not.toContain("На этой странице");
         expect(html.includes("Статья в подготовке."), path).toBe(

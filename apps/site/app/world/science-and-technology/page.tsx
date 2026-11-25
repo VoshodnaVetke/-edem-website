@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function ScienceAndTechnologyArticle() {
   return (
@@ -12,14 +13,14 @@ export default function ScienceAndTechnologyArticle() {
       eyebrow="ВСЕЛЕННАЯ / НАУКА И ТЕХНОЛОГИИ"
       title="Наука и технологии Эдема"
       intro={
-        <Reading>
+        <WorldArticleReading slug="science-and-technology">
           <p>
             В <a href={worldArticleHref("western-city")}>Западном городе</a>{" "}
             скоростные поезда идут над улицами. Для поездки можно вызвать и
             гиперкар на автопилоте. А если вы сами садитесь за руль, машина
             проверит водительскую лицензию ещё до того, как тронется с места.
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

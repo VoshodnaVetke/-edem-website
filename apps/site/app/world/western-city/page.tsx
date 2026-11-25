@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function WesternCityArticle() {
   return (
@@ -12,7 +13,7 @@ export default function WesternCityArticle() {
       eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
       title="Западный город"
       intro={
-        <Reading>
+        <WorldArticleReading slug="western-city">
           <p>
             Знакомство с Западным городом можно начать с центра. Среди светлых
             фасадов, стекла и голограмм стоит Головной офис Эдема. Отсюда
@@ -20,7 +21,7 @@ export default function WesternCityArticle() {
             <a href={worldArticleHref("world-geography")}>трёх городов Эдема</a>
             .
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>
