@@ -415,7 +415,7 @@ export const worldArticleRegistry = {
       "myanmar",
       "freedom",
       "organization-v",
-      "white-swan",
+      "history-of-edem",
       "technology-triumph-cult",
     ],
   },
@@ -508,13 +508,24 @@ export const worldArticleRegistry = {
   "history-of-edem": {
     title: "История Эдема",
     topic: "history",
-    status: "planned",
-    related: ["founding-of-edem", "higher-path", "modern-chronology"],
+    status: "published",
+    summary: [
+      "Как при Третьем Адаме появились Помпеи и социальный рейтинг вошёл в повседневную жизнь.",
+      "Что писали газеты о чипировании и лицензиях и чем закончилась революция «Белый лебедь».",
+    ],
+    related: [
+      "founding-of-edem",
+      "pompeii",
+      "neurochip",
+      "freedom",
+      "modern-chronology",
+    ],
   },
   "white-swan": {
     title: "Революция «Белый лебедь»",
     topic: "history",
-    status: "planned",
+    status: "merged",
+    target: { slug: "history-of-edem", section: "white-swan" },
     related: ["modern-chronology", "freedom", "criminal-organizations"],
   },
   "modern-chronology": {
