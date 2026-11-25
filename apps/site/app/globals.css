@@ -43,12 +43,23 @@ body {
 
 :where(main, footer)
   a[href]:not(:where(.edem-button, .edem-link-card, .site-section-rail a)) {
-  color: var(--edem-color-accent-secondary);
+  color: color-mix(
+    in srgb,
+    var(--edem-color-accent-secondary) 44%,
+    var(--edem-color-text-metadata)
+  );
   text-decoration-line: underline;
   text-decoration-style: dashed;
   text-decoration-color: currentColor;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
+}
+
+:where(main, footer)
+  a[href]:not(
+    :where(.edem-button, .edem-link-card, .site-section-rail a)
+  ):active {
+  color: var(--edem-color-accent-primary);
 }
 
 :where(:focus-visible) {
