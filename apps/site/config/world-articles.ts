@@ -62,7 +62,7 @@ type WorldArticle = {
   topic: WorldArticleTopic;
   related: readonly string[];
 } & (
-  | { status: "planned" }
+  | { status: "planned" | "hidden" }
   | { status: "published"; summary: readonly [string, string] }
   | { status: "merged"; target: { slug: string; section: string } }
 );
@@ -531,7 +531,7 @@ export const worldArticleRegistry = {
   "modern-chronology": {
     title: "Хронология современных событий",
     topic: "history",
-    status: "planned",
+    status: "hidden",
     related: [
       "history-of-edem",
       "mephisto-casino",
@@ -546,7 +546,15 @@ export type WorldArticleSlug = keyof typeof worldArticleRegistry;
 
 export const worldArticleEntries = (
   Object.keys(worldArticleRegistry) as WorldArticleSlug[]
-).map((slug) => ({ slug, ...worldArticleRegistry[slug] }));
+)
+  .map((slug) => ({ slug, ...worldArticleRegistry[slug] }))
+  .filter(({ status }) => status !== "hidden");
+
+export function relatedWorldArticleSlugs(slug: WorldArticleSlug) {
+  return worldArticleRegistry[slug].related.filter(
+    (relatedSlug) => worldArticleRegistry[relatedSlug].status !== "hidden",
+  );
+}
 
 export function worldArticleHref(slug: WorldArticleSlug): string {
   const article = worldArticleRegistry[slug];

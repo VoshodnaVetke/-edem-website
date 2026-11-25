@@ -3,6 +3,7 @@
 import { ButtonLink, Heading } from "@edem/ui";
 import type { ReactNode } from "react";
 import {
+  relatedWorldArticleSlugs,
   worldArticleHref,
   worldArticleRegistry,
   type WorldArticleSlug,
@@ -22,7 +23,7 @@ export function RelatedWorldArticles({
         Связанные статьи
       </Heading>
       <div className={styles.actions}>
-        {worldArticleRegistry[slug].related.map((relatedSlug) => (
+        {relatedWorldArticleSlugs(slug).map((relatedSlug) => (
           <ButtonLink key={relatedSlug} href={worldArticleHref(relatedSlug)}>
             {worldArticleRegistry[relatedSlug].title}
           </ButtonLink>

@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { upcomingGame } from "../../apps/site/config/upcoming-game";
 import {
+  relatedWorldArticleSlugs,
   worldArticleEntries,
   worldArticleGroups,
 } from "../../apps/site/config/world-articles";
@@ -1675,7 +1676,7 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
   page,
   request,
 }) => {
-  expect(worldArticleEntries).toHaveLength(36);
+  expect(worldArticleEntries).toHaveLength(35);
 
   for (const group of worldArticleGroups) {
     const topicPath = exportedPath(`/world/topics/${group.slug}`);
@@ -1689,6 +1690,9 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
     );
     const links = main.getByRole("list").getByRole("link");
     await expect(links).toHaveCount(entries.length);
+    await expect(
+      links.filter({ hasText: "Хронология современных событий" }),
+    ).toHaveCount(0);
 
     await Promise.all(
       entries.map(async (entry) => {
@@ -1724,9 +1728,12 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
         const html = await response.text();
         expect(html, path).not.toContain("На этой странице");
         expect(html.includes("Статья в подготовке."), path).toBe(
-          entry.status === "planned",
+          entry.status !== "published",
         );
-        for (const related of entry.related) {
+        expect(html, path).not.toContain(
+          `href="${exportedPath("/world/modern-chronology")}"`,
+        );
+        for (const related of relatedWorldArticleSlugs(entry.slug)) {
           expect(html, path).toContain(
             `href="${exportedPath(`/world/${related}`)}"`,
           );
@@ -1903,6 +1910,7 @@ test("removed and unavailable routes return 404", async ({ request }) => {
     "/events/unpublished",
     "/wiki/unpublished",
     "/world/unregistered-article",
+    "/world/modern-chronology",
   ]) {
     const response = await request.get(exportedPath(path));
     expect(response.status(), path).toBe(404);
