@@ -369,6 +369,13 @@ test("game photos can be browsed and downloaded from the viewer", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(exportedPath("/games/parad-tehnologiy"));
+  const breadcrumb = page.getByRole("navigation", { name: "Путь к странице" });
+  await expect(
+    breadcrumb.getByRole("link", { name: "Наши игры" }),
+  ).toHaveAttribute("href", exportedPath("/games"));
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
+    "Парад технологий",
+  );
   const thumbnail = page.locator(".edem-gallery a").first();
   await thumbnail.click();
   const viewer = page.getByRole("dialog", { name: "Просмотр фотографий" });
@@ -376,8 +383,8 @@ test("game photos can be browsed and downloaded from the viewer", async ({
   await expect(photo).toHaveAttribute("src", /0205\.webp$/);
   const previous = viewer.getByRole("button", { name: "Предыдущее фото" });
   const next = viewer.getByRole("button", { name: "Следующее фото" });
-  await expect(previous).toHaveText("←");
-  await expect(next).toHaveText("→");
+  await expect(previous.locator('[data-direction="left"]')).toBeVisible();
+  await expect(next.locator('[data-direction="right"]')).toBeVisible();
   const close = viewer.getByRole("button", { name: "Закрыть" });
   await expect(close).toHaveText("×");
   for (const control of [close, previous, next]) {
@@ -1590,8 +1597,14 @@ test("mobile article navigation restores the topic list after sequential reading
   await article.click();
 
   const footer = page.getByRole("navigation", { name: "Навигация по статьям" });
-  const nextLink = footer.getByRole("link", { name: /Следующая статья/ });
-  const previousLink = footer.getByRole("link", { name: "Предыдущая статья" });
+  const nextLink = footer.locator('a[rel="next"]');
+  const previousLink = footer.locator('a[rel="prev"]');
+  await expect(nextLink).toHaveAttribute("title", next.title);
+  await expect(previousLink).toHaveAttribute("title", articles.at(-3)!.title);
+  await expect(nextLink.locator('[data-direction="right"]')).toBeVisible();
+  await expect(previousLink.locator('[data-direction="left"]')).toBeVisible();
+  await expect(nextLink).not.toContainText("Следующая статья");
+  await expect(previousLink).not.toContainText("Предыдущая статья");
   const nextBox = (await nextLink.boundingBox())!;
   const previousBox = (await previousLink.boundingBox())!;
   expect(previousBox.y).toBe(nextBox.y);
@@ -1600,12 +1613,11 @@ test("mobile article navigation restores the topic list after sequential reading
   const backBox = (await wideBack.boundingBox())!;
   expect(backBox.y).toBeGreaterThan(nextBox.y + nextBox.height);
   expect(backBox.width).toBeGreaterThan(nextBox.width + previousBox.width);
-  await expect(nextLink).toContainText(next.title);
   await expect(nextLink).toHaveAttribute("href", /articleList=/);
   await nextLink.click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(next.title);
 
-  const previous = footer.getByRole("link", { name: "Предыдущая статья" });
+  const previous = footer.locator('a[rel="prev"]');
   await expect(previous).toHaveAttribute(
     "href",
     new RegExp(`/world/${current.slug}/\\?articleList=`),
@@ -1625,7 +1637,7 @@ test("mobile article navigation restores the topic list after sequential reading
   await expect(back).toHaveAttribute("href", topicPath);
 });
 
-test("mobile section back arrow restores the encyclopedia overview after reading @published", async ({
+test("mobile breadcrumbs restore the encyclopedia overview after reading @published", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -1647,23 +1659,36 @@ test("mobile section back arrow restores the encyclopedia overview after reading
   const sectionBack = page
     .getByRole("navigation", { name: "Разделы вселенной" })
     .getByRole("link", { name: "К разделам энциклопедии" });
-  await expect(sectionBack).toHaveText("←");
+  await expect(sectionBack.locator('[data-direction="left"]')).toBeVisible();
+  const breadcrumb = page.getByRole("navigation", { name: "Путь к странице" });
+  const worldCrumb = breadcrumb.getByRole("link", { name: "Вселенная" });
+  await expect(worldCrumb).toHaveCSS("color", "rgb(188, 92, 255)");
+  await expect(worldCrumb).toHaveCSS("text-decoration-style", "dashed");
   await expect(sectionBack).toHaveAttribute("href", /articleScroll=/);
   const article = page
     .getByRole("main")
-    .getByRole("list")
+    .getByRole("list", { name: "Статьи раздела" })
     .getByRole("link")
     .first();
   await article.click();
   const articleBack = page
     .getByRole("navigation", { name: "Раздел статьи" })
     .getByRole("link", { name: "К статьям раздела" });
-  await expect(articleBack).toHaveText("←");
+  await expect(articleBack.locator('[data-direction="left"]')).toBeVisible();
   await expect(articleBack).toHaveAttribute("href", /worldOverview=/);
-  await articleBack.click();
+  await expect(worldCrumb).toHaveAttribute("href", /articleScroll=/);
+  const topicCrumb = breadcrumb.getByRole("link", {
+    name: "Наука и технологии",
+  });
+  await expect(topicCrumb).toHaveAttribute("href", /worldOverview=/);
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
+    await page.getByRole("heading", { level: 1 }).innerText(),
+  );
+  await topicCrumb.click();
 
   await expect(sectionBack).toHaveAttribute("href", /articleScroll=/);
-  await sectionBack.click();
+  await expect(worldCrumb).toHaveAttribute("href", /articleScroll=/);
+  await worldCrumb.click();
   await expect(page).toHaveURL(worldPath);
   await expect
     .poll(() =>
@@ -1797,7 +1822,9 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
     await expect(main.getByRole("heading", { level: 1 })).toHaveText(
       group.title,
     );
-    const links = main.getByRole("list").getByRole("link");
+    const links = main
+      .getByRole("list", { name: "Статьи раздела" })
+      .getByRole("link");
     await expect(links).toHaveCount(entries.length);
     await expect(
       links.filter({ hasText: "Хронология современных событий" }),

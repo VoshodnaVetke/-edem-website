@@ -1,7 +1,6 @@
 .backIcon {
   inline-size: 44px;
   padding-inline: 0;
-  font-size: 1.375rem;
 }
 
 .navigation,
@@ -14,6 +13,14 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.neighbor > span {
+  display: grid;
+  grid-template-columns: 0.5rem minmax(0, 1fr) 0.5rem;
+  align-items: center;
+  inline-size: 100%;
+  gap: 0.25rem;
+}
+
 .previous {
   grid-column: 1;
 }
@@ -22,8 +29,17 @@
   grid-column: 2;
 }
 
-.nextTitle {
-  display: block;
-  margin-block-start: 0.25rem;
-  font-weight: var(--edem-font-weight-body);
+.next [data-direction] {
+  grid-column: 3;
+}
+
+.neighborTitle {
+  grid-column: 2;
+  grid-row: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-align: center;
+  text-wrap: balance;
 }

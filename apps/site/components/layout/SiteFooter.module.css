@@ -70,12 +70,6 @@
   display: inline-flex;
   align-items: center;
   min-block-size: 44px;
-  color: var(--edem-color-text-primary);
-  text-decoration: none;
-}
-
-.links a:hover {
-  color: var(--edem-color-accent-primary);
 }
 
 .signature {

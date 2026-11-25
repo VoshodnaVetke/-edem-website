@@ -23,9 +23,8 @@
 .step span {
   font-size: 0.85rem;
 }
-.step:not(:last-child)::after {
-  content: "↓";
+.connector {
   position: absolute;
   top: calc(100% + 0.12rem);
-  font-size: 1.1rem;
+  inset-inline-start: calc(50% - 0.25rem);
 }

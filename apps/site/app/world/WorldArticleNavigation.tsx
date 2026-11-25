@@ -1,7 +1,7 @@
 "use client";
 
 import { ButtonLink } from "@edem/ui";
-import { siteHref } from "../../config/site-href";
+import { SiteTriangle } from "../../components/layout/SiteTriangle";
 import {
   worldArticleHref,
   worldArticleRegistry,
@@ -9,9 +9,21 @@ import {
   worldTopicArticles,
   type WorldArticleSlug,
 } from "../../config/world-articles";
-import { articleListParam, useReturnHref } from "./article-list-state";
+import { articleListParam, useArticleListHref } from "./article-list-state";
 import styles from "./article-navigation.module.css";
 import { WorldBackLink } from "./WorldBackLink";
+
+const shortTitles: Partial<Record<WorldArticleSlug, string>> = {
+  government: "Устройство Эдема",
+  neurochip: "Рейтинг и нейрочип",
+  justice: "Правосудие",
+  "rehabilitation-institutions": "Учреждения УВБ",
+  "science-and-technology": "Наука и технологии",
+  "criminal-organizations": "Криминал Эдема",
+  "cybernetics-and-implants": "Кибернетика",
+  "history-before-adam": "История до Адама",
+  "technology-triumph-cult": "Культ Триумфа",
+};
 
 export function WorldArticleNavigation({
   slug,
@@ -21,13 +33,8 @@ export function WorldArticleNavigation({
   position: "top" | "bottom";
 }) {
   const { topic } = worldArticleRegistry[slug];
-  const listHref = worldArticlesHref(topic);
-  const returnHref = useReturnHref(
-    articleListParam,
-    listHref,
-    topic === "power" ? siteHref("/world/topics/daily-life") : undefined,
-  );
-  const backHref = returnHref ?? listHref;
+  const returnHref = useArticleListHref(topic);
+  const backHref = returnHref ?? worldArticlesHref(topic);
   const backLabel = "К статьям раздела";
 
   if (position === "top") {
@@ -54,31 +61,36 @@ export function WorldArticleNavigation({
         <div className={styles.neighbors}>
           {previous && (
             <ButtonLink
-              className={styles.previous}
+              className={`${styles.neighbor} ${styles.previous}`}
               size="sm"
               href={readingHref(previous.slug)}
               rel="prev"
+              title={previous.title}
             >
-              <span aria-hidden="true">←</span> Предыдущая статья
+              <SiteTriangle direction="left" />
+              <span className={styles.neighborTitle}>
+                {shortTitles[previous.slug] ?? previous.title}
+              </span>
             </ButtonLink>
           )}
           {next && (
             <ButtonLink
-              className={styles.next}
+              className={`${styles.neighbor} ${styles.next}`}
               size="sm"
               href={readingHref(next.slug)}
               rel="next"
+              title={next.title}
             >
-              <span>
-                Следующая статья <span aria-hidden="true">→</span>
+              <span className={styles.neighborTitle}>
+                {shortTitles[next.slug] ?? next.title}
               </span>
-              <span className={styles.nextTitle}>{next.title}</span>
+              <SiteTriangle direction="right" />
             </ButtonLink>
           )}
         </div>
       )}
       <ButtonLink href={backHref} size="lg">
-        <span aria-hidden="true">←</span> {backLabel}
+        <SiteTriangle direction="left" /> {backLabel}
       </ButtonLink>
     </nav>
   );

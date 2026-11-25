@@ -6,6 +6,7 @@ import {
 } from "../../../config/world-articles";
 import { WorldArticleFooter } from "../WorldArticleFooter";
 import { WorldArticleShell } from "../WorldArticleShell";
+import { WorldBreadcrumbs } from "../WorldBreadcrumbs";
 
 export const dynamicParams = false;
 
@@ -31,7 +32,13 @@ export default async function WorldArticlePage({
     return (
       <>
         <meta httpEquiv="refresh" content={`0;url=${destination}`} />
-        <PageShell eyebrow="ЭНЦИКЛОПЕДИЯ ЭДЕМА" title={entry.title}>
+        <PageShell
+          eyebrow="ЭНЦИКЛОПЕДИЯ ЭДЕМА"
+          title={entry.title}
+          breadcrumbs={
+            <WorldBreadcrumbs topic={entry.topic} articleTitle={entry.title} />
+          }
+        >
           <p>
             Материал вошёл в <a href={destination}>объединённую статью</a>.
           </p>

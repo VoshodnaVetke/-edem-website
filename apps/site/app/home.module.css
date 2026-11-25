@@ -15,10 +15,6 @@
   gap: var(--edem-card-gap);
 }
 
-.actionArrow {
-  font-family: var(--font-mono);
-}
-
 .accent {
   color: var(--edem-color-accent-primary);
 }

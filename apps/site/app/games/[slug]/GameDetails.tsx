@@ -1,5 +1,7 @@
 "use client";
 
+import { siteHref } from "../../../config/site-href";
+import { SiteBreadcrumbs } from "../../../components/layout/SiteBreadcrumbs";
 import { ButtonLink, Heading, GameFocusDisplay } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { SiteSectionRail } from "../../../components/layout/SiteSectionRail";
@@ -23,6 +25,12 @@ export function GameDetails({
   return (
     <PageShell
       title={game.title}
+      breadcrumbs={
+        <SiteBreadcrumbs
+          current={game.title}
+          parents={[{ href: siteHref("/games"), label: "Наши игры" }]}
+        />
+      }
       description={game.summary}
       titleDetails={<GameTagList tagIds={game.tagIds} />}
     >

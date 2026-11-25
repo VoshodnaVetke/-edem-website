@@ -1,5 +1,7 @@
 "use client";
 
+import { SiteBreadcrumbs } from "../components/layout/SiteBreadcrumbs";
+import { SiteTriangle } from "../components/layout/SiteTriangle";
 import { ButtonLink, Grid, Heading, Layout, LinkCard, Text } from "@edem/ui";
 import { siteHref } from "../config/site-href";
 import layout from "../styles/page-layout.module.css";
@@ -11,6 +13,7 @@ export default function HomePage() {
       <Layout className={styles.home}>
         <section aria-labelledby="page-title">
           <div className={layout.stack}>
+            <SiteBreadcrumbs current="Главная" isHome />
             <Text variant="system" className={styles.accent}>
               МАСТЕРСКАЯ РОЛЕВЫХ ИГР / ВХОД В ЭДЕМ
             </Text>
@@ -24,16 +27,10 @@ export default function HomePage() {
             </Text>
             <div className={styles.heroActions}>
               <ButtonLink href={siteHref("/world")} size="lg">
-                Открыть мир Эдема{" "}
-                <span className={styles.actionArrow} aria-hidden="true">
-                  ↗
-                </span>
+                Открыть мир Эдема <SiteTriangle direction="right" />
               </ButtonLink>
               <ButtonLink href={siteHref("/games")}>
-                Наши игры{" "}
-                <span className={styles.actionArrow} aria-hidden="true">
-                  →
-                </span>
+                Наши игры <SiteTriangle direction="right" />
               </ButtonLink>
             </div>
           </div>
@@ -51,7 +48,7 @@ export default function HomePage() {
                 жизнь его граждан.
               </Text>
               <Text variant="system" className={styles.accent}>
-                НАЧАТЬ ЗНАКОМСТВО <span aria-hidden="true">↗</span>
+                НАЧАТЬ ЗНАКОМСТВО <SiteTriangle direction="right" />
               </Text>
             </div>
           </LinkCard>
@@ -66,7 +63,7 @@ export default function HomePage() {
               <Heading level={3}>Игра под заказ</Heading>
               <Text>Ролевое событие под ваш запрос.</Text>
               <Text variant="system" className={styles.accent}>
-                ПОДРОБНЕЕ О ЗАКАЗЕ <span aria-hidden="true">↗</span>
+                ПОДРОБНЕЕ О ЗАКАЗЕ <SiteTriangle direction="right" />
               </Text>
             </div>
           </LinkCard>

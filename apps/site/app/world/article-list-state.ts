@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useState, type MouseEvent } from "react";
+import { siteHref } from "../../config/site-href";
+import {
+  worldArticlesHref,
+  type WorldArticleTopic,
+} from "../../config/world-articles";
 
 export const articleListParam = "articleList";
 export const worldOverviewParam = "worldOverview";
@@ -60,19 +65,26 @@ export function useRestoreScrollPosition() {
   }, []);
 }
 
-export function useReturnHref(
+function useReturnHref(
   parameter: string,
   path: string,
   legacyPath?: string,
+  sourceHref?: string | null,
 ) {
   const [returnHref, setReturnHref] = useState<string | null>(null);
 
   useEffect(() => {
-    const source = new URLSearchParams(window.location.search).get(parameter);
-    if (!source) return;
+    if (sourceHref === null) return;
     let url: URL;
     try {
-      url = new URL(source, window.location.origin);
+      const origin = window.location.origin;
+      const search =
+        sourceHref === undefined
+          ? window.location.search
+          : new URL(sourceHref, origin).search;
+      const source = new URLSearchParams(search).get(parameter);
+      if (!source) return;
+      url = new URL(source, origin);
     } catch {
       return;
     }
@@ -82,7 +94,23 @@ export function useReturnHref(
     ) {
       setReturnHref(url.pathname + url.search + url.hash);
     }
-  }, [parameter, path, legacyPath]);
+  }, [parameter, path, legacyPath, sourceHref]);
 
   return returnHref;
+}
+
+export function useArticleListHref(topic: WorldArticleTopic) {
+  return useReturnHref(
+    articleListParam,
+    worldArticlesHref(topic),
+    topic === "power" ? siteHref("/world/topics/daily-life") : undefined,
+  );
+}
+
+export function useWorldOverviewHref(sourceHref?: string | null) {
+  const path = siteHref("/world");
+  return (
+    useReturnHref(worldOverviewParam, path, undefined, sourceHref) ??
+    path + "#world-topics"
+  );
 }

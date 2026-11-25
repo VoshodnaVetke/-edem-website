@@ -1,0 +1,17 @@
+.triangle {
+  display: inline-block;
+  inline-size: 0.5rem;
+  block-size: 0.625rem;
+  background-color: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  vertical-align: 0.04em;
+  forced-color-adjust: none;
+}
+
+.triangle[data-direction="left"] {
+  transform: rotate(180deg);
+}
+
+.triangle[data-direction="down"] {
+  transform: rotate(90deg);
+}

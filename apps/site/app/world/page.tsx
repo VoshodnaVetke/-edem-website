@@ -1,5 +1,7 @@
 "use client";
 
+import { SiteBreadcrumbs } from "../../components/layout/SiteBreadcrumbs";
+import { SiteTriangle } from "../../components/layout/SiteTriangle";
 import { ButtonLink, Card, Grid, Heading, Layout, Text } from "@edem/ui";
 import { SiteSectionRail } from "../../components/layout/SiteSectionRail";
 import deployment from "../../config/deployment.json";
@@ -27,6 +29,7 @@ export default function WorldPage() {
     <main id="main-content" tabIndex={-1} className={layout.page}>
       <SiteSectionRail sections={sections} />
       <Layout className={styles.world}>
+        <SiteBreadcrumbs current="Вселенная" />
         <header className={styles.introduction}>
           <Heading level={1} id="page-title" className={styles.title}>
             Добро пожаловать <span>в Эдем.</span>
@@ -85,7 +88,7 @@ export default function WorldPage() {
                       }
                       aria-label={`Читать статьи — ${title}`}
                     >
-                      Читать статьи <span aria-hidden="true">→</span>
+                      Читать статьи <SiteTriangle direction="right" />
                     </ButtonLink>
                   </div>
                 </Card>
