@@ -5,11 +5,13 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleIllustration } from "../WorldArticleIllustration";
 
 export default function NorthernCityArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ" title="Северный город">
       <article aria-labelledby="page-title" className={styles.stack}>
+        <WorldArticleIllustration slug="northern-city" />
         <Reading>
           <p>
             Северный город занимает крайнюю северную часть{" "}

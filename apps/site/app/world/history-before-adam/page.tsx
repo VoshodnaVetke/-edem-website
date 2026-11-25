@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleIllustration } from "../WorldArticleIllustration";
 import articleStyles from "../corporations/corporations.module.css";
 
 export default function HistoryBeforeAdamArticle() {
@@ -25,6 +26,7 @@ export default function HistoryBeforeAdamArticle() {
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>
+        <WorldArticleIllustration slug="history-before-adam" />
         <Reading>
           <section aria-labelledby="war">
             <Heading level={2} id="war">
