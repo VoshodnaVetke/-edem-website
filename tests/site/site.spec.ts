@@ -1728,7 +1728,7 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
         const html = await response.text();
         expect(html, path).not.toContain("На этой странице");
         expect(html.includes("Статья в подготовке."), path).toBe(
-          entry.status === "planned",
+          entry.status !== "published",
         );
         expect(html, path).not.toContain(
           `href="${exportedPath("/world/modern-chronology")}"`,
