@@ -1,0 +1,52 @@
+.article
+  :is(article, :global(.edem-type-reading))
+  a:not(:global(.edem-button)) {
+  color: color-mix(
+    in srgb,
+    var(--edem-color-accent-primary) 65%,
+    var(--edem-color-text-primary)
+  );
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (forced-colors: none) {
+  .article
+    :is(article, :global(.edem-type-reading))
+    a:not(:global(.edem-button)) {
+    background-image: linear-gradient(
+      90deg,
+      var(--edem-color-accent-secondary),
+      var(--edem-color-accent-primary),
+      var(--edem-color-accent-secondary)
+    );
+    background-repeat: no-repeat;
+    background-size: 200% 1px;
+    background-position: left bottom;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    text-decoration-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .article
+      :is(article, :global(.edem-type-reading))
+      a:not(:global(.edem-button)) {
+      transition: background-position 220ms ease-out;
+    }
+  }
+
+  .article
+    :is(article, :global(.edem-type-reading))
+    a:not(:global(.edem-button)):focus-visible {
+    background-position: right bottom;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .article
+      :is(article, :global(.edem-type-reading))
+      a:not(:global(.edem-button)):hover {
+      background-position: right bottom;
+    }
+  }
+}

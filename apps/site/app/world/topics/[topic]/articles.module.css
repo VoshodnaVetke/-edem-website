@@ -77,8 +77,3 @@
     color: var(--edem-color-accent-primary);
   }
 }
-
-.back {
-  color: var(--edem-color-accent-primary);
-  text-underline-offset: 0.2em;
-}

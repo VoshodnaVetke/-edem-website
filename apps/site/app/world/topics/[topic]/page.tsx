@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { PageShell } from "../../../../components/layout/PageShell";
 import deployment from "../../../../config/deployment.json";
-import { siteHref } from "../../../../config/site-href";
 import {
   worldArticleGroups,
   worldArticleHref,
@@ -11,6 +10,7 @@ import {
 } from "../../../../config/world-articles";
 import imageStyles from "../../world-article-image.module.css";
 import { WorldArticleList } from "./WorldArticleList";
+import { WorldOverviewBackLink } from "./WorldOverviewBackLink";
 import styles from "./articles.module.css";
 
 export const dynamicParams = false;
@@ -53,7 +53,11 @@ export default async function WorldArticlesPage({
   const fallbackThumbnail = `${deployment.basePath}/images/world/article-thumbnails/${group.slug}.webp`;
 
   return (
-    <PageShell eyebrow="СТАТЬИ ВСЕЛЕННОЙ" title={group.title}>
+    <PageShell
+      eyebrow="СТАТЬИ ВСЕЛЕННОЙ"
+      title={group.title}
+      beforeHeading={<WorldOverviewBackLink compact />}
+    >
       <WorldArticleList className={styles.articles}>
         {articles.map((article) => {
           const { slug, title } = article;
@@ -93,9 +97,7 @@ export default async function WorldArticlesPage({
           );
         })}
       </WorldArticleList>
-      <a className={styles.back} href={siteHref("/world")}>
-        К обзору мира
-      </a>
+      <WorldOverviewBackLink />
     </PageShell>
   );
 }

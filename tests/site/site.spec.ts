@@ -1591,6 +1591,15 @@ test("mobile article navigation restores the topic list after sequential reading
 
   const footer = page.getByRole("navigation", { name: "Навигация по статьям" });
   const nextLink = footer.getByRole("link", { name: /Следующая статья/ });
+  const previousLink = footer.getByRole("link", { name: "Предыдущая статья" });
+  const nextBox = (await nextLink.boundingBox())!;
+  const previousBox = (await previousLink.boundingBox())!;
+  expect(previousBox.y).toBe(nextBox.y);
+  expect(previousBox.x + previousBox.width).toBeLessThan(nextBox.x);
+  const wideBack = footer.getByRole("link", { name: "К статьям раздела" });
+  const backBox = (await wideBack.boundingBox())!;
+  expect(backBox.y).toBeGreaterThan(nextBox.y + nextBox.height);
+  expect(backBox.width).toBeGreaterThan(nextBox.width + previousBox.width);
   await expect(nextLink).toContainText(next.title);
   await expect(nextLink).toHaveAttribute("href", /articleList=/);
   await nextLink.click();
@@ -1614,6 +1623,59 @@ test("mobile article navigation restores the topic list after sequential reading
 
   await page.goto(exportedPath(`/world/${next.slug}`));
   await expect(back).toHaveAttribute("href", topicPath);
+});
+
+test("mobile section back arrow restores the encyclopedia overview after reading", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const worldPath = exportedPath("/world");
+  const topicPath = exportedPath("/world/topics/technology");
+  await page.goto(worldPath);
+  const topic = page.getByRole("link", {
+    name: "Читать статьи — Наука и технологии",
+  });
+  await page.evaluate(() => document.fonts.ready.then(() => undefined));
+  await topic.evaluate((link) => {
+    link.scrollIntoView({ block: "center", behavior: "instant" });
+  });
+  const position = await page.evaluate(() => window.scrollY);
+  expect(position).toBeGreaterThan(0);
+  await topic.click();
+  await expect(page).toHaveURL((url) => url.pathname === topicPath);
+
+  const sectionBack = page
+    .getByRole("navigation", { name: "Разделы вселенной" })
+    .getByRole("link", { name: "К разделам энциклопедии" });
+  await expect(sectionBack).toHaveText("←");
+  await expect(sectionBack).toHaveAttribute("href", /articleScroll=/);
+  const article = page
+    .getByRole("main")
+    .getByRole("list")
+    .getByRole("link")
+    .first();
+  await article.click();
+  const articleBack = page
+    .getByRole("navigation", { name: "Раздел статьи" })
+    .getByRole("link", { name: "К статьям раздела" });
+  await expect(articleBack).toHaveText("←");
+  await expect(articleBack).toHaveAttribute("href", /worldOverview=/);
+  await articleBack.click();
+
+  await expect(sectionBack).toHaveAttribute("href", /articleScroll=/);
+  await sectionBack.click();
+  await expect(page).toHaveURL(worldPath);
+  await expect
+    .poll(() =>
+      page.evaluate((top) => Math.abs(window.scrollY - top), position),
+    )
+    .toBeLessThanOrEqual(2);
+
+  await page.goto(topicPath);
+  await expect(sectionBack).toHaveAttribute(
+    "href",
+    worldPath + "#world-topics",
+  );
 });
 
 test("world articles link to approved content and planned pages", async ({

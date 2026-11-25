@@ -1,7 +1,6 @@
 "use client";
 
 import { ButtonLink } from "@edem/ui";
-import { useEffect, useState } from "react";
 import { siteHref } from "../../config/site-href";
 import {
   worldArticleHref,
@@ -10,8 +9,9 @@ import {
   worldTopicArticles,
   type WorldArticleSlug,
 } from "../../config/world-articles";
-import { articleListParam } from "./article-list-state";
+import { articleListParam, useReturnHref } from "./article-list-state";
 import styles from "./article-navigation.module.css";
+import { WorldBackLink } from "./WorldBackLink";
 
 export function WorldArticleNavigation({
   slug,
@@ -22,43 +22,18 @@ export function WorldArticleNavigation({
 }) {
   const { topic } = worldArticleRegistry[slug];
   const listHref = worldArticlesHref(topic);
-  const [returnHref, setReturnHref] = useState<string | null>(null);
-
-  useEffect(() => {
-    const source = new URLSearchParams(window.location.search).get(
-      articleListParam,
-    );
-    if (!source) return;
-    let url: URL;
-    try {
-      url = new URL(source, window.location.origin);
-    } catch {
-      return;
-    }
-    const legacyList =
-      topic === "power" &&
-      url.pathname === siteHref("/world/topics/daily-life");
-    if (
-      url.origin === window.location.origin &&
-      (url.pathname === listHref || legacyList)
-    ) {
-      setReturnHref(url.pathname + url.search);
-    }
-  }, [listHref, topic]);
-
-  const backHref = returnHref ?? listHref;
-  const backLabel = (
-    <>
-      <span aria-hidden="true">←</span> К статьям раздела
-    </>
+  const returnHref = useReturnHref(
+    articleListParam,
+    listHref,
+    topic === "power" ? siteHref("/world/topics/daily-life") : undefined,
   );
+  const backHref = returnHref ?? listHref;
+  const backLabel = "К статьям раздела";
 
   if (position === "top") {
     return (
       <nav aria-label="Раздел статьи">
-        <a className={styles.link} href={backHref}>
-          {backLabel}
-        </a>
+        <WorldBackLink href={backHref} label={backLabel} />
       </nav>
     );
   }
@@ -75,36 +50,36 @@ export function WorldArticleNavigation({
 
   return (
     <nav aria-label="Навигация по статьям" className={styles.navigation}>
-      {next ? (
-        <ButtonLink
-          className={styles.next}
-          href={readingHref(next.slug)}
-          rel="next"
-        >
-          <span>
-            Следующая статья <span aria-hidden="true">→</span>
-          </span>
-          <span>{next.title}</span>
-        </ButtonLink>
-      ) : (
-        <ButtonLink href={backHref}>{backLabel}</ButtonLink>
+      {(previous || next) && (
+        <div className={styles.neighbors}>
+          {previous && (
+            <ButtonLink
+              className={styles.previous}
+              size="sm"
+              href={readingHref(previous.slug)}
+              rel="prev"
+            >
+              <span aria-hidden="true">←</span> Предыдущая статья
+            </ButtonLink>
+          )}
+          {next && (
+            <ButtonLink
+              className={styles.next}
+              size="sm"
+              href={readingHref(next.slug)}
+              rel="next"
+            >
+              <span>
+                Следующая статья <span aria-hidden="true">→</span>
+              </span>
+              <span className={styles.nextTitle}>{next.title}</span>
+            </ButtonLink>
+          )}
+        </div>
       )}
-      <div className={styles.links}>
-        {previous && (
-          <a
-            className={styles.link}
-            href={readingHref(previous.slug)}
-            rel="prev"
-          >
-            <span aria-hidden="true">←</span> Предыдущая статья
-          </a>
-        )}
-        {next && (
-          <a className={styles.link} href={backHref}>
-            {backLabel}
-          </a>
-        )}
-      </div>
+      <ButtonLink href={backHref} size="lg">
+        <span aria-hidden="true">←</span> {backLabel}
+      </ButtonLink>
     </nav>
   );
 }

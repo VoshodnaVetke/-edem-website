@@ -1,35 +1,29 @@
-.navigation {
+.backIcon {
+  inline-size: 44px;
+  padding-inline: 0;
+  font-size: 1.375rem;
+}
+
+.navigation,
+.neighbors {
   display: grid;
-  justify-items: start;
-  max-inline-size: var(--edem-type-reading-max-width);
-  gap: 0.5rem;
+  gap: 0.625rem;
 }
 
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: var(--edem-card-gap);
+.neighbors {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.links:empty {
-  display: none;
-}
-
-.link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  min-block-size: 44px;
-  color: var(--edem-color-accent-primary);
-  text-underline-offset: 0.2em;
+.previous {
+  grid-column: 1;
 }
 
 .next {
-  inline-size: 100%;
+  grid-column: 2;
 }
 
-.next > span {
-  display: grid;
-  gap: 0.25rem;
-  white-space: normal;
+.nextTitle {
+  display: block;
+  margin-block-start: 0.25rem;
+  font-weight: var(--edem-font-weight-body);
 }
