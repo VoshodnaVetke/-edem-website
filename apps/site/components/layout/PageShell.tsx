@@ -3,16 +3,17 @@
 import { Heading, Layout, Text } from "@edem/ui";
 import type { ReactNode } from "react";
 import styles from "../../styles/page-layout.module.css";
+import { SiteBreadcrumbs } from "./SiteBreadcrumbs";
 
 interface PageShellProps {
   eyebrow?: string;
   title: string;
   description?: string;
   beforeHeading?: ReactNode;
+  breadcrumbs?: ReactNode;
   titleDetails?: ReactNode;
   intro?: ReactNode;
   headerClassName?: string;
-  className?: string;
   children?: ReactNode;
 }
 
@@ -22,15 +23,14 @@ export function PageShell({
   title,
   description,
   beforeHeading,
+  breadcrumbs,
   titleDetails,
   intro,
   headerClassName,
-  className,
   children,
 }: PageShellProps) {
   const heading = (
     <>
-      {beforeHeading}
       {eyebrow && <Text variant="system">{eyebrow}</Text>}
       <Heading level={1} id="page-title">
         {title}
@@ -39,13 +39,13 @@ export function PageShell({
   );
 
   return (
-    <main
-      id="main-content"
-      tabIndex={-1}
-      className={[styles.page, className].filter(Boolean).join(" ")}
-    >
+    <main id="main-content" tabIndex={-1} className={styles.page}>
       <section className={styles.section} aria-labelledby="page-title">
         <Layout>
+          <div className={styles.breadcrumbRow}>
+            {beforeHeading}
+            {breadcrumbs ?? <SiteBreadcrumbs current={title} />}
+          </div>
           <div
             className={[
               titleDetails ? styles.splitHeader : styles.stack,

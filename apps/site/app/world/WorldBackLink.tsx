@@ -1,5 +1,6 @@
 "use client";
 
+import { SiteTriangle } from "../../components/layout/SiteTriangle";
 import { ButtonLink } from "@edem/ui";
 import styles from "./article-navigation.module.css";
 
@@ -17,7 +18,7 @@ export function WorldBackLink({
       href={href}
       aria-label={label}
     >
-      <span aria-hidden="true">←</span>
+      <SiteTriangle direction="left" />
     </ButtonLink>
   );
 }

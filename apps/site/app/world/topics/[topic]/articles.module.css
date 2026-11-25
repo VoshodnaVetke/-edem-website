@@ -47,11 +47,6 @@
     var(--edem-type-system-leading) var(--font-mono);
 }
 
-.link {
-  color: inherit;
-  text-decoration: none;
-}
-
 .link::after {
   position: absolute;
   inset: 0;
@@ -71,9 +66,5 @@
 @media (hover: hover) and (pointer: fine) {
   .article:hover {
     background: var(--edem-color-surface);
-  }
-
-  .article:hover .heading {
-    color: var(--edem-color-accent-primary);
   }
 }

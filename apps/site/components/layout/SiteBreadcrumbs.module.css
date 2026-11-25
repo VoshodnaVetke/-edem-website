@@ -1,0 +1,41 @@
+.breadcrumbs {
+  min-inline-size: 0;
+  font-size: clamp(0.8125rem, 1.2vw, 0.9375rem);
+  color: var(--edem-color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem 0.625rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumbs li {
+  display: flex;
+  gap: 0.625rem;
+  min-inline-size: 0;
+  align-items: baseline;
+}
+
+.breadcrumbs li > [data-direction] {
+  flex: none;
+  inline-size: 0.3125rem;
+  block-size: 0.4375rem;
+  color: var(--edem-color-text-telemetry);
+}
+
+.breadcrumbs a {
+  display: inline-block;
+  padding-block: 0.1875rem;
+}
+
+@media (pointer: coarse) {
+  .breadcrumbs a {
+    align-content: center;
+    min-block-size: 1.5rem;
+  }
+}

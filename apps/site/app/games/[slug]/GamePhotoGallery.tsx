@@ -1,5 +1,6 @@
 "use client";
 
+import { SiteTriangle } from "../../../components/layout/SiteTriangle";
 import { ButtonLink, Gallery } from "@edem/ui";
 import { useRef, useState } from "react";
 import adNaZemleOrder from "../../../config/ad-na-zemle-photo-order.json";
@@ -134,7 +135,7 @@ export function GamePhotoGallery({
             aria-label="Предыдущее фото"
             onClick={() => move(-1)}
           >
-            <span aria-hidden="true">←</span>
+            <SiteTriangle direction="left" />
           </button>
           <button
             type="button"
@@ -142,7 +143,7 @@ export function GamePhotoGallery({
             aria-label="Следующее фото"
             onClick={() => move(1)}
           >
-            <span aria-hidden="true">→</span>
+            <SiteTriangle direction="right" />
           </button>
         </div>
         <div className={layout.actions}>

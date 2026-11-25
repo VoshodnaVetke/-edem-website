@@ -1,5 +1,7 @@
 "use client";
 
+import { SiteBreadcrumbs } from "../../components/layout/SiteBreadcrumbs";
+import { SiteTriangle } from "../../components/layout/SiteTriangle";
 import {
   ButtonLink,
   Card,
@@ -27,6 +29,7 @@ export default function GamesPage() {
   return (
     <PageShell
       title="Истории, которые мы пишем вместе"
+      breadcrumbs={<SiteBreadcrumbs current="Наши игры" />}
       description="Мы создаём мир, его правила и конфликты, но не решаем, чем всё закончится. Здесь каждый персонаж может изменить ход истории, независимо от своего положения, а решения игроков оставляют след в мире и определяют его будущее."
     >
       {upcomingGame && (
@@ -126,7 +129,7 @@ export default function GamesPage() {
               <div className={layout.actions}>
                 <ButtonLink href={siteHref("/about")} size="lg">
                   Познакомиться с мастерской группой{" "}
-                  <span aria-hidden="true">→</span>
+                  <SiteTriangle direction="right" />
                 </ButtonLink>
               </div>
             </div>

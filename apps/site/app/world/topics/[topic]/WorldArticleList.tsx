@@ -20,6 +20,7 @@ export function WorldArticleList({
     <ul
       className={className}
       role="list"
+      aria-label="Статьи раздела"
       onClick={(event) => followWithReturnPosition(event, articleListParam)}
     >
       {children}

@@ -1,5 +1,6 @@
 "use client";
 
+import { SiteTriangle } from "../../../components/layout/SiteTriangle";
 import { ButtonLink, Heading, Reading } from "@edem/ui";
 import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
@@ -102,6 +103,12 @@ export default function GovernmentArticle() {
                 >
                   <strong>{level.name}</strong>
                   <span>{level.description}</span>
+                  {index < levels.length - 1 && (
+                    <SiteTriangle
+                      direction="down"
+                      className={diagram.connector}
+                    />
+                  )}
                 </div>
               ))}
             </div>

@@ -10,6 +10,7 @@ import {
 } from "../../../../config/world-articles";
 import imageStyles from "../../world-article-image.module.css";
 import { WorldArticleList } from "./WorldArticleList";
+import { WorldBreadcrumbs } from "../../WorldBreadcrumbs";
 import { WorldOverviewBackLink } from "./WorldOverviewBackLink";
 import styles from "./articles.module.css";
 
@@ -36,7 +37,11 @@ export default async function WorldArticlesPage({
     return (
       <>
         <meta httpEquiv="refresh" content={`0;url=${destination}`} />
-        <PageShell eyebrow="СТАТЬИ ВСЕЛЕННОЙ" title="Мир и география">
+        <PageShell
+          eyebrow="СТАТЬИ ВСЕЛЕННОЙ"
+          title="Мир и география"
+          breadcrumbs={<WorldBreadcrumbs topic="geography" />}
+        >
           <a href={destination}>К списку статей</a>
         </PageShell>
       </>
@@ -57,6 +62,7 @@ export default async function WorldArticlesPage({
       eyebrow="СТАТЬИ ВСЕЛЕННОЙ"
       title={group.title}
       beforeHeading={<WorldOverviewBackLink compact />}
+      breadcrumbs={<WorldBreadcrumbs topic={group.slug} />}
     >
       <WorldArticleList className={styles.articles}>
         {articles.map((article) => {
