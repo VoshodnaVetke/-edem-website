@@ -420,7 +420,7 @@ test("game photos can be browsed and downloaded from the viewer", async ({
   await expect(thumbnail).toBeFocused();
 });
 
-test("homepage serves the expected revision and loads its resources", async ({
+test("homepage serves the expected revision and loads its resources @published", async ({
   page,
   request,
 }) => {
@@ -1000,7 +1000,7 @@ test("skip link reaches the main landmark by keyboard", async ({ page }) => {
   await expect(page.locator("#main-content")).toBeFocused();
 });
 
-test("Navigation C remains functional on desktop and mobile", async ({
+test("Navigation C remains functional on desktop and mobile @published", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
@@ -1343,7 +1343,7 @@ test("workshop format autoplay advances in order and can be stopped", async ({
   await expect(field).toHaveAttribute("aria-expanded", "true");
 });
 
-test("public pages and their internal links resolve", async ({
+test("public pages and their internal links resolve @published", async ({
   page,
   request,
 }) => {
@@ -1569,7 +1569,7 @@ test("the world article keeps direct section links and related links", async ({
   ).toBeVisible();
 });
 
-test("mobile article navigation restores the topic list after sequential reading", async ({
+test("mobile article navigation restores the topic list after sequential reading @published", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -1625,7 +1625,7 @@ test("mobile article navigation restores the topic list after sequential reading
   await expect(back).toHaveAttribute("href", topicPath);
 });
 
-test("mobile section back arrow restores the encyclopedia overview after reading", async ({
+test("mobile section back arrow restores the encyclopedia overview after reading @published", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });

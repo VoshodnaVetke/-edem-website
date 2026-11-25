@@ -82,4 +82,4 @@ jobs:
           EDEM_SITE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           test -n "$EDEM_SITE_URL"
-          npm run test:site
+          npm run test:site:published
