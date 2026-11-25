@@ -5,7 +5,6 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
-import { WorldArticleIllustration } from "../WorldArticleIllustration";
 
 export default function WesternCityArticle() {
   return (
@@ -25,7 +24,6 @@ export default function WesternCityArticle() {
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <WorldArticleIllustration slug="western-city" />
         <Reading>
           <section aria-labelledby="head-office">
             <Heading level={2} id="head-office">

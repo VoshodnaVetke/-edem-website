@@ -5,7 +5,6 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
-import { WorldArticleIllustration } from "../WorldArticleIllustration";
 import articleStyles from "./corporations.module.css";
 
 export default function CorporationsArticle() {
@@ -29,7 +28,6 @@ export default function CorporationsArticle() {
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <WorldArticleIllustration slug="corporations" />
         <Reading>
           <section aria-labelledby="innovatx">
             <Heading level={2} id="innovatx">

@@ -5,14 +5,12 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
-import { WorldArticleIllustration } from "../WorldArticleIllustration";
 import articleStyles from "../corporations/corporations.module.css";
 
 export default function MoxiBrothelArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ" title="Бордель Мокси">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <WorldArticleIllustration slug="moxi-brothel" />
         <Reading>
           <p>
             «Бордель Мокси» в <a href={worldArticleHref("pompeii")}>Помпеях</a>{" "}

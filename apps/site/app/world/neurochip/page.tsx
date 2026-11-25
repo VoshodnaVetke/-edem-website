@@ -6,7 +6,6 @@ import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
-import { WorldArticleIllustration } from "../WorldArticleIllustration";
 
 export default function NeurochipArticle() {
   return (
@@ -16,7 +15,6 @@ export default function NeurochipArticle() {
       description="Государственная система оценки благонадёжности граждан Эдема, учитывающая их достижения, общественную деятельность и соблюдение законодательства. Рейтинг определяет социальное положение человека, доступные привилегии и ряд гражданских прав."
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <WorldArticleIllustration slug="neurochip" />
         <Reading>
           <section aria-labelledby="principles">
             <Heading level={2} id="principles">

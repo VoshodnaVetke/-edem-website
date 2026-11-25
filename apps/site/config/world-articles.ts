@@ -61,6 +61,7 @@ type WorldArticle = {
   title: string;
   topic: WorldArticleTopic;
   related: readonly string[];
+  thumbnail?: string;
 } & (
   | { status: "planned" | "hidden" }
   | { status: "published"; summary: readonly [string, string] }
@@ -80,6 +81,7 @@ export const worldArticleRegistry = {
   },
   neurochip: {
     title: "Социальный рейтинг и нейрочип",
+    thumbnail: "neurochip.jpg",
     topic: "power",
     status: "published",
     summary: [
@@ -97,6 +99,7 @@ export const worldArticleRegistry = {
   },
   "higher-path": {
     title: "Высший Путь",
+    thumbnail: "higher-path.jpg",
     topic: "power",
     status: "published",
     summary: [
@@ -113,6 +116,7 @@ export const worldArticleRegistry = {
   },
   beacons: {
     title: "Светочи",
+    thumbnail: "beacons.jpg",
     topic: "power",
     status: "published",
     summary: [
@@ -149,6 +153,7 @@ export const worldArticleRegistry = {
   },
   justice: {
     title: "Правосудие и исправительная система",
+    thumbnail: "justice.jpg",
     topic: "power",
     status: "published",
     summary: [
@@ -164,6 +169,7 @@ export const worldArticleRegistry = {
   },
   "rehabilitation-institutions": {
     title: "Учреждения по восстановлению благонадёжности",
+    thumbnail: "rehabilitation-institutions.jpg",
     topic: "power",
     status: "published",
     summary: [
@@ -174,6 +180,7 @@ export const worldArticleRegistry = {
   },
   "world-geography": {
     title: "География мира",
+    thumbnail: "world-geography.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -191,6 +198,7 @@ export const worldArticleRegistry = {
   },
   "western-city": {
     title: "Западный город",
+    thumbnail: "western-city.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -206,6 +214,7 @@ export const worldArticleRegistry = {
   },
   "eastern-city": {
     title: "Восточный город",
+    thumbnail: "eastern-city.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -221,6 +230,7 @@ export const worldArticleRegistry = {
   },
   "northern-city": {
     title: "Северный город",
+    thumbnail: "northern-city.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -235,6 +245,7 @@ export const worldArticleRegistry = {
   },
   pompeii: {
     title: "Помпеи",
+    thumbnail: "pompeii.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -252,6 +263,7 @@ export const worldArticleRegistry = {
   },
   "mephisto-casino": {
     title: "Казино Мефиса",
+    thumbnail: "mephisto-casino.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -262,6 +274,7 @@ export const worldArticleRegistry = {
   },
   "moxi-brothel": {
     title: "Бордель Мокси",
+    thumbnail: "moxi-brothel.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -272,6 +285,7 @@ export const worldArticleRegistry = {
   },
   "neutral-lands": {
     title: "Нейтральные земли",
+    thumbnail: "neutral-lands.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -287,6 +301,7 @@ export const worldArticleRegistry = {
   },
   skeos: {
     title: "Скеос",
+    thumbnail: "skeos.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -302,6 +317,7 @@ export const worldArticleRegistry = {
   },
   atlanta: {
     title: "Атланта",
+    thumbnail: "atlanta.jpg",
     topic: "geography",
     status: "published",
     summary: [
@@ -312,6 +328,7 @@ export const worldArticleRegistry = {
   },
   "science-and-technology": {
     title: "Наука и технологии Эдема",
+    thumbnail: "science-and-technology.jpg",
     topic: "technology",
     status: "published",
     summary: [
@@ -322,6 +339,7 @@ export const worldArticleRegistry = {
   },
   "cybernetics-and-implants": {
     title: "Кибернетика и импланты",
+    thumbnail: "cybernetics-and-implants.jpg",
     topic: "technology",
     status: "published",
     summary: [
@@ -338,6 +356,7 @@ export const worldArticleRegistry = {
   },
   corporations: {
     title: "Корпорации Эдема",
+    thumbnail: "corporations.jpg",
     topic: "corporations",
     status: "published",
     summary: [
@@ -354,6 +373,7 @@ export const worldArticleRegistry = {
   },
   innovatx: {
     title: "InnovatX",
+    thumbnail: "innovatx.jpg",
     topic: "corporations",
     status: "published",
     summary: [
@@ -364,6 +384,7 @@ export const worldArticleRegistry = {
   },
   "holland-industries": {
     title: "Holland Industries",
+    thumbnail: "holland-industries.jpg",
     topic: "corporations",
     status: "published",
     summary: [
@@ -379,6 +400,7 @@ export const worldArticleRegistry = {
   },
   enigma: {
     title: "Enigma",
+    thumbnail: "enigma.jpg",
     topic: "corporations",
     status: "published",
     summary: [
@@ -389,6 +411,7 @@ export const worldArticleRegistry = {
   },
   "corporate-races": {
     title: "Корпоративные гонки",
+    thumbnail: "corporate-races.jpg",
     topic: "corporations",
     status: "published",
     summary: [
@@ -404,6 +427,7 @@ export const worldArticleRegistry = {
   },
   "criminal-organizations": {
     title: "Криминальные организации Эдема",
+    thumbnail: "criminal-organizations.jpg",
     topic: "stories",
     status: "published",
     summary: [
@@ -421,6 +445,7 @@ export const worldArticleRegistry = {
   },
   myanmar: {
     title: "Мьянма",
+    thumbnail: "myanmar.jpg",
     topic: "stories",
     status: "published",
     summary: [
@@ -436,6 +461,7 @@ export const worldArticleRegistry = {
   },
   freedom: {
     title: "Свобода",
+    thumbnail: "freedom.jpg",
     topic: "stories",
     status: "published",
     summary: [
@@ -446,6 +472,7 @@ export const worldArticleRegistry = {
   },
   "organization-v": {
     title: "Организация V",
+    thumbnail: "organization-v.jpg",
     topic: "stories",
     status: "published",
     summary: [
@@ -456,6 +483,7 @@ export const worldArticleRegistry = {
   },
   "technology-triumph-cult": {
     title: "Культ Триумфа Технологий",
+    thumbnail: "technology-triumph-cult.jpg",
     topic: "stories",
     status: "published",
     summary: [
@@ -470,6 +498,7 @@ export const worldArticleRegistry = {
   },
   "lobos-libres": {
     title: "Lobus Liberos",
+    thumbnail: "lobos-libres.jpg",
     topic: "stories",
     status: "published",
     summary: [
@@ -480,6 +509,7 @@ export const worldArticleRegistry = {
   },
   "history-before-adam": {
     title: "История мира до Адама",
+    thumbnail: "history-before-adam.jpg",
     topic: "history",
     status: "published",
     summary: [
@@ -497,6 +527,7 @@ export const worldArticleRegistry = {
   },
   "founding-of-edem": {
     title: "Основание Эдема",
+    thumbnail: "founding-of-edem.jpg",
     topic: "history",
     status: "published",
     summary: [
@@ -507,6 +538,7 @@ export const worldArticleRegistry = {
   },
   "history-of-edem": {
     title: "История Эдема",
+    thumbnail: "history-of-edem.jpg",
     topic: "history",
     status: "published",
     summary: [

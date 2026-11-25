@@ -5,7 +5,6 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
-import { WorldArticleIllustration } from "../WorldArticleIllustration";
 
 export default function FreedomArticle() {
   return (
@@ -14,7 +13,6 @@ export default function FreedomArticle() {
       title="Группировка «Свобода»"
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <WorldArticleIllustration slug="freedom" />
         <Reading>
           <p>
             «Свобода» — группировка, которая добивается свержения власти Адама,

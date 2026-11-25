@@ -6,7 +6,6 @@ import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
-import { WorldArticleIllustration } from "../WorldArticleIllustration";
 
 export default function OrganizationVArticle() {
   return (
@@ -15,7 +14,6 @@ export default function OrganizationVArticle() {
       title="Организация V"
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <WorldArticleIllustration slug="organization-v" />
         <Reading>
           <p>
             Точную дату появления V установить трудно: подпольная сеть, с

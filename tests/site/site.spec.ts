@@ -1710,10 +1710,12 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
             exact: true,
           }),
         ).toBeVisible();
-        await expect(card.locator("img")).toHaveAttribute(
-          "src",
-          `${pagesBasePath}/images/world/article-thumbnails/${group.slug}.webp`,
-        );
+        const thumbnail =
+          "thumbnail" in entry
+            ? `${pagesBasePath}/images/world/articles/${entry.thumbnail}`
+            : `${pagesBasePath}/images/world/article-thumbnails/${group.slug}.webp`;
+        await expect(card.locator("img")).toHaveAttribute("src", thumbnail);
+        expect((await request.get(thumbnail)).ok(), thumbnail).toBe(true);
         const description =
           entry.status === "published"
             ? entry.summary.join(" ")
@@ -1726,6 +1728,9 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
         const response = await request.get(path);
         expect(response.status(), path).toBe(200);
         const html = await response.text();
+        expect(html, path).not.toContain(
+          `src="${pagesBasePath}/images/world/articles/`,
+        );
         expect(html, path).not.toContain("На этой странице");
         expect(html.includes("Статья в подготовке."), path).toBe(
           entry.status !== "published",

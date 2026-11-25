@@ -50,13 +50,17 @@ export default async function WorldArticlesPage({
         ? article.slug === "neurochip"
         : article.topic === group.slug),
   );
-  const thumbnail = `${deployment.basePath}/images/world/article-thumbnails/${group.slug}.webp`;
+  const fallbackThumbnail = `${deployment.basePath}/images/world/article-thumbnails/${group.slug}.webp`;
 
   return (
     <PageShell eyebrow="СТАТЬИ ВСЕЛЕННОЙ" title={group.title}>
       <ul className={styles.articles} role="list">
         {articles.map((article) => {
           const { slug, title } = article;
+          const thumbnail =
+            "thumbnail" in article
+              ? `${deployment.basePath}/images/world/articles/${article.thumbnail}`
+              : fallbackThumbnail;
           const descriptionId = `article-${slug}-description`;
           return (
             <li key={slug} className={styles.article}>
