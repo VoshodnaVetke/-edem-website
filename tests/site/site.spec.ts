@@ -1662,7 +1662,10 @@ test("mobile breadcrumbs restore the encyclopedia overview after reading @publis
   await expect(sectionBack.locator('[data-direction="left"]')).toBeVisible();
   const breadcrumb = page.getByRole("navigation", { name: "Путь к странице" });
   const worldCrumb = breadcrumb.getByRole("link", { name: "Вселенная" });
-  await expect(worldCrumb).toHaveCSS("color", "rgb(188, 92, 255)");
+  await expect(worldCrumb).toHaveCSS(
+    "color",
+    "color(srgb 0.70651 0.569412 0.888)",
+  );
   await expect(worldCrumb).toHaveCSS("text-decoration-style", "dashed");
   await expect(sectionBack).toHaveAttribute("href", /articleScroll=/);
   const article = page
