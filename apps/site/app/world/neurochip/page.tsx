@@ -6,13 +6,23 @@ import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function NeurochipArticle() {
   return (
     <PageShell
       eyebrow="ВСЕЛЕННАЯ / ОБЩЕСТВО"
       title="Социальный рейтинг и нейрочип"
-      description="Государственная система оценки благонадёжности граждан Эдема, учитывающая их достижения, общественную деятельность и соблюдение законодательства. Рейтинг определяет социальное положение человека, доступные привилегии и ряд гражданских прав."
+      intro={
+        <WorldArticleReading slug="neurochip">
+          <p>
+            Государственная система оценки благонадёжности граждан Эдема,
+            учитывающая их достижения, общественную деятельность и соблюдение
+            законодательства. Рейтинг определяет социальное положение человека,
+            доступные привилегии и ряд гражданских прав.
+          </p>
+        </WorldArticleReading>
+      }
     >
       <article aria-labelledby="page-title" className={styles.stack}>
         <Reading>

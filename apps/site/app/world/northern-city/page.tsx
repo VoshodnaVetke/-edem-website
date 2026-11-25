@@ -1,16 +1,17 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function NorthernCityArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ" title="Северный город">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="northern-city">
           <p>
             Северный город занимает крайнюю северную часть{" "}
             <a href={worldArticleHref("world-geography")}>Эдема</a>. Это один из
@@ -91,7 +92,7 @@ export default function NorthernCityArticle() {
               севера не возвращаются, есть одно известное исключение — Вампир.
             </p>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="northern-city" />
       </article>

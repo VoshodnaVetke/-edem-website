@@ -1,16 +1,17 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function MephistoCasinoArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ" title="Казино Мефиса">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="mephisto-casino">
           <p>
             Мефис открыл своё казино в{" "}
             <a href={worldArticleHref("pompeii")}>Помпеях</a>, в{" "}
@@ -59,7 +60,7 @@ export default function MephistoCasinoArticle() {
               Мефис согласился у неё работать, так и осталось неизвестно.
             </p>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="mephisto-casino" />
       </article>

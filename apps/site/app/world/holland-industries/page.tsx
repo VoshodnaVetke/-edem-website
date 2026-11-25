@@ -1,17 +1,18 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 import articleStyles from "../corporations/corporations.module.css";
 
 export default function HollandIndustriesArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ" title="Holland Industries">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="holland-industries">
           <figure className={articleStyles.quote}>
             <blockquote>
               <p>
@@ -136,7 +137,7 @@ export default function HollandIndustriesArticle() {
               олимпиад. Теперь читатели ждут ответа на другой вопрос — где он?
             </p>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="holland-industries" />
       </article>

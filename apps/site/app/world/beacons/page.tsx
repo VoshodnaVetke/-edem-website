@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function BeaconsArticle() {
   return (
@@ -12,7 +13,7 @@ export default function BeaconsArticle() {
       eyebrow="ВСЕЛЕННАЯ / ГОСУДАРСТВО И ОБЩЕСТВО"
       title="Светочи"
       intro={
-        <Reading>
+        <WorldArticleReading slug="beacons">
           <p>
             Светочи — выдающиеся граждане Эдема, которым Верховный понтифик Адам
             присваивает особый статус. Светочи руководят государственными
@@ -20,7 +21,7 @@ export default function BeaconsArticle() {
             корпорации. В учении Высшего Пути их заслуги перед обществом
             считаются свидетельством продвижения к идеалу сверхчеловека.
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

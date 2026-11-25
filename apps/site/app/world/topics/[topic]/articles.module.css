@@ -17,23 +17,6 @@
   background: var(--edem-color-background);
 }
 
-.thumbnail {
-  --folder-shape: polygon(0 0, 38% 0, 48% 13%, 100% 13%, 100% 100%, 0 100%);
-  position: relative;
-  aspect-ratio: 3 / 2;
-  background: var(--edem-color-outline-sketch);
-  clip-path: var(--folder-shape);
-}
-
-.thumbnail img {
-  position: absolute;
-  inset: 2px;
-  inline-size: calc(100% - 4px);
-  block-size: calc(100% - 4px);
-  object-fit: cover;
-  clip-path: var(--folder-shape);
-}
-
 .copy,
 .summary {
   display: grid;

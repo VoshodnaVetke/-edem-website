@@ -1,15 +1,16 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function EnigmaArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ" title="Enigma">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="enigma">
           <p>
             «Ричарду и Дэвиду пора бояться?» — такой вопрос «Град» вынес в
             заголовок заметки о выходе Enigma на рынок в сентябре 2221 года.
@@ -92,7 +93,7 @@ export default function EnigmaArticle() {
               Морган.
             </p>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="enigma" />
       </article>

@@ -1,16 +1,17 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function InnovatXArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ" title="InnovatX">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="innovatx">
           <p>
             InnovatX появилась в 2100-х, когда Эдем ещё восстанавливался после
             войны. Компанию основал инженер Винсент Морган. Его системы на чипах
@@ -87,7 +88,7 @@ export default function InnovatXArticle() {
               поддерживает преступную группировку «Свобода».
             </p>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="innovatx" />
       </article>

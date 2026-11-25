@@ -1,17 +1,18 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 import articleStyles from "../corporations/corporations.module.css";
 
 export default function MoxiBrothelArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ" title="Бордель Мокси">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="moxi-brothel">
           <p>
             «Бордель Мокси» в <a href={worldArticleHref("pompeii")}>Помпеях</a>{" "}
             считается одним из самых роскошных заведений{" "}
@@ -125,7 +126,7 @@ export default function MoxiBrothelArticle() {
               </figcaption>
             </figure>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="moxi-brothel" />
       </article>

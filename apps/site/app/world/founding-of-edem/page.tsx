@@ -1,16 +1,17 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function FoundingOfEdemArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / ИСТОРИЯ" title="Основание Эдема">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="founding-of-edem">
           <p>
             Эдем ведёт свою историю от общин, переживших{" "}
             <a href={worldArticleHref("history-before-adam")}>ядерную войну</a>.
@@ -146,7 +147,7 @@ export default function FoundingOfEdemArticle() {
             Систему социального рейтинга, по которой сегодня живёт Эдем, ввёл
             уже Третий Адам.
           </p>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="founding-of-edem" />
       </article>

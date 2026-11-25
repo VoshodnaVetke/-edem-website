@@ -1,17 +1,18 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 import articleStyles from "../corporations/corporations.module.css";
 
 export default function HistoryOfEdemArticle() {
   return (
     <PageShell eyebrow="ВСЕЛЕННАЯ / ИСТОРИЯ" title="История Эдема">
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="history-of-edem">
           <p>
             Третий Адам унаследовал империю с армией, промышленностью и
             законами, созданными в эпоху{" "}
@@ -424,7 +425,7 @@ export default function HistoryOfEdemArticle() {
             скидку на лечение, могла видеть в системе подтверждение того, что её
             усилия замечают.
           </p>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="history-of-edem" />
       </article>

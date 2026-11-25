@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 import articleStyles from "./corporations.module.css";
 
 export default function CorporationsArticle() {
@@ -13,7 +14,7 @@ export default function CorporationsArticle() {
       eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ"
       title="Корпорации Эдема"
       intro={
-        <Reading>
+        <WorldArticleReading slug="corporations">
           <p>
             <a href={worldArticleHref("innovatx")}>InnovatX</a>,{" "}
             <a href={worldArticleHref("holland-industries")}>
@@ -24,7 +25,7 @@ export default function CorporationsArticle() {
             деятельность, а каждая из них располагает собственной армией. О том,
             чья техника лучше, в Эдеме спорят и сами владельцы компаний.
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

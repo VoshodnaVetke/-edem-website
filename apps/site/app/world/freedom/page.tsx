@@ -1,10 +1,11 @@
 "use client";
 
-import { Heading, Reading } from "@edem/ui";
+import { Heading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function FreedomArticle() {
   return (
@@ -13,7 +14,7 @@ export default function FreedomArticle() {
       title="Группировка «Свобода»"
     >
       <article aria-labelledby="page-title" className={styles.stack}>
-        <Reading>
+        <WorldArticleReading slug="freedom">
           <p>
             «Свобода» — группировка, которая добивается свержения власти Адама,
             отмены{" "}
@@ -186,7 +187,7 @@ export default function FreedomArticle() {
               его место, — нового Светоча безопасности.
             </p>
           </section>
-        </Reading>
+        </WorldArticleReading>
 
         <RelatedWorldArticles slug="freedom" />
       </article>

@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function JusticeArticle() {
   return (
@@ -12,7 +13,7 @@ export default function JusticeArticle() {
       eyebrow="ВСЕЛЕННАЯ / ГОСУДАРСТВО И ОБЩЕСТВО"
       title="Правосудие и исправительная система"
       intro={
-        <Reading>
+        <WorldArticleReading slug="justice">
           <p>
             Система правосудия Эдема охватывает расследование правонарушений,
             рассмотрение дел и исполнение наказаний. За нарушение могут
@@ -20,7 +21,7 @@ export default function JusticeArticle() {
             итоговый рейтинг опускается ниже нуля, гражданина направляют в
             учреждение по восстановлению благонадёжности (УВБ).
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

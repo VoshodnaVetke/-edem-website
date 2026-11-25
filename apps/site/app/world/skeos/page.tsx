@@ -5,6 +5,7 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function SkeosArticle() {
   return (
@@ -12,7 +13,7 @@ export default function SkeosArticle() {
       eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
       title="Скеос"
       intro={
-        <Reading>
+        <WorldArticleReading slug="skeos">
           <p>
             За{" "}
             <a href={worldArticleHref("neutral-lands")}>Нейтральными землями</a>{" "}
@@ -21,7 +22,7 @@ export default function SkeosArticle() {
             шапки и большие очки. Детали имплантов здесь нередко оставляют на
             виду, а шестерёнки носят как украшения.
           </p>
-        </Reading>
+        </WorldArticleReading>
       }
     >
       <article aria-labelledby="page-title" className={styles.stack}>

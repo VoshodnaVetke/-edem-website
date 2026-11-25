@@ -8,6 +8,7 @@ import {
   worldArticleHref,
   worldArticlesHref,
 } from "../../../../config/world-articles";
+import imageStyles from "../../world-article-image.module.css";
 import styles from "./articles.module.css";
 
 export const dynamicParams = false;
@@ -64,7 +65,7 @@ export default async function WorldArticlesPage({
           const descriptionId = `article-${slug}-description`;
           return (
             <li key={slug} className={styles.article}>
-              <div className={styles.thumbnail}>
+              <div className={`${imageStyles.frame} ${imageStyles.thumbnail}`}>
                 <img src={thumbnail} alt="" loading="lazy" decoding="async" />
               </div>
               <div className={styles.copy}>
