@@ -22,7 +22,7 @@ export const worldArticleGroups = [
     title: "История",
     heading: "Мир после конца света",
     description:
-      "Ядерная война разрушила прежнюю цивилизацию. Первый Адам объединил выживших и основал Эдем.",
+      "После ядерной войны Первый Адам собрал выживших в общину, из которой при Втором Адаме выросла империя.",
     artwork: "wasteland-traveler",
   },
   {
@@ -415,7 +415,7 @@ export const worldArticleRegistry = {
       "myanmar",
       "freedom",
       "organization-v",
-      "white-swan",
+      "history-of-edem",
       "technology-triumph-cult",
     ],
   },
@@ -500,21 +500,32 @@ export const worldArticleRegistry = {
     topic: "history",
     status: "published",
     summary: [
-      "Как Первый Адам объединил послевоенные общины и кто стал первыми Светочами.",
-      "Как Второй Адам выстроил государство и как при нём появились первые крупные корпорации.",
+      "Как Первый Адам собрал выживших и заложил поселение Эдем.",
+      "Как при Втором Адаме поселение выросло в империю и появились первые крупные корпорации.",
     ],
     related: ["history-before-adam", "higher-path", "history-of-edem"],
   },
   "history-of-edem": {
     title: "История Эдема",
     topic: "history",
-    status: "planned",
-    related: ["founding-of-edem", "higher-path", "modern-chronology"],
+    status: "published",
+    summary: [
+      "Как при Третьем Адаме изменились жизнь горожан, работа корпораций и доступ к государственным льготам.",
+      "Что писали газеты о чипировании и чем закончились «Белый лебедь» и Кровавая суббота.",
+    ],
+    related: [
+      "founding-of-edem",
+      "pompeii",
+      "neurochip",
+      "freedom",
+      "modern-chronology",
+    ],
   },
   "white-swan": {
     title: "Революция «Белый лебедь»",
     topic: "history",
-    status: "planned",
+    status: "merged",
+    target: { slug: "history-of-edem", section: "white-swan" },
     related: ["modern-chronology", "freedom", "criminal-organizations"],
   },
   "modern-chronology": {

@@ -1639,7 +1639,10 @@ test("world articles link to approved content and planned pages", async ({
   );
   await expect(
     main.getByRole("link", { name: "революцию «Белый лебедь»", exact: true }),
-  ).toHaveAttribute("href", exportedPath("/world/white-swan"));
+  ).toHaveAttribute(
+    "href",
+    exportedPath("/world/history-of-edem") + "#white-swan",
+  );
   await main
     .getByRole("link", { name: "Наркокартель «Мьянма»", exact: true })
     .click();
@@ -1764,6 +1767,23 @@ test.describe("merged encyclopedia entries", () => {
     await expect(
       page.getByRole("heading", {
         name: "Правонарушения и взыскания",
+        exact: true,
+      }),
+    ).toBeInViewport();
+  });
+
+  test("the former White Swan address opens the revolution in Edem history", async ({
+    page,
+  }) => {
+    await page.goto(exportedPath("/world/white-swan"));
+    await expect(page).toHaveURL(
+      (url) =>
+        url.pathname === exportedPath("/world/history-of-edem") &&
+        url.hash === "#white-swan",
+    );
+    await expect(
+      page.getByRole("heading", {
+        name: "Революция «Белый лебедь»",
         exact: true,
       }),
     ).toBeInViewport();

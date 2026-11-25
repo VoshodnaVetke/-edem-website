@@ -2,6 +2,7 @@
 
 import { Heading, Reading } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
+import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { RelatedWorldArticles } from "../RelatedWorldArticles";
 import articleStyles from "../corporations/corporations.module.css";
@@ -113,8 +114,11 @@ export default function HollandIndustriesArticle() {
             </p>
             <p>
               Позднее стало известно, что Сэм вступил в преступную группировку
-              «Свобода». Его задержали при подавлении революции «Белый лебедь» и
-              направили в учреждение по восстановлению благонадёжности. После
+              «Свобода». Его задержали при подавлении{" "}
+              <a href={worldArticleHref("white-swan")}>
+                революции «Белый лебедь»
+              </a>{" "}
+              и направили в учреждение по восстановлению благонадёжности. После
               УВБ Сэм поступил на службу в Специальный отдел. Его прочили в
               преемники Вектора на посту Светоча безопасности. К тому времени он
               и Ричард восстановили отношения. К роли наследника корпорации Сэм
