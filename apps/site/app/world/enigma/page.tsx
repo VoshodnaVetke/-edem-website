@@ -1,14 +1,18 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function EnigmaArticle() {
   return (
-    <PageShell eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ" title="Enigma">
+    <WorldArticleShell
+      slug="enigma"
+      eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ"
+      title="Enigma"
+    >
       <article aria-labelledby="page-title" className={styles.stack}>
         <WorldArticleReading slug="enigma">
           <p>
@@ -95,8 +99,8 @@ export default function EnigmaArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="enigma" />
+        <WorldArticleFooter slug="enigma" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

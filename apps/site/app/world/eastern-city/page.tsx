@@ -1,15 +1,16 @@
 "use client";
 
 import { Heading, Reading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function EasternCityArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="eastern-city"
       eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
       title="Восточный город"
       intro={
@@ -62,8 +63,8 @@ export default function EasternCityArticle() {
           </section>
         </Reading>
 
-        <RelatedWorldArticles slug="eastern-city" />
+        <WorldArticleFooter slug="eastern-city" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

@@ -588,6 +588,12 @@ export function relatedWorldArticleSlugs(slug: WorldArticleSlug) {
   );
 }
 
+export function worldTopicArticles(topic: WorldArticleTopic) {
+  return worldArticleEntries.filter(
+    (article) => article.status !== "merged" && article.topic === topic,
+  );
+}
+
 export function worldArticleHref(slug: WorldArticleSlug): string {
   const article = worldArticleRegistry[slug];
   if (article.status === "merged") {

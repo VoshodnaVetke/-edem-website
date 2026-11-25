@@ -1,16 +1,17 @@
 "use client";
 
 import { Heading, Reading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function HigherPathArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="higher-path"
       eyebrow="ВСЕЛЕННАЯ / ГОСУДАРСТВО И ОБЩЕСТВО"
       title="Высший Путь"
       intro={
@@ -164,8 +165,8 @@ export default function HigherPathArticle() {
           </section>
         </Reading>
 
-        <RelatedWorldArticles slug="higher-path" />
+        <WorldArticleFooter slug="higher-path" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

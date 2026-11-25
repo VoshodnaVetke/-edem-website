@@ -1,15 +1,16 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function CriminalOrganizationsArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="criminal-organizations"
       eyebrow="ВСЕЛЕННАЯ / ОРГАНИЗАЦИИ И ГРУППИРОВКИ"
       title="Криминальные организации Эдема"
     >
@@ -92,8 +93,8 @@ export default function CriminalOrganizationsArticle() {
           </p>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="criminal-organizations" />
+        <WorldArticleFooter slug="criminal-organizations" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

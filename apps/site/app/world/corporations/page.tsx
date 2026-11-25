@@ -1,16 +1,17 @@
 "use client";
 
 import { Heading, Reading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 import articleStyles from "./corporations.module.css";
 
 export default function CorporationsArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="corporations"
       eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ"
       title="Корпорации Эдема"
       intro={
@@ -190,8 +191,8 @@ export default function CorporationsArticle() {
           </section>
         </Reading>
 
-        <RelatedWorldArticles slug="corporations" />
+        <WorldArticleFooter slug="corporations" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

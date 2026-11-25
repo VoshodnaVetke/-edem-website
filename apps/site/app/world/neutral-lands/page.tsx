@@ -1,15 +1,19 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function NeutralLandsArticle() {
   return (
-    <PageShell eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ" title="Нейтральные земли">
+    <WorldArticleShell
+      slug="neutral-lands"
+      eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
+      title="Нейтральные земли"
+    >
       <article aria-labelledby="page-title" className={styles.stack}>
         <WorldArticleReading slug="neutral-lands">
           <p>
@@ -132,8 +136,8 @@ export default function NeutralLandsArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="neutral-lands" />
+        <WorldArticleFooter slug="neutral-lands" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

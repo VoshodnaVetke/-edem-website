@@ -3,12 +3,14 @@ import { PageShell } from "../../../../components/layout/PageShell";
 import deployment from "../../../../config/deployment.json";
 import { siteHref } from "../../../../config/site-href";
 import {
-  worldArticleEntries,
   worldArticleGroups,
   worldArticleHref,
+  worldArticleRegistry,
   worldArticlesHref,
+  worldTopicArticles,
 } from "../../../../config/world-articles";
 import imageStyles from "../../world-article-image.module.css";
+import { WorldArticleList } from "./WorldArticleList";
 import styles from "./articles.module.css";
 
 export const dynamicParams = false;
@@ -44,18 +46,15 @@ export default async function WorldArticlesPage({
   const currentTopic = topic === legacyTopic ? "technology" : topic;
   const group = worldArticleGroups.find(({ slug }) => slug === currentTopic);
   if (!group) notFound();
-  const articles = worldArticleEntries.filter(
-    (article) =>
-      article.status !== "merged" &&
-      (topic === legacyTopic
-        ? article.slug === "neurochip"
-        : article.topic === group.slug),
-  );
+  const articles =
+    topic === legacyTopic
+      ? [{ slug: "neurochip" as const, ...worldArticleRegistry.neurochip }]
+      : worldTopicArticles(group.slug);
   const fallbackThumbnail = `${deployment.basePath}/images/world/article-thumbnails/${group.slug}.webp`;
 
   return (
     <PageShell eyebrow="СТАТЬИ ВСЕЛЕННОЙ" title={group.title}>
-      <ul className={styles.articles} role="list">
+      <WorldArticleList className={styles.articles}>
         {articles.map((article) => {
           const { slug, title } = article;
           const thumbnail =
@@ -93,7 +92,7 @@ export default async function WorldArticlesPage({
             </li>
           );
         })}
-      </ul>
+      </WorldArticleList>
       <a className={styles.back} href={siteHref("/world")}>
         К обзору мира
       </a>

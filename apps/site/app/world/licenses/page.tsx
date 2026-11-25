@@ -1,14 +1,15 @@
 "use client";
 
 import { Heading, Reading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 
 export default function LicensesArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="licenses"
       eyebrow="ВСЕЛЕННАЯ / ГОСУДАРСТВО И ОБЩЕСТВО"
       title="Лицензии"
       intro={
@@ -92,8 +93,8 @@ export default function LicensesArticle() {
           </section>
         </Reading>
 
-        <RelatedWorldArticles slug="licenses" />
+        <WorldArticleFooter slug="licenses" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

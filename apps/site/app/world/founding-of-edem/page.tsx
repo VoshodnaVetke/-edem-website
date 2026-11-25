@@ -1,15 +1,19 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function FoundingOfEdemArticle() {
   return (
-    <PageShell eyebrow="ВСЕЛЕННАЯ / ИСТОРИЯ" title="Основание Эдема">
+    <WorldArticleShell
+      slug="founding-of-edem"
+      eyebrow="ВСЕЛЕННАЯ / ИСТОРИЯ"
+      title="Основание Эдема"
+    >
       <article aria-labelledby="page-title" className={styles.stack}>
         <WorldArticleReading slug="founding-of-edem">
           <p>
@@ -149,8 +153,8 @@ export default function FoundingOfEdemArticle() {
           </p>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="founding-of-edem" />
+        <WorldArticleFooter slug="founding-of-edem" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

@@ -1,16 +1,17 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { siteHref } from "../../../config/site-href";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function CyberneticsAndImplantsArticle() {
   return (
-    <PageShell
+    <WorldArticleShell
+      slug="cybernetics-and-implants"
       eyebrow="ВСЕЛЕННАЯ / НАУКА И ТЕХНОЛОГИИ"
       title="Кибернетика и импланты"
     >
@@ -211,8 +212,8 @@ export default function CyberneticsAndImplantsArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="cybernetics-and-implants" />
+        <WorldArticleFooter slug="cybernetics-and-implants" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

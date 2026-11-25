@@ -1,15 +1,19 @@
 "use client";
 
 import { Heading } from "@edem/ui";
-import { PageShell } from "../../../components/layout/PageShell";
 import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
-import { RelatedWorldArticles } from "../RelatedWorldArticles";
+import { WorldArticleFooter } from "../WorldArticleFooter";
+import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function MephistoCasinoArticle() {
   return (
-    <PageShell eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ" title="Казино Мефиса">
+    <WorldArticleShell
+      slug="mephisto-casino"
+      eyebrow="ВСЕЛЕННАЯ / МИР И ГЕОГРАФИЯ"
+      title="Казино Мефиса"
+    >
       <article aria-labelledby="page-title" className={styles.stack}>
         <WorldArticleReading slug="mephisto-casino">
           <p>
@@ -62,8 +66,8 @@ export default function MephistoCasinoArticle() {
           </section>
         </WorldArticleReading>
 
-        <RelatedWorldArticles slug="mephisto-casino" />
+        <WorldArticleFooter slug="mephisto-casino" />
       </article>
-    </PageShell>
+    </WorldArticleShell>
   );
 }

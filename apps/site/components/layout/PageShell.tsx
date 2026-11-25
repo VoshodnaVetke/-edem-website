@@ -8,6 +8,7 @@ interface PageShellProps {
   eyebrow?: string;
   title: string;
   description?: string;
+  beforeHeading?: ReactNode;
   titleDetails?: ReactNode;
   intro?: ReactNode;
   headerClassName?: string;
@@ -19,6 +20,7 @@ export function PageShell({
   eyebrow,
   title,
   description,
+  beforeHeading,
   titleDetails,
   intro,
   headerClassName,
@@ -26,6 +28,7 @@ export function PageShell({
 }: PageShellProps) {
   const heading = (
     <>
+      {beforeHeading}
       {eyebrow && <Text variant="system">{eyebrow}</Text>}
       <Heading level={1} id="page-title">
         {title}
