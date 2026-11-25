@@ -1,5 +1,5 @@
-import { Reading } from "@edem/ui";
-import type { ReactNode } from "react";
+import { Frame, Reading } from "@edem/ui";
+import { useId, type ReactNode } from "react";
 import deployment from "../../config/deployment.json";
 import { worldArticleRegistry } from "../../config/world-articles";
 import styles from "./world-article-image.module.css";
@@ -158,6 +158,9 @@ const illustrations = {
   },
 };
 
+const illustrationSlugs = Object.keys(illustrations);
+const frameVariants = ["system", "double", "asym"] as const;
+
 export function WorldArticleReading({
   slug,
   children,
@@ -165,18 +168,27 @@ export function WorldArticleReading({
   slug: keyof typeof illustrations;
   children: ReactNode;
 }) {
+  const clipId = useId();
+  const illustrationIndex = illustrationSlugs.indexOf(slug);
+  const frame = frameVariants[illustrationIndex % frameVariants.length];
   const { alt, width, height } = illustrations[slug];
   const { thumbnail } = worldArticleRegistry[slug];
 
   return (
     <Reading className={styles.reading}>
-      <figure className={`${styles.frame} ${styles.illustration}`}>
+      <figure className={styles.illustration}>
         <img
           src={`${deployment.basePath}/images/world/articles/${thumbnail}`}
           alt={alt}
           width={width}
           height={height}
           decoding="async"
+          style={{ clipPath: `url("#${clipId}")` }}
+        />
+        <Frame
+          variant={frame}
+          seed={1410 + illustrationIndex}
+          mediaClipId={clipId}
         />
       </figure>
       {children}

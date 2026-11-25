@@ -26,8 +26,8 @@
 }
 
 .illustration {
+  position: relative;
   margin: 0 0 1em;
-  padding: 2px;
 }
 
 .illustration img {
