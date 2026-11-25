@@ -498,7 +498,11 @@ export const worldArticleRegistry = {
   "founding-of-edem": {
     title: "Основание Эдема",
     topic: "history",
-    status: "planned",
+    status: "published",
+    summary: [
+      "Как Первый Адам объединил послевоенные общины и кто стал первыми Светочами.",
+      "Как Второй Адам выстроил государство и как при нём появились первые крупные корпорации.",
+    ],
     related: ["history-before-adam", "higher-path", "history-of-edem"],
   },
   "history-of-edem": {
