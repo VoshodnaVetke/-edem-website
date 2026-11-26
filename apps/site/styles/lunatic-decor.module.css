@@ -69,12 +69,12 @@
 .backdrop::after {
   position: absolute;
   z-index: -1;
-  inset-block-start: var(--lunatic-backdrop-top, 1rem);
+  inset-block-start: var(--lunatic-backdrop-top, 0rem);
   inset-inline-end: -0.5rem;
   inline-size: min(42vw, 100%);
   aspect-ratio: 1.4;
   background: var(--lunatic-art) right center / contain no-repeat;
-  opacity: 0.075;
+  opacity: 0.16;
   pointer-events: none;
   content: "";
 }
