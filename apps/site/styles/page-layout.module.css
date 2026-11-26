@@ -72,6 +72,14 @@
   margin-block: 1rem;
 }
 
+.footnote {
+  margin-block: 1rem;
+  padding: 0.75rem 1rem;
+  border-inline-start: 2px solid var(--edem-color-text-metadata);
+  background: var(--edem-color-surface);
+  color: var(--edem-color-text-secondary);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;

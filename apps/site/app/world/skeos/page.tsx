@@ -77,13 +77,17 @@ export default function SkeosArticle() {
               </a>
               .
             </p>
-            <p id="technomagic-note">
+            <aside
+              id="technomagic-note"
+              className={styles.footnote}
+              role="note"
+            >
               <a href="#technomagic-ref" aria-label="К слову «техномагия»">
                 *
               </a>{" "}
               В Эдеме магия и любые её упоминания запрещены. Государство считает
               их намеренным введением населения в заблуждение.
-            </p>
+            </aside>
           </section>
           <section aria-labelledby="genetic-passport">
             <Heading level={2} id="genetic-passport">
