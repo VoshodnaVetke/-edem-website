@@ -1163,6 +1163,9 @@ test("workshop formats expand exclusively and the team and contact links fit mob
     exact: false,
   });
   await expect(toggles).toHaveCount(4);
+  const formatIcon = chamber.locator("img");
+  await expect(formatIcon).toHaveAttribute("src", /chamber\.gif$/);
+  await expect(formatIcon).toHaveCSS("filter", "none");
   await expect(ballDescription).toBeHidden();
   await ball.focus();
   await ball.press("Enter");
@@ -1282,7 +1285,7 @@ test("workshop formats expand exclusively and the team and contact links fit mob
         photoRect.bottom <= cardRect.bottom,
     };
   });
-  expect(photoFrame?.clip?.startsWith("polygon(")).toBe(true);
+  expect(photoFrame?.clip?.startsWith("url(")).toBe(true);
   expect(photoFrame?.overflow).toBe("clip");
   expect(photoFrame?.contained).toBe(true);
 
@@ -1298,12 +1301,9 @@ test("workshop formats expand exclusively and the team and contact links fit mob
     await expect(photo).toHaveCSS("object-position", new RegExp(position));
     const media = photo.locator("xpath=..");
     await expect(media).toHaveCSS("overflow", "clip");
-    await expect(media).toHaveCSS("clip-path", /^polygon/);
+    await expect(media).toHaveCSS("clip-path", /^url/);
     const portrait = media.locator("xpath=..");
-    await expect(portrait.locator(".edem-frame")).toHaveCSS(
-      "transform",
-      "none",
-    );
+    await expect(portrait.locator(".edem-frame--with-media")).toHaveCount(1);
   }
 
   const contact = mobile.getByRole("region", { name: "Создадим игру вместе" });

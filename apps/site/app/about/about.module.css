@@ -1,48 +1,17 @@
 .hero {
   position: relative;
   isolation: isolate;
+  max-inline-size: 100%;
   padding: clamp(1.5rem, 5vw, 3.5rem);
-  border-inline-start: 2px solid var(--edem-color-accent-primary);
-  border-block-end: 1px solid
-    color-mix(in srgb, var(--edem-color-accent-primary) 35%, transparent);
-  background:
-    radial-gradient(
-      ellipse at 90% 10%,
-      color-mix(in srgb, var(--edem-color-accent-secondary) 21%, transparent),
-      transparent 70%
-    ),
-    linear-gradient(
-      114deg,
-      var(--edem-color-background-top) 40%,
-      var(--edem-color-surface)
-    );
 }
 
-.hero::after {
-  position: absolute;
+.hero > :global(.edem-frame) {
   z-index: -1;
-  inset: 0;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 31px,
-      var(--edem-color-accent-primary) 31px 32px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 31px,
-      var(--edem-color-accent-primary) 31px 32px
-    );
-  mask-image: linear-gradient(115deg, transparent 40%, black);
-  opacity: 0.12;
-  pointer-events: none;
-  content: "";
 }
 
 .hero h1 {
   max-inline-size: 19ch;
   text-wrap: balance;
-  text-shadow: 0 0 1.6rem var(--edem-color-ambient-cyan);
 }
 
 .intro {
@@ -59,7 +28,7 @@
 .sectionTitle {
   margin: 0 0 1.5rem;
   padding-inline-start: 0.875rem;
-  border-inline-start: 2px solid var(--edem-color-accent-primary);
+  border-inline-start: 2px solid var(--edem-color-outline-sketch);
 }
 
 .formatToolbar {
@@ -106,89 +75,6 @@
   align-self: stretch;
   flex-shrink: 0;
   overflow-clip-margin: 6px;
-  --format-accent: var(--edem-color-accent-primary);
-}
-
-.formatCard:focus-within {
-  --format-accent: var(--edem-color-accent-secondary);
-}
-
-.formatCard:focus-within :global(.edem-frame__border) {
-  color: var(--edem-color-accent-secondary);
-  filter: drop-shadow(0 0 0.45rem var(--edem-color-accent-secondary));
-}
-
-.formatCard:focus-within .formatHeading {
-  color: var(--edem-color-accent-secondary);
-}
-
-.formatCard:focus-within :global(.edem-card-effects__shine) {
-  background: radial-gradient(
-    circle 34px at var(--edem-cursor-x, 50%) var(--edem-cursor-y, 50%),
-    color-mix(in srgb, var(--edem-color-accent-secondary) 22%, transparent),
-    transparent
-  );
-}
-
-.formatCard:focus-within :global(.edem-card-effects__scan) {
-  background: linear-gradient(
-    transparent 45%,
-    color-mix(in srgb, var(--edem-color-accent-secondary) 24%, transparent) 50%,
-    transparent 55%
-  );
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .formatCard:hover {
-    --format-accent: var(--edem-color-accent-secondary);
-  }
-
-  .formatCard:hover :global(.edem-frame__border) {
-    color: var(--edem-color-accent-secondary);
-    filter: drop-shadow(0 0 0.45rem var(--edem-color-accent-secondary));
-  }
-
-  .formatCard:hover .formatHeading {
-    color: var(--edem-color-accent-secondary);
-  }
-
-  .formatCard:hover :global(.edem-card-effects__shine) {
-    background: radial-gradient(
-      circle 34px at var(--edem-cursor-x, 50%) var(--edem-cursor-y, 50%),
-      color-mix(in srgb, var(--edem-color-accent-secondary) 22%, transparent),
-      transparent
-    );
-  }
-
-  .formatCard:hover :global(.edem-card-effects__scan) {
-    background: linear-gradient(
-      transparent 45%,
-      color-mix(in srgb, var(--edem-color-accent-secondary) 24%, transparent)
-        50%,
-      transparent 55%
-    );
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .formatCard :global(.edem-frame__border),
-  .formatHeading,
-  .formatIcon img {
-    transition:
-      color 300ms ease,
-      filter 350ms ease;
-  }
-}
-
-.formatCard[data-accent="violet"] {
-  --format-accent: var(--edem-color-accent-secondary);
-}
-
-.formatSlot[data-expanded="true"] :global(.edem-frame__border) {
-  color: var(--format-accent);
-  filter: drop-shadow(
-    0 0 0.275rem color-mix(in srgb, var(--format-accent) 68%, transparent)
-  );
 }
 
 .formatCard :global(.edem-card-content) {
@@ -229,12 +115,6 @@
   display: grid;
   place-items: center;
   aspect-ratio: 1;
-  color: var(--format-accent);
-}
-
-.formatIcon svg {
-  inline-size: 58%;
-  filter: drop-shadow(0 0 0.3rem currentColor);
 }
 
 .toggle[aria-expanded="false"]::after {
@@ -260,7 +140,7 @@
   margin-block-start: 1.25rem;
   padding-block-start: 1rem;
   border-block-start: 1px solid
-    color-mix(in srgb, var(--format-accent) 54%, transparent);
+    color-mix(in srgb, var(--edem-color-outline-sketch) 35%, transparent);
 }
 
 .member :global(.edem-card-content) {
@@ -293,10 +173,6 @@
     inline-size: min(100%, 21rem);
   }
 
-  .member .restrictedPortrait {
-    aspect-ratio: 4 / 3;
-  }
-
   .member .profile {
     grid-column: 1;
   }
@@ -306,77 +182,22 @@
 .restrictedPortrait {
   position: relative;
   isolation: isolate;
-  display: grid;
-  place-items: center;
   align-self: center;
   inline-size: 100%;
-  overflow: clip;
-  /* Match the approved asym frame geometry so both photo and underlay stay inside. */
-  clip-path: polygon(
-    1.59% 13.45%,
-    8.86% 2.41%,
-    66.82% 2.41%,
-    70.23% 6.21%,
-    98.18% 6.21%,
-    98.18% 78.62%,
-    90.45% 97.24%,
-    1.59% 97.24%
-  );
-  background-color: var(--edem-color-surface);
-}
-
-.portrait :global(.edem-frame),
-.restrictedPortrait :global(.edem-frame) {
-  z-index: 2;
-}
-
-.portrait :global(.edem-frame__fill),
-.restrictedPortrait :global(.edem-frame__fill) {
-  display: none;
-}
-
-.portrait :global(.edem-frame__border),
-.restrictedPortrait :global(.edem-frame__border) {
-  color: var(--edem-color-accent-secondary);
-}
-
-.portrait {
   aspect-ratio: 4 / 3;
-  min-block-size: 0;
-  color: var(--edem-color-accent-primary);
+  margin: 0;
 }
 
 .portraitMedia {
   position: absolute;
   inset: 0;
+  display: grid;
+  place-items: center;
   overflow: clip;
-  /* The photo and its underlay stop *inside* the irregular purple stroke. */
-  clip-path: polygon(
-    3% 14.5%,
-    10% 4.5%,
-    65.5% 4.5%,
-    69% 8.5%,
-    96.5% 8.5%,
-    96.5% 77.5%,
-    89.5% 95%,
-    3% 95%
-  );
   background-color: var(--edem-color-surface);
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 7px,
-      var(--edem-color-ambient-cyan) 7px 8px
-    ),
-    radial-gradient(
-      ellipse at 50% 50%,
-      var(--edem-color-ambient-cyan),
-      transparent 70%
-    );
 }
 
-.portraitMedia > svg,
-.interference svg {
+.portraitMedia > svg {
   inline-size: clamp(2rem, 10cqi, 3.25rem);
 }
 
@@ -390,31 +211,6 @@
 
 .teamList {
   padding-inline: clamp(0.625rem, 2.75vw, 3.25rem);
-}
-
-.member :global(.edem-frame__border) {
-  color: var(--edem-color-accent-secondary);
-  filter: drop-shadow(
-    0 0 0.18rem
-      color-mix(in srgb, var(--edem-color-accent-secondary) 25%, transparent)
-  );
-}
-
-.member :global(.edem-frame__border path) {
-  stroke-width: 1.15;
-}
-
-.member :global(.edem-frame__inner) {
-  color: var(--edem-color-accent-secondary);
-  opacity: 0.28;
-}
-
-.member:nth-child(3n + 2) > :global(.edem-card-content) > :global(.edem-frame) {
-  transform: scaleX(-1);
-}
-
-.member:nth-child(3n + 3) > :global(.edem-card-content) > :global(.edem-frame) {
-  transform: rotate(180deg);
 }
 
 .profile {
@@ -439,8 +235,8 @@
 .roleNote {
   display: inline-block;
   padding: 0.1rem 0.5rem;
-  border: 1px solid var(--edem-color-accent-secondary);
-  color: var(--edem-color-accent-secondary);
+  border: 1px solid var(--edem-color-outline-sketch);
+  color: var(--edem-color-text-secondary);
   font: 700 0.75rem/1.4 var(--font-mono);
   letter-spacing: 0.04em;
 }
@@ -450,7 +246,7 @@
   margin: clamp(0.7rem, 1.5cqi, 1.1rem) 0 0;
   padding-inline-start: clamp(0.75rem, 2cqi, 1.25rem);
   border-inline-start: 1px solid
-    color-mix(in srgb, var(--edem-color-accent-secondary) 75%, transparent);
+    color-mix(in srgb, var(--edem-color-outline-sketch) 45%, transparent);
   color: var(--edem-color-text-primary);
   font-family: "Segoe Print", "Comic Sans MS", "Bradley Hand", cursive;
   overflow-wrap: anywhere;
@@ -470,7 +266,7 @@
 }
 
 .storyLine strong {
-  color: var(--edem-color-accent-secondary);
+  color: var(--edem-color-text-secondary);
   font-family: var(--font-body);
   font-size: 0.85em;
   font-weight: 700;
@@ -484,7 +280,6 @@
 .storyPunchline {
   color: var(--edem-color-text-heading);
   font-size: clamp(1.15rem, 2cqi, 1.7rem);
-  text-shadow: 0 0 1.15rem var(--edem-color-ambient-violet);
 }
 
 .restrictedMember .storyPunchline {
@@ -497,7 +292,7 @@
   margin-block: clamp(0.75rem, 2cqi, 1.5rem);
   padding-block: clamp(0.75rem, 2cqi, 1.5rem);
   border-block: 1px solid
-    color-mix(in srgb, var(--edem-color-accent-secondary) 58%, transparent);
+    color-mix(in srgb, var(--edem-color-outline-sketch) 35%, transparent);
   text-align: center;
 }
 
@@ -508,10 +303,6 @@
   font-weight: 900;
   line-height: 1.1;
   letter-spacing: 0.07em;
-  text-shadow:
-    0 2px 0 var(--edem-color-background),
-    0 0 1.25rem
-      color-mix(in srgb, var(--edem-color-accent-secondary) 35%, transparent);
 }
 
 .vkLink {
@@ -549,17 +340,13 @@
 }
 
 .restrictedPortrait {
+  display: grid;
   grid-template-rows: auto auto;
   align-content: center;
   gap: 0.25rem;
   min-block-size: clamp(6.5rem, 10cqi, 7rem);
   padding: clamp(0.35rem, 2cqi, 1rem);
   text-align: center;
-  background-image: repeating-linear-gradient(
-    0deg,
-    var(--edem-color-ambient-violet) 0 1px,
-    transparent 1px 4px
-  );
 }
 
 .restrictedPortrait > p {
@@ -577,57 +364,23 @@
   line-height: 1.1;
 }
 
-.interference {
-  display: grid;
-  place-items: center;
-  position: absolute;
-  inset: 0;
+.restrictedPortrait > :global(.edem-frame) {
   z-index: -1;
-  color: var(--edem-color-accent-secondary);
-  opacity: 0.2;
-}
-
-.interference::after {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0 14px,
-    var(--edem-color-accent-primary) 14px 16px,
-    transparent 16px 30px
-  );
-  opacity: 0;
-  content: "";
 }
 
 .contact {
+  position: relative;
+  isolation: isolate;
   padding: clamp(1.25rem, 4vw, 2.75rem);
-  border-block-start: 1px solid
-    color-mix(in srgb, var(--edem-color-accent-secondary) 58%, transparent);
-  background: linear-gradient(
-    110deg,
-    var(--edem-color-background-top),
-    color-mix(
-      in srgb,
-      var(--edem-color-accent-secondary) 16%,
-      var(--edem-color-surface)
-    )
-  );
+}
+
+.contact > :global(.edem-frame) {
+  z-index: -1;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .panel:not([hidden]) {
     animation: panel-open 540ms cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
-
-  .interference {
-    animation: portrait-interference 9s steps(1, end) infinite;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .member:hover .interference::after {
-      animation: portrait-scan 420ms ease-out both;
-    }
   }
 }
 
@@ -643,42 +396,6 @@
   }
 }
 
-@keyframes portrait-interference {
-  0%,
-  21%,
-  64%,
-  100% {
-    transform: translateX(0);
-    clip-path: inset(0);
-    opacity: 0.2;
-  }
-
-  20%,
-  63% {
-    transform: translateX(0.4rem);
-    clip-path: inset(18% 0 50%);
-    opacity: 0.6;
-  }
-
-  62% {
-    transform: translateX(-0.3rem);
-    clip-path: inset(60% 0 12%);
-    opacity: 0.55;
-  }
-}
-
-@keyframes portrait-scan {
-  from {
-    transform: translateY(-35%);
-    opacity: 0.8;
-  }
-
-  to {
-    transform: translateY(35%);
-    opacity: 0;
-  }
-}
-
 .formatIcon picture {
   display: block;
   inline-size: 100%;
@@ -690,271 +407,4 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 0 0.35rem var(--format-accent));
-}
-
-.restrictedMember {
-  position: relative;
-  isolation: isolate;
-}
-
-.restrictedMember .profile {
-  position: relative;
-  z-index: 1;
-}
-
-/* Full-card interference. Invisible at rest and for reduced-motion users. */
-.restrictedMember::before,
-.restrictedMember::after,
-.cardGlitchBlocks,
-.cardGlitchOffset {
-  position: absolute;
-  z-index: 3;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.restrictedMember::before {
-  inset: -0.2rem;
-  border: 2px solid var(--edem-color-accent-primary);
-  box-shadow:
-    -0.3rem 0 var(--edem-color-accent-secondary),
-    0.25rem 0 var(--edem-color-ambient-cyan);
-  content: "";
-}
-
-.restrictedMember::after {
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0 9px,
-    color-mix(in srgb, var(--edem-color-accent-primary) 28%, transparent) 9px
-      11px,
-    transparent 11px 21px
-  );
-  mix-blend-mode: screen;
-  content: "";
-}
-
-.cardGlitchBlocks,
-.cardGlitchOffset {
-  display: block;
-}
-
-.cardGlitchBlocks {
-  inset: 0;
-  background:
-    linear-gradient(
-        90deg,
-        transparent 5%,
-        var(--edem-color-accent-primary) 5% 37%,
-        transparent 37%
-      )
-      0 16% / 100% 0.65rem no-repeat,
-    linear-gradient(
-        90deg,
-        transparent 49%,
-        var(--edem-color-accent-secondary) 49% 91%,
-        transparent 91%
-      )
-      0 46% / 100% 1.05rem no-repeat,
-    linear-gradient(
-        90deg,
-        transparent 15%,
-        var(--edem-color-accent-primary) 15% 70%,
-        transparent 70%
-      )
-      0 76% / 100% 0.42rem no-repeat;
-  mix-blend-mode: screen;
-}
-
-.cardGlitchOffset {
-  inset: -0.2rem;
-  border: 2px solid var(--edem-color-accent-secondary);
-  box-shadow: 0.3rem 0 var(--edem-color-accent-primary);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .restrictedMember::before {
-    animation: card-frame-glitch 3.1s steps(1, end) infinite;
-  }
-
-  .restrictedMember::after {
-    animation: card-signal-glitch 2.3s steps(1, end) infinite;
-  }
-
-  .cardGlitchBlocks {
-    animation: card-rect-glitch 2.7s steps(1, end) infinite;
-  }
-
-  .cardGlitchOffset {
-    animation: card-outline-glitch 3.8s steps(1, end) infinite;
-  }
-}
-
-@keyframes card-frame-glitch {
-  0%,
-  12%,
-  20%,
-  40%,
-  49%,
-  67%,
-  78%,
-  100% {
-    opacity: 0;
-    transform: translate(0);
-    clip-path: inset(0);
-  }
-  13%,
-  15% {
-    opacity: 0.8;
-    transform: translate(6px, -3px);
-    clip-path: inset(4% 0 74%);
-  }
-  17% {
-    opacity: 0.65;
-    transform: translate(-5px, 2px);
-    clip-path: inset(52% 0 17%);
-  }
-  41%,
-  44% {
-    opacity: 0.75;
-    transform: translate(-6px, 1px);
-    clip-path: inset(31% 0 30%);
-  }
-  68%,
-  70% {
-    opacity: 0.9;
-    transform: translate(4px, 0);
-    clip-path: inset(0 0 49%);
-  }
-  79%,
-  81% {
-    opacity: 0.65;
-    transform: translate(-3px, 4px);
-    clip-path: inset(77% 0 0);
-  }
-}
-
-@keyframes card-signal-glitch {
-  0%,
-  10%,
-  24%,
-  31%,
-  53%,
-  59%,
-  76%,
-  86%,
-  100% {
-    opacity: 0;
-    transform: translateX(0);
-  }
-  11%,
-  13%,
-  54%,
-  56% {
-    opacity: 0.65;
-    transform: translateX(7px);
-  }
-  25%,
-  27%,
-  77%,
-  79% {
-    opacity: 0.4;
-    transform: translateX(-6px);
-  }
-  32%,
-  34%,
-  87%,
-  89% {
-    opacity: 0.25;
-    transform: translateX(3px);
-  }
-}
-
-@keyframes card-rect-glitch {
-  0%,
-  15%,
-  22%,
-  35%,
-  48%,
-  61%,
-  72%,
-  87%,
-  100% {
-    opacity: 0;
-    transform: translate(0);
-  }
-  16%,
-  18% {
-    opacity: 0.9;
-    transform: translate(-7px, 2px);
-  }
-  36%,
-  39% {
-    opacity: 0.65;
-    transform: translate(9px, -2px);
-  }
-  49%,
-  52% {
-    opacity: 0.85;
-    transform: translate(-4px, 4px);
-  }
-  62%,
-  65% {
-    opacity: 0.8;
-    transform: translate(5px, 0);
-  }
-  73%,
-  76%,
-  88%,
-  90% {
-    opacity: 0.6;
-    transform: translate(-5px, -3px);
-  }
-}
-
-@keyframes card-outline-glitch {
-  0%,
-  17%,
-  26%,
-  45%,
-  55%,
-  72%,
-  81%,
-  100% {
-    opacity: 0;
-    transform: translate(0);
-    clip-path: inset(0);
-  }
-  18%,
-  21% {
-    opacity: 0.8;
-    transform: translate(-5px, -3px);
-    clip-path: inset(0 0 55%);
-  }
-  27%,
-  29% {
-    opacity: 0.7;
-    transform: translate(7px, 2px);
-    clip-path: inset(35% 0 30%);
-  }
-  46%,
-  49% {
-    opacity: 0.85;
-    transform: translate(5px, -4px);
-    clip-path: inset(62% 0 0);
-  }
-  73%,
-  76% {
-    opacity: 0.65;
-    transform: translate(-6px, 1px);
-    clip-path: inset(13% 0 40%);
-  }
-  82%,
-  84% {
-    opacity: 0.9;
-    transform: translate(4px, 3px);
-    clip-path: inset(75% 0 0);
-  }
 }

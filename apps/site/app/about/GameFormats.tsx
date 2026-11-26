@@ -243,7 +243,6 @@ export function GameFormats() {
                   else cards.current.delete(id);
                 }}
                 className={styles.formatCard}
-                accent={id === "field" || id === "ball" ? "violet" : "cyan"}
                 telemetry
               >
                 <Heading level={3} className={styles.formatHeading}>
