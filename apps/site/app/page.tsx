@@ -13,9 +13,7 @@ export default function HomePage() {
     <main id="main-content" tabIndex={-1} className={layout.page}>
       <Layout className={styles.home}>
         <section aria-labelledby="page-title">
-          <div
-            className={`${layout.stack} ${decor.header} ${decor.signal} ${decor.fullHeader}`}
-          >
+          <div className={layout.stack}>
             <SiteBreadcrumbs current="Главная" isHome />
             <Text variant="system" className={styles.accent}>
               МАСТЕРСКАЯ РОЛЕВЫХ ИГР / ВХОД В ЭДЕМ
@@ -39,7 +37,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section aria-labelledby="first-visit">
+        <section
+          aria-labelledby="first-visit"
+          className={`${decor.backdrop} ${decor.signal} ${decor.overhang}`}
+        >
           <LinkCard telemetry href={siteHref("/world")} frame="asym">
             <div className={layout.cardBody}>
               <Heading level={2} id="first-visit">
