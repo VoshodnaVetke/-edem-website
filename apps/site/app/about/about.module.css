@@ -111,7 +111,7 @@
 
 .toggle {
   display: grid;
-  grid-template-columns: clamp(2.75rem, 10cqi, 3.5rem) minmax(0, 1fr);
+  grid-template-columns: clamp(2.75rem, 10cqi, 3.5rem) minmax(0, 1fr) 0.625rem;
   gap: 0.875rem;
   align-items: center;
   inline-size: 100%;
@@ -129,6 +129,22 @@
   position: relative;
   inline-size: 100%;
   aspect-ratio: 1;
+}
+
+.toggle::before {
+  grid-area: 1 / 3;
+  place-self: start end;
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  margin-block-start: 0.45rem;
+  border: solid currentColor;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+  content: "";
+}
+
+.toggle[aria-expanded="true"]::before {
+  transform: rotate(225deg);
 }
 
 .toggle[aria-expanded="false"]::after {
