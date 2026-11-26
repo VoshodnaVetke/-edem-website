@@ -99,7 +99,7 @@ const team: readonly TeamMember[] = [
   },
   {
     name: "Восход",
-    role: "ГМ · Госпожа с Помпей",
+    role: "ГМ · Госпожа с Помпей · руководитель мастерской группы · создатель вселенной",
     portrait: "/images/games/kazino-mefisa/0136-thumb.webp",
     story: { type: "epitaph", text: "САША ЕК" },
     vkHref: "https://vk.ru/alyapyatnitskaya",
