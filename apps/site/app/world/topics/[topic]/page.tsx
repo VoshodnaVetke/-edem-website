@@ -88,11 +88,9 @@ export default async function WorldArticlesPage({
                   </a>
                 </h2>
                 {article.status === "published" ? (
-                  <div id={descriptionId} className={styles.summary}>
-                    {article.summary.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
-                  </div>
+                  <p id={descriptionId} className={styles.summary}>
+                    {article.summary}
+                  </p>
                 ) : (
                   <p id={descriptionId} className={styles.status}>
                     Статья в разработке
