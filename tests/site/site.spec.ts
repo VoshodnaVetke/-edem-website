@@ -1906,9 +1906,12 @@ test("world articles link to approved content and planned pages", async ({
     "Высший Путь",
   );
   await expect(
-    main.getByRole("heading", { name: "Предание о Звёздном Дитя" }),
+    main.getByRole("heading", { name: "Звёздное Дитя", exact: true }),
   ).toBeVisible();
-  await main.getByRole("link", { name: "истории Эдема", exact: true }).click();
+  await main
+    .getByRole("region", { name: "Связанные статьи" })
+    .getByRole("link", { name: "История мира до Адама", exact: true })
+    .click();
   await expect(main.getByRole("heading", { level: 1 })).toHaveText(
     "История мира до Адама",
   );
