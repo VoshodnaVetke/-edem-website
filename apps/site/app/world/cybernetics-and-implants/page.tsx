@@ -7,6 +7,7 @@ import styles from "../../../styles/page-layout.module.css";
 import { WorldArticleFooter } from "../WorldArticleFooter";
 import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldArticleReading } from "../WorldArticleReading";
+import decor from "./cybernetics.module.css";
 
 export default function CyberneticsAndImplantsArticle() {
   return (
@@ -14,6 +15,7 @@ export default function CyberneticsAndImplantsArticle() {
       slug="cybernetics-and-implants"
       eyebrow="ВСЕЛЕННАЯ / НАУКА И ТЕХНОЛОГИИ"
       title="Кибернетика и импланты"
+      headerClassName={decor.header}
     >
       <article aria-labelledby="page-title" className={styles.stack}>
         <WorldArticleReading slug="cybernetics-and-implants">

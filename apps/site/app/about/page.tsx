@@ -244,16 +244,6 @@ export default function AboutPage() {
               >
                 {restricted ? (
                   <div className={styles.restrictedPortrait}>
-                    {/* LUNATIC 710 label by Kiki Novald / Phewsight. */}
-                    <img
-                      className={styles.restrictedSticker}
-                      src={`${deployment.basePath}/images/about/restricted-area.webp`}
-                      alt=""
-                      width={228}
-                      height={138}
-                      loading="lazy"
-                      decoding="async"
-                    />
                     <GlitchText className={styles.errorCode}>
                       ERROR 403
                     </GlitchText>
