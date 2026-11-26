@@ -73,7 +73,7 @@ export const worldArticleRegistry = {
     title: "Государственное устройство Эдема",
     topic: "power",
     status: "published",
-    summary: "Кто управляет Эдемом и как устроены его государственные органы?",
+    summary: "Кто управляет Эдемом и как устроены его государственные органы.",
     related: ["beacons", "higher-path", "justice", "neurochip"],
   },
   neurochip: {
@@ -81,7 +81,7 @@ export const worldArticleRegistry = {
     thumbnail: "neurochip.jpg",
     topic: "power",
     status: "published",
-    summary: "Что такое социальный рейтинг, как он работает и на что влияет?",
+    summary: "Что такое социальный рейтинг, как он работает и на что влияет.",
     related: [
       "beacons",
       "licenses",
@@ -112,7 +112,7 @@ export const worldArticleRegistry = {
     topic: "power",
     status: "published",
     summary:
-      "Кто такие Светочи и чем они отличаются от остальных жителей Эдема?",
+      "Светочи занимают особое положение в обществе Эдема. В статье описано, как получают этот статус и какие права он даёт.",
     related: ["government", "neurochip", "higher-path"],
   },
   licenses: {
@@ -120,7 +120,7 @@ export const worldArticleRegistry = {
     topic: "power",
     status: "published",
     summary:
-      "Что в Эдеме можно делать только с лицензией и как устроена система разрешений?",
+      "Лицензии в Эдеме — цифровые разрешения. Для каких действий они нужны, от чего зависят и как их получают.",
     related: [
       "neurochip",
       "science-and-technology",
@@ -145,7 +145,7 @@ export const worldArticleRegistry = {
     topic: "power",
     status: "published",
     summary:
-      "Как в Эдеме решают, что считать нарушением, и какие последствия ждут нарушителя?",
+      "Как устроено правосудие в Эдеме и какую роль в нём играет социальный рейтинг.",
     related: [
       "government",
       "neurochip",
@@ -159,7 +159,7 @@ export const worldArticleRegistry = {
     topic: "power",
     status: "published",
     summary:
-      "Кого направляют на исправление, как оно проходит и от чего зависит возвращение домой?",
+      "Учреждения, где жители Эдема проходят курс исправления и восстанавливают социальный рейтинг.",
     related: ["justice", "northern-city", "neurochip"],
   },
   "world-geography": {
@@ -167,8 +167,7 @@ export const worldArticleRegistry = {
     thumbnail: "world-geography.jpg",
     topic: "geography",
     status: "published",
-    summary:
-      "Где находятся города Эдема и что известно о землях за его границами?",
+    summary: "Города Эдема, соседние государства и земли за их пределами.",
     related: [
       "western-city",
       "eastern-city",
@@ -183,7 +182,7 @@ export const worldArticleRegistry = {
     thumbnail: "western-city.jpg",
     topic: "geography",
     status: "published",
-    summary: "Чем различается жизнь в районах Западного города?",
+    summary: "Столица Эдема, её районы и достопримечательности.",
     related: [
       "pompeii",
       "world-geography",
@@ -196,8 +195,7 @@ export const worldArticleRegistry = {
     thumbnail: "eastern-city.jpg",
     topic: "geography",
     status: "published",
-    summary:
-      "Как прошлое Восточного города сохранилось в его облике и привычках жителей?",
+    summary: "Один из самых криминальных и загадочных городов Эдема.",
     related: [
       "world-geography",
       "myanmar",
@@ -211,7 +209,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Что находится на закрытом севере Эдема и почему туда нельзя свободно попасть?",
+      "Самая засекреченная территория Эдема, где находятся тюрьмы, колонии и научные лаборатории.",
     related: [
       "world-geography",
       "rehabilitation-institutions",
@@ -224,7 +222,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Как живёт район, который государство перестало контролировать, и что приводит сюда приезжих?",
+      "Бедные кварталы Западного города, захваченные криминальными группировками. Здесь описано, как устроена жизнь в районе.",
     related: [
       "western-city",
       "criminal-organizations",
@@ -240,7 +238,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Что сделало казино Мефиса известным и почему о нём ходило столько слухов?",
+      "Одно из самых известных казино Помпей. Оно просуществовало недолго.",
     related: ["pompeii", "moxi-brothel", "modern-chronology"],
   },
   "moxi-brothel": {
@@ -249,7 +247,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Чем запомнилось заведение Мокси и как его хозяйка стала влиятельной фигурой?",
+      "Самый известный бордель Помпей, куда приходили и преступники, и благонадёжные граждане.",
     related: ["pompeii", "mephisto-casino", "freedom", "lobos-libres"],
   },
   "neutral-lands": {
@@ -258,7 +256,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Как живут общины за пределами крупных государств и кто претендует на эти земли?",
+      "Радиоактивная пустошь между Эдемом и Скеосом. Здесь живут независимые общины и работают предприятия.",
     related: [
       "world-geography",
       "skeos",
@@ -272,7 +270,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Как устроено соседнее с Эдемом государство, где власть принадлежит корпорациям?",
+      "Соседнее с Эдемом государство, где власть принадлежит корпорациям.",
     related: [
       "world-geography",
       "neutral-lands",
@@ -285,7 +283,7 @@ export const worldArticleRegistry = {
     thumbnail: "atlanta.jpg",
     topic: "geography",
     status: "published",
-    summary: "Что в Эдеме знают о далёком острове Атланта?",
+    summary: "Далёкий и загадочный остров в океане.",
     related: ["world-geography", "history-before-adam", "skeos"],
   },
   "science-and-technology": {
@@ -293,8 +291,7 @@ export const worldArticleRegistry = {
     thumbnail: "science-and-technology.jpg",
     topic: "technology",
     status: "published",
-    summary:
-      "Как наука и технологии изменили повседневную жизнь жителей Эдема?",
+    summary: "Нейрочипы, роботы и протезы в повседневной жизни Эдема.",
     related: ["cybernetics-and-implants", "corporations", "licenses", "skeos"],
   },
   "cybernetics-and-implants": {
@@ -303,7 +300,7 @@ export const worldArticleRegistry = {
     topic: "technology",
     status: "published",
     summary:
-      "Какие возможности дают импланты и с какими рисками сталкиваются их владельцы?",
+      "Виды имплантов, устройство кибердеки и управление дронами. В статье также описаны производители имплантов и риски их применения.",
     related: [
       "neurochip",
       "science-and-technology",
@@ -317,8 +314,7 @@ export const worldArticleRegistry = {
     thumbnail: "corporations.jpg",
     topic: "corporations",
     status: "published",
-    summary:
-      "Чем занимаются крупнейшие корпорации Эдема и как они соперничают между собой?",
+    summary: "Крупнейшие игроки рынка Эдема, их продукция и соперничество.",
     related: [
       "innovatx",
       "holland-industries",
@@ -333,7 +329,7 @@ export const worldArticleRegistry = {
     topic: "corporations",
     status: "published",
     summary:
-      "Как InnovatX вышла в число крупнейших корпораций и за что ценят её технику?",
+      "Одна из ведущих технологических корпораций Эдема, известная быстрыми чипами и имплантами.",
     related: ["corporations", "holland-industries", "corporate-races"],
   },
   "holland-industries": {
@@ -342,7 +338,7 @@ export const worldArticleRegistry = {
     topic: "corporations",
     status: "published",
     summary:
-      "Как Holland Industries выросла из семейного дела в крупнейшую корпорацию Эдема?",
+      "Крупнейшая корпорация Эдема, которая делает ставку на безопасность и надёжность техники.",
     related: [
       "corporations",
       "innovatx",
@@ -356,7 +352,7 @@ export const worldArticleRegistry = {
     topic: "corporations",
     status: "published",
     summary:
-      "Как Enigma вошла в число крупных производителей и чем привлекла покупателей?",
+      "Молодая корпорация, возникшая из союза трёх компаний. Она выпускает технику и товары для повседневной жизни.",
     related: ["corporations", "corporate-races"],
   },
   "corporate-races": {
@@ -365,7 +361,7 @@ export const worldArticleRegistry = {
     topic: "corporations",
     status: "published",
     summary:
-      "Зачем крупные компании выставляют команды на гонки и что для них значит победа на трассе?",
+      "Популярные в Эдеме гонки, на которых независимые команды могут заработать и найти спонсоров.",
     related: [
       "innovatx",
       "holland-industries",
@@ -378,8 +374,7 @@ export const worldArticleRegistry = {
     thumbnail: "criminal-organizations.jpg",
     topic: "stories",
     status: "published",
-    summary:
-      "Какие группировки действуют в Эдеме, чем они занимаются и за что борются?",
+    summary: "Преступные группировки Эдема, их занятия и борьба за влияние.",
     related: [
       "pompeii",
       "myanmar",
@@ -395,7 +390,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "Как наркокартель набрал силу и кто боролся за власть внутри него?",
+      "Крупный наркокартель, который контролирует часть Помпей. В статье описаны его становление и борьба за власть внутри картеля.",
     related: [
       "criminal-organizations",
       "eastern-city",
@@ -409,7 +404,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "Чего добивается «Свобода» и почему её идеи нашли отклик в рабочих кварталах Эдема?",
+      "Подпольное движение, выступающее против власти Адама и социального рейтинга.",
     related: ["criminal-organizations", "pompeii", "modern-chronology"],
   },
   "organization-v": {
@@ -418,7 +413,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "Что известно об организации V и подпольной сети, с которой связывают её имя?",
+      "Подпольная организация, которую связывают с публикацией запрещённых материалов и подменой цифровых профилей.",
     related: ["criminal-organizations", "freedom", "skeos", "neurochip"],
   },
   "technology-triumph-cult": {
@@ -427,7 +422,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "Во что верят участники Культа и как их разработки дошли до серийного производства?",
+      "Сообщество, для которого развитие технологий стало частью веры. Его участники начинали с кустарного производства имплантов.",
     related: [
       "criminal-organizations",
       "science-and-technology",
@@ -440,7 +435,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "О чём пела панк-группа, выступавшая против власти, и как сложилась её судьба?",
+      "Панк-группа, которая выступала против власти и превратила свои песни в форму протеста.",
     related: ["criminal-organizations", "freedom", "modern-chronology"],
   },
   "history-before-adam": {
@@ -448,7 +443,8 @@ export const worldArticleRegistry = {
     thumbnail: "history-before-adam.jpg",
     topic: "history",
     status: "published",
-    summary: "Каким был мир до ядерной войны и как люди жили после катастрофы?",
+    summary:
+      "Мир до ядерной войны 2026 года, причины катастрофы и жизнь выживших до основания Эдема.",
     related: [
       "founding-of-edem",
       "history-of-edem",
@@ -463,7 +459,7 @@ export const worldArticleRegistry = {
     thumbnail: "founding-of-edem.jpg",
     topic: "history",
     status: "published",
-    summary: "Как община выживших выросла в государство?",
+    summary: "Как из общины выживших возникло государство Эдем.",
     related: ["history-before-adam", "higher-path", "history-of-edem"],
   },
   "history-of-edem": {
@@ -472,7 +468,7 @@ export const worldArticleRegistry = {
     topic: "history",
     status: "published",
     summary:
-      "Как реформы изменили жизнь в Эдеме и почему часть жителей выступила против власти?",
+      "Реформы, которые изменили жизнь Эдема, и протесты, которые они вызвали.",
     related: [
       "founding-of-edem",
       "pompeii",
