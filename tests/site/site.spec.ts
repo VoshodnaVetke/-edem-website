@@ -1421,11 +1421,16 @@ test("mobile autoplay keeps its first slot still and pauses offscreen", async ({
   await first.evaluate((el) =>
     el.scrollIntoView({ block: "center", behavior: "instant" }),
   );
-  await page.clock.runFor(500);
-  await page.clock.runFor(9_500);
-  await expect(first.getByRole("button")).toHaveAccessibleName(
-    "Настольные ролевые игры (НРИ)",
-  );
+  // The browser delivers viewport observations independently of the test clock.
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(1_000);
+        return first.getByRole("button").getAttribute("id");
+      },
+      { timeout: 10_000, intervals: [100] },
+    )
+    .toBe("format-tabletop-toggle");
   await expect(tabletop).toHaveAttribute("aria-expanded", "true");
 
   await autoplay.tap();
