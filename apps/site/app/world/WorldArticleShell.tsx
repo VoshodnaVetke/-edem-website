@@ -28,6 +28,7 @@ export function WorldArticleShell({
   return (
     <PageShell
       {...props}
+      articlePage
       headerClassName={[decor.header, topicDecals[topic], headerClassName]
         .filter(Boolean)
         .join(" ")}

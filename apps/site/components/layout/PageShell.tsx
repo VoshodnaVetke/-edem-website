@@ -14,6 +14,7 @@ interface PageShellProps {
   titleDetails?: ReactNode;
   intro?: ReactNode;
   headerClassName?: string;
+  articlePage?: boolean;
   children?: ReactNode;
 }
 
@@ -27,6 +28,7 @@ export function PageShell({
   titleDetails,
   intro,
   headerClassName,
+  articlePage,
   children,
 }: PageShellProps) {
   const heading = (
@@ -39,7 +41,12 @@ export function PageShell({
   );
 
   return (
-    <main id="main-content" tabIndex={-1} className={styles.page}>
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className={styles.page}
+      data-world-article={articlePage || undefined}
+    >
       <section className={styles.section} aria-labelledby="page-title">
         <Layout>
           <div className={styles.breadcrumbRow}>

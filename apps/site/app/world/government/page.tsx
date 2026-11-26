@@ -268,6 +268,11 @@ export default function GovernmentArticle() {
               .
             </p>
           </section>
+          <p>
+            На местных выборах жители могут выдвинуть своего кандидата и
+            выбрать, кто будет представлять их район. Назначения на высшие
+            государственные должности остаются за Адамом.
+          </p>
         </Reading>
 
         <WorldArticleFooter slug="government">

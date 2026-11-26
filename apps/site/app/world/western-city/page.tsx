@@ -92,6 +92,11 @@ export default function WesternCityArticle() {
               <a href={worldArticleHref("mephisto-casino")}>казино Мефиса</a>.
             </p>
           </section>
+          <p>
+            Путь от главной башни до Помпей проходит в пределах одного города. В
+            центре сосредоточены государственные учреждения, а в Помпеях работу
+            рынка и заведений определяют группировки.
+          </p>
         </Reading>
 
         <WorldArticleFooter slug="western-city" />
