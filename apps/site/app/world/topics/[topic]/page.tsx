@@ -1,5 +1,7 @@
+import { ButtonLink } from "@edem/ui";
 import { notFound } from "next/navigation";
 import { PageShell } from "../../../../components/layout/PageShell";
+import { SiteTriangle } from "../../../../components/layout/SiteTriangle";
 import deployment from "../../../../config/deployment.json";
 import {
   worldArticleGroups,
@@ -49,8 +51,12 @@ export default async function WorldArticlesPage({
   }
 
   const currentTopic = topic === legacyTopic ? "technology" : topic;
-  const group = worldArticleGroups.find(({ slug }) => slug === currentTopic);
+  const groupIndex = worldArticleGroups.findIndex(
+    ({ slug }) => slug === currentTopic,
+  );
+  const group = worldArticleGroups[groupIndex];
   if (!group) notFound();
+  const nextGroup = worldArticleGroups[groupIndex + 1];
   const articles =
     topic === legacyTopic
       ? [{ slug: "neurochip" as const, ...worldArticleRegistry.neurochip }]
@@ -101,7 +107,18 @@ export default async function WorldArticlesPage({
           );
         })}
       </WorldArticleList>
-      <WorldOverviewBackLink />
+      <nav aria-label="Навигация по разделам" className={styles.sectionActions}>
+        <WorldOverviewBackLink />
+        {nextGroup && (
+          <ButtonLink
+            href={worldArticlesHref(nextGroup.slug)}
+            rel="next"
+            title={nextGroup.title}
+          >
+            Следующий раздел <SiteTriangle direction="right" />
+          </ButtonLink>
+        )}
+      </nav>
     </PageShell>
   );
 }

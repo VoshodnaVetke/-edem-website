@@ -6,6 +6,17 @@
   list-style: none;
 }
 
+.sectionActions {
+  display: flex;
+  gap: 0.625rem;
+}
+
+@media (width < 40.625rem) {
+  .sectionActions > a {
+    padding-inline: 0.625rem;
+  }
+}
+
 .article {
   position: relative;
   display: grid;
