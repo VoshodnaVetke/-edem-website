@@ -154,6 +154,13 @@ export default function HistoryBeforeAdamArticle() {
               </blockquote>
             </figure>
           </section>
+          <p>
+            В учебнике объединение общин и строительство империи сливаются в
+            одну историю. В действительности поселения начали объединяться ещё
+            при Первом Адаме, а общие законы и государственные учреждения
+            появились уже при{" "}
+            <a href={worldArticleHref("founding-of-edem")}>Адаме-Строителе</a>.
+          </p>
         </Reading>
 
         <WorldArticleFooter slug="history-before-adam" />

@@ -92,6 +92,11 @@ export default function InnovatXArticle() {
               поддерживает преступную группировку «Свобода».
             </p>
           </section>
+          <p>
+            У InnovatX давно есть витрина за пределами магазинов. На гоночной
+            трассе о возможностях её последних машин публика может судить по
+            результатам Кая Моргана.
+          </p>
         </WorldArticleReading>
 
         <WorldArticleFooter slug="innovatx" />
