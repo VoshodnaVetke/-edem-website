@@ -1350,6 +1350,96 @@ test("workshop format autoplay advances in order and can be stopped", async ({
   await expect(field).toHaveAttribute("aria-expanded", "true");
 });
 
+test("mobile autoplay keeps its first slot still and pauses offscreen", async ({
+  browser,
+}) => {
+  const page = await browser.newPage({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    reducedMotion: "no-preference",
+  });
+  await page.clock.install();
+  await page.goto(exportedPath("/about"));
+  const formats = page.getByRole("region", { name: "Что мы проводим" });
+  const cards = formats.locator("article");
+  const first = cards.first();
+  const autoplay = formats.getByRole("button", { name: "Автопоказ" });
+  const chamber = formats.getByRole("button", {
+    name: "Кабинетные ролевые игры",
+  });
+  const field = formats.getByRole("button", {
+    name: "Полигонные ролевые игры",
+  });
+  const tabletop = formats.getByRole("button", {
+    name: "Настольные ролевые игры (НРИ)",
+  });
+
+  await expect(autoplay).toHaveAttribute("aria-pressed", "true");
+  await expect(first.getByRole("button")).toHaveAttribute(
+    "aria-expanded",
+    "true",
+  );
+  await expect(chamber).toHaveAttribute("aria-expanded", "true");
+  await first.evaluate((el) =>
+    el.scrollIntoView({ block: "center", behavior: "instant" }),
+  );
+  await page.evaluate(() => document.fonts.ready);
+  await page.clock.runFor(500);
+
+  const positions = () =>
+    cards.evaluateAll((items) =>
+      items.map((item) => {
+        const { top, height } = item.getBoundingClientRect();
+        return [top, height].map(Math.round);
+      }),
+    );
+  const originalPositions = await positions();
+  const originalCard = await first.elementHandle();
+  await page.clock.runFor(9_500);
+  await expect(first.getByRole("button")).toHaveAccessibleName(
+    "Полигонные ролевые игры",
+  );
+  await expect(field).toHaveAttribute("aria-expanded", "true");
+  expect(await originalCard?.evaluate((el) => el.isConnected)).toBe(true);
+  expect(await positions()).toEqual(originalPositions);
+
+  await cards
+    .last()
+    .evaluate((el) =>
+      el.scrollIntoView({ block: "start", behavior: "instant" }),
+    );
+  await page.clock.runFor(500);
+  expect(
+    (await first.boundingBox())!.y + (await first.boundingBox())!.height,
+  ).toBeLessThan(0);
+  const scroll = await page.evaluate(() => scrollY);
+  await page.clock.runFor(11_000);
+  await expect(field).toHaveAttribute("aria-expanded", "true");
+  expect(await page.evaluate(() => scrollY)).toBe(scroll);
+
+  await first.evaluate((el) =>
+    el.scrollIntoView({ block: "center", behavior: "instant" }),
+  );
+  await page.clock.runFor(500);
+  await page.clock.runFor(9_500);
+  await expect(first.getByRole("button")).toHaveAccessibleName(
+    "Настольные ролевые игры (НРИ)",
+  );
+  await expect(tabletop).toHaveAttribute("aria-expanded", "true");
+
+  await autoplay.tap();
+  await expect(tabletop).toHaveAttribute("aria-expanded", "true");
+  await expect(autoplay).toHaveAttribute("aria-pressed", "false");
+  await chamber.tap();
+  await expect(chamber).toHaveAttribute("aria-expanded", "true");
+  await expect(tabletop).toHaveAttribute("aria-expanded", "false");
+  await expect(first.getByRole("button")).toHaveAccessibleName(
+    "Настольные ролевые игры (НРИ)",
+  );
+  await page.close();
+});
+
 test("public pages and their internal links resolve @published", async ({
   page,
   request,
