@@ -4,6 +4,7 @@ import { SiteBreadcrumbs } from "../components/layout/SiteBreadcrumbs";
 import { SiteTriangle } from "../components/layout/SiteTriangle";
 import { ButtonLink, Grid, Heading, Layout, LinkCard, Text } from "@edem/ui";
 import { siteHref } from "../config/site-href";
+import decor from "../styles/lunatic-decor.module.css";
 import layout from "../styles/page-layout.module.css";
 import styles from "./home.module.css";
 
@@ -12,7 +13,9 @@ export default function HomePage() {
     <main id="main-content" tabIndex={-1} className={layout.page}>
       <Layout className={styles.home}>
         <section aria-labelledby="page-title">
-          <div className={layout.stack}>
+          <div
+            className={`${layout.stack} ${decor.header} ${decor.signal} ${decor.fullHeader}`}
+          >
             <SiteBreadcrumbs current="Главная" isHome />
             <Text variant="system" className={styles.accent}>
               МАСТЕРСКАЯ РОЛЕВЫХ ИГР / ВХОД В ЭДЕМ

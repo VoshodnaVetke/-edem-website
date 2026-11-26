@@ -18,12 +18,20 @@
   --lunatic-position: center 32%;
 }
 
-:is(.bioInterface, .industrial, .modular, .signal) {
+.registry {
+  --lunatic-art: url("./lunatic/registry.webp");
+}
+
+.serial {
+  --lunatic-art: url("./lunatic/serial.webp");
+}
+
+.header {
   position: relative;
   isolation: isolate;
 }
 
-:is(.bioInterface, .industrial, .modular, .signal)::before {
+.header::before {
   position: absolute;
   z-index: -1;
   inset-block-start: -0.35rem;
@@ -39,7 +47,7 @@
 }
 
 @media (min-width: 48rem) {
-  :is(.bioInterface, .industrial, .modular, .signal)::before {
+  .header::before {
     inset-block-start: 0;
     inline-size: min(40%, 23rem);
     block-size: auto;
@@ -47,6 +55,39 @@
     mask-image: linear-gradient(118deg, transparent 12%, #000 72%);
     opacity: 0.3;
   }
+}
+
+@media (min-width: 64rem) {
+  .fullHeader::before {
+    inset-block-start: -1.5rem;
+    inline-size: min(25%, 14rem);
+    aspect-ratio: 1.6;
+    background-position: right center;
+    background-size: contain;
+    mask-image: none;
+    opacity: 0.17;
+  }
+}
+
+.sectionLabel {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-block-size: clamp(4.25rem, 9vw, 6rem);
+  padding-inline-end: clamp(5.5rem, 25vw, 9rem);
+}
+
+.sectionLabel::after {
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: clamp(5.5rem, 23vw, 8.5rem);
+  background: var(--lunatic-art) right center / contain no-repeat;
+  opacity: 0.23;
+  pointer-events: none;
+  content: "";
 }
 
 .parade {
