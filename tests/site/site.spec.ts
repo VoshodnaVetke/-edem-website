@@ -702,7 +702,9 @@ test("desktop tree stays above articles and only freestanding copy gets a backdr
   await expect(intro).toHaveCSS("background-color", transparent);
 
   await page.goto(exportedPath("/"));
-  const lead = page.getByText("Станьте частью истории", { exact: false });
+  const lead = page
+    .locator("main p")
+    .filter({ hasText: "Станьте частью истории" });
   const cardCopy = page
     .locator("main .edem-card p, main .edem-link-card p")
     .first();
