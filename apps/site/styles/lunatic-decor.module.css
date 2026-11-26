@@ -1,0 +1,63 @@
+/* Fragments from LUNATIC 710 by Kiki Novald / Phewsight. */
+.bioInterface {
+  --lunatic-art: url("./lunatic/bio-interface-warning.webp");
+}
+
+.industrial {
+  --lunatic-art: url("./lunatic/industrial.webp");
+  --lunatic-position: center 55%;
+}
+
+.modular {
+  --lunatic-art: url("./lunatic/modular.webp");
+  --lunatic-position: center 23%;
+}
+
+.signal {
+  --lunatic-art: url("./lunatic/signal.webp");
+  --lunatic-position: center 32%;
+}
+
+:is(.bioInterface, .industrial, .modular, .signal) {
+  position: relative;
+  isolation: isolate;
+}
+
+:is(.bioInterface, .industrial, .modular, .signal)::before {
+  position: absolute;
+  z-index: -1;
+  inset-block-start: -0.35rem;
+  inset-inline-end: 0;
+  inline-size: clamp(9.5rem, 53vw, 14rem);
+  block-size: 2.5rem;
+  background: var(--lunatic-art) var(--lunatic-position, right center) / cover
+    no-repeat;
+  mask-image: linear-gradient(112deg, transparent 19%, #000 90%);
+  opacity: 0.28;
+  pointer-events: none;
+  content: "";
+}
+
+@media (min-width: 48rem) {
+  :is(.bioInterface, .industrial, .modular, .signal)::before {
+    inset-block-start: 0;
+    inline-size: min(40%, 23rem);
+    block-size: auto;
+    aspect-ratio: 3.8;
+    mask-image: linear-gradient(118deg, transparent 12%, #000 72%);
+    opacity: 0.3;
+  }
+}
+
+.parade {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 4.25rem;
+  inset-inline-end: clamp(1.125rem, 4cqi, 2rem);
+  inline-size: clamp(7rem, 45%, 12rem);
+  aspect-ratio: 4.47;
+  background: url("./lunatic/ready-to-use.webp") center / contain no-repeat;
+  mask-image: linear-gradient(110deg, transparent 2%, #000 75%);
+  opacity: 0.4;
+  pointer-events: none;
+}
