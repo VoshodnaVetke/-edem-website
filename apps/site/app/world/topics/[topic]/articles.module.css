@@ -28,6 +28,17 @@
   margin: 0;
 }
 
+@media (min-width: 48rem) {
+  .copy {
+    align-self: stretch;
+    grid-template-rows: auto 1fr;
+  }
+
+  .summary {
+    align-self: center;
+  }
+}
+
 .heading:global(.edem-type-h2) {
   font-size: clamp(1.0625rem, 2.1vw, 1.625rem);
   text-wrap: pretty;

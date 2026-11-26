@@ -60,7 +60,7 @@ export default function LobosLiberesArticle() {
             </Heading>
             <p>
               После событий в{" "}
-              <a href={worldArticleHref("moxi-brothel")}>«Борделе Мокси»</a>{" "}
+              <a href={worldArticleHref("moxi-brothel")}>борделе Мокси</a>{" "}
               К-рока и Честейн Олдвуд задержали и направили в{" "}
               <a href={worldArticleHref("rehabilitation-institutions")}>УВБ</a>.
               Группа распалась. Из прежнего состава продолжили выступать только

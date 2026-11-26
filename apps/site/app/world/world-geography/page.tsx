@@ -62,7 +62,7 @@ export default function WorldGeographyArticle() {
               В Помпеях есть свой нелегальный рынок. А ещё приходится признать,
               что индустрия развлечений здесь развита отлично. Именно тут
               находится{" "}
-              <a href={worldArticleHref("moxi-brothel")}>«Бордель Мокси»</a>, в
+              <a href={worldArticleHref("moxi-brothel")}>бордель Мокси</a>, в
               состав которого вошло{" "}
               <a href={worldArticleHref("mephisto-casino")}>казино Мефиса</a>.
               Даже те, чей социальный рейтинг намного выше нуля, порой заходят
