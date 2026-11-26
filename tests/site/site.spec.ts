@@ -692,7 +692,7 @@ test("desktop tree stays above articles and only freestanding copy gets a backdr
   const heading = page.getByRole("heading", { level: 1 });
   const intro = page
     .locator("main p")
-    .filter({ hasText: "Социальный рейтинг — это баллы" });
+    .filter({ hasText: "Социальный рейтинг — государственная система" });
   await expect(tree).toHaveCSS("position", "absolute");
   const treeBox = (await tree.boundingBox())!;
   expect(treeBox.y + treeBox.height).toBeLessThan(
@@ -709,16 +709,48 @@ test("desktop tree stays above articles and only freestanding copy gets a backdr
     .locator("main .edem-card p, main .edem-link-card p")
     .first();
   await expect(tree).toHaveCSS("position", "fixed");
-  await expect(lead).not.toHaveCSS("background-color", transparent);
+  const backdrop = (locator: typeof lead) =>
+    locator.evaluate((element) => getComputedStyle(element, "::before").filter);
+  expect(await backdrop(lead)).toMatch(/^blur\(/);
   await expect(lead).toHaveCSS("border-top-width", "0px");
   await expect(heading).toHaveCSS("background-color", transparent);
   await expect(cardCopy).toHaveCSS("background-color", transparent);
+  expect(await backdrop(cardCopy)).toBe("none");
 
   await page.setViewportSize({ width: 390, height: 800 });
-  await expect(lead).toHaveCSS("background-color", transparent);
+  expect(await backdrop(lead)).toBe("none");
   await page.goto(exportedPath("/world/neurochip"));
   await expect(tree).toHaveCSS("position", "fixed");
   await expect(tree).toHaveCSS("mask-image", "none");
+});
+
+test("the first and last articles link to the adjacent topic lists", async ({
+  page,
+}) => {
+  const navigation = page.getByRole("navigation", {
+    name: "Навигация по статьям",
+  });
+  await page.goto(exportedPath("/world/world-geography"));
+  const previous = navigation.locator('a[rel="prev"]');
+  await expect(previous).toHaveAttribute(
+    "href",
+    exportedPath("/world/topics/power"),
+  );
+  await previous.click();
+  await expect(page).toHaveURL(
+    (url) => url.pathname === exportedPath("/world/topics/power"),
+  );
+
+  await page.goto(exportedPath("/world/atlanta"));
+  const next = navigation.locator('a[rel="next"]');
+  await expect(next).toHaveAttribute(
+    "href",
+    exportedPath("/world/topics/history"),
+  );
+  await next.click();
+  await expect(page).toHaveURL(
+    (url) => url.pathname === exportedPath("/world/topics/history"),
+  );
 });
 
 for (const width of [1440, 390]) {
@@ -1874,9 +1906,12 @@ test("world articles link to approved content and planned pages", async ({
     "Высший Путь",
   );
   await expect(
-    main.getByRole("heading", { name: "Предание о Звёздном Дитя" }),
+    main.getByRole("heading", { name: "Звёздное Дитя", exact: true }),
   ).toBeVisible();
-  await main.getByRole("link", { name: "истории Эдема", exact: true }).click();
+  await main
+    .getByRole("region", { name: "Связанные статьи" })
+    .getByRole("link", { name: "История мира до Адама", exact: true })
+    .click();
   await expect(main.getByRole("heading", { level: 1 })).toHaveText(
     "История мира до Адама",
   );

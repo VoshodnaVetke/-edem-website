@@ -124,14 +124,30 @@ body {
 
   main:not([data-world-article])
     :where(p, blockquote, figcaption):not(
-      :where(.edem-card *, .edem-link-card *, blockquote *)
+      :where(
+        .edem-card *,
+        .edem-link-card *,
+        [data-world-article-card] *,
+        [data-framed-copy] *,
+        blockquote *
+      )
     ) {
-    /* Keep the tree visible around free-standing page copy. */
-    background: color-mix(
-      in srgb,
-      var(--edem-color-background) 78%,
-      transparent
-    );
+    position: relative;
+    isolation: isolate;
+
+    &::before {
+      position: absolute;
+      z-index: -1;
+      inset: -0.35rem -0.85rem;
+      background: color-mix(
+        in srgb,
+        var(--edem-color-background) 88%,
+        transparent
+      );
+      filter: blur(0.8rem);
+      pointer-events: none;
+      content: "";
+    }
   }
 }
 

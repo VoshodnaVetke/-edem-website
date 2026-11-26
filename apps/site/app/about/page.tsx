@@ -199,7 +199,7 @@ export default function AboutPage() {
       intro={
         <>
           <Frame />
-          <Reading className={styles.intro}>
+          <Reading className={styles.intro} data-framed-copy>
             <Text variant="lead">
               Мы создаём и проводим ролевые игры, в которых{" "}
               <strong className={styles.introAccent}>свобода действий</strong>{" "}

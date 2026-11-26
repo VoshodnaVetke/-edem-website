@@ -73,7 +73,7 @@ export default async function WorldArticlesPage({
               : fallbackThumbnail;
           const descriptionId = `article-${slug}-description`;
           return (
-            <li key={slug} className={styles.article}>
+            <li key={slug} className={styles.article} data-world-article-card>
               <div className={`${imageStyles.frame} ${imageStyles.thumbnail}`}>
                 <img src={thumbnail} alt="" loading="lazy" decoding="async" />
               </div>

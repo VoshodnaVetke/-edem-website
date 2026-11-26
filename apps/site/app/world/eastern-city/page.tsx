@@ -5,6 +5,7 @@ import { worldArticleHref } from "../../../config/world-articles";
 import styles from "../../../styles/page-layout.module.css";
 import { WorldArticleFooter } from "../WorldArticleFooter";
 import { WorldArticleShell } from "../WorldArticleShell";
+import { WorldSourceExcerpt } from "../WorldSourceExcerpt";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function EasternCityArticle() {
@@ -54,18 +55,17 @@ export default function EasternCityArticle() {
               Западном. Одна из действующих здесь группировок — наркокартель{" "}
               <a href={worldArticleHref("myanmar")}>«Мьянма»</a>.
             </p>
-            <p>
-              В июле 2234 года газета «Эдем 24» рассказала об антинаркотической
-              операции в Восточном городе. По сообщению газеты, сотрудники
-              правопорядка вступили в перестрелку с участниками картеля. После
-              боя те сдались и согласились сотрудничать со следствием.
-            </p>
+            <WorldSourceExcerpt
+              title={
+                "Шаг в борьбе с наркотиками. Итоги операции в Восточном городе."
+              }
+              paragraphs={[
+                "Шельма парк с новостями из криминального мира.",
+                "Сегодня в ходе антинаркотической операции органы правопорядка вступили в перестрелку с преступной группировкой известной как Наркокартель “Мьянма”. После непродолжительного боя нарушители правопорядка сдались и согласились работать со следствием. Возможно, в будущем это позволит покончить с бандитской организацией и сильно уменьшить наркооборот в стране.",
+              ]}
+              credit={"«Эдем 24», Шельма Парк, 02.07.2234"}
+            />
           </section>
-          <p>
-            Картель со временем расширил свою деятельность до Западного города.
-            В Восточном, откуда «Мьянма» начинала, её присутствие по-прежнему
-            заметно по таким операциям.
-          </p>
         </Reading>
 
         <WorldArticleFooter slug="eastern-city" />

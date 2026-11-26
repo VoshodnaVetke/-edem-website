@@ -18,7 +18,7 @@ export default function MoxiBrothelArticle() {
       <article aria-labelledby="page-title" className={styles.stack}>
         <WorldArticleReading slug="moxi-brothel">
           <p>
-            «Бордель Мокси» в <a href={worldArticleHref("pompeii")}>Помпеях</a>{" "}
+            Бордель Мокси в <a href={worldArticleHref("pompeii")}>Помпеях</a>{" "}
             считается одним из самых роскошных заведений{" "}
             <a href={worldArticleHref("western-city")}>Западного города</a>.
             Сюда приезжают и из обеспеченных кварталов. На этом заведении Мокси

@@ -4,6 +4,7 @@ import { ButtonLink } from "@edem/ui";
 import { SiteTriangle } from "../../components/layout/SiteTriangle";
 import {
   worldArticleHref,
+  worldArticleGroups,
   worldArticleRegistry,
   worldArticlesHref,
   worldTopicArticles,
@@ -47,13 +48,34 @@ export function WorldArticleNavigation({
 
   const articles = worldTopicArticles(topic);
   const index = articles.findIndex((article) => article.slug === slug);
-  const previous = articles[index - 1];
-  const next = articles[index + 1];
+  const topicIndex = worldArticleGroups.findIndex(
+    (group) => group.slug === topic,
+  );
   const readingHref = (article: WorldArticleSlug) =>
     worldArticleHref(article) +
     (returnHref
       ? `?${new URLSearchParams({ [articleListParam]: returnHref })}`
       : "");
+  const neighbor = (direction: -1 | 1) => {
+    const article = articles[index + direction];
+    if (article) {
+      return {
+        href: readingHref(article.slug),
+        title: article.title,
+        label: shortTitles[article.slug] ?? article.title,
+      };
+    }
+    const group = worldArticleGroups[topicIndex + direction];
+    if (group) {
+      return {
+        href: worldArticlesHref(group.slug),
+        title: group.title,
+        label: group.title,
+      };
+    }
+  };
+  const previous = neighbor(-1);
+  const next = neighbor(1);
 
   return (
     <nav aria-label="Навигация по статьям" className={styles.navigation}>
@@ -63,27 +85,23 @@ export function WorldArticleNavigation({
             <ButtonLink
               className={`${styles.neighbor} ${styles.previous}`}
               size="sm"
-              href={readingHref(previous.slug)}
+              href={previous.href}
               rel="prev"
               title={previous.title}
             >
               <SiteTriangle direction="left" />
-              <span className={styles.neighborTitle}>
-                {shortTitles[previous.slug] ?? previous.title}
-              </span>
+              <span className={styles.neighborTitle}>{previous.label}</span>
             </ButtonLink>
           )}
           {next && (
             <ButtonLink
               className={`${styles.neighbor} ${styles.next}`}
               size="sm"
-              href={readingHref(next.slug)}
+              href={next.href}
               rel="next"
               title={next.title}
             >
-              <span className={styles.neighborTitle}>
-                {shortTitles[next.slug] ?? next.title}
-              </span>
+              <span className={styles.neighborTitle}>{next.label}</span>
               <SiteTriangle direction="right" />
             </ButtonLink>
           )}

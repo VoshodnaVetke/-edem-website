@@ -112,7 +112,7 @@ export default function FoundingOfEdemArticle() {
                 задержал Теодора Рейдена
               </a>{" "}
               после рейда в{" "}
-              <a href={worldArticleHref("moxi-brothel")}>«Борделе Мокси»</a>.
+              <a href={worldArticleHref("moxi-brothel")}>борделе Мокси</a>.
             </p>
           </section>
           <section aria-labelledby="corporations">

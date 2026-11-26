@@ -73,7 +73,8 @@ export const worldArticleRegistry = {
     title: "Государственное устройство Эдема",
     topic: "power",
     status: "published",
-    summary: "Кто управляет Эдемом и как устроены его государственные органы.",
+    summary:
+      "Адам возглавляет Эдем и назначает руководителей государственных отделов. Городские и районные органы власти отвечают за местные дела.",
     related: ["beacons", "higher-path", "justice", "neurochip"],
   },
   neurochip: {
@@ -81,7 +82,8 @@ export const worldArticleRegistry = {
     thumbnail: "neurochip.jpg",
     topic: "power",
     status: "published",
-    summary: "Что такое социальный рейтинг, как он работает и на что влияет.",
+    summary:
+      "Социальный рейтинг показывает, как государство оценивает поступки граждан. Нейрочип связывает цифровой профиль с разрешениями, льготами и другими правами.",
     related: [
       "beacons",
       "licenses",
@@ -97,7 +99,7 @@ export const worldArticleRegistry = {
     topic: "power",
     status: "published",
     summary:
-      "Государственная религия Эдема связывает духовное развитие с наукой и технологиями. Здесь собраны её заповеди и предание о Первом Адаме.",
+      "Государственная религия Эдема связывает духовное развитие с наукой и технологиями. В статье приведены её заповеди и предание о появлении Первого Адама.",
     related: [
       "beacons",
       "government",
@@ -112,7 +114,7 @@ export const worldArticleRegistry = {
     topic: "power",
     status: "published",
     summary:
-      "Светочи занимают особое положение в обществе Эдема. В статье описано, как получают этот статус и какие права он даёт.",
+      "Звание Светоча присваивают за заслуги перед Эдемом. Оно даёт особые привилегии и открывает путь к высшим должностям.",
     related: ["government", "neurochip", "higher-path"],
   },
   licenses: {
@@ -120,7 +122,7 @@ export const worldArticleRegistry = {
     topic: "power",
     status: "published",
     summary:
-      "Лицензии в Эдеме — цифровые разрешения. Для каких действий они нужны, от чего зависят и как их получают.",
+      "Лицензии в Эдеме — цифровые разрешения на пользование отдельными видами транспорта, оружия и техники. От социального рейтинга может зависеть их выдача и сохранение.",
     related: [
       "neurochip",
       "science-and-technology",
@@ -145,7 +147,7 @@ export const worldArticleRegistry = {
     topic: "power",
     status: "published",
     summary:
-      "Как устроено правосудие в Эдеме и какую роль в нём играет социальный рейтинг.",
+      "Правосудие в Эдеме определяет, как расследуют нарушения и назначают взыскания. От итогового социального рейтинга зависит, останется ли человек на свободе.",
     related: [
       "government",
       "neurochip",
@@ -159,7 +161,7 @@ export const worldArticleRegistry = {
     topic: "power",
     status: "published",
     summary:
-      "Учреждения, где жители Эдема проходят курс исправления и восстанавливают социальный рейтинг.",
+      "В эти учреждения направляют граждан с отрицательным социальным рейтингом. Вернуться домой можно, набрав баллы за работу, обучение и участие в программе восстановления.",
     related: ["justice", "northern-city", "neurochip"],
   },
   "world-geography": {
@@ -167,7 +169,8 @@ export const worldArticleRegistry = {
     thumbnail: "world-geography.jpg",
     topic: "geography",
     status: "published",
-    summary: "Города Эдема, соседние государства и земли за их пределами.",
+    summary:
+      "В Эдем входят три города с разными условиями жизни. За их пределами лежат радиоактивные пустоши, соседнее государство и далёкий остров.",
     related: [
       "western-city",
       "eastern-city",
@@ -182,7 +185,8 @@ export const worldArticleRegistry = {
     thumbnail: "western-city.jpg",
     topic: "geography",
     status: "published",
-    summary: "Столица Эдема, её районы и достопримечательности.",
+    summary:
+      "Западный город — столица Эдема и место, где находятся его главные государственные учреждения. В статье описаны центральные районы, достопримечательности и окраины.",
     related: [
       "pompeii",
       "world-geography",
@@ -195,7 +199,8 @@ export const worldArticleRegistry = {
     thumbnail: "eastern-city.jpg",
     topic: "geography",
     status: "published",
-    summary: "Один из самых криминальных и загадочных городов Эдема.",
+    summary:
+      "В Восточном городе сохранились здания и традиции довоенной Азии. В его густонаселённых кварталах заметно влияние преступных группировок.",
     related: [
       "world-geography",
       "myanmar",
@@ -209,7 +214,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Самая засекреченная территория Эдема, где находятся тюрьмы, колонии и научные лаборатории.",
+      "Северный город — самая закрытая территория Эдема. Здесь добывают ресурсы, проводят закрытые исследования и содержат заключённых.",
     related: [
       "world-geography",
       "rehabilitation-institutions",
@@ -222,7 +227,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Бедные кварталы Западного города, захваченные криминальными группировками. Здесь описано, как устроена жизнь в районе.",
+      "Помпеи выросли из бедных кварталов Западного города, где укрепились преступные группировки. Сюда приезжают за товарами чёрного рынка и ради заведений, известных по всей столице.",
     related: [
       "western-city",
       "criminal-organizations",
@@ -238,7 +243,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Одно из самых известных казино Помпей. Оно просуществовало недолго.",
+      "Казино Мефиса было одним из самых роскошных заведений Помпей. Оно привлекало гостей из богатых кварталов, хотя самостоятельным казино пробыло всего около года.",
     related: ["pompeii", "moxi-brothel", "modern-chronology"],
   },
   "moxi-brothel": {
@@ -247,7 +252,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Самый известный бордель Помпей, куда приходили и преступники, и благонадёжные граждане.",
+      "Бордель Мокси — одно из самых известных заведений Помпей. Среди его гостей бывают и люди из криминальных кругов, и жители обеспеченных кварталов.",
     related: ["pompeii", "mephisto-casino", "freedom", "lobos-libres"],
   },
   "neutral-lands": {
@@ -256,7 +261,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Радиоактивная пустошь между Эдемом и Скеосом. Здесь живут независимые общины и работают предприятия.",
+      "Нейтральные земли — радиоактивная пустошь между Эдемом и Скеосом. Её пересекают торговые маршруты, а на пригодных для жизни участках остаются независимые поселения.",
     related: [
       "world-geography",
       "skeos",
@@ -270,7 +275,7 @@ export const worldArticleRegistry = {
     topic: "geography",
     status: "published",
     summary:
-      "Соседнее с Эдемом государство, где власть принадлежит корпорациям.",
+      "В Скеосе, соседнем с Эдемом государстве, власть принадлежит корпорациям. Связи между странами ограничены, поэтому о повседневной жизни Федерации известно немного.",
     related: [
       "world-geography",
       "neutral-lands",
@@ -283,7 +288,8 @@ export const worldArticleRegistry = {
     thumbnail: "atlanta.jpg",
     topic: "geography",
     status: "published",
-    summary: "Далёкий и загадочный остров в океане.",
+    summary:
+      "Атланта — далёкий остров в океане. О том, кто его населяет и как там живут, у жителей Эдема мало достоверных сведений.",
     related: ["world-geography", "history-before-adam", "skeos"],
   },
   "science-and-technology": {
@@ -291,7 +297,8 @@ export const worldArticleRegistry = {
     thumbnail: "science-and-technology.jpg",
     topic: "technology",
     status: "published",
-    summary: "Нейрочипы, роботы и протезы в повседневной жизни Эдема.",
+    summary:
+      "Роботы, нейрочипы и протезы давно стали частью быта в Эдеме. Статья рассказывает, как разработки из лабораторий попадают на выставки, в дома и клиники.",
     related: ["cybernetics-and-implants", "corporations", "licenses", "skeos"],
   },
   "cybernetics-and-implants": {
@@ -300,7 +307,7 @@ export const worldArticleRegistry = {
     topic: "technology",
     status: "published",
     summary:
-      "Виды имплантов, устройство кибердеки и управление дронами. В статье также описаны производители имплантов и риски их применения.",
+      "Импланты заменяют утраченные части тела, расширяют возможности человека и помогают управлять техникой. В статье описаны кибердеки, дроны, производители имплантов и риски их применения.",
     related: [
       "neurochip",
       "science-and-technology",
@@ -314,7 +321,8 @@ export const worldArticleRegistry = {
     thumbnail: "corporations.jpg",
     topic: "corporations",
     status: "published",
-    summary: "Крупнейшие игроки рынка Эдема, их продукция и соперничество.",
+    summary:
+      "Три крупнейшие корпорации Эдема выпускают всё от бытовой техники до машин и имплантов. Каждая по-своему борется за покупателей и влияние.",
     related: [
       "innovatx",
       "holland-industries",
@@ -329,7 +337,7 @@ export const worldArticleRegistry = {
     topic: "corporations",
     status: "published",
     summary:
-      "Одна из ведущих технологических корпораций Эдема, известная быстрыми чипами и имплантами.",
+      "InnovatX — одна из ведущих технологических корпораций Эдема, известная быстрыми чипами и новыми функциями своих устройств. Её история тесно связана с семьёй инженера, основавшего компанию.",
     related: ["corporations", "holland-industries", "corporate-races"],
   },
   "holland-industries": {
@@ -338,7 +346,7 @@ export const worldArticleRegistry = {
     topic: "corporations",
     status: "published",
     summary:
-      "Крупнейшая корпорация Эдема, которая делает ставку на безопасность и надёжность техники.",
+      "Крупнейшая корпорация Эдема делает ставку на безопасность и надёжность техники. Она выпускает и бытовые приборы, и космические корабли.",
     related: [
       "corporations",
       "innovatx",
@@ -352,7 +360,7 @@ export const worldArticleRegistry = {
     topic: "corporations",
     status: "published",
     summary:
-      "Молодая корпорация, возникшая из союза трёх компаний. Она выпускает технику и товары для повседневной жизни.",
+      "Enigma выросла из союза трёх небольших производителей. Сегодня она выпускает товары для повседневной жизни и соперничает со старшими корпорациями.",
     related: ["corporations", "corporate-races"],
   },
   "corporate-races": {
@@ -361,7 +369,7 @@ export const worldArticleRegistry = {
     topic: "corporations",
     status: "published",
     summary:
-      "Популярные в Эдеме гонки, на которых независимые команды могут заработать и найти спонсоров.",
+      "Гонки на болидах — одно из самых популярных зрелищ Эдема. Для независимой команды удачный заезд может обернуться призовыми или контрактом со спонсором.",
     related: [
       "innovatx",
       "holland-industries",
@@ -374,7 +382,8 @@ export const worldArticleRegistry = {
     thumbnail: "criminal-organizations.jpg",
     topic: "stories",
     status: "published",
-    summary: "Преступные группировки Эдема, их занятия и борьба за влияние.",
+    summary:
+      "Преступные группировки Эдема зарабатывают на подпольной торговле и местных заведениях. Их соперничество сказывается на том, кто устанавливает правила на улицах Помпей.",
     related: [
       "pompeii",
       "myanmar",
@@ -390,7 +399,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "Крупный наркокартель, который контролирует часть Помпей. В статье описаны его становление и борьба за власть внутри картеля.",
+      "Мьянма выросла из объединения трёх группировок и контролирует часть Помпей. Внутри картеля шла своя борьба за руководство и доходы.",
     related: [
       "criminal-organizations",
       "eastern-city",
@@ -404,7 +413,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "Подпольное движение, выступающее против власти Адама и социального рейтинга.",
+      "Свобода выступает против власти Адама и социального рейтинга. Движение выросло в бедных кварталах и до сих пор борется за контроль над Помпеями.",
     related: ["criminal-organizations", "pompeii", "modern-chronology"],
   },
   "organization-v": {
@@ -413,7 +422,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "Подпольная организация, которую связывают с публикацией запрещённых материалов и подменой цифровых профилей.",
+      "Организацию V связывают с подпольной сетью, где публиковались запрещённые материалы. Позднее её имя стало появляться в связи с подменой цифровых профилей.",
     related: ["criminal-organizations", "freedom", "skeos", "neurochip"],
   },
   "technology-triumph-cult": {
@@ -422,7 +431,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "Сообщество, для которого развитие технологий стало частью веры. Его участники начинали с кустарного производства имплантов.",
+      "Участники Культа Триумфа Технологий считают развитие техники частью своей веры. Их импланты проделали путь от кустарной мастерской до промышленного производства.",
     related: [
       "criminal-organizations",
       "science-and-technology",
@@ -435,7 +444,7 @@ export const worldArticleRegistry = {
     topic: "stories",
     status: "published",
     summary:
-      "Панк-группа, которая выступала против власти и превратила свои песни в форму протеста.",
+      "Панк-группа Lobus Liberos выступала с песнями против власти. После задержания части музыкантов прежний состав распался.",
     related: ["criminal-organizations", "freedom", "modern-chronology"],
   },
   "history-before-adam": {
@@ -444,7 +453,7 @@ export const worldArticleRegistry = {
     topic: "history",
     status: "published",
     summary:
-      "Мир до ядерной войны 2026 года, причины катастрофы и жизнь выживших до основания Эдема.",
+      "Ядерная война 2026 года разрушила прежний мир. Эта статья рассказывает о причинах катастрофы и о том, как выжившие начали жить общинами.",
     related: [
       "founding-of-edem",
       "history-of-edem",
@@ -459,7 +468,8 @@ export const worldArticleRegistry = {
     thumbnail: "founding-of-edem.jpg",
     topic: "history",
     status: "published",
-    summary: "Как из общины выживших возникло государство Эдем.",
+    summary:
+      "Первый Адам собрал выживших и заложил поселение. При его преемнике из общины выросло государство со своими законами и учреждениями.",
     related: ["history-before-adam", "higher-path", "history-of-edem"],
   },
   "history-of-edem": {
@@ -468,7 +478,7 @@ export const worldArticleRegistry = {
     topic: "history",
     status: "published",
     summary:
-      "Реформы, которые изменили жизнь Эдема, и протесты, которые они вызвали.",
+      "При Третьем Адаме реформы изменили повседневную жизнь Эдема. Одни жители получили новые возможности, другие вышли на улицы в знак протеста.",
     related: [
       "founding-of-edem",
       "pompeii",

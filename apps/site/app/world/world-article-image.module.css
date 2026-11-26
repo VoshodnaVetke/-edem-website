@@ -37,6 +37,10 @@
 }
 
 @media (min-width: 48rem) {
+  .reading :is(h2, h3) {
+    clear: inline-start;
+  }
+
   .illustration {
     float: inline-start;
     inline-size: 40%;
