@@ -17,14 +17,13 @@
   background: var(--edem-color-background);
 }
 
-.copy,
-.summary {
+.copy {
   display: grid;
   gap: 0.375rem;
 }
 
 .heading,
-.summary p,
+.summary,
 .status {
   margin: 0;
 }

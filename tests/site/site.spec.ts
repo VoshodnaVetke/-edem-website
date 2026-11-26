@@ -1951,13 +1951,9 @@ test("encyclopedia articles have permanent routes and topic listings", async ({
         await expect(card.locator("img")).toHaveAttribute("src", thumbnail);
         expect((await request.get(thumbnail)).ok(), thumbnail).toBe(true);
         const description =
-          entry.status === "published"
-            ? entry.summary.join(" ")
-            : "Статья в разработке";
+          entry.status === "published" ? entry.summary : "Статья в разработке";
         await expect(entryLink).toHaveAccessibleDescription(description);
-        await expect(card.locator("p")).toHaveCount(
-          entry.status === "published" ? 2 : 1,
-        );
+        await expect(card.locator("p")).toHaveCount(1);
 
         const response = await request.get(path);
         expect(response.status(), path).toBe(200);
