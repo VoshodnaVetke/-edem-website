@@ -9,6 +9,7 @@ import {
   Reading,
   Text,
 } from "@edem/ui";
+import { useId } from "react";
 import { PageShell } from "../../components/layout/PageShell";
 import deployment from "../../config/deployment.json";
 import { siteHref } from "../../config/site-href";
@@ -159,24 +160,58 @@ function PortraitSymbol() {
   );
 }
 
+function MemberPortrait({
+  src,
+  position,
+}: {
+  src?: string;
+  position?: string;
+}) {
+  const clipId = useId();
+  return (
+    <figure className={styles.portrait} aria-hidden="true">
+      <div
+        className={styles.portraitMedia}
+        style={{ clipPath: `url("#${clipId}")` }}
+      >
+        {src ? (
+          <img
+            src={`${deployment.basePath}${src}`}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            style={position ? { objectPosition: position } : undefined}
+          />
+        ) : (
+          <PortraitSymbol />
+        )}
+      </div>
+      <Frame variant="asym" mediaClipId={clipId} />
+    </figure>
+  );
+}
+
 export default function AboutPage() {
   return (
     <PageShell
       title="Мастерская группа «Эдем»"
       headerClassName={styles.hero}
       intro={
-        <Reading className={styles.intro}>
-          <Text variant="lead">
-            Мы создаём и проводим ролевые игры, в которых свобода действий
-            сочетается с проработанными механиками.
-          </Text>
-          <Text>
-            Для нас механики — не просто дополнение к отыгрышу, а полноценная
-            часть игрового мира. Мы разрабатываем собственные системы и даже
-            создали приложение, позволяющее реализовать всё: от имплантов и
-            технологий до экономики и торговли акциями.
-          </Text>
-        </Reading>
+        <>
+          <Frame />
+          <Reading className={styles.intro}>
+            <Text variant="lead">
+              Мы создаём и проводим ролевые игры, в которых свобода действий
+              сочетается с проработанными механиками.
+            </Text>
+            <Text>
+              Для нас механики — не просто дополнение к отыгрышу, а полноценная
+              часть игрового мира. Мы разрабатываем собственные системы и даже
+              создали приложение, позволяющее реализовать всё: от имплантов и
+              технологий до экономики и торговли акциями.
+            </Text>
+          </Reading>
+        </>
       }
     >
       <section aria-labelledby="about-formats">
@@ -204,25 +239,9 @@ export default function AboutPage() {
                 className={`${styles.member} ${restricted ? styles.restrictedMember : ""}`}
                 telemetry
                 frame="asym"
-                accent="violet"
               >
-                {restricted && (
-                  <>
-                    <span
-                      className={styles.cardGlitchBlocks}
-                      aria-hidden="true"
-                    />
-                    <span
-                      className={styles.cardGlitchOffset}
-                      aria-hidden="true"
-                    />
-                  </>
-                )}
                 {restricted ? (
                   <div className={styles.restrictedPortrait}>
-                    <span className={styles.interference} aria-hidden="true">
-                      <PortraitSymbol />
-                    </span>
                     <GlitchText className={styles.errorCode}>
                       ERROR 403
                     </GlitchText>
@@ -232,25 +251,7 @@ export default function AboutPage() {
                     <Frame variant="asym" />
                   </div>
                 ) : (
-                  <div className={styles.portrait} aria-hidden="true">
-                    <div className={styles.portraitMedia}>
-                      {portrait ? (
-                        <img
-                          src={`${deployment.basePath}${portrait}`}
-                          alt=""
-                          loading="lazy"
-                          style={
-                            portraitPosition
-                              ? { objectPosition: portraitPosition }
-                              : undefined
-                          }
-                        />
-                      ) : (
-                        <PortraitSymbol />
-                      )}
-                    </div>
-                    <Frame variant="asym" />
-                  </div>
+                  <MemberPortrait src={portrait} position={portraitPosition} />
                 )}
                 <div className={styles.profile}>
                   <Heading level={3}>{name}</Heading>
@@ -281,6 +282,7 @@ export default function AboutPage() {
       </section>
 
       <section className={styles.contact} aria-labelledby="about-contact">
+        <Frame />
         <Heading id="about-contact" className={styles.sectionTitle}>
           Создадим игру вместе
         </Heading>
