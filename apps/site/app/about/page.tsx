@@ -201,14 +201,16 @@ export default function AboutPage() {
           <Frame />
           <Reading className={styles.intro}>
             <Text variant="lead">
-              Мы создаём и проводим ролевые игры, в которых свобода действий
+              Мы создаём и проводим ролевые игры, в которых{" "}
+              <strong className={styles.introAccent}>свобода действий</strong>{" "}
               сочетается с проработанными механиками.
             </Text>
             <Text>
               Для нас механики — не просто дополнение к отыгрышу, а полноценная
-              часть игрового мира. Мы разрабатываем собственные системы и даже
-              создали приложение, позволяющее реализовать всё: от имплантов и
-              технологий до экономики и торговли акциями.
+              часть игрового мира. Мы разрабатываем{" "}
+              <strong>собственные системы</strong> и даже создали приложение,
+              позволяющее реализовать всё: от имплантов и технологий до
+              экономики и торговли акциями.
             </Text>
           </Reading>
         </>
@@ -242,6 +244,16 @@ export default function AboutPage() {
               >
                 {restricted ? (
                   <div className={styles.restrictedPortrait}>
+                    {/* LUNATIC 710 label by Kiki Novald / Phewsight. */}
+                    <img
+                      className={styles.restrictedSticker}
+                      src={`${deployment.basePath}/images/about/restricted-area.webp`}
+                      alt=""
+                      width={228}
+                      height={138}
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <GlitchText className={styles.errorCode}>
                       ERROR 403
                     </GlitchText>
