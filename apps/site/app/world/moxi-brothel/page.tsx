@@ -130,11 +130,6 @@ export default function MoxiBrothelArticle() {
               </figcaption>
             </figure>
           </section>
-          <p>
-            Рейд сделал список гостей Мокси темой для городской прессы. «Эдем
-            24» сообщал о задержаниях, а «Град» обсуждал, кому из гостей могли
-            помочь влиятельные знакомства.
-          </p>
         </WorldArticleReading>
 
         <WorldArticleFooter slug="moxi-brothel" />

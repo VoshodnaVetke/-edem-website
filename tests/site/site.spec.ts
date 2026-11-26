@@ -683,6 +683,42 @@ test("the tree extends past the top and left edges and respects reduced motion",
   }
 });
 
+test("desktop tree stays above articles and only freestanding copy gets a backdrop", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(exportedPath("/world/neurochip"));
+  const tree = page.locator(".site-tree");
+  const heading = page.getByRole("heading", { level: 1 });
+  const intro = page
+    .locator("main p")
+    .filter({ hasText: "Социальный рейтинг — это баллы" });
+  await expect(tree).toHaveCSS("position", "absolute");
+  const treeBox = (await tree.boundingBox())!;
+  expect(treeBox.y + treeBox.height).toBeLessThan(
+    (await heading.boundingBox())!.y,
+  );
+  const transparent = "rgba(0, 0, 0, 0)";
+  await expect(intro).toHaveCSS("background-color", transparent);
+
+  await page.goto(exportedPath("/"));
+  const lead = page.getByText("Станьте частью истории", { exact: false });
+  const cardCopy = page
+    .locator("main .edem-card p, main .edem-link-card p")
+    .first();
+  await expect(tree).toHaveCSS("position", "fixed");
+  await expect(lead).not.toHaveCSS("background-color", transparent);
+  await expect(lead).toHaveCSS("border-top-width", "0px");
+  await expect(heading).toHaveCSS("background-color", transparent);
+  await expect(cardCopy).toHaveCSS("background-color", transparent);
+
+  await page.setViewportSize({ width: 390, height: 800 });
+  await expect(lead).toHaveCSS("background-color", transparent);
+  await page.goto(exportedPath("/world/neurochip"));
+  await expect(tree).toHaveCSS("position", "fixed");
+  await expect(tree).toHaveCSS("mask-image", "none");
+});
+
 for (const width of [1440, 390]) {
   test(`page navigation and scroll progress work at ${width}px`, async ({
     page,

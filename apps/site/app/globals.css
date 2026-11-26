@@ -114,15 +114,6 @@ body {
   mask-image: linear-gradient(to bottom, black 76%, transparent 94%);
 }
 
-@media (width < 48rem) {
-  .site-tree.edem-tree--viewport {
-    position: absolute;
-    inset-block-end: auto;
-    block-size: min(29rem, 60svh);
-    mask-image: linear-gradient(black 55%, transparent);
-  }
-}
-
 @media (width >= 48rem) {
   body:has([data-world-article]) .site-tree.edem-tree--viewport {
     position: absolute;
