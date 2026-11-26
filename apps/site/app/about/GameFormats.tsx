@@ -55,9 +55,11 @@ const formats = [
   },
 ] as const;
 
-type FormatId = (typeof formats)[number]["id"];
+type Format = (typeof formats)[number];
+type FormatId = Format["id"];
 const initialDelay = 250;
 const rotationDelay = 9000;
+const fadeOutDuration = 120;
 const layoutMotion = {
   duration: 580,
   easing: "cubic-bezier(0.4, 0, 0.2, 1)",
@@ -79,32 +81,49 @@ export function GameFormats() {
     () => false,
   );
   const [playing, setPlaying] = useState(true);
+  const [mobileFeaturedId, setMobileFeaturedId] = useState<FormatId | null>(
+    null,
+  );
   const [inView, setInView] = useState(false);
   const [focused, setFocused] = useState(false);
   const [motionAllowed, setMotionAllowed] = useState(false);
   const group = useRef<HTMLDivElement>(null);
+  const firstSlot = useRef<HTMLDivElement>(null);
+  const featuredCopy = useRef<HTMLDivElement>(null);
   const cards = useRef(new Map<FormatId, HTMLElement>());
   const previousGroupHeight = useRef<number | undefined>(undefined);
   const previousRects = useRef(new Map<FormatId, DOMRect>());
   const focusedToggle = useRef<HTMLButtonElement | null>(null);
 
-  const active = multiColumn && formats.find(({ id }) => id === openId);
-  const ordered = active
-    ? [active, ...formats.filter(({ id }) => id !== active.id)]
+  const mobileAutoplay = !multiColumn && motionAllowed && playing;
+  const featuredId = mobileAutoplay
+    ? (openId ?? mobileFeaturedId ?? formats[0].id)
+    : mobileFeaturedId;
+  const firstId = multiColumn ? openId : featuredId;
+  const first = formats.find(({ id }) => id === firstId);
+  const ordered = first
+    ? [first, ...formats.filter(({ id }) => id !== first.id)]
     : formats;
+  const expandedId = mobileAutoplay ? featuredId : openId;
+  const keepMobileSlots =
+    !multiColumn &&
+    (mobileAutoplay || (featuredId !== null && expandedId === featuredId));
 
-  const open = useCallback((id: FormatId | null) => {
-    previousRects.current.clear();
-    previousGroupHeight.current = undefined;
-    if (window.matchMedia(motionQuery).matches) {
-      previousGroupHeight.current =
-        group.current?.getBoundingClientRect().height;
-      for (const [key, card] of cards.current) {
-        previousRects.current.set(key, card.getBoundingClientRect());
+  const open = useCallback(
+    (id: FormatId | null) => {
+      previousRects.current.clear();
+      previousGroupHeight.current = undefined;
+      if (multiColumn && window.matchMedia(motionQuery).matches) {
+        previousGroupHeight.current =
+          group.current?.getBoundingClientRect().height;
+        for (const [key, card] of cards.current) {
+          previousRects.current.set(key, card.getBoundingClientRect());
+        }
       }
-    }
-    setOpenId(id);
-  }, []);
+      setOpenId(id);
+    },
+    [multiColumn],
+  );
 
   useEffect(() => {
     const preference = window.matchMedia(motionQuery);
@@ -115,31 +134,73 @@ export function GameFormats() {
   }, []);
 
   useEffect(() => {
-    const element = group.current;
+    const element = multiColumn ? group.current : firstSlot.current;
     if (!element || !("IntersectionObserver" in window)) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      setInView(entry.isIntersecting);
-    });
+    const minimumVisible = multiColumn ? 0 : 0.4;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(
+          entry.isIntersecting && entry.intersectionRatio >= minimumVisible,
+        );
+      },
+      { threshold: minimumVisible },
+    );
     observer.observe(element);
     return () => observer.disconnect();
-  }, []);
+  }, [multiColumn]);
 
   useEffect(() => {
     if (!playing || !motionAllowed || !inView || focused) return;
+    let swap: number | undefined;
+    let fade: Animation | undefined;
     const timeout = window.setTimeout(
       () => {
-        const index = formats.findIndex(({ id }) => id === openId);
-        open(formats[(index + 1) % formats.length].id);
+        const index = formats.findIndex(({ id }) => id === expandedId);
+        const next = formats[(index + 1) % formats.length].id;
+        if (mobileAutoplay && featuredCopy.current) {
+          fade = featuredCopy.current.animate(
+            [{ opacity: 1 }, { opacity: 0 }],
+            {
+              duration: fadeOutDuration,
+              easing: "ease-in",
+              fill: "forwards",
+            },
+          );
+          swap = window.setTimeout(() => open(next), fadeOutDuration);
+        } else {
+          open(next);
+        }
       },
-      openId === null ? initialDelay : rotationDelay,
+      expandedId === null ? initialDelay : rotationDelay,
     );
-    return () => window.clearTimeout(timeout);
-  }, [playing, motionAllowed, inView, focused, open, openId]);
+    return () => {
+      window.clearTimeout(timeout);
+      window.clearTimeout(swap);
+      fade?.cancel();
+    };
+  }, [
+    playing,
+    motionAllowed,
+    inView,
+    focused,
+    open,
+    expandedId,
+    mobileAutoplay,
+  ]);
 
   function toggle(id: FormatId, button: HTMLButtonElement) {
+    if (mobileAutoplay) setMobileFeaturedId(featuredId);
     setPlaying(false);
     focusedToggle.current = document.activeElement === button ? button : null;
-    open(openId === id ? null : id);
+    open(expandedId === id ? null : id);
+  }
+
+  function toggleAutoplay() {
+    if (mobileAutoplay) {
+      setMobileFeaturedId(featuredId);
+      setOpenId(expandedId);
+    }
+    setPlaying(!playing);
   }
 
   useLayoutEffect(() => {
@@ -214,7 +275,7 @@ export function GameFormats() {
             className={styles.rotation}
             size="sm"
             selected={playing}
-            onClick={() => setPlaying((current) => !current)}
+            onClick={toggleAutoplay}
           >
             Автопоказ
           </Button>
@@ -228,64 +289,82 @@ export function GameFormats() {
             setFocused(false);
         }}
       >
-        {ordered.map(({ id, title, icon, summary, description }) => {
-          const expanded = openId === id;
+        {ordered.map((format, index) => {
+          const { id, title, icon, summary } = format;
+          const expanded = expandedId === id;
+          const featured = mobileAutoplay && index === 0;
           const label = `format-${id}`;
           return (
             <div
-              key={id}
+              key={multiColumn ? id : index}
+              ref={index === 0 ? firstSlot : undefined}
               className={styles.formatSlot}
               data-expanded={expanded}
             >
               <Card
-                ref={(card) => {
-                  if (card) cards.current.set(id, card);
-                  else cards.current.delete(id);
-                }}
+                ref={
+                  multiColumn
+                    ? (card) => {
+                        if (card) cards.current.set(id, card);
+                        else cards.current.delete(id);
+                      }
+                    : undefined
+                }
                 className={styles.formatCard}
                 telemetry
               >
-                <Heading level={3} className={styles.formatHeading}>
-                  <button
-                    type="button"
-                    className={styles.toggle}
-                    id={`${label}-toggle`}
-                    aria-expanded={expanded}
-                    aria-controls={`${label}-panel`}
-                    aria-labelledby={label}
-                    aria-describedby={`${label}-summary`}
-                    onClick={(event) => toggle(id, event.currentTarget)}
-                  >
-                    <span className={styles.formatIcon} aria-hidden="true">
-                      <picture>
-                        <source
-                          media="(prefers-reduced-motion: reduce)"
-                          srcSet={`${deployment.basePath}/images/about/${icon}.png`}
-                        />
-                        <img
-                          src={`${deployment.basePath}/images/about/${icon}.gif`}
-                          alt=""
-                          width={80}
-                          height={80}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </picture>
-                    </span>
-                    <span id={label}>{title}</span>
-                  </button>
-                </Heading>
-                <Text id={`${label}-summary`} className={styles.summary}>
-                  {summary}
-                </Text>
                 <div
-                  id={`${label}-panel`}
-                  hidden={!expanded}
-                  className={styles.panel}
+                  className={keepMobileSlots ? styles.formatLayers : undefined}
                 >
-                  {description.map((paragraph) => (
-                    <Text key={paragraph}>{paragraph}</Text>
-                  ))}
+                  {keepMobileSlots && (
+                    <FormatSizeGuide expanded={index === 0} />
+                  )}
+                  <div
+                    key={id}
+                    ref={featured ? featuredCopy : undefined}
+                    className={featured ? styles.featuredCopy : undefined}
+                  >
+                    <Heading level={3} className={styles.formatHeading}>
+                      <button
+                        type="button"
+                        className={styles.toggle}
+                        id={`${label}-toggle`}
+                        aria-expanded={expanded}
+                        aria-controls={`${label}-panel`}
+                        aria-labelledby={label}
+                        aria-describedby={`${label}-summary`}
+                        onClick={(event) => toggle(id, event.currentTarget)}
+                      >
+                        <span className={styles.formatIcon} aria-hidden="true">
+                          <picture>
+                            <source
+                              media="(prefers-reduced-motion: reduce)"
+                              srcSet={`${deployment.basePath}/images/about/${icon}.png`}
+                            />
+                            <img
+                              src={`${deployment.basePath}/images/about/${icon}.gif`}
+                              alt=""
+                              width={80}
+                              height={80}
+                              loading="lazy"
+                              decoding="async"
+                            />
+                          </picture>
+                        </span>
+                        <span id={label}>{title}</span>
+                      </button>
+                    </Heading>
+                    <Text id={`${label}-summary`} className={styles.summary}>
+                      {summary}
+                    </Text>
+                    <div
+                      id={`${label}-panel`}
+                      hidden={!expanded}
+                      className={styles.panel}
+                    >
+                      <FormatDescription format={format} />
+                    </div>
+                  </div>
                 </div>
               </Card>
             </div>
@@ -294,4 +373,35 @@ export function GameFormats() {
       </Grid>
     </div>
   );
+}
+
+// Size the slots against every format at the current width and text size.
+function FormatSizeGuide({ expanded }: { expanded: boolean }) {
+  return (
+    <div
+      className={`${styles.formatLayers} ${styles.formatSizeGuide}`}
+      aria-hidden="true"
+    >
+      {formats.map((format) => (
+        <div key={format.id}>
+          <Heading level={3} className={styles.formatHeading}>
+            <span className={styles.toggle}>
+              <span className={styles.formatIcon} />
+              <span>{format.title}</span>
+            </span>
+          </Heading>
+          <Text className={styles.summary}>{format.summary}</Text>
+          <div hidden={!expanded} className={styles.panel}>
+            {expanded && <FormatDescription format={format} />}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function FormatDescription({ format }: { format: Format }) {
+  return format.description.map((paragraph) => (
+    <Text key={paragraph}>{paragraph}</Text>
+  ));
 }
