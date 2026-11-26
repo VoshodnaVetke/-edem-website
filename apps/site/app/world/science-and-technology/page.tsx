@@ -6,6 +6,7 @@ import styles from "../../../styles/page-layout.module.css";
 import { WorldArticleFooter } from "../WorldArticleFooter";
 import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldSourceExcerpt } from "../WorldSourceExcerpt";
+import { paradeOfTechnologyArticle } from "../parade-of-technology-article";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function ScienceAndTechnologyArticle() {
@@ -114,19 +115,19 @@ export default function ScienceAndTechnologyArticle() {
             <Heading level={2} id="from-exhibition-to-clinic">
               От выставки до клиники
             </Heading>
-            <WorldSourceExcerpt
-              title={"Парад технологий: прогресс, будущее и любовь!"}
-              paragraphs={[
-                "Были анонсированы новые визоры и кибердеки, усовершенствованные и обладающие множеством новых функций, протезы для рук и ног, созданные по новой технологии, которая обеспечит прочность имплантов и другие новинки, которые мы сможем увидеть в течение ближайших пары лет.",
-              ]}
-              credit={"«Эдем 24», Аметист Жорн, 26.04.2214"}
-            />
             <p>
-              В клиниках уже применяют{" "}
+              На Параде технологий 2214 года InnovatX представила новые
+              устройства, в том числе протезы рук и ног. Аметист Жорн рассказала
+              об этой презентации в «Эдеме 24».
+            </p>
+            <WorldSourceExcerpt {...paradeOfTechnologyArticle} />
+            <p>
+              За время между выставкой и выходом устройства на рынок обещанную
+              прочность ещё предстоит проверить. В клиниках{" "}
               <a href={worldArticleHref("cybernetics-and-implants")}>
                 кибернетические протезы
-              </a>
-              , которые заменяют утраченные конечности.
+              </a>{" "}
+              заменяют утраченные конечности и помогают вернуть подвижность.
             </p>
             <p>
               Когда новая разработка доходит до клиники, перед пациентом встаёт

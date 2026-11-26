@@ -6,6 +6,7 @@ import styles from "../../../styles/page-layout.module.css";
 import { WorldArticleFooter } from "../WorldArticleFooter";
 import { WorldArticleShell } from "../WorldArticleShell";
 import { WorldSourceExcerpt } from "../WorldSourceExcerpt";
+import { paradeOfTechnologyArticle } from "../parade-of-technology-article";
 import { WorldArticleReading } from "../WorldArticleReading";
 
 export default function InnovatXArticle() {
@@ -56,13 +57,7 @@ export default function InnovatXArticle() {
               поиски Кэвина. 25 апреля InnovatX анонсировала новые визоры,
               кибердеки и протезы повышенной прочности.
             </p>
-            <WorldSourceExcerpt
-              title={"Парад технологий: прогресс, будущее и любовь!"}
-              paragraphs={[
-                "Многие инвесторы изъявили желание вложиться в InovatX, видя, что новый владелец сохранил рвение к технологическому прогрессу. Вероятно это сильно повысит шансы компании на осуществление больших планов.",
-              ]}
-              credit={"«Эдем 24», Аметист Жорн, 26.04.2214"}
-            />
+            <WorldSourceExcerpt {...paradeOfTechnologyArticle} />
             <p>
               Возглавив InnovatX, Дэвид продолжил сам работать над её техникой.
               «Технику для тех, кто не боится сделать шаг к новому» — так он
