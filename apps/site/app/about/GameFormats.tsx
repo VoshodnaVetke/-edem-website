@@ -391,11 +391,9 @@ function FormatSizeGuide({ expanded }: { expanded: boolean }) {
             </span>
           </Heading>
           <Text className={styles.summary}>{format.summary}</Text>
-          {expanded && (
-            <div className={styles.panel}>
-              <FormatDescription format={format} />
-            </div>
-          )}
+          <div hidden={!expanded} className={styles.panel}>
+            {expanded && <FormatDescription format={format} />}
+          </div>
         </div>
       ))}
     </div>
