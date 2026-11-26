@@ -15,10 +15,6 @@
   margin: 0;
 }
 
-.title {
-  hyphens: none;
-}
-
 .title span {
   color: var(--edem-color-accent-primary);
   white-space: nowrap;

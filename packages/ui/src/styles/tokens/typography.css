@@ -123,5 +123,5 @@
 .edem-type-h2,
 .edem-type-h3 {
   overflow-wrap: anywhere;
-  hyphens: auto;
+  hyphens: none;
 }
