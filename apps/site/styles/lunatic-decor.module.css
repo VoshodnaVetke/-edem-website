@@ -57,16 +57,26 @@
   }
 }
 
-@media (min-width: 64rem) {
-  .fullHeader::before {
-    inset-block-start: -1.5rem;
-    inline-size: min(25%, 14rem);
-    aspect-ratio: 1.6;
-    background-position: right center;
-    background-size: contain;
-    mask-image: none;
-    opacity: 0.17;
-  }
+.backdrop {
+  position: relative;
+  isolation: isolate;
+}
+
+.overhang {
+  --lunatic-backdrop-top: -3.25rem;
+}
+
+.backdrop::after {
+  position: absolute;
+  z-index: -1;
+  inset-block-start: var(--lunatic-backdrop-top, 0rem);
+  inset-inline-end: -0.5rem;
+  inline-size: min(42vw, 100%);
+  aspect-ratio: 1.4;
+  background: var(--lunatic-art) right center / contain no-repeat;
+  opacity: 0.16;
+  pointer-events: none;
+  content: "";
 }
 
 .sectionLabel {

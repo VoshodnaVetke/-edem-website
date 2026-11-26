@@ -221,11 +221,11 @@ export default function AboutPage() {
         <GameFormats />
       </section>
 
-      <section aria-labelledby="about-team">
-        <Heading
-          id="about-team"
-          className={`${styles.sectionTitle} ${decor.sectionLabel} ${decor.modular}`}
-        >
+      <section
+        aria-labelledby="about-team"
+        className={`${decor.backdrop} ${decor.modular}`}
+      >
+        <Heading id="about-team" className={styles.sectionTitle}>
           Наша команда
         </Heading>
         <div className={`${layout.stack} ${styles.teamList}`}>
