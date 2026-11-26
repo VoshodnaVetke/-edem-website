@@ -4,8 +4,8 @@ import { Heading } from "@edem/ui";
 import styles from "../../../styles/page-layout.module.css";
 import { WorldArticleFooter } from "../WorldArticleFooter";
 import { WorldArticleShell } from "../WorldArticleShell";
+import { WorldSourceExcerpt } from "../WorldSourceExcerpt";
 import { WorldArticleReading } from "../WorldArticleReading";
-import articleStyles from "../corporations/corporations.module.css";
 
 export default function CorporateRacesArticle() {
   return (
@@ -59,22 +59,14 @@ export default function CorporateRacesArticle() {
               появления Моргана на трассе чемпионом был он.
             </p>
 
-            <figure className={articleStyles.quote}>
-              <blockquote>
-                <p>
-                  <strong>Очередная победа наследника InnovatX в гонках</strong>
-                </p>
-                <p>
-                  В этом году 17 летний Кай смог в очередной раз занять первое
-                  место на больших гонках, став трехкратным чемпионом и все еще
-                  самым юным участником. Интересно, потому ли это что в честь
-                  его первого дня рождения Дэвид решил провести гонки, или
-                  потому что когда твой отец делает машины для доброй половины
-                  гонщиков, твоя может быть слегка лучше…
-                </p>
-              </blockquote>
-              <figcaption>— Кейв Лече, 14.03.2233.</figcaption>
-            </figure>
+            <WorldSourceExcerpt
+              title={"Очередная победа наследника InnovatX в гонках"}
+              paragraphs={[
+                "Благодарим всех читателей, что остаетесь с нами! Сегодня мы поговорим о наследнике InnovatX, Кае Моргане, действующем чемпионе гипергонок.",
+                "В этом году 17 летний Кай смог в очередной раз занять первое место на больших гонках, став трехкратным чемпионом и все еще самым юным участником. Интересно, потому ли это что в честь его первого дня рождения Дэвид решил провести гонки, или потому что когда твой отец делает машины для доброй половины гонщиков, твоя может быть слегка лучше… Ответ на это мы, наверное, никогда не узнаем. Тем не менее, нельзя не отметить, что для своего возраста Кай в любом случае отлично катается и заслуживает по крайней мере поздравлений с победой.",
+              ]}
+              credit={"«Град», Кейв Лече, 14.03.2233"}
+            />
           </section>
           <section aria-labelledby="track">
             <Heading level={2} id="track">

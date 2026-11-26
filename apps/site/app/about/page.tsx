@@ -147,6 +147,22 @@ function VkIcon() {
   );
 }
 
+function TelegramIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        fillRule="evenodd"
+        d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20ZM6.6 11.7l9.8-3.8c.5-.2.9.1.7.7l-1.6 7.2c-.1.6-.4.7-.9.4l-2.5-1.9-1.2 1.2c-.1.1-.3.2-.5.2l.2-2.5 4.6-4.1c.2-.2 0-.3-.3-.1l-5.7 3.5-2.5-.8c-.5-.1-.5-.5-.1-.7Z"
+      />
+    </svg>
+  );
+}
+
 function PortraitSymbol() {
   return (
     <svg
@@ -287,9 +303,10 @@ export default function AboutPage() {
                           href={`https://t.me/${telegramUsername}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          aria-label={`Telegram @${telegramUsername} (новая вкладка)`}
+                          aria-label="Написать в Telegram (новая вкладка)"
                         >
-                          <span>Telegram · @{telegramUsername}</span>
+                          <TelegramIcon />
+                          <span>Написать в Telegram</span>
                         </a>
                       )}
                     </div>

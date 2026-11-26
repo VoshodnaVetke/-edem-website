@@ -753,6 +753,36 @@ test("the first and last articles link to the adjacent topic lists", async ({
   );
 });
 
+test("topic lists keep the next section beside the overview link on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto(exportedPath("/world/topics/geography"));
+  const navigation = page.getByRole("navigation", {
+    name: "Навигация по разделам",
+  });
+  const back = navigation.getByRole("link", {
+    name: "К разделам энциклопедии",
+  });
+  const next = navigation.getByRole("link", { name: "Следующий раздел" });
+  await expect(back).toBeVisible();
+  await expect(next).toHaveAttribute(
+    "href",
+    exportedPath("/world/topics/history"),
+  );
+  const backBox = (await back.boundingBox())!;
+  const nextBox = (await next.boundingBox())!;
+  expect(backBox.y).toBeCloseTo(nextBox.y, 0);
+  expect(nextBox.x).toBeGreaterThanOrEqual(backBox.x + backBox.width);
+  expect(nextBox.x + nextBox.width).toBeLessThanOrEqual(320);
+  await next.click();
+  await expect(page).toHaveURL(
+    (url) => url.pathname === exportedPath("/world/topics/history"),
+  );
+  await page.goto(exportedPath("/world/topics/stories"));
+  await expect(next).toHaveCount(0);
+});
+
 for (const width of [1440, 390]) {
   test(`page navigation and scroll progress work at ${width}px`, async ({
     page,
@@ -1298,9 +1328,11 @@ test("workshop formats expand exclusively and the team and contact links fit mob
       name: "Саша Пятницкая во ВКонтакте (новая вкладка)",
     }),
   ).toHaveAttribute("href", "https://vk.ru/alyapyatnitskaya");
-  await expect(
-    page.getByRole("link", { name: "Telegram @VoshodnaVetke (новая вкладка)" }),
-  ).toHaveAttribute("href", "https://t.me/VoshodnaVetke");
+  const telegram = page.getByRole("link", {
+    name: "Написать в Telegram (новая вкладка)",
+  });
+  await expect(telegram).toHaveAttribute("href", "https://t.me/VoshodnaVetke");
+  await expect(telegram.locator("svg[aria-hidden=true]")).toBeVisible();
   await expect(
     page.getByText(
       "ГМ · Госпожа с Помпей · руководитель мастерской группы · создатель вселенной",
