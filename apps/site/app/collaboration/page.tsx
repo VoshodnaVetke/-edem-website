@@ -8,7 +8,7 @@ import styles from "../../styles/page-layout.module.css";
 export default function CollaborationPage() {
   return (
     <PageShell
-      headerClassName={decor.signal}
+      headerClassName={`${decor.header} ${decor.signal} ${decor.fullHeader}`}
       eyebrow="ЭДЕМ / СОТРУДНИЧЕСТВО"
       title="Сотрудничество"
       description="Для авторов ролевых игр, мастерских групп и организаторов, которые хотят сделать совместный проект."

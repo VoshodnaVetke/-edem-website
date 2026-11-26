@@ -2,7 +2,6 @@
 
 import { Heading } from "@edem/ui";
 import { worldArticleHref } from "../../../config/world-articles";
-import decor from "../../../styles/lunatic-decor.module.css";
 import styles from "../../../styles/page-layout.module.css";
 import { WorldArticleFooter } from "../WorldArticleFooter";
 import { WorldArticleShell } from "../WorldArticleShell";
@@ -12,7 +11,6 @@ export default function InnovatXArticle() {
   return (
     <WorldArticleShell
       slug="innovatx"
-      headerClassName={decor.modular}
       eyebrow="ВСЕЛЕННАЯ / КОРПОРАЦИИ"
       title="InnovatX"
     >

@@ -13,6 +13,7 @@ import { useId } from "react";
 import { PageShell } from "../../components/layout/PageShell";
 import deployment from "../../config/deployment.json";
 import { siteHref } from "../../config/site-href";
+import decor from "../../styles/lunatic-decor.module.css";
 import layout from "../../styles/page-layout.module.css";
 import { GameFormats } from "./GameFormats";
 import styles from "./about.module.css";
@@ -221,7 +222,10 @@ export default function AboutPage() {
       </section>
 
       <section aria-labelledby="about-team">
-        <Heading id="about-team" className={styles.sectionTitle}>
+        <Heading
+          id="about-team"
+          className={`${styles.sectionTitle} ${decor.sectionLabel} ${decor.modular}`}
+        >
           Наша команда
         </Heading>
         <div className={`${layout.stack} ${styles.teamList}`}>
