@@ -34,6 +34,7 @@ interface TeamMember {
   story: TeamStory;
   restricted?: boolean;
   vkHref?: string;
+  telegramUsername?: string;
 }
 
 const team: readonly TeamMember[] = [
@@ -102,6 +103,7 @@ const team: readonly TeamMember[] = [
     portrait: "/images/games/kazino-mefisa/0136-thumb.webp",
     story: { type: "epitaph", text: "САША ЕК" },
     vkHref: "https://vk.ru/alyapyatnitskaya",
+    telegramUsername: "VoshodnaVetke",
   },
 ];
 
@@ -235,6 +237,7 @@ export default function AboutPage() {
               story,
               restricted,
               vkHref,
+              telegramUsername,
             }) => (
               <Card
                 key={name}
@@ -264,17 +267,32 @@ export default function AboutPage() {
                     )}
                   </div>
                   <MemberStory story={story} />
-                  {vkHref && (
-                    <a
-                      className={styles.vkLink}
-                      href={vkHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Саша Пятницкая во ВКонтакте (новая вкладка)"
-                    >
-                      <VkIcon />
-                      <span>Саша Пятницкая</span>
-                    </a>
+                  {(vkHref || telegramUsername) && (
+                    <div className={styles.memberLinks}>
+                      {vkHref && (
+                        <a
+                          className={styles.memberLink}
+                          href={vkHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="Саша Пятницкая во ВКонтакте (новая вкладка)"
+                        >
+                          <VkIcon />
+                          <span>Саша Пятницкая</span>
+                        </a>
+                      )}
+                      {telegramUsername && (
+                        <a
+                          className={styles.memberLink}
+                          href={`https://t.me/${telegramUsername}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`Telegram @${telegramUsername} (новая вкладка)`}
+                        >
+                          <span>Telegram · @{telegramUsername}</span>
+                        </a>
+                      )}
+                    </div>
                   )}
                 </div>
               </Card>
