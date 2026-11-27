@@ -2,7 +2,6 @@
 
 import { Card, Grid, Heading, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
-import decor from "../../styles/lunatic-decor.module.css";
 import styles from "../../styles/page-layout.module.css";
 
 const formats = [
@@ -31,7 +30,6 @@ const formats = [
 export default function OrderPage() {
   return (
     <PageShell
-      headerClassName={`${decor.header} ${decor.serial}`}
       eyebrow="ЭДЕМ / ИГРЫ ПОД ЗАКАЗ"
       title="Заказать игру"
       description="Начните с повода, участников и истории, которую хотите прожить вместе. Эти детали помогут подобрать формат ролевого события."

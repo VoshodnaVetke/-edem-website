@@ -2,21 +2,16 @@
 
 import { Card, Grid, Heading, LinkCard, Text } from "@edem/ui";
 import { PageShell } from "../../components/layout/PageShell";
-import decor from "../../styles/lunatic-decor.module.css";
 import styles from "../../styles/page-layout.module.css";
 
 export default function CollaborationPage() {
   return (
     <PageShell
-      headerClassName={`${decor.header} ${decor.serial}`}
       eyebrow="ЭДЕМ / СОТРУДНИЧЕСТВО"
       title="Сотрудничество"
       description="Для авторов ролевых игр, мастерских групп и организаторов, которые хотят сделать совместный проект."
     >
-      <section
-        aria-labelledby="partnerships"
-        className={`${decor.backdrop} ${decor.signal}`}
-      >
+      <section aria-labelledby="partnerships">
         <Heading level={2} id="partnerships" className={styles.sectionHeading}>
           Варианты сотрудничества
         </Heading>

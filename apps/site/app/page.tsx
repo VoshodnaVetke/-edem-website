@@ -4,7 +4,6 @@ import { SiteBreadcrumbs } from "../components/layout/SiteBreadcrumbs";
 import { SiteTriangle } from "../components/layout/SiteTriangle";
 import { ButtonLink, Grid, Heading, Layout, LinkCard, Text } from "@edem/ui";
 import { siteHref } from "../config/site-href";
-import decor from "../styles/lunatic-decor.module.css";
 import layout from "../styles/page-layout.module.css";
 import styles from "./home.module.css";
 
@@ -37,10 +36,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section
-          aria-labelledby="first-visit"
-          className={`${decor.backdrop} ${decor.signal} ${decor.overhang}`}
-        >
+        <section aria-labelledby="first-visit">
           <LinkCard telemetry href={siteHref("/world")} frame="asym">
             <div className={layout.cardBody}>
               <Heading level={2} id="first-visit">

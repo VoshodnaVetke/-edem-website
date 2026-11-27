@@ -6,7 +6,6 @@ import { ButtonLink, Heading, GameFocusDisplay } from "@edem/ui";
 import { PageShell } from "../../../components/layout/PageShell";
 import { SiteSectionRail } from "../../../components/layout/SiteSectionRail";
 import { photoPath, type games } from "../../../config/past-games";
-import decor from "../../../styles/lunatic-decor.module.css";
 import layout from "../../../styles/page-layout.module.css";
 import { GameTagList } from "../GameTagList";
 import { GamePhotoGallery } from "./GamePhotoGallery";
@@ -38,11 +37,7 @@ export function GameDetails({
       {photoCount > 0 && <SiteSectionRail sections={sections} />}
       <div className={layout.stack}>
         <section className={layout.stack} aria-labelledby="game-focus">
-          <Heading
-            level={2}
-            id="game-focus"
-            className={`${decor.sectionLabel} ${decor.registry}`}
-          >
+          <Heading level={2} id="game-focus">
             Игровые акценты
           </Heading>
           <GameFocusDisplay focus={game.focus} />

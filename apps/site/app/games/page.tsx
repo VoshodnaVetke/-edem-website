@@ -17,7 +17,6 @@ import deployment from "../../config/deployment.json";
 import { games, photoPath } from "../../config/past-games";
 import { siteHref } from "../../config/site-href";
 import { upcomingGame } from "../../config/upcoming-game";
-import decor from "../../styles/lunatic-decor.module.css";
 import layout from "../../styles/page-layout.module.css";
 import { GameTagList } from "./GameTagList";
 import styles from "./games.module.css";
@@ -90,9 +89,6 @@ export default function GamesPage() {
                     }
                     alt=""
                   />
-                  {slug === "parad-tehnologiy" && (
-                    <span className={decor.parade} aria-hidden="true" />
-                  )}
                 </div>
               }
             >
