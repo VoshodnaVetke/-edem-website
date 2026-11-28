@@ -9,14 +9,10 @@ import decor from "../../styles/lunatic-decor.module.css";
 import { WorldArticleNavigation } from "./WorldArticleNavigation";
 import { WorldBreadcrumbs } from "./WorldBreadcrumbs";
 
-const topicDecals = {
+const topicDecals: Partial<Record<WorldArticleTopic, string>> = {
   power: decor.registry,
-  geography: decor.industrial,
-  history: decor.signal,
-  technology: decor.bioInterface,
-  corporations: decor.modular,
   stories: decor.serial,
-} satisfies Record<WorldArticleTopic, string>;
+};
 
 export function WorldArticleShell({
   slug,
@@ -24,12 +20,13 @@ export function WorldArticleShell({
   ...props
 }: ComponentProps<typeof PageShell> & { slug: WorldArticleSlug }) {
   const { topic } = worldArticleRegistry[slug];
+  const decal = topicDecals[topic];
 
   return (
     <PageShell
       {...props}
       articlePage
-      headerClassName={[decor.header, topicDecals[topic], headerClassName]
+      headerClassName={[decal && decor.header, decal, headerClassName]
         .filter(Boolean)
         .join(" ")}
       breadcrumbs={

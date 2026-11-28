@@ -1,23 +1,4 @@
 /* Fragments from LUNATIC 710 by Kiki Novald / Phewsight. */
-.bioInterface {
-  --lunatic-art: url("./lunatic/bio-interface-warning.webp");
-}
-
-.industrial {
-  --lunatic-art: url("./lunatic/industrial.webp");
-  --lunatic-position: center 55%;
-}
-
-.modular {
-  --lunatic-art: url("./lunatic/modular.webp");
-  --lunatic-position: center 23%;
-}
-
-.signal {
-  --lunatic-art: url("./lunatic/signal.webp");
-  --lunatic-position: center 32%;
-}
-
 .registry {
   --lunatic-art: url("./lunatic/registry.webp");
 }
@@ -38,8 +19,7 @@
   inset-inline-end: 0;
   inline-size: clamp(9.5rem, 53vw, 14rem);
   block-size: 2.5rem;
-  background: var(--lunatic-art) var(--lunatic-position, right center) / cover
-    no-repeat;
+  background: var(--lunatic-art) right center / cover no-repeat;
   mask-image: linear-gradient(112deg, transparent 19%, #000 90%);
   opacity: 0.28;
   pointer-events: none;
