@@ -611,6 +611,7 @@ test("the tree extends past the top and left edges and respects reduced motion",
     const artwork = background.locator(".edem-tree__artwork");
     const layers = background.locator(".edem-tree__layers");
     await expect(artwork).toBeVisible();
+    await expect(artwork).toHaveJSProperty("naturalWidth", 2110);
     await expect(artwork).toHaveCSS("animation-name", "none");
     await expect(layers).toHaveCSS("mask-image", /76%.*94%/);
     expect(
@@ -620,7 +621,7 @@ test("the tree extends past the top and left edges and respects reduced motion",
     ).toBe(0);
     await expect(background.locator(".edem-tree__fallback")).toHaveCSS(
       "opacity",
-      "0.11",
+      "0.2",
     );
     await expect(background.locator("canvas")).toHaveCount(0);
     const initialBox = (await artwork.boundingBox())!;
@@ -694,6 +695,7 @@ test("desktop tree stays above articles and only freestanding copy gets a backdr
     .locator("main p")
     .filter({ hasText: "Социальный рейтинг — государственная система" });
   await expect(tree).toHaveCSS("position", "absolute");
+  await expect(tree).toHaveCSS("mask-image", /linear-gradient\(.*48%/);
   const treeBox = (await tree.boundingBox())!;
   expect(treeBox.y + treeBox.height).toBeLessThan(
     (await heading.boundingBox())!.y,
@@ -722,6 +724,38 @@ test("desktop tree stays above articles and only freestanding copy gets a backdr
   await page.goto(exportedPath("/world/neurochip"));
   await expect(tree).toHaveCSS("position", "fixed");
   await expect(tree).toHaveCSS("mask-image", "none");
+});
+
+test("the tree remains visible while scrolling an article on a phone in landscape", async ({
+  baseURL,
+  browser,
+}) => {
+  const page = await browser.newPage({
+    baseURL,
+    viewport: { width: 844, height: 390 },
+    hasTouch: true,
+    isMobile: true,
+    reducedMotion: "reduce",
+  });
+  try {
+    await page.goto(exportedPath("/world/neurochip"));
+    const tree = page.locator(".site-tree");
+    await expect(tree).toHaveCSS("position", "fixed");
+    await expect(tree).toHaveCSS("mask-image", "none");
+    await expect(tree.locator(".edem-tree__fallback")).toHaveCSS(
+      "opacity",
+      "0.2",
+    );
+    await expect(tree.locator(".edem-tree__artwork")).toHaveJSProperty(
+      "naturalWidth",
+      2110,
+    );
+    await page.evaluate(() => window.scrollTo(0, innerHeight));
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0);
+    await expect.poll(async () => (await tree.boundingBox())?.y).toBe(0);
+  } finally {
+    await page.close();
+  }
 });
 
 test("the first and last articles link to the adjacent topic lists", async ({
